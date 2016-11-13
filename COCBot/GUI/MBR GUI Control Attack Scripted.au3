@@ -178,19 +178,19 @@ Func AttackCSVAssignDefaultScriptName()
 EndFunc   ;==>AttackCSVAssignDefaultScriptName
 
 ;Parse this first on load of bot, needed outside the function to update current language.ini file. Used on Func NewABScript() and NewDBScript()
-Local $temp1 = GetTranslated(635,1, "Create New Script File"), $temp2 = GetTranslated(635,2, "New Script Filename")
-Local $temp3 = GetTranslated(635,3, "File exists, please input a new name"), $temp4 = GetTranslated(635,4, "An error occurred when creating the file.")
+Local $temp1 = GetTranslated(635, 1, "Create New Script File"), $temp2 = GetTranslated(635, 2, "New Script Filename")
+Local $temp3 = GetTranslated(635, 3, "File exists, please input a new name"), $temp4 = GetTranslated(635, 4, "An error occurred when creating the file.")
 Local $temp1 = 0, $temp2 = 0, $temp3 = 0, $temp4 = 0 ; empty temp vars
 
 Func NewScriptDB()
-	Local $filenameScript = InputBox(GetTranslated(635,1, -1), GetTranslated(635,2, -1) & ":")
+	Local $filenameScript = InputBox(GetTranslated(635, 1, -1), GetTranslated(635, 2, -1) & ":")
 	If StringLen($filenameScript) > 0 Then
 		If FileExists($dirAttacksCSV & "\" & $filenameScript & ".csv") Then
-			MsgBox("", "", GetTranslated(635,3, -1), 30) ;30s timeout
+			MsgBox("", "", GetTranslated(635, 3, -1), 30) ;30s timeout
 		Else
 			Local $hFileOpen = FileOpen($dirAttacksCSV & "\" & $filenameScript & ".csv", $FO_APPEND)
 			If $hFileOpen = -1 Then
-				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635,4, -1), 30) ;30s timeout
+				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635, 4, -1), 30) ;30s timeout
 				Return False
 			Else
 				FileClose($hFileOpen)
@@ -204,14 +204,14 @@ EndFunc   ;==>NewScriptDB
 
 
 Func NewScriptAB()
-	Local $filenameScript = InputBox(GetTranslated(635,1, -1), GetTranslated(635,2, -1) & ":")
+	Local $filenameScript = InputBox(GetTranslated(635, 1, -1), GetTranslated(635, 2, -1) & ":")
 	If StringLen($filenameScript) > 0 Then
-		If FileExists($dirAttacksCSV & "\" & $filenameScript & ".csv") Then 
-			MsgBox("", "", GetTranslated(635,3, -1), 30) ;30s timeout
+		If FileExists($dirAttacksCSV & "\" & $filenameScript & ".csv") Then
+			MsgBox("", "", GetTranslated(635, 3, -1), 30) ;30s timeout
 		Else
 			Local $hFileOpen = FileOpen($dirAttacksCSV & "\" & $filenameScript & ".csv", $FO_APPEND)
 			If $hFileOpen = -1 Then
-				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635,4, -1), 30) ;30s timeout
+				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635, 4, -1), 30) ;30s timeout
 				Return False
 			Else
 				FileClose($hFileOpen)
@@ -227,7 +227,7 @@ EndFunc   ;==>NewScriptAB
 
 
 ;Parse this first on load of bot, needed outside the function to update current language.ini file. Used on Func DuplicateABScript() and DuplicateDBScript()
-Local $temp1 = GetTranslated(635,5, "Copy to New Script File"), $temp2 = GetTranslated(635,6, "Copy"), $temp3 = GetTranslated(635,7, "to New Script Filename")
+Local $temp1 = GetTranslated(635, 5, "Copy to New Script File"), $temp2 = GetTranslated(635, 6, "Copy"), $temp3 = GetTranslated(635, 7, "to New Script Filename")
 Local $temp1 = 0, $temp2 = 0, $temp3 = 0 ; empty temp vars
 
 Func DuplicateScriptDB()
@@ -235,15 +235,15 @@ Func DuplicateScriptDB()
 	Local $scriptname
 	_GUICtrlComboBox_GetLBText($cmbScriptNameDB, $indexofscript, $scriptname)
 	$scmbDBScriptName = $scriptname
-	Local $filenameScript = InputBox(GetTranslated(635,5, -1), GetTranslated(635,6, -1) & ": <" & $scmbDBScriptName & ">" & @CRLF & GetTranslated(635,7, -1) & ":")
+	Local $filenameScript = InputBox(GetTranslated(635, 5, -1), GetTranslated(635, 6, -1) & ": <" & $scmbDBScriptName & ">" & @CRLF & GetTranslated(635, 7, -1) & ":")
 	If StringLen($filenameScript) > 0 Then
 		If FileExists($dirAttacksCSV & "\" & $filenameScript & ".csv") Then
-			MsgBox("", "", GetTranslated(635,3, -1))
+			MsgBox("", "", GetTranslated(635, 3, -1))
 		Else
 			Local $hFileOpen = FileCopy($dirAttacksCSV & "\" & $scmbDBScriptName & ".csv", $dirAttacksCSV & "\" & $filenameScript & ".csv")
 
 			If $hFileOpen = -1 Then
-				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635,4, -1))
+				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635, 4, -1))
 				Return False
 			Else
 				FileClose($hFileOpen)
@@ -261,15 +261,15 @@ Func DuplicateScriptAB()
 	Local $scriptname
 	_GUICtrlComboBox_GetLBText($cmbScriptNameAB, $indexofscript, $scriptname)
 	$scmbABScriptName = $scriptname
-	Local $filenameScript = InputBox(GetTranslated(635,5, -1), GetTranslated(635,6, -1) & ": <" & $scmbABScriptName & ">" & @CRLF & GetTranslated(635,7, -1) & ":")
+	Local $filenameScript = InputBox(GetTranslated(635, 5, -1), GetTranslated(635, 6, -1) & ": <" & $scmbABScriptName & ">" & @CRLF & GetTranslated(635, 7, -1) & ":")
 	If StringLen($filenameScript) > 0 Then
 		If FileExists($dirAttacksCSV & "\" & $filenameScript & ".csv") Then
-			MsgBox("", "", GetTranslated(635,3, -1))
+			MsgBox("", "", GetTranslated(635, 3, -1))
 		Else
 			Local $hFileOpen = FileCopy($dirAttacksCSV & "\" & $scmbABScriptName & ".csv", $dirAttacksCSV & "\" & $filenameScript & ".csv")
 
 			If $hFileOpen = -1 Then
-				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635,4, -1))
+				MsgBox($MB_SYSTEMMODAL, "", GetTranslated(635, 4, -1))
 				Return False
 			Else
 				FileClose($hFileOpen)
@@ -280,3 +280,24 @@ Func DuplicateScriptAB()
 		EndIf
 	EndIf
 EndFunc   ;==>DuplicateScriptAB
+
+Func cmbCSVSpeed()
+
+	Switch _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$iMatchMode])
+		Case 0
+			$Divider = 0.5
+		Case 1
+			$Divider = 0.75
+		Case 2
+			$Divider = 1
+		Case 3
+			$Divider = 1.25
+		Case 4
+			$Divider = 1.5
+		Case 5
+			$Divider = 2
+		Case 6
+			$Divider = 3
+	EndSwitch
+
+EndFunc   ;==>cmbCSVSpeed

@@ -54,6 +54,12 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
 
+Local $x = 50, $y = 260
+
+		GUICtrlCreateLabel("CSV Deployment Speed", $x - 2, $y, -1, -1)
+		$cmbCSVSpeed[$LB] = GUICtrlCreateCombo("", $x + 122, $y - 5, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "0.5x|0.75x|1x|1.25x|1.5x|2x|3x", "1x")
+
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()

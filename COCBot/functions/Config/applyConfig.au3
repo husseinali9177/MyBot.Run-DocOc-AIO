@@ -651,46 +651,46 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		GUICtrlSetState($chkABEndNoResources, $GUI_UNCHECKED)
 	EndIf
 
-#cs
+	#cs
 
-	GUICtrlSetData($txtTSTimeStopAtk, $sTimeStopAtk[$TS])
-	If $iChkTimeStopAtk[$TS] = 1 Then
+		GUICtrlSetData($txtTSTimeStopAtk, $sTimeStopAtk[$TS])
+		If $iChkTimeStopAtk[$TS] = 1 Then
 		GUICtrlSetState($chkTSTimeStopAtk, $GUI_CHECKED)
-	Else
+		Else
 		GUICtrlSetState($chkTSTimeStopAtk, $GUI_UNCHECKED)
-	EndIf
-	chkTSTimeStopAtk()
+		EndIf
+		chkTSTimeStopAtk()
 
-	GUICtrlSetData($txtTSTimeStopAtk2, $sTimeStopAtk2[$TS])
-	If $iChkTimeStopAtk2[$TS] = 1 Then
+		GUICtrlSetData($txtTSTimeStopAtk2, $sTimeStopAtk2[$TS])
+		If $iChkTimeStopAtk2[$TS] = 1 Then
 		GUICtrlSetState($chkTSTimeStopAtk2, $GUI_CHECKED)
-	Else
+		Else
 		GUICtrlSetState($chkTSTimeStopAtk2, $GUI_UNCHECKED)
-	EndIf
-	chkTSTimeStopAtk2()
-	GUICtrlSetData($txtTSMinGoldStopAtk2, $stxtMinGoldStopAtk2[$TS])
-	GUICtrlSetData($txtTSMinElixirStopAtk2, $stxtMinElixirStopAtk2[$TS])
-	GUICtrlSetData($txtTSMinDarkElixirStopAtk2, $stxtMinDarkElixirStopAtk2[$TS])
+		EndIf
+		chkTSTimeStopAtk2()
+		GUICtrlSetData($txtTSMinGoldStopAtk2, $stxtMinGoldStopAtk2[$TS])
+		GUICtrlSetData($txtTSMinElixirStopAtk2, $stxtMinElixirStopAtk2[$TS])
+		GUICtrlSetData($txtTSMinDarkElixirStopAtk2, $stxtMinDarkElixirStopAtk2[$TS])
 
-	If $ichkEndOneStar[$TS] = 1 Then
+		If $ichkEndOneStar[$TS] = 1 Then
 		GUICtrlSetState($chkTSEndOneStar, $GUI_CHECKED)
-	Else
+		Else
 		GUICtrlSetState($chkTSEndOneStar, $GUI_UNCHECKED)
-	EndIf
+		EndIf
 
-	If $ichkEndTwoStars[$TS] = 1 Then
+		If $ichkEndTwoStars[$TS] = 1 Then
 		GUICtrlSetState($chkTSEndTwoStars, $GUI_CHECKED)
-	Else
+		Else
 		GUICtrlSetState($chkTSEndTwoStars, $GUI_UNCHECKED)
-	EndIf
+		EndIf
 
-	If $ichkEndNoResources[$TS] = 1 Then
+		If $ichkEndNoResources[$TS] = 1 Then
 		GUICtrlSetState($chkTSEndNoResources, $GUI_CHECKED)
-	Else
+		Else
 		GUICtrlSetState($chkTSEndNoResources, $GUI_UNCHECKED)
-	EndIf
+		EndIf
 
-#ce
+	#ce
 
 	;Troop Settings--------------------------------------------------------------------------
 	For $i = 0 To UBound($TroopName) - 1
@@ -738,10 +738,10 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	Else
 		GUICtrlSetState($btnCloseWaitStop, $GUI_UNCHECKED)
 	EndIf
-	If $ibtnCloseWaitStopRandom  = 1 Then
-		GUICtrlSetState($btnCloseWaitStopRandom , $GUI_CHECKED)
+	If $ibtnCloseWaitStopRandom = 1 Then
+		GUICtrlSetState($btnCloseWaitStopRandom, $GUI_CHECKED)
 	Else
-		GUICtrlSetState($btnCloseWaitStopRandom , $GUI_UNCHECKED)
+		GUICtrlSetState($btnCloseWaitStopRandom, $GUI_UNCHECKED)
 	EndIf
 	btnCloseWaitStopRandom()
 
@@ -764,11 +764,11 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkTroopOrder(False)
 
-	For $z = 0 To UBound($DefaultTroopGroup) -1
+	For $z = 0 To UBound($DefaultTroopGroup) - 1
 		_GUICtrlComboBox_SetCurSel($cmbTroopOrder[$z], $icmbTroopOrder[$z])
-		GUICtrlSetImage($ImgTroopOrder[$z], $pIconLib, $aTroopOrderIcon[$icmbTroopOrder[$z]+1])
+		GUICtrlSetImage($ImgTroopOrder[$z], $pIconLib, $aTroopOrderIcon[$icmbTroopOrder[$z] + 1])
 	Next
-	If $ichkTroopOrder = 1 Then  ; only update troop train order if enabled
+	If $ichkTroopOrder = 1 Then ; only update troop train order if enabled
 		If ChangeTroopTrainOrder() = False Then ; process error
 			SetDefaultTroopGroup()
 			GUICtrlSetState($chkTroopOrder, $GUI_UNCHECKED)
@@ -787,11 +787,11 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 	chkDarkTroopOrder(False)
 
-	For $z = 0 To UBound($DefaultTroopGroupDark) -1
+	For $z = 0 To UBound($DefaultTroopGroupDark) - 1
 		_GUICtrlComboBox_SetCurSel($cmbDarkTroopOrder[$z], $icmbDarkTroopOrder[$z])
-		GUICtrlSetImage($ImgDarkTroopOrder[$z], $pIconLib, $aDarkTroopOrderIcon[$icmbDarkTroopOrder[$z]+1])
+		GUICtrlSetImage($ImgDarkTroopOrder[$z], $pIconLib, $aDarkTroopOrderIcon[$icmbDarkTroopOrder[$z] + 1])
 	Next
-	If $ichkDarkTroopOrder = 1 Then  ; only update troop train order if enabled
+	If $ichkDarkTroopOrder = 1 Then ; only update troop train order if enabled
 		If ChangeDarkTroopTrainOrder() = False Then ; process error
 			SetDefaultTroopGroupDark()
 			GUICtrlSetState($chkDarkTroopOrder, $GUI_UNCHECKED)
@@ -913,11 +913,11 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	chkDonateHours()
 
 	If $iPlannedDropCCHoursEnable = 1 Then
- 		GUICtrlSetState($chkDropCCHoursEnable, $GUI_CHECKED)
- 	Else
- 		GUICtrlSetState($chkDropCCHoursEnable, $GUI_UNCHECKED)
- 	EndIf
- 	chkDropCCHoursEnable()
+		GUICtrlSetState($chkDropCCHoursEnable, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDropCCHoursEnable, $GUI_UNCHECKED)
+	EndIf
+	chkDropCCHoursEnable()
 
 	For $i = 0 To 23
 		If $iPlannedDonateHours[$i] = 1 Then
@@ -964,20 +964,20 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	Else
 		GUICtrlSetState($chkAttackPlannerEnable, $GUI_UNCHECKED)
 	EndIf
-	If $ichkAttackPlannerCloseCoC  = 1 Then
-		GUICtrlSetState($chkAttackPlannerCloseCoC , $GUI_CHECKED)
+	If $ichkAttackPlannerCloseCoC = 1 Then
+		GUICtrlSetState($chkAttackPlannerCloseCoC, $GUI_CHECKED)
 	Else
-		GUICtrlSetState($chkAttackPlannerCloseCoC , $GUI_UNCHECKED)
+		GUICtrlSetState($chkAttackPlannerCloseCoC, $GUI_UNCHECKED)
 	EndIf
 	If $ichkAttackPlannerCloseAll = 1 Then
 		GUICtrlSetState($chkAttackPlannerCloseAll, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkAttackPlannerCloseAll, $GUI_UNCHECKED)
 	EndIf
-	If $ichkAttackPlannerRandom  = 1 Then
-		GUICtrlSetState($chkAttackPlannerRandom , $GUI_CHECKED)
+	If $ichkAttackPlannerRandom = 1 Then
+		GUICtrlSetState($chkAttackPlannerRandom, $GUI_CHECKED)
 	Else
-		GUICtrlSetState($chkAttackPlannerRandom , $GUI_UNCHECKED)
+		GUICtrlSetState($chkAttackPlannerRandom, $GUI_UNCHECKED)
 	EndIf
 	_GUICtrlComboBox_SetCurSel($cmbAttackPlannerRandom, $icmbAttackPlannerRandom)
 	If $ichkAttackPlannerDayLimit = 1 Then
@@ -2174,14 +2174,14 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	EndIf
 
 	; boost barracks ---------------------------------------------------------------------
-;	_GUICtrlComboBox_SetCurSel($cmbQuantBoostBarracks, $icmbQuantBoostBarracks)
+	;	_GUICtrlComboBox_SetCurSel($cmbQuantBoostBarracks, $icmbQuantBoostBarracks)
 	_GUICtrlComboBox_SetCurSel($cmbBoostBarracks, $icmbBoostBarracks)
 
-;	_GUICtrlComboBox_SetCurSel($cmbQuantBoostDarkBarracks, $icmbQuantBoostDarkBarracks)
-;	_GUICtrlComboBox_SetCurSel($cmbBoostDarkBarracks, $icmbBoostDarkBarracks)
+	;	_GUICtrlComboBox_SetCurSel($cmbQuantBoostDarkBarracks, $icmbQuantBoostDarkBarracks)
+	;	_GUICtrlComboBox_SetCurSel($cmbBoostDarkBarracks, $icmbBoostDarkBarracks)
 
 	_GUICtrlComboBox_SetCurSel($cmbBoostSpellFactory, $icmbBoostSpellFactory)
-;	_GUICtrlComboBox_SetCurSel($cmbBoostDarkSpellFactory, $icmbBoostDarkSpellFactory)
+	;	_GUICtrlComboBox_SetCurSel($cmbBoostDarkSpellFactory, $icmbBoostDarkSpellFactory)
 	_GUICtrlComboBox_SetCurSel($cmbBoostBarbarianKing, $icmbBoostBarbarianKing)
 	_GUICtrlComboBox_SetCurSel($cmbBoostArcherQueen, $icmbBoostArcherQueen)
 	_GUICtrlComboBox_SetCurSel($cmbBoostWarden, $icmbBoostWarden)
@@ -2797,7 +2797,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	; SmartZap - Added by DocOC team
 	;==============================================================
 
-	GUICtrlSetData ( $NameMyBot, $iNameMyBot, "" )
+	GUICtrlSetData($NameMyBot, $iNameMyBot, "")
 
 	; ================================================== BOT HUMANIZATION PART ================================================== ;
 
@@ -2847,6 +2847,9 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	cmbWarReplay()
 
 	; ================================================== BOT HUMANIZATION END ================================================== ;
+
+	_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
+	_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
 
 	; Reenabling window redraw - Keep this last....
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)

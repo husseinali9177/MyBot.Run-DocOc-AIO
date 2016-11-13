@@ -57,11 +57,11 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ArmyPos[0], $building, "other", "yArmy", "0")
 		IniReadS($TotalCamp, $building, "other", "totalcamp", "0")
 
-;		IniReadS($SFPos[0], $building, "other", "xspellfactory", "-1")
-;		IniReadS($SFPos[1], $building, "other", "yspellfactory", "-1")
+		;		IniReadS($SFPos[0], $building, "other", "xspellfactory", "-1")
+		;		IniReadS($SFPos[1], $building, "other", "yspellfactory", "-1")
 
-;		IniReadS($DSFPos[0], $building, "other", "xDspellfactory", "-1")
-;		IniReadS($DSFPos[1], $building, "other", "yDspellfactory", "-1")
+		;		IniReadS($DSFPos[0], $building, "other", "xDspellfactory", "-1")
+		;		IniReadS($DSFPos[1], $building, "other", "yDspellfactory", "-1")
 
 		IniReadS($KingAltarPos[0], $building, "other", "xKingAltarPos", "-1")
 		IniReadS($KingAltarPos[1], $building, "other", "yKingAltarPos", "-1")
@@ -221,12 +221,12 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($icmbMinimumTimeClose, $config, "other", "MinimumTimeToClose", "2")
 
 		IniReadS($ichkTroopOrder, $config, "troop", "chkTroopOrder", "0")
-		For $z = 0 To UBound($DefaultTroopGroup) -1
+		For $z = 0 To UBound($DefaultTroopGroup) - 1
 			IniReadS($icmbTroopOrder[$z], $config, "troop", "cmbTroopOrder" & $z, "-1")
 		Next
 
 		IniReadS($ichkDarkTroopOrder, $config, "troop", "chkDarkTroopOrder", "0")
-		For $z = 0 To UBound($DefaultTroopGroupDark) -1
+		For $z = 0 To UBound($DefaultTroopGroupDark) - 1
 			IniReadS($icmbDarkTroopOrder[$z], $config, "troop", "cmbDarkTroopOrder" & $z, "-1")
 		Next
 
@@ -595,18 +595,18 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ichkEndTwoStars[$LB], $config, "endbattle", "chkABEndTwoStars", "0")
 		IniReadS($ichkEndNoResources[$LB], $config, "endbattle", "chkABEndNoResources", "0")
 
-#CS
-		IniReadS($sTimeStopAtk[$TS], $config, "endbattle", "txtTSTimeStopAtk", "20")
-		IniReadS($iChkTimeStopAtk[$TS], $config, "endbattle", "chkTSTimeStopAtk", "1")
-		IniReadS($sTimeStopAtk2[$TS], $config, "endbattle", "txtTSTimeStopAtk2", "7")
-		IniReadS($iChkTimeStopAtk2[$TS], $config, "endbattle", "chkTSTimeStopAtk2", "0")
-		IniReadS($stxtMinGoldStopAtk2[$TS], $config, "endbattle", "txtTSMinGoldStopAtk2", "1000")
-		IniReadS($stxtMinElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinElixirStopAtk2", "1000")
-		IniReadS($stxtMinDarkElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinDarkElixirStopAtk2", "50")
-		IniReadS($ichkEndOneStar[$TS], $config, "endbattle", "chkTSEndOneStar", "0")
-		IniReadS($ichkEndTwoStars[$TS], $config, "endbattle", "chkTSEndTwoStars", "0")
-		IniReadS($ichkEndNoResources[$TS], $config, "endbattle", "chkTSEndNoResources", "0")
-#CE
+		#CS
+			IniReadS($sTimeStopAtk[$TS], $config, "endbattle", "txtTSTimeStopAtk", "20")
+			IniReadS($iChkTimeStopAtk[$TS], $config, "endbattle", "chkTSTimeStopAtk", "1")
+			IniReadS($sTimeStopAtk2[$TS], $config, "endbattle", "txtTSTimeStopAtk2", "7")
+			IniReadS($iChkTimeStopAtk2[$TS], $config, "endbattle", "chkTSTimeStopAtk2", "0")
+			IniReadS($stxtMinGoldStopAtk2[$TS], $config, "endbattle", "txtTSMinGoldStopAtk2", "1000")
+			IniReadS($stxtMinElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinElixirStopAtk2", "1000")
+			IniReadS($stxtMinDarkElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinDarkElixirStopAtk2", "50")
+			IniReadS($ichkEndOneStar[$TS], $config, "endbattle", "chkTSEndOneStar", "0")
+			IniReadS($ichkEndTwoStars[$TS], $config, "endbattle", "chkTSEndTwoStars", "0")
+			IniReadS($ichkEndNoResources[$TS], $config, "endbattle", "chkTSEndNoResources", "0")
+		#CE
 		;end battle de side
 		IniReadS($DESideEB, $config, "endbattle", "chkDESideEB", "0")
 		IniReadS($DELowEndMin, $config, "endbattle", "txtDELowEndMin", "25")
@@ -685,9 +685,9 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		;Schedule
 		$iPlannedNotifyWeekDaysEnable = IniRead($config, "pushbullet", "NotifyWeekDaysEnable", "0")
-		$iPlannedNotifyWeekDays = StringSplit(IniRead($config, "pushbullet", "NotifyWeekDays", "1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		$iPlannedNotifyWeekDays = StringSplit(IniRead($config, "pushbullet", "NotifyWeekDays", "1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
 		$iPlannedNotifyHoursEnable = IniRead($config, "pushbullet", "NotifyHoursEnable", "0")
-		$iPlannedNotifyHours = StringSplit(IniRead($config, "pushbullet", "NotifyHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		$iPlannedNotifyHours = StringSplit(IniRead($config, "pushbullet", "NotifyHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
 
 
 
@@ -1092,6 +1092,10 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		;==============================================================
 
 		$iNameMyBot = IniRead($config, "MyBotName", "Name", "")
+
+		$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
+		$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
+
 	Else
 		Return False
 	EndIf

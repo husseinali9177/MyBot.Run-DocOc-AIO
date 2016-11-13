@@ -1857,22 +1857,22 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "endBattle", "chkABEndNoResources", 0)
 	EndIf
 
-#CS
-	IniWriteS($config, "endBattle", "txtTSTimeStopAtk", GUICtrlRead($txtTSTimeStopAtk))
-	IniWriteS($config, "endBattle", "chkTSTimeStopAtk", GUICtrlRead($chkTSTimeStopAtk))
-	IniWriteS($config, "endBattle", "txtTSTimeStopAtk2", GUICtrlRead($txtTSTimeStopAtk2))
-	IniWriteS($config, "endBattle", "chkTSTimeStopAtk2", GUICtrlRead($chkTSTimeStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinGoldStopAtk2", GUICtrlRead($txtTSMinGoldStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinElixirStopAtk2", GUICtrlRead($txtTSMinElixirStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinDarkElixirStopAtk2", GUICtrlRead($txtTSMinDarkElixirStopAtk2))
-	IniWriteS($config, "endBattle", "chkTSEndOneStar", GUICtrlRead($chkTSEndOneStar))
-	IniWriteS($config, "endBattle", "chkTSEndTwoStars", GUICtrlRead($chkTSEndTwoStars))
-	If GUICtrlRead($chkTSEndNoResources) = $GUI_CHECKED Then
+	#CS
+		IniWriteS($config, "endBattle", "txtTSTimeStopAtk", GUICtrlRead($txtTSTimeStopAtk))
+		IniWriteS($config, "endBattle", "chkTSTimeStopAtk", GUICtrlRead($chkTSTimeStopAtk))
+		IniWriteS($config, "endBattle", "txtTSTimeStopAtk2", GUICtrlRead($txtTSTimeStopAtk2))
+		IniWriteS($config, "endBattle", "chkTSTimeStopAtk2", GUICtrlRead($chkTSTimeStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinGoldStopAtk2", GUICtrlRead($txtTSMinGoldStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinElixirStopAtk2", GUICtrlRead($txtTSMinElixirStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinDarkElixirStopAtk2", GUICtrlRead($txtTSMinDarkElixirStopAtk2))
+		IniWriteS($config, "endBattle", "chkTSEndOneStar", GUICtrlRead($chkTSEndOneStar))
+		IniWriteS($config, "endBattle", "chkTSEndTwoStars", GUICtrlRead($chkTSEndTwoStars))
+		If GUICtrlRead($chkTSEndNoResources) = $GUI_CHECKED Then
 		IniWriteS($config, "endBattle", "chkTSEndNoResources", 1)
-	Else
+		Else
 		IniWriteS($config, "endBattle", "chkTSEndNoResources", 0)
-	EndIf
-#CE
+		EndIf
+	#CE
 
 	; end battle de side
 	IniWriteS($config, "endbattle", "chkDESideEB", $DESideEB)
@@ -2085,12 +2085,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "other", "MinimumTimeToClose", GUICtrlRead($cmbMinimumTimeClose))
 
 	IniWriteS($config, "troop", "chkTroopOrder", $ichkTroopOrder)
-	For $z = 0 To UBound($DefaultTroopGroup) -1
+	For $z = 0 To UBound($DefaultTroopGroup) - 1
 		IniWriteS($config, "troop", "cmbTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbTroopOrder[$z]))
 	Next
 
 	IniWriteS($config, "troop", "chkDarkTroopOrder", $ichkDarkTroopOrder)
-	For $z = 0 To UBound($DefaultTroopGroupDark) -1
+	For $z = 0 To UBound($DefaultTroopGroupDark) - 1
 		IniWriteS($config, "troop", "cmbDarkTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$z]))
 	Next
 
@@ -2250,11 +2250,11 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($building, "other", "yDarkBarrack2", $DarkbarrackPos[1][1])
 	;--- END Dark Barrack ---
 
-;	IniWriteS($building, "other", "xspellfactory", $SFPos[0])
-;	IniWriteS($building, "other", "yspellfactory", $SFPos[1])
+	;	IniWriteS($building, "other", "xspellfactory", $SFPos[0])
+	;	IniWriteS($building, "other", "yspellfactory", $SFPos[1])
 
-;	IniWriteS($building, "other", "xDspellfactory", $DSFPos[0])
-;	IniWriteS($building, "other", "yDspellfactory", $DSFPos[1])
+	;	IniWriteS($building, "other", "xDspellfactory", $DSFPos[0])
+	;	IniWriteS($building, "other", "yDspellfactory", $DSFPos[1])
 
 	IniWriteS($building, "other", "xKingAltarPos", $KingAltarPos[0])
 	IniWriteS($building, "other", "yKingAltarPos", $KingAltarPos[1])
@@ -2661,9 +2661,9 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "troop", "QuickTrain3", 0)
 	EndIf
 
-;==============================================================
-; SmartZap - Added by DocOC team
-;==============================================================
+	;==============================================================
+	; SmartZap - Added by DocOC team
+	;==============================================================
 	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
 		IniWrite($config, "SmartZap", "UseSmartZap", 1)
 	Else
@@ -2716,6 +2716,9 @@ Func saveConfig() ;Saves the controls settings to the config
 	; ================================================== BOT HUMANIZATION END ================================================== ;
 
 	IniWrite($config, "MyBotName", "Name", GUICtrlRead($NameMyBot))
+
+	IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
+	IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
 
 	If $hFile <> -1 Then FileClose($hFile)
 
