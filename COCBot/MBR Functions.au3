@@ -290,3 +290,9 @@
 ;==============================================================
 ; SmartZap - Added by DocOC team
 ;==============================================================
+
+;============ Adding SwitchAcc - DEMEN
+#include "MOD\SwitchAcc.au3"
+#include "MOD\UpdateStats - Mod.au3"
+;============ Adding SwitchAcc - DEMEN
+

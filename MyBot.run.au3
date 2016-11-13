@@ -200,6 +200,9 @@ LoadAmountOfResourcesImages()
 CheckVersion() ; check latest version on mybot.run site
 SetComboTroopComp()
 
+btnUpdateProfile() ; SwitchAcc - DEMEN
+
+
 ;~ Remember time in Milliseconds bot launched
 $iBotLaunchTime = TimerDiff($hBotLaunchTime)
 SetDebugLog("MyBot.run launch time " & Round($iBotLaunchTime) & " ms.")
@@ -233,6 +236,14 @@ While 1
 WEnd
 
 Func runBot() ;Bot that runs everything in order
+
+   If $ichkSwitchAcc = 1 And $bReMatchAcc = True Then 				; SwitchAcc - DEMEN
+	  $nCurProfile = _GUICtrlCombobox_GetCurSel($cmbProfile) + 1
+	  Setlog("Rematching Profile [" & $nCurProfile &"] - " & $ProfileList[$nCurProfile] & " (CoC Acc. " & $aMatchProfileAcc[$nCurProfile-1] & ")")
+	  SwitchCoCAcc()
+	  $bReMatchAcc = False
+   EndIf
+
 	$TotalTrainedTroops = 0
 	Local $Quickattack = False
 	Local $iWaitTime
@@ -366,6 +377,9 @@ Func runBot() ;Bot that runs everything in order
 				UpgradeWall()
 					If _Sleep($iDelayRunBot3) Then Return
 					If $Restart = True Then ContinueLoop
+
+			If $ichkSwitchAcc = 1 And $aProfileType[$nCurProfile-1] = 2 Then checkSwitchAcc()  		;  Switching to active account after donation - SwitchAcc for  - DEMEN
+
 				Idle()
 					;$fullArmy1 = $fullArmy
 					If _Sleep($iDelayRunBot3) Then Return
@@ -535,8 +549,12 @@ Func Idle() ;Sequence that runs until Full Army
 
 		If $iChkSnipeWhileTrain = 1 Then SnipeWhileTrain()  ;snipe while train
 
-		If $CommandStop = -1 Then ; Check if closing bot/emulator while training and not in halt mode
-			SmartWait4Train()
+		If $CommandStop = -1 Or $CommandStop = 3 Then ; Check if closing bot/emulator while training and not in halt mode
+			If $ichkSwitchAcc = 1 Then				; SwitchAcc - DEMEN
+				checkSwitchAcc()					; SwitchAcc - DEMEN
+			Else									; SwitchAcc - DEMEN
+				SmartWait4Train()
+			EndIf
 			If $Restart = True Then ExitLoop ; if smart wait activated, exit to runbot in case user adjusted GUI or left emulator/bot in bad state
 		EndIf
 
@@ -586,6 +604,15 @@ Func AttackMain() ;Main control for attack functions
 			Setlog("No one of search condition match:", $COLOR_BLUE)
 			Setlog("Waiting on troops, heroes and/or spells according to search settings", $COLOR_BLUE)
 			GetReadTimeHeroesAndSpell()
+
+		; SwitchAcc - DEMEN
+			If $ichkSwitchAcc = 1 Then
+				checkSwitchAcc()
+			Else
+				SmartWait4Train()
+			EndIf
+		; =============== SwitchAcc - DEMEN
+
 		EndIf
 	Else
 		SetLog("Attacking Not Planned, Skipped..", $COLOR_RED)

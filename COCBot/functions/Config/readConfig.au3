@@ -1096,6 +1096,8 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
 		$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
 
+		#include "..\..\MOD\Config read - Mod.au3"				;	Adding Config Read for SwitchAcc Mode - Demen
+
 	Else
 		Return False
 	EndIf

@@ -2720,6 +2720,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 	IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
 
+	#include "..\..\MOD\Config save - Mod.au3"				;	Adding Config Save for SwitchAcc Mode - Demen
+
 	If $hFile <> -1 Then FileClose($hFile)
 
 EndFunc   ;==>saveConfig

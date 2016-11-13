@@ -1795,6 +1795,8 @@ Global $cmbCSVSpeed[2] = [$LB, $DB]
 Global $icmbCSVSpeed[2] = [$LB, $DB]
 Global $Divider
 
+#include "MOD\GLobal Variables - Mod.au3"	;	Adding SwitchAcc - Demen
+
 ;=== No variables below ! ================================================
 ; early load of config
 If FileExists($config) Or FileExists($building) Then
