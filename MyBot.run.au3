@@ -202,6 +202,13 @@ SetComboTroopComp()
 
 btnUpdateProfile() ; SwitchAcc - DEMEN
 
+SetLog(" ", $COLOR_RED) ; Message Log at start
+SetLog("================================================", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
+SetLog("           Welcome to the " & $sModVersion & "!", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
+SetLog("================================================", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
 
 ;~ Remember time in Milliseconds bot launched
 $iBotLaunchTime = TimerDiff($hBotLaunchTime)
@@ -350,6 +357,8 @@ Func runBot() ;Bot that runs everything in order
 					If Unbreakable() = True Then ContinueLoop
 				EndIf
 			EndIf
+
+			SmartUpgrade()
 				If $RunState = False Then Return
 				If _Sleep($iDelayRunBot3) Then Return
 			TestTrainRevamp()

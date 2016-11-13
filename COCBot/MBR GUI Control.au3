@@ -57,6 +57,8 @@ Global $aTabControlsTHSnipe[4] = [$hGUI_THSNIPE_TAB, $hGUI_THSNIPE_TAB_ITEM1, $h
 Global $aTabControlsAttackOptions[5] = [$hGUI_AttackOption_TAB, $hGUI_AttackOption_TAB_ITEM1, $hGUI_AttackOption_TAB_ITEM2, $hGUI_AttackOption_TAB_ITEM3, $hGUI_AttackOption_TAB_ITEM4]
 Global $aTabControlsStrategies[3] = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITEM1, $hGUI_STRATEGIES_TAB_ITEM2]
 
+Global $aTabControlsMod[6] = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1]
+
 Global $aTabControlsBot[6] = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5]
 Global $aTabControlsStats[4] = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
@@ -103,6 +105,7 @@ Func IsTab($controlID)
 			_ArraySearch($aTabControlsTHSnipe, $controlID) <> -1 Or _
 			_ArraySearch($aTabControlsAttackOptions, $controlID) <> -1 Or _
 			_ArraySearch($aTabControlsStrategies, $controlID) <> -1 Or _
+			_ArraySearch($aTabControlsMod, $controlID) <> -1 Or _
 			_ArraySearch($aTabControlsBot, $controlID) <> -1 Or _
 			_ArraySearch($aTabControlsStats, $controlID) <> -1 Then
 		Return True
@@ -903,39 +906,50 @@ EndFunc   ;==>SetTime
 
 Func tabMain()
 	$tabidx = GUICtrlRead($tabMain)
-	Select
-		Case $tabidx = 0 ; Log
-			GUISetState(@SW_HIDE, $hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $hGUI_BOT)
-			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_LOG)
+		Select
+			Case $tabidx = 0 ; Log
+				GUISetState(@SW_HIDE, $hGUI_VILLAGE)
+				GUISetState(@SW_HIDE, $hGUI_ATTACK)
+				GUISetState(@SW_HIDE, $hGUI_BOT)
+				GUISetState(@SW_HIDE, $hGUI_MOD)
+				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_LOG)
 
-		Case $tabidx = 1 ; Village
-			GUISetState(@SW_HIDE, $hGUI_LOG)
-			GUISetState(@SW_HIDE, $hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $hGUI_BOT)
-			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_VILLAGE)
-			tabVillage()
+			Case $tabidx = 1 ; Village
+				GUISetState(@SW_HIDE, $hGUI_LOG)
+				GUISetState(@SW_HIDE, $hGUI_ATTACK)
+				GUISetState(@SW_HIDE, $hGUI_BOT)
+				GUISetState(@SW_HIDE, $hGUI_MOD)
+				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_VILLAGE)
+				tabVillage()
 
-		Case $tabidx = 2 ; Attack
-			GUISetState(@SW_HIDE, $hGUI_LOG)
-			GUISetState(@SW_HIDE, $hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $hGUI_BOT)
-			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_ATTACK)
-			tabAttack()
+			Case $tabidx = 2 ; Attack
+				GUISetState(@SW_HIDE, $hGUI_LOG)
+				GUISetState(@SW_HIDE, $hGUI_VILLAGE)
+				GUISetState(@SW_HIDE, $hGUI_BOT)
+				GUISetState(@SW_HIDE, $hGUI_MOD)
+				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_ATTACK)
+				tabAttack()
 
-		Case $tabidx = 3 ; Options
-			GUISetState(@SW_HIDE, $hGUI_LOG)
-			GUISetState(@SW_HIDE, $hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $hGUI_ATTACK)
-			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_BOT)
-			tabBot()
-		Case Else
-			GUISetState(@SW_HIDE, $hGUI_LOG)
-			GUISetState(@SW_HIDE, $hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $hGUI_BOT)
-	EndSelect
+			Case $tabidx = 3 ; Options
+				GUISetState(@SW_HIDE, $hGUI_LOG)
+				GUISetState(@SW_HIDE, $hGUI_VILLAGE)
+				GUISetState(@SW_HIDE, $hGUI_ATTACK)
+				GUISetState(@SW_HIDE, $hGUI_MOD)
+				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_BOT)
+				tabBot()
+			Case $tabidx = 4 ; Mod
+				GUISetState(@SW_HIDE, $hGUI_LOG)
+				GUISetState(@SW_HIDE, $hGUI_VILLAGE)
+				GUISetState(@SW_HIDE, $hGUI_ATTACK)
+				GUISetState(@SW_HIDE, $hGUI_BOT)
+				GUISetState(@SW_SHOWNOACTIVATE, $hGUI_MOD)
+			Case ELSE
+				GUISetState(@SW_HIDE, $hGUI_LOG)
+				GUISetState(@SW_HIDE, $hGUI_VILLAGE)
+				GUISetState(@SW_HIDE, $hGUI_ATTACK)
+				GUISetState(@SW_HIDE, $hGUI_BOT)
+				GUISetState(@SW_HIDE, $hGUI_MOD)
+		EndSelect
 
 EndFunc   ;==>tabMain
 
@@ -1396,6 +1410,10 @@ Func Bind_ImageList($nCtrl)
 		Case $hGUI_STRATEGIES_TAB
 			; the icons for strategies tab
 			Local $aIconIndex[2] = [$eIcnReload, $eIcnCopy]
+
+		Case $hGUI_MOD_TAB
+			; the icons for Bot tab
+			Local $aIconIndex[5] = [$eIcnEpee, $eIcnSettings, $eIcnMeteo, $eIcnChat, $eIcnSwitch]
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab

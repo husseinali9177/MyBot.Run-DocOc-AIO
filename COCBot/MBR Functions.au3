@@ -296,3 +296,10 @@
 #include "MOD\UpdateStats - Mod.au3"
 ;============ Adding SwitchAcc - DEMEN
 
+; RoroTiti MOD's functions
+
+#include "functions\RoroTiti MODs\CoCStats.com.au3"
+#include "functions\RoroTiti MODs\AutoUpgrade.au3"
+#include "functions\RoroTiti MODs\TreasuryCollect.au3"
+#include "functions\RoroTiti MODs\GUIControl.au3"
+
