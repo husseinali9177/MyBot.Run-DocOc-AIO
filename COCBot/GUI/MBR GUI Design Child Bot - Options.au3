@@ -15,6 +15,8 @@
 ;$hGUI_BotOptions = GUICreate("", $_GUI_MAIN_WIDTH - 28, $_GUI_MAIN_HEIGHT - 255 - 28, 5, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $hGUI_BOT)
 ;GUISwitch($hGUI_BotOptions)
 
+Global $FirstControlToHideMOD = GUICtrlCreateDummy()
+
 Local $x = 25, $y = 45
 $grpLanguages = GUICtrlCreateGroup(GetTranslated(636,83, "GUI Language"), $x - 20, $y - 20, 210, 47)
 	$y -=2
@@ -195,3 +197,10 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 Func NameMyBotUpdate()
 	GUICtrlSetData($lblDisplayName, GUICtrlRead($NameMyBot))
 EndFunc
+;~ -------------------------------------------------------------
+;~ This dummy is used in btnStart and btnStop to disable/enable all labels, text, buttons etc. on all tabs.                   A LAISSER IMPERATIVEMENT !!!!!!!!!!!!!!
+;~ -------------------------------------------------------------
+Global $LastControlToHideMOD = GUICtrlCreateDummy()
+Global $iPrevState[$LastControlToHideMOD + 1]
+;~ -------------------------------------------------------------
+

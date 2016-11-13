@@ -1857,22 +1857,22 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "endBattle", "chkABEndNoResources", 0)
 	EndIf
 
-#CS
-	IniWriteS($config, "endBattle", "txtTSTimeStopAtk", GUICtrlRead($txtTSTimeStopAtk))
-	IniWriteS($config, "endBattle", "chkTSTimeStopAtk", GUICtrlRead($chkTSTimeStopAtk))
-	IniWriteS($config, "endBattle", "txtTSTimeStopAtk2", GUICtrlRead($txtTSTimeStopAtk2))
-	IniWriteS($config, "endBattle", "chkTSTimeStopAtk2", GUICtrlRead($chkTSTimeStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinGoldStopAtk2", GUICtrlRead($txtTSMinGoldStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinElixirStopAtk2", GUICtrlRead($txtTSMinElixirStopAtk2))
-	IniWriteS($config, "endBattle", "txtTSMinDarkElixirStopAtk2", GUICtrlRead($txtTSMinDarkElixirStopAtk2))
-	IniWriteS($config, "endBattle", "chkTSEndOneStar", GUICtrlRead($chkTSEndOneStar))
-	IniWriteS($config, "endBattle", "chkTSEndTwoStars", GUICtrlRead($chkTSEndTwoStars))
-	If GUICtrlRead($chkTSEndNoResources) = $GUI_CHECKED Then
+	#CS
+		IniWriteS($config, "endBattle", "txtTSTimeStopAtk", GUICtrlRead($txtTSTimeStopAtk))
+		IniWriteS($config, "endBattle", "chkTSTimeStopAtk", GUICtrlRead($chkTSTimeStopAtk))
+		IniWriteS($config, "endBattle", "txtTSTimeStopAtk2", GUICtrlRead($txtTSTimeStopAtk2))
+		IniWriteS($config, "endBattle", "chkTSTimeStopAtk2", GUICtrlRead($chkTSTimeStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinGoldStopAtk2", GUICtrlRead($txtTSMinGoldStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinElixirStopAtk2", GUICtrlRead($txtTSMinElixirStopAtk2))
+		IniWriteS($config, "endBattle", "txtTSMinDarkElixirStopAtk2", GUICtrlRead($txtTSMinDarkElixirStopAtk2))
+		IniWriteS($config, "endBattle", "chkTSEndOneStar", GUICtrlRead($chkTSEndOneStar))
+		IniWriteS($config, "endBattle", "chkTSEndTwoStars", GUICtrlRead($chkTSEndTwoStars))
+		If GUICtrlRead($chkTSEndNoResources) = $GUI_CHECKED Then
 		IniWriteS($config, "endBattle", "chkTSEndNoResources", 1)
-	Else
+		Else
 		IniWriteS($config, "endBattle", "chkTSEndNoResources", 0)
-	EndIf
-#CE
+		EndIf
+	#CE
 
 	; end battle de side
 	IniWriteS($config, "endbattle", "chkDESideEB", $DESideEB)
@@ -2085,12 +2085,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($config, "other", "MinimumTimeToClose", GUICtrlRead($cmbMinimumTimeClose))
 
 	IniWriteS($config, "troop", "chkTroopOrder", $ichkTroopOrder)
-	For $z = 0 To UBound($DefaultTroopGroup) -1
+	For $z = 0 To UBound($DefaultTroopGroup) - 1
 		IniWriteS($config, "troop", "cmbTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbTroopOrder[$z]))
 	Next
 
 	IniWriteS($config, "troop", "chkDarkTroopOrder", $ichkDarkTroopOrder)
-	For $z = 0 To UBound($DefaultTroopGroupDark) -1
+	For $z = 0 To UBound($DefaultTroopGroupDark) - 1
 		IniWriteS($config, "troop", "cmbDarkTroopOrder" & $z, _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$z]))
 	Next
 
@@ -2250,11 +2250,11 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWriteS($building, "other", "yDarkBarrack2", $DarkbarrackPos[1][1])
 	;--- END Dark Barrack ---
 
-;	IniWriteS($building, "other", "xspellfactory", $SFPos[0])
-;	IniWriteS($building, "other", "yspellfactory", $SFPos[1])
+	;	IniWriteS($building, "other", "xspellfactory", $SFPos[0])
+	;	IniWriteS($building, "other", "yspellfactory", $SFPos[1])
 
-;	IniWriteS($building, "other", "xDspellfactory", $DSFPos[0])
-;	IniWriteS($building, "other", "yDspellfactory", $DSFPos[1])
+	;	IniWriteS($building, "other", "xDspellfactory", $DSFPos[0])
+	;	IniWriteS($building, "other", "yDspellfactory", $DSFPos[1])
 
 	IniWriteS($building, "other", "xKingAltarPos", $KingAltarPos[0])
 	IniWriteS($building, "other", "yKingAltarPos", $KingAltarPos[1])
@@ -2661,9 +2661,8 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "troop", "QuickTrain3", 0)
 	EndIf
 
-;==============================================================
-; SmartZap - Added by DocOC team
-;==============================================================
+	; ================================================== DocOc PART ================================================== ;
+
 	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
 		IniWrite($config, "SmartZap", "UseSmartZap", 1)
 	Else
@@ -2686,11 +2685,6 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWrite($config, "SmartZap", "MinDE", GUICtrlRead($txtMinDark))
 	IniWrite($config, "SmartZap", "ExpectedDE", GUICtrlRead($txtExpectedDE))
-	;==============================================================
-	; SmartZap - Added by DocOC team
-	;==============================================================
-
-	; ================================================== BOT HUMANIZATION PART ================================================== ;
 
 	IniWrite($config, "Humanization", "chkUseBotHumanization", $ichkUseBotHumanization)
 	IniWrite($config, "Humanization", "chkUseAltRClick", $ichkUseAltRClick)
@@ -2713,9 +2707,76 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "Humanization", "cmbMaxActionsNumber", _GUICtrlComboBox_GetCurSel($cmbMaxActionsNumber))
 
-	; ================================================== BOT HUMANIZATION END ================================================== ;
-
 	IniWrite($config, "MyBotName", "Name", GUICtrlRead($NameMyBot))
+
+	IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
+	IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
+
+	#include "..\..\functions\RoroTiti MODs\Config save - Mod.au3"				;	Adding Config Save for SwitchAcc Mode - Demen
+
+	IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
+	IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
+	IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
+	IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
+	IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
+	IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
+	IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
+	IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
+	IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
+	IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
+	IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
+	IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
+	IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
+	IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
+	IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
+	IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
+	IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
+
+	If GUICtrlRead($chkCoCStats) = $GUI_CHECKED Then
+		IniWrite($config, "Stats", "chkCoCStats", "1")
+	Else
+		IniWrite($config, "Stats", "chkCoCStats", "0")
+	EndIf
+	IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
+
+	;Tresorerie
+	If GUICtrlRead($chkCollectTresory) = $GUI_CHECKED Then
+		IniWrite($config, "other", "CollectTresory", 1)
+		IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
+		IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
+		IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
+	Else
+		IniWrite($config, "other", "CollectTresory", 0)
+		IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
+		IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
+		IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
+	EndIf
+
+	If GUICtrlRead($chkCollectTresoryGold) = $GUI_CHECKED Then
+		IniWrite($config, "other", "CollectTresoryGold", 1)
+	Else
+		IniWrite($config, "other", "CollectTresoryGold", 0)
+	EndIf
+
+	If GUICtrlRead($chkCollectTresoryElixir) = $GUI_CHECKED Then
+		IniWrite($config, "other", "CollectTresoryElixir", 1)
+	Else
+		IniWrite($config, "other", "CollectTresoryElixir", 0)
+	EndIf
+
+	If GUICtrlRead($chkCollectTresoryDark) = $GUI_CHECKED Then
+		IniWrite($config, "other", "CollectTresoryDark", 1)
+	Else
+		IniWrite($config, "other", "CollectTresoryDark", 0)
+	EndIf
+
+	If GUICtrlRead($chkTRFull) = $GUI_CHECKED Then
+		IniWrite($config, "other", "chkTRFull", 1)
+	Else
+		IniWrite($config, "other", "chkTRFull", 0)
+	EndIf
+
+	; ================================================== DocOc END ================================================== ;
 
 	If $hFile <> -1 Then FileClose($hFile)
 

@@ -290,3 +290,15 @@
 ;==============================================================
 ; SmartZap - Added by DocOC team
 ;==============================================================
+
+;============ Adding SwitchAcc - DEMEN
+#include "functions\RoroTiti MODs\SwitchAcc.au3"
+#include "functions\RoroTiti MODs\UpdateStats - Mod.au3"
+;============ Adding SwitchAcc - DEMEN
+
+; RoroTiti MOD's functions
+
+#include "functions\RoroTiti MODs\CoCStats.com.au3"
+#include "functions\RoroTiti MODs\SmartUpgrade.au3"
+#include "functions\RoroTiti MODs\TreasuryCollect.au3"
+#include "functions\RoroTiti MODs\GUIControl.au3"

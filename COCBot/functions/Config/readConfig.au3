@@ -57,11 +57,11 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ArmyPos[0], $building, "other", "yArmy", "0")
 		IniReadS($TotalCamp, $building, "other", "totalcamp", "0")
 
-;		IniReadS($SFPos[0], $building, "other", "xspellfactory", "-1")
-;		IniReadS($SFPos[1], $building, "other", "yspellfactory", "-1")
+		;		IniReadS($SFPos[0], $building, "other", "xspellfactory", "-1")
+		;		IniReadS($SFPos[1], $building, "other", "yspellfactory", "-1")
 
-;		IniReadS($DSFPos[0], $building, "other", "xDspellfactory", "-1")
-;		IniReadS($DSFPos[1], $building, "other", "yDspellfactory", "-1")
+		;		IniReadS($DSFPos[0], $building, "other", "xDspellfactory", "-1")
+		;		IniReadS($DSFPos[1], $building, "other", "yDspellfactory", "-1")
 
 		IniReadS($KingAltarPos[0], $building, "other", "xKingAltarPos", "-1")
 		IniReadS($KingAltarPos[1], $building, "other", "yKingAltarPos", "-1")
@@ -221,12 +221,12 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($icmbMinimumTimeClose, $config, "other", "MinimumTimeToClose", "2")
 
 		IniReadS($ichkTroopOrder, $config, "troop", "chkTroopOrder", "0")
-		For $z = 0 To UBound($DefaultTroopGroup) -1
+		For $z = 0 To UBound($DefaultTroopGroup) - 1
 			IniReadS($icmbTroopOrder[$z], $config, "troop", "cmbTroopOrder" & $z, "-1")
 		Next
 
 		IniReadS($ichkDarkTroopOrder, $config, "troop", "chkDarkTroopOrder", "0")
-		For $z = 0 To UBound($DefaultTroopGroupDark) -1
+		For $z = 0 To UBound($DefaultTroopGroupDark) - 1
 			IniReadS($icmbDarkTroopOrder[$z], $config, "troop", "cmbDarkTroopOrder" & $z, "-1")
 		Next
 
@@ -595,18 +595,18 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ichkEndTwoStars[$LB], $config, "endbattle", "chkABEndTwoStars", "0")
 		IniReadS($ichkEndNoResources[$LB], $config, "endbattle", "chkABEndNoResources", "0")
 
-#CS
-		IniReadS($sTimeStopAtk[$TS], $config, "endbattle", "txtTSTimeStopAtk", "20")
-		IniReadS($iChkTimeStopAtk[$TS], $config, "endbattle", "chkTSTimeStopAtk", "1")
-		IniReadS($sTimeStopAtk2[$TS], $config, "endbattle", "txtTSTimeStopAtk2", "7")
-		IniReadS($iChkTimeStopAtk2[$TS], $config, "endbattle", "chkTSTimeStopAtk2", "0")
-		IniReadS($stxtMinGoldStopAtk2[$TS], $config, "endbattle", "txtTSMinGoldStopAtk2", "1000")
-		IniReadS($stxtMinElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinElixirStopAtk2", "1000")
-		IniReadS($stxtMinDarkElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinDarkElixirStopAtk2", "50")
-		IniReadS($ichkEndOneStar[$TS], $config, "endbattle", "chkTSEndOneStar", "0")
-		IniReadS($ichkEndTwoStars[$TS], $config, "endbattle", "chkTSEndTwoStars", "0")
-		IniReadS($ichkEndNoResources[$TS], $config, "endbattle", "chkTSEndNoResources", "0")
-#CE
+		#CS
+			IniReadS($sTimeStopAtk[$TS], $config, "endbattle", "txtTSTimeStopAtk", "20")
+			IniReadS($iChkTimeStopAtk[$TS], $config, "endbattle", "chkTSTimeStopAtk", "1")
+			IniReadS($sTimeStopAtk2[$TS], $config, "endbattle", "txtTSTimeStopAtk2", "7")
+			IniReadS($iChkTimeStopAtk2[$TS], $config, "endbattle", "chkTSTimeStopAtk2", "0")
+			IniReadS($stxtMinGoldStopAtk2[$TS], $config, "endbattle", "txtTSMinGoldStopAtk2", "1000")
+			IniReadS($stxtMinElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinElixirStopAtk2", "1000")
+			IniReadS($stxtMinDarkElixirStopAtk2[$TS], $config, "endbattle", "txtTSMinDarkElixirStopAtk2", "50")
+			IniReadS($ichkEndOneStar[$TS], $config, "endbattle", "chkTSEndOneStar", "0")
+			IniReadS($ichkEndTwoStars[$TS], $config, "endbattle", "chkTSEndTwoStars", "0")
+			IniReadS($ichkEndNoResources[$TS], $config, "endbattle", "chkTSEndNoResources", "0")
+		#CE
 		;end battle de side
 		IniReadS($DESideEB, $config, "endbattle", "chkDESideEB", "0")
 		IniReadS($DELowEndMin, $config, "endbattle", "txtDELowEndMin", "25")
@@ -685,9 +685,9 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		;Schedule
 		$iPlannedNotifyWeekDaysEnable = IniRead($config, "pushbullet", "NotifyWeekDaysEnable", "0")
-		$iPlannedNotifyWeekDays = StringSplit(IniRead($config, "pushbullet", "NotifyWeekDays", "1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		$iPlannedNotifyWeekDays = StringSplit(IniRead($config, "pushbullet", "NotifyWeekDays", "1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
 		$iPlannedNotifyHoursEnable = IniRead($config, "pushbullet", "NotifyHoursEnable", "0")
-		$iPlannedNotifyHours = StringSplit(IniRead($config, "pushbullet", "NotifyHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"),"|", $STR_NOCOUNT)
+		$iPlannedNotifyHours = StringSplit(IniRead($config, "pushbullet", "NotifyHours", "1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
 
 
 
@@ -1053,7 +1053,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ichkSXAQ, $config, "attack", "SXAQ", $HERO_NOHERO)
 		IniReadS($ichkSXGW, $config, "attack", "SXGW", $HERO_NOHERO)
 
-		; ================================================== BOT HUMANIZATION PART ================================================== ;
+		; ================================================== DocOc PART ================================================== ;
 
 		$ichkUseBotHumanization = IniRead($config, "Humanization", "chkUseBotHumanization", "0")
 		$ichkUseAltRClick = IniRead($config, "Humanization", "chkUseAltRClick", "0")
@@ -1076,22 +1076,53 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		$icmbMaxActionsNumber = IniRead($config, "Humanization", "cmbMaxActionsNumber", "1")
 
-		; ================================================== BOT HUMANIZATION END ================================================== ;
-
-		;==============================================================
-		; SmartZap - Added by DocOC team
-		;==============================================================
 		$ichkSmartZap = IniRead($config, "SmartZap", "UseSmartZap", "0")
 		$ichkSmartZapDB = IniRead($config, "SmartZap", "ZapDBOnly", "1")
 		$ichkSmartZapSaveHeroes = IniRead($config, "SmartZap", "THSnipeSaveHeroes", "1")
 		$itxtMinDE = IniRead($config, "SmartZap", "MinDE", "250")
 		$ichkNoobZap = IniRead($config, "SmartZap", "UseNoobZap", "0")
 		$itxtExpectedDE = IniRead($config, "SmartZap", "ExpectedDE", "95")
-		;==============================================================
-		; SmartZap - Added by DocOC team
-		;==============================================================
 
 		$iNameMyBot = IniRead($config, "MyBotName", "Name", "")
+
+		$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
+		$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
+
+		#include "..\..\functions\RoroTiti MODs\Config read - Mod.au3"				;	Adding Config Read for SwitchAcc Mode - Demen
+
+		$ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
+		$ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
+		$ichkIgnoreKing = IniRead($config, "upgrade", "chkIgnoreKing", "0")
+		$ichkIgnoreQueen = IniRead($config, "upgrade", "chkIgnoreQueen", "0")
+		$ichkIgnoreWarden = IniRead($config, "upgrade", "chkIgnoreWarden", "0")
+		$ichkIgnoreCC = IniRead($config, "upgrade", "chkIgnoreCC", "0")
+		$ichkIgnoreLab = IniRead($config, "upgrade", "chkIgnoreLab", "0")
+		$ichkIgnoreBarrack = IniRead($config, "upgrade", "chkIgnoreBarrack", "0")
+		$ichkIgnoreDBarrack = IniRead($config, "upgrade", "chkIgnoreDBarrack", "0")
+		$ichkIgnoreFactory = IniRead($config, "upgrade", "chkIgnoreFactory", "0")
+		$ichkIgnoreDFactory = IniRead($config, "upgrade", "chkIgnoreDFactory", "0")
+		$ichkIgnoreGColl = IniRead($config, "upgrade", "chkIgnoreGColl", "0")
+		$ichkIgnoreEColl = IniRead($config, "upgrade", "chkIgnoreEColl", "0")
+		$ichkIgnoreDColl = IniRead($config, "upgrade", "chkIgnoreDColl", "0")
+		$iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
+		$iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
+		$iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
+
+		;Tresorerie
+		$ichkCollectTresory = IniRead($config, "other", "CollectTresory", "0")
+		$itxtTreasuryGold = IniRead($config, "other", "treasuryGold", "0")
+		$itxtTreasuryElixir = IniRead($config, "other", "treasuryElixir", "0")
+		$itxtTreasuryDark = IniRead($config, "other", "treasuryDark", "0")
+		$ichkCollectTresoryGold = IniRead($config, "other", "CollectTresoryGold", "0")
+		$ichkCollectTresoryElixir = IniRead($config, "other", "CollectTresoryElixir", "0")
+		$ichkCollectTresoryDark = IniRead($config, "other", "CollectTresoryDark", "0")
+		$ichkTRFull = IniRead($config, "other", "chkTRFull", "0")
+
+		$ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
+		$MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
+
+		; ================================================== DocOc END ================================================== ;
+
 	Else
 		Return False
 	EndIf
