@@ -1053,7 +1053,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($ichkSXAQ, $config, "attack", "SXAQ", $HERO_NOHERO)
 		IniReadS($ichkSXGW, $config, "attack", "SXGW", $HERO_NOHERO)
 
-		; ================================================== BOT HUMANIZATION PART ================================================== ;
+		; ================================================== DocOc PART ================================================== ;
 
 		$ichkUseBotHumanization = IniRead($config, "Humanization", "chkUseBotHumanization", "0")
 		$ichkUseAltRClick = IniRead($config, "Humanization", "chkUseAltRClick", "0")
@@ -1076,27 +1076,19 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		$icmbMaxActionsNumber = IniRead($config, "Humanization", "cmbMaxActionsNumber", "1")
 
-		; ================================================== BOT HUMANIZATION END ================================================== ;
-
-		;==============================================================
-		; SmartZap - Added by DocOC team
-		;==============================================================
 		$ichkSmartZap = IniRead($config, "SmartZap", "UseSmartZap", "0")
 		$ichkSmartZapDB = IniRead($config, "SmartZap", "ZapDBOnly", "1")
 		$ichkSmartZapSaveHeroes = IniRead($config, "SmartZap", "THSnipeSaveHeroes", "1")
 		$itxtMinDE = IniRead($config, "SmartZap", "MinDE", "250")
 		$ichkNoobZap = IniRead($config, "SmartZap", "UseNoobZap", "0")
 		$itxtExpectedDE = IniRead($config, "SmartZap", "ExpectedDE", "95")
-		;==============================================================
-		; SmartZap - Added by DocOC team
-		;==============================================================
 
 		$iNameMyBot = IniRead($config, "MyBotName", "Name", "")
 
 		$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
 		$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
 
-		#include "..\..\MOD\Config read - Mod.au3"				;	Adding Config Read for SwitchAcc Mode - Demen
+		#include "..\..\functions\RoroTiti MODs\Config read - Mod.au3"				;	Adding Config Read for SwitchAcc Mode - Demen
 
 		$ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
 		$ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
@@ -1128,6 +1120,8 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		$ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
 		$MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
+
+		; ================================================== DocOc END ================================================== ;
 
 	Else
 		Return False

@@ -100,7 +100,7 @@ Local $x = 25, $y = 45
 			GUICtrlSetOnEvent(-1, "btnRenameConfirm")
 			_GUICtrlSetTip(-1, GetTranslated(637,10, "Rename Profile"))
 
-		#include "..\MOD\GUI Design - Profiles Mod.au3"					; Adding GUI for SwitchAcc Mode - DEMEN
+		#include "..\functions\RoroTiti MODs\GUI Design - Profiles Mod.au3"					; Adding GUI for SwitchAcc Mode - DEMEN
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 ;GUISetState()

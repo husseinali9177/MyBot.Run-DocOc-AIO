@@ -501,7 +501,7 @@ Global Enum $eIcnArcher = 1, $eIcnDonArcher, $eIcnBalloon, $eIcnDonBalloon, $eIc
 		$eIcnBldgElixir, $eIcnBldgGold, $eIcnMagnifier, $eIcnWallElixir, $eIcnWallGold, $eIcnQueen, $eIcnKing, $eIcnDarkSpellBoost, $eIcnQueenBoostLocate, $eIcnKingBoostLocate, $eIcnKingUpgr, $eIcnQueenUpgr, $eIcnWardenAbility, $eIcnWarden, $eIcnWardenBoostLocate, $eIcnKingBoost, _
 		$eIcnQueenBoost, $eIcnWardenBoost, $eIcnWardenUpgr, $eIcnReload, $eIcnCopy, $eIcnAddcvs, $eIcnEdit, $eIcnTreeSnow, $eIcnSleepingQueen, $eIcnSleepingKing, $eIcnGoldElixir, $eIcnBowler, $eIcnDonBowler, $eIcnCCDonate, $eIcnEagleArt, $eIcnGembox, $eIcnInferno4, $eIcnInfo, $eIcnMain, _
 		$eIcnTree, $eIcnProfile, $eIcnCCRequest, $eIcnTelegram, $eIcnTiles, $eIcnXbow3, $eIcnBark, $eIcnDailyProgram, $eIcnLootCart, $eIcnSleepMode, $eIcnTH11, $eIcnTrainMode, $eIcnSleepingWarden, $eIcnCloneSpell, $eIcnSkeletonSpell, $eIcnBabyDragon, $eIcnDonBabyDragon, $eIcnMiner, $eIcnDonMiner, _
-		$eIcnNoShield, $eIcnDonCustomB, $eIcnDarkBarrackBoost, $eIcnAirDefense = 150, $eIcnBrain, $eIcnChat, $eIcnSwords, $eIcnLoop, $eIcnRepeat, $eIcnClan, $eIcnNewSmartZap1, $eIcnNewSmartZap2, $eIcnPBNotify, $eIcnNotif, $eIcnChrono, $eIcnCrown, $eIcnEpee, $eIcnMeteo, $eIcnPeople, $eIcnSettings, $eIcnSwitch, $eIcnChat, $eIcnUpgrade, $eIcnPlanner
+		$eIcnNoShield, $eIcnDonCustomB, $eIcnDarkBarrackBoost, $eIcnAirDefense = 150, $eIcnBrain, $eIcnChat, $eIcnSwords, $eIcnLoop, $eIcnRepeat, $eIcnClan, $eIcnNewSmartZap1, $eIcnNewSmartZap2, $eIcnPBNotify, $eIcnCrown, $eIcnSettings, $eIcnSwitch, $eIcnUpgrade
 
 Global $eIcnDonBlank = $eIcnDonBlacklist
 Global $eIcnOptions = $eIcnDonBlacklist
@@ -1703,7 +1703,8 @@ Global Const $drillLevelSteal[6] = [59, 102, 172, 251, 343, 479]
 Global $lastModversion = "" ;latest version from GIT
 Global $lastModmessage = "" ;message for last version
 Global $oldModversmessage = "" ;warning message for old bot
-; ================================================== BOT HUMANIZATION PART ================================================== ;
+
+; ================================================== DocOc PART ================================================== ;
 
 Global $MinimumPriority, $MaxActionsNumber, $ActionToDo
 Global $SetActionPriority[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -1727,8 +1728,6 @@ Global $OnReplayWindow, $ReplayToPause
 
 Global $QuickMISX = 0, $QuickMISY = 0
 Global $LastLayout = 0
-
-; ================================================== BOT HUMANIZATION END ================================================== ;
 
 ;Wait for Castle
 Global $iChkWaitForCastleSpell[$iModeCount]
@@ -1795,14 +1794,12 @@ Global $cmbCSVSpeed[2] = [$LB, $DB]
 Global $icmbCSVSpeed[2] = [$LB, $DB]
 Global $Divider
 
-#include "MOD\GLobal Variables - Mod.au3"	;	Adding SwitchAcc - Demen
+#include "functions\RoroTiti MODs\GLobal Variables - Mod.au3"	;	Adding SwitchAcc - Demen
 
 ; CoCStats
 Global $ichkCoCStats = 0
 Global $stxtAPIKey = ""
 Global $MyApiKey = ""
-
-; ================================================== SmartUpgrade PART ================================================== ;
 
 Global $ichkSmartUpgrade
 Global $ichkIgnoreTH, $ichkIgnoreKing, $ichkIgnoreQueen, $ichkIgnoreWarden, $ichkIgnoreCC, $ichkIgnoreLab
@@ -1811,8 +1808,8 @@ Global $iSmartMinGold, $iSmartMinElixir, $iSmartMinDark
 Global $upgradeAvailable = 0
 Global $SufficentRessources = 0
 global $CanUpgrade = 0
-Global $upgradeX = 0
-Global $upgradeY = 0
+Global $upgradeX = 0, $upgradeY = 0
+Global $zerosX = 0, $zerosY = 0
 Global $zerosHere = 0
 Global $sBldgText, $sBldgLevel, $aString
 Global $upgradeName[3] = ["", "", ""]
@@ -1820,12 +1817,14 @@ Global $UpgradeCost
 Global $TypeFound = 0
 Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
 Global $UpgradeDuration
-
-; ================================================== SmartUpgrade END ================================================== ;
+Global $canContinueLoop = 1
+Global $YtoDelete = 100
 
 ;Trsorerie
 Global $ichkTrap, $iChkCollect, $ichkTombstones, $ichkCleanYard, $itxtTreasuryGold, $itxtTreasuryElixir, $itxtTreasuryDark, $ichkCollectTresory, $chkCollectTresory
 Global $chkCollectTresoryGold, $ichkCollectTresoryGold, $chkCollectTresoryElixir, $ichkCollectTresoryElixir, $chkCollectTresoryDark, $ichkCollectTresoryDark, $ichkTRFull
+
+; ================================================== DocOc END ================================================== ;
 
 ;=== No variables below ! ================================================
 ; early load of config

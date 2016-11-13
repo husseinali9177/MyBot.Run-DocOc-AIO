@@ -2661,9 +2661,8 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWriteS($config, "troop", "QuickTrain3", 0)
 	EndIf
 
-	;==============================================================
-	; SmartZap - Added by DocOC team
-	;==============================================================
+	; ================================================== DocOc PART ================================================== ;
+
 	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
 		IniWrite($config, "SmartZap", "UseSmartZap", 1)
 	Else
@@ -2686,11 +2685,6 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWrite($config, "SmartZap", "MinDE", GUICtrlRead($txtMinDark))
 	IniWrite($config, "SmartZap", "ExpectedDE", GUICtrlRead($txtExpectedDE))
-	;==============================================================
-	; SmartZap - Added by DocOC team
-	;==============================================================
-
-	; ================================================== BOT HUMANIZATION PART ================================================== ;
 
 	IniWrite($config, "Humanization", "chkUseBotHumanization", $ichkUseBotHumanization)
 	IniWrite($config, "Humanization", "chkUseAltRClick", $ichkUseAltRClick)
@@ -2713,14 +2707,12 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "Humanization", "cmbMaxActionsNumber", _GUICtrlComboBox_GetCurSel($cmbMaxActionsNumber))
 
-	; ================================================== BOT HUMANIZATION END ================================================== ;
-
 	IniWrite($config, "MyBotName", "Name", GUICtrlRead($NameMyBot))
 
 	IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 	IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
 
-	#include "..\..\MOD\Config save - Mod.au3"				;	Adding Config Save for SwitchAcc Mode - Demen
+	#include "..\..\functions\RoroTiti MODs\Config save - Mod.au3"				;	Adding Config Save for SwitchAcc Mode - Demen
 
 	IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
 	IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
@@ -2783,6 +2775,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	Else
 		IniWrite($config, "other", "chkTRFull", 0)
 	EndIf
+
+	; ================================================== DocOc END ================================================== ;
 
 	If $hFile <> -1 Then FileClose($hFile)
 

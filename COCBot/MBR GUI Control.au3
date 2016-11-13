@@ -150,7 +150,7 @@ AtkLogHead()
 #include "GUI\MBR GUI Control Bot Options.au3"
 #include "GUI\MBR GUI Control Preset.au3"
 #include "GUI\MBR GUI Control Child Misc.au3"
-#include "MOD\GUI Control - Mod.au3"			; ============ DEMEN Mod
+#include "functions\RoroTiti MODs\GUI Control - Mod.au3"			; ============ DEMEN Mod
 
 
 ; Accelerator Key, more responsive than buttons in run-mode
@@ -1357,7 +1357,7 @@ Func Bind_ImageList($nCtrl)
 	Switch $nCtrl
 		Case $tabMain
 			; the icons for main tab
-			Local $aIconIndex[5] = [$eIcnHourGlass, $eIcnTH11, $eIcnCamp, $eIcnGUI, $eIcnInfo]
+			Local $aIconIndex[6] = [$eIcnHourGlass, $eIcnTH11, $eIcnCamp, $eIcnGUI, $eIcnCrown, $eIcnInfo]
 
 		Case $hGUI_VILLAGE_TAB
 			; the icons for village tab
@@ -1373,7 +1373,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_UPGRADE_TAB
 			; the icons for upgrade tab
-			Local $aIconIndex[4] = [$eIcnLaboratory, $eIcnKingAbility, $eIcnMortar, $eIcnWall]
+			Local $aIconIndex[5] = [$eIcnLaboratory, $eIcnKingAbility, $eIcnMortar, $eIcnWall, $eIcnUpgrade]
 
 		Case $hGUI_NOTIFY_TAB
 			; the icons for NOTIFY tab
@@ -1405,7 +1405,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_BOT_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain ,$eIcnOptions, $eIcnProfile, $eIcnProfile, $eIcnGold]
+			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain , $eIcnOptions, $eIcnProfile, $eIcnSwitch, $eIcnGold]
 
 		Case $hGUI_STRATEGIES_TAB
 			; the icons for strategies tab
@@ -1413,11 +1413,11 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_MOD_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[5] = [$eIcnEpee, $eIcnSettings, $eIcnMeteo, $eIcnChat, $eIcnSwitch]
+			Local $aIconIndex[1] = [$eIcnSettings]
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab
-			Local $aIconIndex[4] = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCDonate]
+			Local $aIconIndex[4] = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCDonate, $eIcnGoldElixir]
 
 		Case Else
 			;do nothing

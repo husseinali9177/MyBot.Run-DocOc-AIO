@@ -2756,9 +2756,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 		GUICtrlSetState($hRadio_Army3, $GUI_UNCHECKED)
 	EndIf
 
-	;==============================================================
-	; SmartZap - Added by DocOC team
-	;==============================================================
+	; ================================================== DocOc PART ================================================== ;
 
 	If $ichkSmartZap = 1 Then
 		GUICtrlSetState($chkSmartLightSpell, $GUI_CHECKED)
@@ -2793,13 +2791,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	GUICtrlSetData($txtMinDark, $itxtMinDE)
 	GUICtrlSetData($txtExpectedDE, $itxtExpectedDE)
 
-	;==============================================================
-	; SmartZap - Added by DocOC team
-	;==============================================================
-
 	GUICtrlSetData($NameMyBot, $iNameMyBot, "")
-
-	; ================================================== BOT HUMANIZATION PART ================================================== ;
 
 	If $ichkUseBotHumanization = 1 Then
 		GUICtrlSetState($chkUseBotHumanization, $GUI_CHECKED)
@@ -2846,12 +2838,10 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	cmbStandardReplay()
 	cmbWarReplay()
 
-	; ================================================== BOT HUMANIZATION END ================================================== ;
-
 	_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 	_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
 
-	#include "..\..\MOD\Config apply - Mod.au3"				;	Adding Config Apply for SwitchAcc Mode - Demen
+	#include "..\..\functions\RoroTiti MODs\Config apply - Mod.au3"				;	Adding Config Apply for SwitchAcc Mode - Demen
 
 	;Tresorerie
 	If $ichkCollectTresory = 1 Then
@@ -3002,6 +2992,8 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	chkCoCStats()
 
 	chkSmartUpgrade()
+
+	; ================================================== DocOc END ================================================== ;
 
 	; Reenabling window redraw - Keep this last....
 	If $bRedrawAtExit Then SetRedrawBotWindow(True)
