@@ -283,62 +283,16 @@ EndFunc   ;==>openUpgradeWindow
 
 Func checkUpgradeType() ; search for the upgrade builing button
 
-	Local $ImagesToUse1 = @ScriptDir & "\images\Button\Gold.png"
-	Local $ImagesToUse2 = @ScriptDir & "\images\Button\Elixir.png"
-	Local $ImagesToUse3 = @ScriptDir & "\images\Button\Dark.png"
+	$Result = QuickMIS("N1", @ScriptDir & "\images\Button\Type")
 
-	Local $ToleranceImgLoc = 0.90
-
-	_CaptureRegion2()
-
-	$res = DllCall($hImgLib, "str", "SearchTile", "handle", $hHBitmap2, "str", $ImagesToUse1, "float", $ToleranceImgLoc, "str", "FV", "int", 1)
-	If IsArray($res) Then
-		If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_RED)
-		If $res[0] = "0" Or $res[0] = "" Then
-			If $DebugSetlog Then SetLog("No Button found")
-			$TypeFound = 0
-		ElseIf $res[0] = "-1" Then
-			SetLog("DLL Error", $COLOR_RED)
-		ElseIf $res[0] = "-2" Then
-			SetLog("Invalid Resolution", $COLOR_RED)
-		Else
+	Switch $Result
+		Case "Gold"
 			$TypeFound = 1
-		EndIf
-	EndIf
-
-	If $TypeFound = 0 Then
-		$res = DllCall($hImgLib, "str", "SearchTile", "handle", $hHBitmap2, "str", $ImagesToUse2, "float", $ToleranceImgLoc, "str", "FV", "int", 1)
-		If IsArray($res) Then
-			If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_RED)
-			If $res[0] = "0" Or $res[0] = "" Then
-				If $DebugSetlog Then SetLog("No Button found")
-				$TypeFound = 0
-			ElseIf $res[0] = "-1" Then
-				SetLog("DLL Error", $COLOR_RED)
-			ElseIf $res[0] = "-2" Then
-				SetLog("Invalid Resolution", $COLOR_RED)
-			Else
-				$TypeFound = 2
-			EndIf
-		EndIf
-	EndIf
-
-	If $TypeFound = 0 Then
-		$res = DllCall($hImgLib, "str", "SearchTile", "handle", $hHBitmap2, "str", $ImagesToUse3, "float", $ToleranceImgLoc, "str", "FV", "int", 1)
-		If IsArray($res) Then
-			If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_RED)
-			If $res[0] = "0" Or $res[0] = "" Then
-				If $DebugSetlog Then SetLog("No Button found")
-				$TypeFound = 0
-			ElseIf $res[0] = "-1" Then
-				SetLog("DLL Error", $COLOR_RED)
-			ElseIf $res[0] = "-2" Then
-				SetLog("Invalid Resolution", $COLOR_RED)
-			Else
-				$TypeFound = 3
-			EndIf
-		EndIf
-	EndIf
+		Case "Elixir"
+			$TypeFound = 2
+		Case "Dark"
+			$TypeFound = 3
+	EndSwitch
 
 EndFunc   ;==>checkUpgradeType
 

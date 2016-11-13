@@ -1405,7 +1405,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_BOT_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain , $eIcnOptions, $eIcnProfile, $eIcnSwitch, $eIcnGold]
+			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain , $eIcnOptions, $eIcnSwitch, $eIcnProfile]
 
 		Case $hGUI_STRATEGIES_TAB
 			; the icons for strategies tab
@@ -1417,7 +1417,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab
-			Local $aIconIndex[4] = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCDonate, $eIcnGoldElixir]
+			Local $aIconIndex[5] = [$eIcnGoldElixir, $eIcnOptions, $eIcnCamp, $eIcnCCDonate, $eIcnGoldElixir]
 
 		Case Else
 			;do nothing
