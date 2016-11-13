@@ -5,9 +5,9 @@
 *.ini
 *.log
 *.orig
-*.png
+#*.png
 *.jpg
-*.exe
+#*.exe
 *.isn
 
 # Global Folders
