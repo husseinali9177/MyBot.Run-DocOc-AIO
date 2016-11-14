@@ -130,7 +130,7 @@ Func LaunchChallenges()
 			If IsChallengeWindow() Then
 
 				Click(530, 110) ; click text box
-				AndroidSendText(GUICtrlRead($challengeMessage))
+				AndroidSendText(GUICtrlRead($challengeMessage, True))
 				randomSleep(1500)
 
 				$Layout = Random(1, 2, 1) ; choose a layout between normal or war base
@@ -159,14 +159,20 @@ Func LaunchChallenges()
 								Click(250, 180)
 						EndSwitch
 
-						randomSleep(1500)
-						Click(530, 250) ; click start button
-						randomSleep(1500)
-						Click(330, 380) ; close chat
-
 					Else
 						SetLog("Error when trying to open Change Layout menu... skipping...", $COLOR_WARNING)
 					EndIf
+				EndIf
+
+				If IsChallengeWindow() Then
+
+					randomSleep(1500)
+					Click(530, 250) ; click start button
+					randomSleep(1500)
+					Click(330, 380) ; close chat
+
+				Else
+					SetLog("Error when trying to open Start Challenge window... skipping...", $COLOR_WARNING)
 				EndIf
 
 			Else
