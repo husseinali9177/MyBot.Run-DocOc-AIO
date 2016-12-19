@@ -14,46 +14,46 @@
 ; ===============================================================================================================================
 
 ; Config Apply for SwitchAcc Mode - DEMEN
-	Switch $ProfileType
+Switch $ProfileType
 	Case 1
-	   GUICtrlSetState($radActiveProfile, $GUI_CHECKED)
+		GUICtrlSetState($radActiveProfile, $GUI_CHECKED)
 	Case 2
-	   GUICtrlSetState($radDonateProfile, $GUI_CHECKED)
+		GUICtrlSetState($radDonateProfile, $GUI_CHECKED)
 	Case 3
-	   GUICtrlSetState($radIdleProfile, $GUI_CHECKED)
-	EndSwitch
+		GUICtrlSetState($radIdleProfile, $GUI_CHECKED)
+EndSwitch
 
-	_GUICtrlCombobox_SetCurSel($cmbMatchProfileAcc, $MatchProfileAcc)
+_GUICtrlComboBox_SetCurSel($cmbMatchProfileAcc, $MatchProfileAcc)
 
- 	If $ichkSwitchAcc = 1 Then
- 		GUICtrlSetState($chkSwitchAcc, $GUI_CHECKED)
- 	Else
- 		GUICtrlSetState($chkSwitchAcc, $GUI_UNCHECKED)
- 	EndIf
+If $ichkSwitchAcc = 1 Then
+	GUICtrlSetState($chkSwitchAcc, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkSwitchAcc, $GUI_UNCHECKED)
+EndIf
 
-	If $ichkSmartSwitch = 1 Then
-	   GUICtrlSetState($radSmartSwitch, $GUI_CHECKED)
- 	Else
-	   GUICtrlSetState($radNormalSwitch, $GUI_CHECKED)
- 	EndIf
+If $ichkSmartSwitch = 1 Then
+	GUICtrlSetState($radSmartSwitch, $GUI_CHECKED)
+Else
+	GUICtrlSetState($radNormalSwitch, $GUI_CHECKED)
+EndIf
 
-	chkSwitchAcc()
+chkSwitchAcc()
 
-	_GUICtrlCombobox_SetCurSel($cmbTotalAccount, $icmbTotalCoCAcc)	; 0 = AutoDetect
+_GUICtrlComboBox_SetCurSel($cmbTotalAccount, $icmbTotalCoCAcc) ; 0 = AutoDetect
 
-	If $ichkCloseTraining >= 1 Then
-		GUICtrlSetState($chkUseTrainingClose, $GUI_CHECKED)
-		If $ichkCloseTraining = 1 Then
-			GUICtrlSetState($radCloseCoC, $GUI_CHECKED)
-		Else
-			GUICtrlSetState($radCloseAndroid, $GUI_CHECKED)
-		EndIf
+If $ichkCloseTraining >= 1 Then
+	GUICtrlSetState($chkUseTrainingClose, $GUI_CHECKED)
+	If $ichkCloseTraining = 1 Then
+		GUICtrlSetState($radCloseCoC, $GUI_CHECKED)
 	Else
-		GUICtrlSetState($chkUseTrainingClose, $GUI_UNCHECKED)
+		GUICtrlSetState($radCloseAndroid, $GUI_CHECKED)
 	EndIf
+Else
+	GUICtrlSetState($chkUseTrainingClose, $GUI_UNCHECKED)
+EndIf
 
 ; Multi Finger (LunaEclipse) added rulesss
-_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger,$iMultiFingerStyle)
+_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
 cmbDBMultiFinger()
 
 _GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
@@ -69,6 +69,12 @@ If $iRadio_Army123 = 1 Then
 	GUICtrlSetState($hRadio_Army123, $GUI_CHECKED)
 Else
 	GUICtrlSetState($hRadio_Army123, $GUI_UNCHECKED)
+EndIf
+
+If $iRadio_ArmyRandom = 1 Then
+	GUICtrlSetState($hRadio_ArmyRandom, $GUI_CHECKED)
+Else
+	GUICtrlSetState($hRadio_ArmyRandom, $GUI_UNCHECKED)
 EndIf
 
 ;Tresorerie
@@ -220,3 +226,75 @@ GUICtrlSetData($txtAPIKey, $MyApiKey)
 chkCoCStats()
 
 chkSmartUpgrade()
+
+; Profile Switch
+If $ichkGoldSwitchMax = 1 Then
+	GUICtrlSetState($chkGoldSwitchMax, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkGoldSwitchMax, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbGoldMaxProfile, $icmbGoldMaxProfile)
+GUICtrlSetData($txtMaxGoldAmount, $itxtMaxGoldAmount)
+If $ichkGoldSwitchMin = 1 Then
+	GUICtrlSetState($chkGoldSwitchMin, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkGoldSwitchMin, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbGoldMinProfile, $icmbGoldMinProfile)
+GUICtrlSetData($txtMinGoldAmount, $itxtMinGoldAmount)
+
+If $ichkElixirSwitchMax = 1 Then
+	GUICtrlSetState($chkElixirSwitchMax, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkElixirSwitchMax, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbElixirMaxProfile, $icmbElixirMaxProfile)
+GUICtrlSetData($txtMaxElixirAmount, $itxtMaxElixirAmount)
+If $ichkElixirSwitchMin = 1 Then
+	GUICtrlSetState($chkElixirSwitchMin, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkElixirSwitchMin, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbElixirMinProfile, $icmbElixirMinProfile)
+GUICtrlSetData($txtMinElixirAmount, $itxtMinElixirAmount)
+
+If $ichkDESwitchMax = 1 Then
+	GUICtrlSetState($chkDESwitchMax, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkDESwitchMax, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbDEMaxProfile, $icmbDEMaxProfile)
+GUICtrlSetData($txtMaxDEAmount, $itxtMaxDEAmount)
+If $ichkDESwitchMin = 1 Then
+	GUICtrlSetState($chkDESwitchMin, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkDESwitchMin, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbDEMinProfile, $icmbDEMinProfile)
+GUICtrlSetData($txtMinDEAmount, $itxtMinDEAmount)
+
+If $ichkTrophySwitchMax = 1 Then
+	GUICtrlSetState($chkTrophySwitchMax, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkTrophySwitchMax, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbTrophyMaxProfile, $icmbTrophyMaxProfile)
+GUICtrlSetData($txtMaxTrophyAmount, $itxtMaxTrophyAmount)
+If $ichkTrophySwitchMin = 1 Then
+	GUICtrlSetState($chkTrophySwitchMin, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkTrophySwitchMin, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbTrophyMinProfile, $icmbTrophyMinProfile)
+GUICtrlSetData($txtMinTrophyAmount, $itxtMinTrophyAmount)
+
+_GUICtrlSlider_SetPos($sldrTransparancyShield, $AndroidShieldTransparency)
+_GUICtrlSlider_SetPos($sldrTransparancyIdleShield, $AndroidInactiveTransparency)
+
+If $ichkAutoHide = 1 Then
+	GUICtrlSetState($chkAutoHide, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkAutoHide, $GUI_UNCHECKED)
+EndIf
+GUICtrlSetData($txtAutoHideDelay, $ichkAutoHideDelay)
+chkAutoHide()

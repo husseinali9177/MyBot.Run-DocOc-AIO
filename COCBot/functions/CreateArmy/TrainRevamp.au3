@@ -196,6 +196,7 @@ Func TestTrainRevamp()
 			If GUICtrlRead($hRadio_Army1) = $GUI_CHECKED Then $Num = 1
 			If GUICtrlRead($hRadio_Army2) = $GUI_CHECKED Then $Num = 2
 			If GUICtrlRead($hRadio_Army3) = $GUI_CHECKED Then $Num = 3
+			If GUICtrlRead($hRadio_ArmyRandom) = $GUI_CHECKED Then $Num = Random(1,3,1)
 
 ;============= Adding QuickTrain Combo - DEMEN
 			If $Num > 0 Then

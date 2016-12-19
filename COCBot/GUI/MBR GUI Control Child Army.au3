@@ -18,8 +18,9 @@ Func chkUseQTrain()
 		GUICtrlSetState($hRadio_Army1, $GUI_ENABLE)
 		GUICtrlSetState($hRadio_Army2, $GUI_ENABLE)
 		GUICtrlSetState($hRadio_Army3, $GUI_ENABLE)
-		GUICtrlSetState($hRadio_Army12, $GUI_ENABLE)	;	Adding Quicktrain combo - Demen
-		GUICtrlSetState($hRadio_Army123, $GUI_ENABLE)	;	Adding Quicktrain combo - Demen
+		GUICtrlSetState($hRadio_Army12, $GUI_ENABLE)	;	Adding Quicktrain Combo - Demen
+		GUICtrlSetState($hRadio_Army123, $GUI_ENABLE)	;	Adding Quicktrain Combo - Demen
+		GUICtrlSetState($hRadio_ArmyRandom, $GUI_ENABLE)
 		;GUICtrlSetState($grpTrainTroops, $GUI_DISABLE)
 		For $i = $txtNumBarb To $txtNumLava
 			GUICtrlSetState($i, $GUI_DISABLE)
@@ -31,8 +32,9 @@ Func chkUseQTrain()
 		GUICtrlSetState($hRadio_Army1, $GUI_DISABLE)
 		GUICtrlSetState($hRadio_Army2, $GUI_DISABLE)
 		GUICtrlSetState($hRadio_Army3, $GUI_DISABLE)
-		GUICtrlSetState($hRadio_Army12, $GUI_DISABLE)	;	Adding Quicktrain combo - Demen
-		GUICtrlSetState($hRadio_Army123, $GUI_DISABLE)	;	Adding Quicktrain combo - Demen
+		GUICtrlSetState($hRadio_Army12, $GUI_DISABLE)	;	Adding Quicktrain Combo - Demen
+		GUICtrlSetState($hRadio_Army123, $GUI_DISABLE)	;	Adding Quicktrain Combo - Demen
+		GUICtrlSetState($hRadio_ArmyRandom, $GUI_DISABLE)
 		;GUICtrlSetState($grpTrainTroops, $GUI_ENABLE)
 		For $i = $txtNumBarb To $txtNumLava
 			GUICtrlSetState($i, $GUI_ENABLE)

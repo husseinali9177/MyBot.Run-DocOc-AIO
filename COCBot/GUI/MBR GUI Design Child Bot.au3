@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Global $chkDisableSplash, $chkVersion, $chkDeleteLogs, $chkDeleteTemp, $chkDeleteLoots
-Global $chkAutostart, $txtAutostartDelay, $chkLanguage,$chkDisposeWindows, $txtWAOffsetx, $txtWAOffsety, $cmbDisposeWindowsCond
+Global $chkAutostart, $txtAutostartDelay, $chkAutohide, $txtAutohideDelay, $chkLanguage, $chkDisposeWindows, $txtWAOffsetx, $txtWAOffsety, $cmbDisposeWindowsCond
 Global $chkDebugClick, $chkDebugSetlog, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate, $chkdebugDeadBaseImage
 Global $chkTotalCampForced, $txtTotalCampForced
 Global $txtDeleteLogsDays, $txtDeleteTempDays, $txtDeleteLootsDays, $cmbLanguage, $chkScreenshotType, $chkScreenshotHideName, $chkUseRandomClick

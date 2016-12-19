@@ -59,9 +59,7 @@ Func Initiate()
 
 		ZoomOut()
 
-		If $ichkSwitchAcc = 1 Then ; SwitchAcc - Demen
-		   InitiateSwitchAcc()
-		EndIf
+		If $ichkSwitchAcc = 1 Then InitiateSwitchAcc()		; SwitchAcc - Demen
 
 		If Not $RunState Then Return
 
@@ -141,6 +139,7 @@ Func IsStopped()
 EndFunc   ;==>IsStopped
 
 Func btnStart()
+	btnUpdateProfile()					;  SwitchAcc - DEMEN
 	; decide when to run
 	EnableControls($frmBotBottom, False, $frmBotBottomCtrlState)
 	Local $RunNow = $BotAction <> $eBotNoAction

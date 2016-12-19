@@ -122,6 +122,14 @@ Func chkAutoStart()
 	EndIf
 EndFunc   ;==>chkAutoStart
 
+Func chkAutoHide()
+	If GUICtrlRead($chkAutoHide) = $GUI_CHECKED Then
+		GUICtrlSetState($txtAutohideDelay, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($txtAutohideDelay, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkAutoHide
+
 Func chkDisposeWindows()
 	If GUICtrlRead($chkDisposeWindows) = $GUI_CHECKED Then
 		GUICtrlSetState($cmbDisposeWindowsCond, $GUI_ENABLE)
@@ -462,4 +470,40 @@ EndFunc
 
 Func NameMyBotUpdate()
 	GUICtrlSetData($lblDisplayName, GUICtrlRead($NameMyBot))
+EndFunc
+
+Func btnColorShield()
+	$sSelectedColor = _ChooseColor(2,0xFFFFFF,2,$frmBot)
+	If $sSelectedColor <> -1 Then
+	$sSelectedColor = StringTrimLeft($sSelectedColor,2)
+	$AndroidShieldColor = Dec($sSelectedColor)
+	SetLog("Shield color successfully chosen! Will be used now", $COLOR_INFO)
+	Else
+	SetLog("Shield color selection stopped, keeping the old one!",$COLOR_INFO)
+	EndIf
+
+EndFunc
+
+Func sldrTransparancyShield()
+	$ReadTransparancyShield = GUICtrlRead($sldrTransparancyShield)
+	$AndroidShieldTransparency = Int($ReadTransparancyShield)
+
+EndFunc
+
+Func btnColorIdleShield()
+	$sSelectedColor = _ChooseColor(2,0xFFFFFF,2,$frmBot)
+	If $sSelectedColor <> -1 Then
+	$sSelectedColor = StringTrimLeft($sSelectedColor,2)
+	$AndroidInactiveColor = Dec($sSelectedColor)
+	SetLog("Idle Shield color successfully chosen! Will be used now", $COLOR_INFO)
+	Else
+	SetLog("Idle Shield color selection stopped, keeping the old one!",$COLOR_INFO)
+	EndIf
+
+EndFunc
+
+Func sldrTransparancyIdleShield()
+	$ReadTransparancyIdle = GUICtrlRead($sldrTransparancyIdleShield)
+	$AndroidInactiveTransparency = Int($ReadTransparancyIdle)
+
 EndFunc

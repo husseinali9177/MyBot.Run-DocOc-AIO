@@ -17,17 +17,17 @@
 Global $profile = $sProfilePath & "\Profile.ini"
 Global $aconfig[8]
 Global $ichkSwitchAcc = 0
-Global $icmbTotalCoCAcc		; 0 = 6, 1 = 1 account, 2 = 2 accounts
+Global $icmbTotalCoCAcc ; 0 = 6, 1 = 1 account, 2 = 2 accounts
 Global $nTotalCoCAcc = 6
 Global $ichkSmartSwitch = 1
 Global $ichkCloseTraining = 0
 Global $nCurProfile = 1
 Global $ProfileList
 Global $nTotalProfile = 1
-Global $ProfileType			; Type of the Current Profile, 1 = active, 2 = donate, 3 = idle
-Global $aProfileType[8]		; Type of the all Profiles, 1 = active, 2 = donate, 3 = idle
-Global $MatchProfileAcc		; Account match with Current Profile
-Global $aMatchProfileAcc[8]	; Accounts match with All Profiles
+Global $ProfileType ; Type of the Current Profile, 1 = active, 2 = donate, 3 = idle
+Global $aProfileType[8] ; Type of the all Profiles, 1 = active, 2 = donate, 3 = idle
+Global $MatchProfileAcc ; Account match with Current Profile
+Global $aMatchProfileAcc[8] ; Accounts match with All Profiles
 Global $DonateSwitchCounter = 0
 Global $bReMatchAcc = False
 Global $aTimerStart[8]
@@ -43,7 +43,7 @@ Global Enum $directionLeft, $directionRight
 Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
 Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
 Global $iMultiFingerStyle = 1
-Global Enum  $eCCSpell = $eHaSpell + 1
+Global Enum $eCCSpell = $eHaSpell + 1
 
 ; CSV Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
@@ -62,7 +62,7 @@ Global $ichkIgnoreBarrack, $ichkIgnoreDBarrack, $ichkIgnoreFactory, $ichkIgnoreD
 Global $iSmartMinGold, $iSmartMinElixir, $iSmartMinDark
 Global $upgradeAvailable = 0
 Global $SufficentRessources = 0
-global $CanUpgrade = 0
+Global $CanUpgrade = 0
 Global $upgradeX = 0, $upgradeY = 0
 Global $zerosX = 0, $zerosY = 0
 Global $zerosHere = 0
@@ -78,3 +78,12 @@ Global $YtoDelete = 100
 ;Trsorerie
 Global $ichkTrap, $iChkCollect, $ichkTombstones, $ichkCleanYard, $itxtTreasuryGold, $itxtTreasuryElixir, $itxtTreasuryDark, $ichkCollectTresory, $chkCollectTresory
 Global $chkCollectTresoryGold, $ichkCollectTresoryGold, $chkCollectTresoryElixir, $ichkCollectTresoryElixir, $chkCollectTresoryDark, $ichkCollectTresoryDark, $ichkTRFull
+
+Global $ichkAutoHide ; AutoHide mode enabled disabled
+Global $ichkAutoHideDelay
+
+; Profile Switch
+Global $ichkGoldSwitchMax, $itxtMaxGoldAmount, $icmbGoldMaxProfile, $ichkGoldSwitchMin, $itxtMinGoldAmount, $icmbGoldMinProfile
+Global $ichkElixirSwitchMax, $itxtMaxElixirAmount, $icmbElixirMaxProfile, $ichkElixirSwitchMin, $itxtMinElixirAmount, $icmbElixirMinProfile
+Global $ichkDESwitchMax, $itxtMaxDEAmount, $icmbDEMaxProfile, $ichkDESwitchMin, $itxtMinDEAmount, $icmbDEMinProfile
+Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkTrophySwitchMin, $itxtMinTrophyAmount, $icmbTrophyMinProfile

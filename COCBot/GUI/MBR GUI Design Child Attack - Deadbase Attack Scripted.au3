@@ -53,6 +53,10 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,8, "Copy current Attack Script to a new name")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
+		$y += 100
+		$btnAttNowDB = GUICtrlCreateButton(GetTranslated(607, 34, "Attack Now!"), $x + 170, $y - 20, 70, 25)
+				;GUISetState(@SW_SHOW)
+				GUICtrlSetOnEvent(-1, "AttackNowDB")
 
 Local $x = 50, $y = 260
 

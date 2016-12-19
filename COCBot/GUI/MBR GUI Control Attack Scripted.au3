@@ -301,3 +301,27 @@ Func cmbCSVSpeed()
 	EndSwitch
 
 EndFunc   ;==>cmbCSVSpeed
+
+Func AttackNowLB()
+	Setlog("Begin Live Base Attack TEST")
+	$iMatchMode = $LB			; Select Live Base As Attack Type
+	$iAtkAlgorithm[$LB] = 1			; Select Scripted Attack
+	$scmbABScriptName = GuiCtrlRead($cmbScriptNameAB)		; Select Scripted Attack File From The Combo Box, Cos it wasn't refreshing until pressing Start button
+	$iMatchMode = 1			; Select Live Base As Attack Type
+	$RunState = True
+	PrepareAttack($iMatchMode)			; lol I think it's not needed for Scripted attack, But i just Used this to be sure of my code
+		Attack()			; Fire xD
+	Setlog("End Live Base Attack TEST")
+EndFunc   ;==>AttackNowLB
+
+Func AttackNowDB()
+	Setlog("Begin Dead Base Attack TEST")
+	$iMatchMode = $DB			; Select Dead Base As Attack Type
+	$iAtkAlgorithm[$DB] = 1			; Select Scripted Attack
+	$scmbABScriptName = GuiCtrlRead($cmbScriptNameDB)		; Select Scripted Attack File From The Combo Box, Cos it wasn't refreshing until pressing Start button
+	$iMatchMode = 0			; Select Dead Base As Attack Type
+	$RunState = True
+	PrepareAttack($iMatchMode)			; lol I think it's not needed for Scripted attack, But i just Used this to be sure of my code
+		Attack()			; Fire xD
+	Setlog("End Dead Base Attack TEST")
+EndFunc   ;==>AttackNowDB

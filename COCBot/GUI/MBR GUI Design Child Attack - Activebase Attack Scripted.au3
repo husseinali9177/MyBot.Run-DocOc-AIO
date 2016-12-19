@@ -53,6 +53,10 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,8, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
+		$y += 100
+		$btnAttNowLB = GUICtrlCreateButton(GetTranslated(607, 34, -1), $x + 170, $y - 20, 70, 25)
+				;GUISetState(@SW_SHOW)
+				GUICtrlSetOnEvent(-1, "AttackNowLB")
 
 Local $x = 50, $y = 260
 

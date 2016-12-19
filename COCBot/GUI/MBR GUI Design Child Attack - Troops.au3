@@ -345,6 +345,8 @@ $hRadio_Army12 = GUICtrlCreateRadio("Army 1,2", $x + 190, $y + 20, 70, 15)
 GUICtrlSetState(-1, $GUI_DISABLE)
 $hRadio_Army123 = GUICtrlCreateRadio("Army 1,2,3", $x + 190, $y + 40, 70, 15)
 GUICtrlSetState(-1, $GUI_DISABLE)
+$hRadio_ArmyRandom = GUICtrlCreateRadio("Random", $x + 190, $y + 60, 70, 15)
+GUICtrlSetState(-1, $GUI_DISABLE)
 ; ========= Adding combo quick train - DEMEN
 
 $x += 280

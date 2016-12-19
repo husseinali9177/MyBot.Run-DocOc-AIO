@@ -286,6 +286,7 @@ Func runBot() ;Bot that runs everything in order
 
 			VillageReport()
 			ForceTimeStopAtk()
+			ProfileSwitch()
 			If $OutOfGold = 1 And (Number($iGoldCurrent) >= Number($itxtRestartGold)) Then ; check if enough gold to begin searching again
 				$OutOfGold = 0 ; reset out of gold flag
 				Setlog("Switching back to normal after no gold to search ...", $COLOR_RED)

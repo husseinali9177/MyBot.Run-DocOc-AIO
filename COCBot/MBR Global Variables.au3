@@ -378,6 +378,7 @@ Global $iVillageName
 Global $sProfilePath = @ScriptDir & "\Profiles"
 Global $sPreset = @ScriptDir & "\Strategies"
 Global $aTxtLogInitText[0][6] = [[]]
+Global $profileString
 
 Global $hTimer_SetTime = 0
 
@@ -1484,7 +1485,7 @@ Global $LastRedLines = ""
 ;QuickTrain Radio Buttons
 
 Global $ichkUseQTrain = 1
-Global 	$iRadio_Army1, $iRadio_Army2, $iRadio_Army3, $iRadio_Army12, $iRadio_Army123		; ======= Adding QuickTrain Combo - DEMEN
+Global 	$iRadio_Army1, $iRadio_Army2, $iRadio_Army3, $iRadio_Army12, $iRadio_Army123, $iRadio_ArmyRandom		; ======= Adding QuickTrain Combo - DEMEN
 
 ;---------------------------------------------------------------
 ; SmartZap GUI variables - Added by DocOC team

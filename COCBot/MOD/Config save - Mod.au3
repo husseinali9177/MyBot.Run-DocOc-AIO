@@ -13,127 +13,207 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-
 ; Config save for SwitchAcc Mode - DEMEN
 
-	If GUICtrlRead($radActiveProfile) = $GUI_CHECKED Then														; 1 = Active, 2 = Donate, 3 = Idle
-		IniWrite($config, "Switch Account", "Profile Type", 1)
-		IniWrite($profile, "Profile Type", _GUICtrlCombobox_GetCurSel($cmbProfile)+1, 1)
-	 ElseIf GUICtrlRead($radDonateProfile) = $GUI_CHECKED Then
-		IniWrite($config, "Switch Account", "Profile Type", 2)
-		IniWrite($profile, "Profile Type", _GUICtrlCombobox_GetCurSel($cmbProfile)+1, 2)
-	 Else
-		IniWrite($config, "Switch Account", "Profile Type", 3)
-		IniWrite($profile, "Profile Type", _GUICtrlCombobox_GetCurSel($cmbProfile)+1, 3)
-	EndIf
+If GUICtrlRead($radActiveProfile) = $GUI_CHECKED Then ; 1 = Active, 2 = Donate, 3 = Idle
+	IniWrite($config, "Switch Account", "Profile Type", 1)
+	IniWrite($profile, "Profile Type", _GUICtrlComboBox_GetCurSel($cmbProfile) + 1, 1)
+ElseIf GUICtrlRead($radDonateProfile) = $GUI_CHECKED Then
+	IniWrite($config, "Switch Account", "Profile Type", 2)
+	IniWrite($profile, "Profile Type", _GUICtrlComboBox_GetCurSel($cmbProfile) + 1, 2)
+Else
+	IniWrite($config, "Switch Account", "Profile Type", 3)
+	IniWrite($profile, "Profile Type", _GUICtrlComboBox_GetCurSel($cmbProfile) + 1, 3)
+EndIf
 
-	IniWrite($config, "Switch Account", "Match Profile Acc", _GUICtrlCombobox_GetCurSel($cmbMatchProfileAcc))	 ; 0 = No Acc (idle), 1 = Acc 1, 2 = Acc 2, etc.
+IniWrite($config, "Switch Account", "Match Profile Acc", _GUICtrlComboBox_GetCurSel($cmbMatchProfileAcc)) ; 0 = No Acc (idle), 1 = Acc 1, 2 = Acc 2, etc.
 
-	If GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED Then
-		IniWrite($profile, "Switch Account", "Enable", 1)
+If GUICtrlRead($chkSwitchAcc) = $GUI_CHECKED Then
+	IniWrite($profile, "Switch Account", "Enable", 1)
+Else
+	IniWrite($profile, "Switch Account", "Enable", 0)
+EndIf
+
+IniWrite($profile, "Switch Account", "Total Coc Account", _GUICtrlComboBox_GetCurSel($cmbTotalAccount)) ; 0 = AutoDetect, 1 = 1 Acc, 2 = 2 Acc, etc.
+
+If GUICtrlRead($radSmartSwitch) = $GUI_CHECKED Then
+	IniWrite($profile, "Switch Account", "Smart Switch", 1)
+Else
+	IniWrite($profile, "Switch Account", "Smart Switch", 0)
+EndIf
+
+If GUICtrlRead($chkUseTrainingClose) = $GUI_CHECKED Then
+	If GUICtrlRead($radCloseCoC) = $GUI_CHECKED Then
+		IniWrite($profile, "Switch Account", "Sleep Combo", 1) ; Sleep Combo = 1 => Close CoC
 	Else
-		IniWrite($profile, "Switch Account", "Enable", 0)
+		IniWrite($profile, "Switch Account", "Sleep Combo", 2) ; Sleep Combo = 2 => Close Android
 	EndIf
+Else
+	IniWrite($profile, "Switch Account", "Sleep Combo", 0)
+EndIf
 
-	IniWrite($profile, "Switch Account", "Total Coc Account", _GUICtrlCombobox_GetCurSel($cmbTotalAccount))	; 0 = AutoDetect, 1 = 1 Acc, 2 = 2 Acc, etc.
-
-	If GUICtrlRead($radSmartSwitch) = $GUI_CHECKED Then
-	   IniWrite($profile, "Switch Account", "Smart Switch", 1)
-	Else
-	   IniWrite($profile, "Switch Account", "Smart Switch", 0)
-	EndIf
-
-	If GUICtrlRead($chkUseTrainingClose) = $GUI_CHECKED Then
-		If GUICtrlRead($radCloseCoC) = $GUI_CHECKED Then
-			IniWrite($profile, "Switch Account", "Sleep Combo", 1)		; Sleep Combo = 1 => Close CoC
-		Else
-			IniWrite($profile, "Switch Account", "Sleep Combo", 2)		; Sleep Combo = 2 => Close Android
-		EndIf
-	Else
-		IniWrite($profile, "Switch Account", "Sleep Combo", 0)
-	EndIf
-
-	For $i = 1 to 6
-		IniWriteS($profile, "Acc Location", "yAccNo." & $i, $aAccPosY[$i-1])
-	Next
+For $i = 1 To 6
+	IniWriteS($profile, "Acc Location", "yAccNo." & $i, $aAccPosY[$i - 1])
+Next
 
 ; Config for Adding Quicktrain Combo - DEMEN
-	If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "QuickTrain12", 1)
-	Else
-		IniWriteS($config, "troop", "QuickTrain12", 0)
-	EndIf
+If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
+	IniWriteS($config, "troop", "QuickTrain12", 1)
+Else
+	IniWriteS($config, "troop", "QuickTrain12", 0)
+EndIf
 
-	If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "QuickTrain123", 1)
-	Else
-		IniWriteS($config, "troop", "QuickTrain123", 0)
-	EndIf
+If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
+	IniWriteS($config, "troop", "QuickTrain123", 1)
+Else
+	IniWriteS($config, "troop", "QuickTrain123", 0)
+EndIf
 
-  ; Multi Finger (LunaEclipse) added rulesss
-    IniWrite($config, "MultiFinger", "Select", $iMultiFingerStyle)
+If GUICtrlRead($hRadio_ArmyRandom) = $GUI_CHECKED Then
+	IniWriteS($config, "troop", "QuickTrainRandom", 1)
+Else
+	IniWriteS($config, "troop", "QuickTrainRandom", 0)
+EndIf
 
-	IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
-	IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
-	IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
-	IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
-	IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
-	IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
-	IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
-	IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
-	IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
-	IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
-	IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
-	IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
-	IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
-	IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
-	IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
-	IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
-	IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
+; Multi Finger (LunaEclipse) added rulesss
+IniWrite($config, "MultiFinger", "Select", $iMultiFingerStyle)
 
-	If GUICtrlRead($chkCoCStats) = $GUI_CHECKED Then
-		IniWrite($config, "Stats", "chkCoCStats", "1")
-	Else
-		IniWrite($config, "Stats", "chkCoCStats", "0")
-	EndIf
-	IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
+IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
+IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
+IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
+IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
+IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
+IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
+IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
+IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
+IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
+IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
+IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
+IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
+IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
+IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
+IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
+IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
+IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
 
-	;Tresorerie
-	If GUICtrlRead($chkCollectTresory) = $GUI_CHECKED Then
-		IniWrite($config, "other", "CollectTresory", 1)
-		IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
-		IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
-		IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
-	Else
-		IniWrite($config, "other", "CollectTresory", 0)
-		IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
-		IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
-		IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
-	EndIf
+If GUICtrlRead($chkCoCStats) = $GUI_CHECKED Then
+	IniWrite($config, "Stats", "chkCoCStats", "1")
+Else
+	IniWrite($config, "Stats", "chkCoCStats", "0")
+EndIf
+IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
 
-	If GUICtrlRead($chkCollectTresoryGold) = $GUI_CHECKED Then
-		IniWrite($config, "other", "CollectTresoryGold", 1)
-	Else
-		IniWrite($config, "other", "CollectTresoryGold", 0)
-	EndIf
+;Tresorerie
+If GUICtrlRead($chkCollectTresory) = $GUI_CHECKED Then
+	IniWrite($config, "other", "CollectTresory", 1)
+	IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
+	IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
+	IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
+Else
+	IniWrite($config, "other", "CollectTresory", 0)
+	IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
+	IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
+	IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
+EndIf
 
-	If GUICtrlRead($chkCollectTresoryElixir) = $GUI_CHECKED Then
-		IniWrite($config, "other", "CollectTresoryElixir", 1)
-	Else
-		IniWrite($config, "other", "CollectTresoryElixir", 0)
-	EndIf
+If GUICtrlRead($chkCollectTresoryGold) = $GUI_CHECKED Then
+	IniWrite($config, "other", "CollectTresoryGold", 1)
+Else
+	IniWrite($config, "other", "CollectTresoryGold", 0)
+EndIf
 
-	If GUICtrlRead($chkCollectTresoryDark) = $GUI_CHECKED Then
-		IniWrite($config, "other", "CollectTresoryDark", 1)
-	Else
-		IniWrite($config, "other", "CollectTresoryDark", 0)
-	EndIf
+If GUICtrlRead($chkCollectTresoryElixir) = $GUI_CHECKED Then
+	IniWrite($config, "other", "CollectTresoryElixir", 1)
+Else
+	IniWrite($config, "other", "CollectTresoryElixir", 0)
+EndIf
 
-	If GUICtrlRead($chkTRFull) = $GUI_CHECKED Then
-		IniWrite($config, "other", "chkTRFull", 1)
-	Else
-		IniWrite($config, "other", "chkTRFull", 0)
-	EndIf
+If GUICtrlRead($chkCollectTresoryDark) = $GUI_CHECKED Then
+	IniWrite($config, "other", "CollectTresoryDark", 1)
+Else
+	IniWrite($config, "other", "CollectTresoryDark", 0)
+EndIf
 
-	IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
-	IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
+If GUICtrlRead($chkTRFull) = $GUI_CHECKED Then
+	IniWrite($config, "other", "chkTRFull", 1)
+Else
+	IniWrite($config, "other", "chkTRFull", 0)
+EndIf
+
+IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
+IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
+
+If GUICtrlRead($chkAutoHide) = $GUI_CHECKED Then
+	$ichkAutoHide = 1
+Else
+	$ichkAutoHide = 0
+EndIf
+$ichkAutoHideDelay = GUICtrlRead($txtAutoHideDelay)
+
+IniWriteS($config, "general", "AutoHide", $ichkAutoHide)
+IniWriteS($config, "general", "AutoHideDelay", $ichkAutoHideDelay)
+
+; Profile Switch Settings
+If GUICtrlRead($chkGoldSwitchMax) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkGoldSwitchMax", 1)
+Else
+	IniWrite($config, "profiles", "chkGoldSwitchMax", 0)
+EndIf
+IniWrite($config, "profiles", "cmbGoldMaxProfile", _GUICtrlComboBox_GetCurSel($cmbGoldMaxProfile))
+IniWrite($config, "profiles", "txtMaxGoldAmount", GUICtrlRead($txtMaxGoldAmount))
+
+If GUICtrlRead($chkGoldSwitchMin) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkGoldSwitchMin", 1)
+Else
+	IniWrite($config, "profiles", "chkGoldSwitchMin", 0)
+EndIf
+IniWrite($config, "profiles", "cmbGoldMinProfile", _GUICtrlComboBox_GetCurSel($cmbGoldMinProfile))
+IniWrite($config, "profiles", "txtMinGoldAmount", GUICtrlRead($txtMinGoldAmount))
+
+If GUICtrlRead($chkElixirSwitchMax) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkElixirSwitchMax", 1)
+Else
+	IniWrite($config, "profiles", "chkElixirSwitchMax", 0)
+EndIf
+IniWrite($config, "profiles", "cmbElixirMaxProfile", _GUICtrlComboBox_GetCurSel($cmbElixirMaxProfile))
+IniWrite($config, "profiles", "txtMaxElixirAmount", GUICtrlRead($txtMaxElixirAmount))
+
+If GUICtrlRead($chkElixirSwitchMin) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkElixirSwitchMin", 1)
+Else
+	IniWrite($config, "profiles", "chkElixirSwitchMin", 0)
+EndIf
+IniWrite($config, "profiles", "cmbElixirMinProfile", _GUICtrlComboBox_GetCurSel($cmbElixirMinProfile))
+IniWrite($config, "profiles", "txtMinElixirAmount", GUICtrlRead($txtMinElixirAmount))
+
+If GUICtrlRead($chkDESwitchMax) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkDESwitchMax", 1)
+Else
+	IniWrite($config, "profiles", "chkDESwitchMax", 0)
+EndIf
+IniWrite($config, "profiles", "cmbDEMaxProfile", _GUICtrlComboBox_GetCurSel($cmbDEMaxProfile))
+IniWrite($config, "profiles", "txtMaxDEAmount", GUICtrlRead($txtMaxDEAmount))
+
+If GUICtrlRead($chkDESwitchMin) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkDESwitchMin", 1)
+Else
+	IniWrite($config, "profiles", "chkDESwitchMin", 0)
+EndIf
+IniWrite($config, "profiles", "cmbDEMinProfile", _GUICtrlComboBox_GetCurSel($cmbDEMinProfile))
+IniWrite($config, "profiles", "txtMinDEAmount", GUICtrlRead($txtMinDEAmount))
+
+If GUICtrlRead($chkTrophySwitchMax) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkTrophySwitchMax", 1)
+Else
+	IniWrite($config, "profiles", "chkTrophySwitchMax", 0)
+EndIf
+IniWrite($config, "profiles", "cmbTrophyMaxProfile", _GUICtrlComboBox_GetCurSel($cmbTrophyMaxProfile))
+IniWrite($config, "profiles", "txtMaxTrophyAmount", GUICtrlRead($txtMaxTrophyAmount))
+
+If GUICtrlRead($chkTrophySwitchMin) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkTrophySwitchMin", 1)
+Else
+	IniWrite($config, "profiles", "chkTrophySwitchMin", 0)
+EndIf
+IniWrite($config, "profiles", "cmbTrophyMinProfile", _GUICtrlComboBox_GetCurSel($cmbTrophyMinProfile))
+IniWrite($config, "profiles", "txtMinTrophyAmount", GUICtrlRead($txtMinTrophyAmount))
