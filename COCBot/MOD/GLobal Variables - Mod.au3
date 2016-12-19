@@ -17,71 +17,64 @@
 Global $profile = $sProfilePath & "\Profile.ini"
 Global $aconfig[8]
 Global $ichkSwitchAcc = 0
-
 Global $icmbTotalCoCAcc		; 0 = 6, 1 = 1 account, 2 = 2 accounts
 Global $nTotalCoCAcc = 6
 Global $ichkSmartSwitch = 1
-
 Global $ichkCloseTraining = 0
-
 Global $nCurProfile = 1
 Global $ProfileList
 Global $nTotalProfile = 1
-
 Global $ProfileType			; Type of the Current Profile, 1 = active, 2 = donate, 3 = idle
 Global $aProfileType[8]		; Type of the all Profiles, 1 = active, 2 = donate, 3 = idle
-
 Global $MatchProfileAcc		; Account match with Current Profile
 Global $aMatchProfileAcc[8]	; Accounts match with All Profiles
-
 Global $DonateSwitchCounter = 0
-
 Global $bReMatchAcc = False
-
 Global $aTimerStart[8]
 Global $aTimerEnd[8]
 Global $aRemainTrainTime[8]
 Global $aUpdateRemainTrainTime[8]
 Global $nNexProfile
 Global $nMinRemainTrain
-
 Global $aAccPosY[6]
-
-#CS
-; Variables for SmartZap - DEMEN
-; SmartZap GUI variables
-Global $ichkSmartZap = 1
-Global $ichkSmartZapDB = 1
-Global $ichkSmartZapSaveHeroes = 1
-Global $itxtMinDE = 300
-
-; SmartZap stats
-Global $smartZapGain = 0
-Global $numLSpellsUsed = 0
-Global $iOldsmartZapGain = 0, $iOldNumLTSpellsUsed = 0
-
-; SmartZap Array to hold Total Amount of DE available from Drill at each level (1-6)
-Global Const $drillLevelHold[6] = [	120, _
-												225, _
-												405, _
-												630, _
-												960, _
-												1350]
-
-; SmartZap Array to hold Amount of DE available to steal from Drills at each level (1-6)
-Global Const $drillLevelSteal[6] = [59, _
-                                    102, _
-												172, _
-												251, _
-												343, _
-												479]
-#CE
 
 ; Multi Finger Attack Style Setting- added rulesss
 Global Enum $directionLeft, $directionRight
 Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
 Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
-
 Global $iMultiFingerStyle = 1
-
 Global Enum  $eCCSpell = $eHaSpell + 1
+
+; CSV Speed
+Global $cmbCSVSpeed[2] = [$LB, $DB]
+Global $icmbCSVSpeed[2] = [$LB, $DB]
+Global $Divider
+
+; CoCStats
+Global $ichkCoCStats = 0
+Global $stxtAPIKey = ""
+Global $MyApiKey = ""
+
+; SmartUpgrade
+Global $ichkSmartUpgrade
+Global $ichkIgnoreTH, $ichkIgnoreKing, $ichkIgnoreQueen, $ichkIgnoreWarden, $ichkIgnoreCC, $ichkIgnoreLab
+Global $ichkIgnoreBarrack, $ichkIgnoreDBarrack, $ichkIgnoreFactory, $ichkIgnoreDFactory, $ichkIgnoreGColl, $ichkIgnoreEColl, $ichkIgnoreDColl
+Global $iSmartMinGold, $iSmartMinElixir, $iSmartMinDark
+Global $upgradeAvailable = 0
+Global $SufficentRessources = 0
+global $CanUpgrade = 0
+Global $upgradeX = 0, $upgradeY = 0
+Global $zerosX = 0, $zerosY = 0
+Global $zerosHere = 0
+Global $sBldgText, $sBldgLevel, $aString
+Global $upgradeName[3] = ["", "", ""]
+Global $UpgradeCost
+Global $TypeFound = 0
+Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
+Global $UpgradeDuration
+Global $canContinueLoop = 1
+Global $YtoDelete = 100
+
+;Trsorerie
+Global $ichkTrap, $iChkCollect, $ichkTombstones, $ichkCleanYard, $itxtTreasuryGold, $itxtTreasuryElixir, $itxtTreasuryDark, $ichkCollectTresory, $chkCollectTresory
+Global $chkCollectTresoryGold, $ichkCollectTresoryGold, $chkCollectTresoryElixir, $ichkCollectTresoryElixir, $chkCollectTresoryDark, $ichkCollectTresoryDark, $ichkTRFull
