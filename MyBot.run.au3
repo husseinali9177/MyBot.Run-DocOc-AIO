@@ -45,10 +45,10 @@ Global $hBotLaunchTime = TimerInit()
 
 Global $sBotVersion = "v6.2.2" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it it also use on Checkversion()
 Global $sModversion = "v3.4.1" ;<== Just Change This to Version Number
-Global $sAIOVersion = "@RoroTiti's DocOc AIO v0.7.1" ;<== Just Change This to Version Number
+Global $sAIOVersion = "DocOc++ v0.7.1" ;<== Just Change This to Version Number
 Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/24893-mybotrun-dococ-v322-oct-sc-update/" ;<== Our Website Link Or Link Download
 
-Global $sBotTitle = "My Bot " & $sBotVersion & "  DocOc " & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+Global $sBotTitle = "My Bot " & $sBotVersion & " - " & $sAIOVersion & " (DocOc " & $sModversion & ") " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 #include "COCBot\functions\Config\DelayTimes.au3"
 #include "COCBot\MBR Global Variables.au3"
 _GDIPlus_Startup()
@@ -206,11 +206,12 @@ SetComboTroopComp()
 ;~ Update profile to write config for SwitchAcc Mode - DEMEN
 btnUpdateProfile()
 
-SetLog("================================================", $COLOR_RED) ; Message Log at start
+SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
-SetLog("           Welcome to the " & $sAIOVersion & "!", $COLOR_RED) ; Message Log at start
+SetLog("                       Welcome to " & $sAIOVersion & "!", $COLOR_RED) ; Message Log at start
+SetLog("                 Made with love by the DocOc++ Team!", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
-SetLog("================================================", $COLOR_RED) ; Message Log at start
+SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
 
 ;~ Remember time in Milliseconds bot launched
