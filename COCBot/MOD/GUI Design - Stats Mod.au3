@@ -27,7 +27,7 @@ Global $lblGoldLootAcc[8], $lblElixirLootAcc[8], $lblDarkLootAcc[8], $lblHourlyS
 Global $grpVillageAcc[8], $lblResultGoldNowAcc[8], $lblResultElixirNowAcc[8], $lblResultDENowAcc[8], $lblResultTrophyNowAcc[8], $lblResultBuilderNowAcc[8], $lblResultGemNowAcc[8]
 Global $aStartHide[8]
 
-$grpProfileStats = GUICtrlCreateGroup("Gain stats per Profile", $x - 22, $y - 15, 427, 330)
+$grpProfileStats = GUICtrlCreateGroup("Gain stats per Profile", $x - 20, $y - 20, 427, 330)
 For $i = 0 To 3
 	$x = $xStart - 60
 	$y = $yStart

@@ -216,6 +216,7 @@ $btnColorIdleShield = GUICtrlCreateButton("Idle Shield", $x, $y + 25, 70, -1)
 	GUICtrlSetOnEvent(-1, "btnColorIdleShield")
 	_GUICtrlSetTip(-1, "Set the Inactive Android Shield's Color")
 $x += 70
+$y += 1
 $sldrTransparancyShield = GUICtrlCreateSlider($x, $y, 140, -1, BitOR($TBS_TOOLTIPS, $TBS_NOTICKS))
 	GUICtrlSetLimit(-1, 255, 1)
 	GUICtrlSetBkColor(-1, 0xFFFFFF)
