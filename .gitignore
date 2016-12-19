@@ -30,7 +30,7 @@
 ![Mm]yBotBugTracker.exe
 
 # Exclusion Language .ini's
-![Ll]anguages/*.ini
+#![Ll]anguages/*.ini
 
 # Exclusion Extensions file
 ![Ee]xtensions.txt
