@@ -15,9 +15,9 @@
 ; ===============================================================================================================================
 Func Collect()
 	Local $ImagesToUse[3]
-	$ImagesToUse[0] = @ScriptDir & "\imgxml\Treasury\Resources\Treasury_0_95.xml"
-	$ImagesToUse[1] = @ScriptDir & "\imgxml\Treasury\Resources\Collect_0_95.xml"
-	$ImagesToUse[2] = @ScriptDir & "\imgxml\Treasury\Resources\CollectOkay_0_95.xml"
+	$ImagesToUse[0] = @ScriptDir & "\imgxml\Resources\Treasury\Treasury_0_95.xml"
+	$ImagesToUse[1] = @ScriptDir & "\imgxml\Resources\Treasury\Collect_0_95.xml"
+	$ImagesToUse[2] = @ScriptDir & "\imgxml\Resources\Treasury\CollectOkay_0_95.xml"
 
 	If $RunState = False Then Return
 
