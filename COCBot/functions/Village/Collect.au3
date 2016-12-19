@@ -129,36 +129,6 @@ Func Collect()
 		EndIf
 	EndIf
 
-	VillageReport(True, True)
-	$tempCounter = 0
-	While ($iGoldCurrent = "" Or $iElixirCurrent = "" Or ($iDarkCurrent = "" And $iDarkStart <> "")) And $tempCounter < 3
-		$tempCounter += 1
-		VillageReport(True, True)
-	WEnd
-
-	If $tempGold <> "" And $iGoldCurrent <> "" Then
-		$tempGoldCollected = $iGoldCurrent - $tempGold
-		$iGoldFromMines += $tempGoldCollected
-		$iGoldTotal += $tempGoldCollected
-		If $ichkSwitchAcc = 1 Then $aGoldTotalAcc[$nCurProfile - 1] += $tempGoldCollected ; Separate Stats per Each Account - SwitchAcc Mode - DEMEN
-	EndIf
-
-	If $tempElixir <> "" And $iElixirCurrent <> "" Then
-		$tempElixirCollected = $iElixirCurrent - $tempElixir
-		$iElixirFromCollectors += $tempElixirCollected
-		$iElixirTotal += $tempElixirCollected
-		If $ichkSwitchAcc = 1 Then $aElixirTotalAcc[$nCurProfile - 1] += $tempElixirCollected ; Separate Stats per Each Account - SwitchAcc Mode - DEMEN
-	EndIf
-
-	If $tempDElixir <> "" And $iDarkCurrent <> "" Then
-		$tempDElixirCollected = $iDarkCurrent - $tempDElixir
-		$iDElixirFromDrills += $tempDElixirCollected
-		$iDarkTotal += $tempDElixirCollected
-		If $ichkSwitchAcc = 1 Then $aDarkTotalAcc[$nCurProfile - 1] += $tempDElixirCollected ; Separate Stats per Each Account - SwitchAcc Mode - DEMEN
-	EndIf
-
-	UpdateStats()
-
 	If $ichkCollectTresory = 1 And $ichkTRFull = 1 Then
 		If ($aCCPos[0] = "-1" Or $aCCPos[1] = "-1") Then
 			SetLog("Castle Clan unlocated, please locate manually.", $COLOR_RED)

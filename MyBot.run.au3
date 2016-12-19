@@ -574,7 +574,11 @@ Func Idle() ;Sequence that runs until Full Army
 		If $iChkSnipeWhileTrain = 1 Then SnipeWhileTrain() ;snipe while train
 
 		If $CommandStop = -1 Then ; Check if closing bot/emulator while training and not in halt mode
-			SmartWait4Train()
+			If $ichkSwitchAcc = 1 Then ; SwitchAcc - DEMEN
+				checkSwitchAcc() ; SwitchAcc - DEMEN
+			Else ; SwitchAcc - DEMEN
+				SmartWait4Train()
+			EndIf
 			If $Restart = True Then ExitLoop ; if smart wait activated, exit to runbot in case user adjusted GUI or left emulator/bot in bad state
 		EndIf
 

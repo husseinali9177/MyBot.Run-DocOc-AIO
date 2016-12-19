@@ -744,3 +744,4 @@ Func chkSpellWaitError()
 		Return
 	EndIf
 EndFunc
+
