@@ -51,7 +51,7 @@ Local $x = 25, $y = 20
 		$chkSmartAttackRedAreaDB = GUICtrlCreateCheckbox(GetTranslated(608,17, "Use Smart Attack: Near Red Line."), $x, $y, -1, -1)
 			$txtTip = GetTranslated(608,18, "Use Smart Attack to detect the outer 'Red Line' of the village to attack. And drop your troops close to it.")
 			_GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkSmartAttackRedAreaDB")
 		$y += 22
 		$lblSmartDeployDB = GUICtrlCreateLabel(GetTranslated(608,19, "Drop Type") & ":", $x, $y + 5, -1, -1)

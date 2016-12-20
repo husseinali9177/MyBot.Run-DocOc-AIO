@@ -323,5 +323,6 @@ Func Collect()
 		$iDElixirFromDrills += $tempDElixirCollected
 		$iDarkTotal += $tempDElixirCollected
 	EndIf
+
 	UpdateStats()
 EndFunc   ;==>Collect

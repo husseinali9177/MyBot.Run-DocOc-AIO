@@ -26,7 +26,6 @@ Func cmbProfile()
 	saveConfig()
 
 	SetLog("Profile " & $sCurrProfile & " loaded from " & $config, $COLOR_SUCCESS)
-
 EndFunc   ;==>cmbProfile
 
 Func btnAddConfirm()
@@ -74,7 +73,7 @@ Func btnAddConfirm()
 			If GUICtrlGetState($btnRecycle) <> $GUI_ENABLE Then GUICtrlSetState($btnRecycle, $GUI_ENABLE)
 			; IceCube (Misc v1.0)
 		Case Else
-			SetLog("If you are seeing this log message there is something wrong.", $COLOR_RED)
+			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
 EndFunc   ;==>btnAddConfirm
 
@@ -109,7 +108,7 @@ Func btnDeleteCancel()
 			GUICtrlSetState($btnRecycle, $GUI_SHOW)
 			; IceCube (Misc v1.0)
 		Case Else
-			SetLog("If you are seeing this log message there is something wrong.", $COLOR_RED)
+			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
 
 	If GUICtrlRead($cmbProfile) = "<No Profiles>" Then
@@ -120,15 +119,6 @@ Func btnDeleteCancel()
 		; IceCube (Misc v1.0)
 	EndIf
 EndFunc   ;==>btnDeleteCancel
-
-; IceCube (Misc v1.0)
-Func btnRecycle()
-	FileDelete($config)
-	SaveConfig()
-	SetLog("Profile " & $sCurrProfile & " was recycled with success", $COLOR_GREEN)
-	SetLog("All unused settings were removed", $COLOR_GREEN)
-EndFunc   ;==>btnRecycle
-; IceCube (Misc v1.0)
 
 Func btnRenameConfirm()
 	Switch @GUI_CtrlId
@@ -171,10 +161,9 @@ Func btnRenameConfirm()
 			GUICtrlSetState($btnRecycle, $GUI_SHOW)
 			; IceCube (Misc v1.0)
 		Case Else
-			SetLog("If you are seeing this log message there is something wrong.", $COLOR_RED)
+			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
 EndFunc   ;==>btnRenameConfirm
-
 Func cmbBotCond()
 	If _GUICtrlComboBox_GetCurSel($cmbBotCond) = 15 Then
 		If _GUICtrlComboBox_GetCurSel($cmbHoursStop) = 0 Then _GUICtrlComboBox_SetCurSel($cmbHoursStop, 1)
@@ -361,47 +350,3 @@ Func chkTrophyRange()
 		GUICtrlSetState($lblDTArmypercent, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkTrophyRange
-
-Func setupProfileComboBoxswitch()
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbGoldMaxProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbGoldMaxProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbGoldMinProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbGoldMinProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbElixirMaxProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbElixirMaxProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbElixirMinProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbElixirMinProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbDEMaxProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbDEMaxProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbDEMinProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbDEMinProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbTrophyMaxProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbTrophyMaxProfile, $profileString, "<No Profiles>")
-		; Clear the combo box current data in case profiles were deleted
-		GUICtrlSetData($cmbTrophyMinProfile, "", "")
-		; Set the new data of available profiles
-		GUICtrlSetData($cmbTrophyMinProfile, $profileString, "<No Profiles>")
-
-		For $x = 0 To 5
-			GUICtrlSetData($cmbAccount[$x], "", "")
-		Next
-
-		For $x = 0 To 5
-			GUICtrlSetData($cmbAccount[$x], $profileString, "<No Profiles>")
-		Next
-
-EndFunc   ;==>setupProfileComboBox

@@ -166,7 +166,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						[$eMini,  $nbSides, 1, 1, 0], _
 						["CC",           1, 1, 1, 1], _
 						["HEROES",       1, 2, 1, 1]]
-; ============= Classic FourFinger
 
 ; Multi Finger Attack by rulesss
 ElseIf $nbSides = 6 Then

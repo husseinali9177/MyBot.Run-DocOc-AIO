@@ -184,7 +184,6 @@
 #include "functions\Other\CheckPrerequisites.au3"
 #include "functions\Other\CheckDisplay.au3"
 #include "functions\Other\AutoStart.au3"
-#include "functions\Other\AutoHide.au3"
 #include "functions\Other\WindowsArrange.au3"
 #include "functions\Other\MakeScreenshot.au3"
 #include "functions\Other\ClickDrag.au3"
@@ -290,8 +289,10 @@
 #include "functions\RoroTiti MODs\CoCStats.com.au3"
 #include "functions\RoroTiti MODs\SmartUpgrade.au3"
 #include "functions\RoroTiti MODs\TreasuryCollect.au3"
-#include "functions\RoroTiti MODs\GUIControl.au3"
-#include "functions\Village\ProfileSwitch.au3"
+
+#include "functions\RoroTiti MODs\AutoHide.au3"
+#include "functions\RoroTiti MODs\ProfileSwitch.au3"
+
 ; Attack Profile Vectors files - Added by LunaEclipse
 #include "functions\RoroTiti MODs\\Multi Fingers\Vectors\fourFingerStandard.au3"
 #include "functions\RoroTiti MODs\Multi Fingers\Vectors\fourFingerSpiralLeft.au3"

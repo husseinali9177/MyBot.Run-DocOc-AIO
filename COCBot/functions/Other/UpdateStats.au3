@@ -247,6 +247,7 @@ Func UpdateStats()
 
 	If $iOldSkippedVillageCount <> $iSkippedVillageCount Then
 		GUICtrlSetData($lblresultvillagesskipped, _NumberFormat($iSkippedVillageCount, True))
+		GUICtrlSetData($lblResultSkippedHourNow, _NumberFormat($iSkippedVillageCount, True))
 		$iOldSkippedVillageCount = $iSkippedVillageCount
 	EndIf
 
@@ -383,6 +384,7 @@ Func UpdateStats()
 
 	If $iOldAttackedCount <> $iAttackedCount Then
 		GUICtrlSetData($lblresultvillagesattacked, _NumberFormat($iAttackedCount, True))
+		GUICtrlSetData($lblResultAttackedHourNow, _NumberFormat($iAttackedCount, True))
 		$iOldAttackedCount = $iAttackedCount
 	EndIf
 
@@ -415,18 +417,17 @@ Func UpdateStats()
 		EndIf
 		GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 
-			GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
-			GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
-			If $iDarkStart <> "" Then
-				GUICtrlSetData($lblResultDEHourNow, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
-			EndIf
+		GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
+		GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
+		If $iDarkStart <> "" Then
+			GUICtrlSetData($lblResultDEHourNow, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
+		EndIf
 
 	EndIf
-
-	; ============================================================================
+    ; ============================================================================
     ; ====================== Stats Top Loot - Added by DocOC team ======================
     ; ============================================================================
-    If Number($iGoldLast) > Number($topgoldloot) Then
+	If Number($iGoldLast) > Number($topgoldloot) Then
 		$topgoldloot = $iGoldLast
 		GUICtrlSetData($lbltopgoldloot,_NumberFormat($topgoldloot))
 	EndIf
@@ -445,11 +446,10 @@ Func UpdateStats()
 		$topTrophyloot = $iTrophylast
 		GUICtrlSetData($lbltopTrophyloot,_NumberFormat($topTrophyloot))
 	EndIf
-    ; ============================================================================
+
+	; ============================================================================
     ; ====================== Stats Top Loot - Added by DocOC team ======================
     ; ============================================================================
-
-
 	If $ResetStats = 1 Then
 		$ResetStats = 0
 	EndIf
@@ -503,7 +503,6 @@ Func ResetStats()
 	$iGoldFromMines = 0
 	$iElixirFromCollectors = 0
 	$iDElixirFromDrills = 0
-
 ; ======================= SmartZap - Added by NTS team =======================
 	$smartZapGain = 0
 	$numLSpellsUsed = 0

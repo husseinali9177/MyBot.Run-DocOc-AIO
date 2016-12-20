@@ -317,23 +317,23 @@ Func TrainDonateOnlyLoop()
 
 	If $IsDonateAccount = 1 Then
 
-			DonateCC()
-			randomSleep(1000)
-			DonateCC()
+		DonateCC()
+		randomSleep(1000)
+		DonateCC()
 
-			randomSleep(2000)
-			TestTrainRevamp()
-			randomSleep(10000)
+		randomSleep(2000)
+		TestTrainRevamp()
+		randomSleep(10000)
 
-			DonateCC()
-			randomSleep(1000)
-			DonateCC()
+		DonateCC()
+		randomSleep(1000)
+		DonateCC()
 
-			randomSleep(2000)
-			TestTrainRevamp()
-			randomSleep(2000)
+		randomSleep(2000)
+		TestTrainRevamp()
+		randomSleep(2000)
 
-			SwitchAccount()
+		SwitchAccount()
 
 	EndIf
 

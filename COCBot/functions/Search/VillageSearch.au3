@@ -354,7 +354,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 		$iSkipped = $iSkipped + 1
 		$iSkippedVillageCount += 1
-
 		If $iTownHallLevel <> "" Then
 			$iSearchCost += $aSearchCost[$iTownHallLevel - 1]
 			$iGoldTotal -= $aSearchCost[$iTownHallLevel - 1]

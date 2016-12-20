@@ -33,7 +33,6 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 	If _Sleep($iDelayRespond) Then Return
 
 	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-
 	If Not $bSuppressLog Then Setlog(" [T]: " & _NumberFormat($iTrophyCurrent), $COLOR_GREEN)
 
 	If _ColorCheck(_GetPixelColor(812, 141, True), Hex(0x000000, 6), 10) Then ; check if the village have a Dark Elixir Storage

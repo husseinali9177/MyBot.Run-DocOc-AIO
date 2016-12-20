@@ -1097,7 +1097,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$ichkSmartZapSaveHeroes = IniRead($config, "SmartZap", "THSnipeSaveHeroes", "1")
 		$itxtMinDE = IniRead($config, "SmartZap", "MinDE", "250")
 		$ichkNoobZap = IniRead($config, "SmartZap", "UseNoobZap", "0")
-		$itxtExpectedDE = IniRead($config, "SmartZap", "ExpectedDE", "95")
+		$itxtExpectedDE = IniRead($config, "SmartZap", "ExpectedDE", "120")
 		$DebugSmartZap = IniRead($config, "SmartZap", "DebugSmartZap", "0")
 		IniReadS($sMinTimeCloseATK, $config, "SmartZap", "MinTimeCloseATK", "15")
 

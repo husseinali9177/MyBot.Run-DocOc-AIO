@@ -620,9 +620,6 @@ Func AttackMain() ;Main control for attack functions
 			Setlog("No one of search condition match:", $COLOR_BLUE)
 			Setlog("Waiting on troops, heroes and/or spells according to search settings", $COLOR_BLUE)
 			GetReadTimeHeroesAndSpell()
-
-			SmartWait4Train()
-
 		EndIf
 	Else
 		SetLog("Attacking Not Planned, Skipped..", $COLOR_RED)

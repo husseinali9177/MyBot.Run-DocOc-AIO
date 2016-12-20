@@ -214,14 +214,11 @@ Func AttackReport()
 	If $FirstAttack = 0 Then $FirstAttack = 1
 	$iGoldTotal += $iGoldLast + $iGoldLastBonus
 	$iTotalGoldGain[$iMatchMode] += $iGoldLast + $iGoldLastBonus
-
 	$iElixirTotal += $iElixirLast + $iElixirLastBonus
 	$iTotalElixirGain[$iMatchMode] += $iElixirLast + $iElixirLastBonus
-
 	If $iDarkStart <> "" Then
 		$iDarkTotal += $iDarkLast + $iDarkLastBonus
 		$iTotalDarkGain[$iMatchMode] += $iDarkLast + $iDarkLastBonus
-
 	EndIf
 	$iTrophyTotal += $iTrophyLast
 	$iTotalTrophyGain[$iMatchMode] += $iTrophyLast

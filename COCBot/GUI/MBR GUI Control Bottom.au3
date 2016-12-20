@@ -58,7 +58,6 @@ Func Initiate()
 		If Not $RunState Then Return
 
 		ZoomOut()
-
 		If Not $RunState Then Return
 
 		If Not $bSearchMode Then
