@@ -142,7 +142,7 @@ Func CheckAccountsInUse()
 	$TotalAccountsInUse = 5
 	For $x = 1 To 5
 		If GUICtrlRead($chkCanUse[$x]) = $GUI_UNCHECKED Then
-			$AllAccountsWaitTimeDiff[$x] = 999999999
+			$AllAccountsWaitTimeDiff[$x] = 999999999999
 			$TotalAccountsInUse -= 1
 		EndIf
 	Next
@@ -154,7 +154,7 @@ Func CheckDAccountsInUse()
 	$TotalDAccountsInUse = 0
 	For $x = 1 To 5
 		If GUICtrlRead($chkDonateAccount[$x]) = $GUI_CHECKED Then
-			$AllAccountsWaitTimeDiff[$x] = 999999999
+			$AllAccountsWaitTimeDiff[$x] = 999999999999
 			$TotalDAccountsInUse += 1
 		EndIf
 	Next
