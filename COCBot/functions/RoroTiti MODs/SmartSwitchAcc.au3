@@ -17,43 +17,41 @@ Func SwitchAccount($Init = False)
 
 	If $ichkSwitchAccount = 1 Then
 
-		If $Init Then $FirstInit = 1
+		If $Init Then $FirstInit = False
 
 		Setlog("Starting SmartSwitchAccount...", $COLOR_GREEN)
 
 		MakeSummaryLog()
-		If $IsDonateAccount = 0 Then GetWaitTime()
+		If Not $IsDonateAccount Then GetWaitTime()
 
-		If $CurrentAccountWaitTime = 0 And Not $Init And $IsDonateAccount = 0 Then
+		If $CurrentAccountWaitTime = 0 And Not $Init And Not $IsDonateAccount Then
 
 			SetLog("Your Army is ready so I stay here, I'm a thug !!! ;P", $COLOR_GREEN)
 
 		Else
 
-			If $FirstLoop < $TotalAccountsInUse And Not $Init Then
+			If $Init Then
+				SetLog("Initialization of SmartSwitchAccount...", $COLOR_BLUE)
+				$FirstLoop = 1
+				$NextAccount = 1
+				GetYCoordinates($NextAccount)
+			ElseIf $FirstLoop < $TotalAccountsInUse And Not $Init Then
 				SetLog("Continue initialization of SmartSwitchAccount...", $COLOR_BLUE)
-
 				$NextAccount = $CurrentAccount
 				Do
 					$NextAccount += 1
 					If $NextAccount > $TotalAccountsOnEmu Then $NextAccount = 1
-				Until GUICtrlRead($chkCanUse[$NextAccount]) = $GUI_CHECKED
+				Until $ichkCanUse[$NextAccount] = 1
 				$FirstLoop += 1
-
 				SetLog("Next Account will be : " & $NextAccount, $COLOR_BLUE)
 				GetYCoordinates($NextAccount)
 			ElseIf $FirstLoop >= $TotalAccountsInUse And Not $Init Then
 				SetLog("Switching to next Account...", $COLOR_BLUE)
 				GetNextAccount()
 				GetYCoordinates($NextAccount)
-			ElseIf $Init Then
-				SetLog("Initialization of SmartSwitchAccount...", $COLOR_BLUE)
-				$FirstLoop = 1
-				$NextAccount = 1
-				GetYCoordinates($NextAccount)
 			EndIf
 
-			If ($NextAccount = $CurrentAccount And Not $Init And $FirstLoop >= $TotalAccountsInUse) Then
+			If $NextAccount = $CurrentAccount And Not $Init And $FirstLoop >= $TotalAccountsInUse Then
 
 				SetLog("Next Account is already the account we are on, no need to change...", $COLOR_GREEN)
 
@@ -102,6 +100,10 @@ Func SwitchAccount($Init = False)
 
 			EndIf
 		EndIf
+	Else
+
+		$FirstInit = False
+
 	EndIf
 
 EndFunc   ;==>SwitchAccount
@@ -117,12 +119,14 @@ Func GetWaitTime()
 	$aTimeTrain[0] = 0
 	$aTimeTrain[1] = 0
 	$HeroesRemainingWait = 0
+
 	openArmyOverview()
 	Sleep(1500)
 	getArmyTroopTime()
 	If IsWaitforSpellsActive() Then getArmySpellTime()
 	If IsWaitforHeroesActive() Then $HeroesRemainingWait = getArmyHeroTime("all")
 	ClickP($aAway, 1, 0, "#0167") ;Click Away
+
 	Local $MaxTime[3] = [$aTimeTrain[0], $aTimeTrain[1], $HeroesRemainingWait]
 	$CurrentAccountWaitTime = _ArrayMax($MaxTime)
 	$AllAccountsWaitTime[$CurrentAccount] = $CurrentAccountWaitTime
@@ -141,7 +145,7 @@ Func CheckAccountsInUse()
 
 	$TotalAccountsInUse = 5
 	For $x = 1 To 5
-		If GUICtrlRead($chkCanUse[$x]) = $GUI_UNCHECKED Then
+		If $ichkCanUse[$x] = 0 Then
 			$AllAccountsWaitTimeDiff[$x] = 999999999999
 			$TotalAccountsInUse -= 1
 		EndIf
@@ -153,7 +157,7 @@ Func CheckDAccountsInUse()
 
 	$TotalDAccountsInUse = 0
 	For $x = 1 To 5
-		If GUICtrlRead($chkDonateAccount[$x]) = $GUI_CHECKED Then
+		If $ichkDonateAccount[$x] = 1 Then
 			$AllAccountsWaitTimeDiff[$x] = 999999999999
 			$TotalDAccountsInUse += 1
 		EndIf
@@ -171,7 +175,8 @@ Func GetNextAccount()
 		Do
 			$NextDAccount += 1
 			If $NextDAccount > $TotalAccountsOnEmu Then $NextDAccount = 1
-		Until GUICtrlRead($chkCanUse[$NextDAccount]) = $GUI_CHECKED And GUICtrlRead($chkDonateAccount[$NextDAccount]) = $GUI_CHECKED
+		Until $ichkCanUse[$NextDAccount] = 1 And $ichkDonateAccount[$NextDAccount] = 1
+
 
 		SetLog("So, next Account will be : " & $NextDAccount, $COLOR_GREEN)
 
@@ -183,7 +188,7 @@ Func GetNextAccount()
 	Else
 
 		For $x = 1 To 5
-			If GUICtrlRead($chkCanUse[$x]) = $GUI_CHECKED And GUICtrlRead($chkDonateAccount[$x]) = $GUI_UNCHECKED Then
+			If $ichkCanUse[$x] = 1 And $ichkDonateAccount[$x] = 0 Then
 				$TimerDiffEnd[$x] = TimerDiff($TimerDiffStart[$x])
 				$AllAccountsWaitTimeDiff[$x] = Round($AllAccountsWaitTime[$x] * 60 * 1000 - $TimerDiffEnd[$x])
 				If Round($AllAccountsWaitTimeDiff[$x] / 60 / 1000, 2) <= 0 Then
@@ -258,60 +263,106 @@ Func chkCanUse()
 		For $i = $cmbAccount[1] To $chkDonateAccount[1]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		$ichkCanUse[1] = 1
 	Else
 		For $i = $cmbAccount[1] To $chkDonateAccount[1]
 			GUICtrlSetState($i, $GUI_DISABLE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
+		$ichkCanUse[1] = 0
 	EndIf
 
 	If GUICtrlRead($chkCanUse[2]) = $GUI_CHECKED Then
 		For $i = $cmbAccount[2] To $chkDonateAccount[2]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		$ichkCanUse[2] = 1
 	Else
 		For $i = $cmbAccount[2] To $chkDonateAccount[2]
 			GUICtrlSetState($i, $GUI_DISABLE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
+		$ichkCanUse[2] = 0
 	EndIf
 
 	If GUICtrlRead($chkCanUse[3]) = $GUI_CHECKED Then
 		For $i = $cmbAccount[3] To $chkDonateAccount[3]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		$ichkCanUse[3] = 1
 	Else
 		For $i = $cmbAccount[3] To $chkDonateAccount[3]
 			GUICtrlSetState($i, $GUI_DISABLE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
+		$ichkCanUse[3] = 0
 	EndIf
 
 	If GUICtrlRead($chkCanUse[4]) = $GUI_CHECKED Then
 		For $i = $cmbAccount[4] To $chkDonateAccount[4]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		$ichkCanUse[4] = 1
 	Else
 		For $i = $cmbAccount[4] To $chkDonateAccount[4]
 			GUICtrlSetState($i, $GUI_DISABLE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
+		$ichkCanUse[4] = 0
 	EndIf
 
 	If GUICtrlRead($chkCanUse[5]) = $GUI_CHECKED Then
 		For $i = $cmbAccount[5] To $chkDonateAccount[5]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		$ichkCanUse[5] = 1
 	Else
 		For $i = $cmbAccount[5] To $chkDonateAccount[5]
 			GUICtrlSetState($i, $GUI_DISABLE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
+		$ichkCanUse[5] = 0
 	EndIf
 
 	MakeSummaryLog()
 
 EndFunc   ;==>chkCanUse
+
+Func chkDonateAccount()
+
+	If GUICtrlRead($chkDonateAccount[1]) = $GUI_CHECKED Then
+		$ichkDonateAccount[1] = 1
+	Else
+		$ichkDonateAccount[1] = 0
+	EndIf
+
+	If GUICtrlRead($chkDonateAccount[2]) = $GUI_CHECKED Then
+		$ichkDonateAccount[2] = 1
+	Else
+		$ichkDonateAccount[2] = 0
+	EndIf
+
+	If GUICtrlRead($chkDonateAccount[3]) = $GUI_CHECKED Then
+		$ichkDonateAccount[3] = 1
+	Else
+		$ichkDonateAccount[3] = 0
+	EndIf
+
+	If GUICtrlRead($chkDonateAccount[4]) = $GUI_CHECKED Then
+		$ichkDonateAccount[4] = 1
+	Else
+		$ichkDonateAccount[4] = 0
+	EndIf
+
+	If GUICtrlRead($chkDonateAccount[5]) = $GUI_CHECKED Then
+		$ichkDonateAccount[5] = 1
+	Else
+		$ichkDonateAccount[5] = 0
+	EndIf
+
+	MakeSummaryLog()
+
+EndFunc   ;==>chkDonateAccount
 
 Func TrainDonateOnlyLoop()
 
@@ -341,11 +392,11 @@ EndFunc   ;==>TrainDonateOnlyLoop
 
 Func IdentifyDonateOnly()
 
-	If $ichkSwitchAccount = 1 And GUICtrlRead($chkDonateAccount[$CurrentAccount]) = $GUI_CHECKED And ($FirstLoop >= $TotalAccountsInUse) Then
-		$IsDonateAccount = 1
+	If $ichkSwitchAccount = 1 And $ichkDonateAccount[$CurrentAccount] = 1 And ($FirstLoop >= $TotalAccountsInUse) Then
+		$IsDonateAccount = True
 		SetLog("Current Account is a Train/Donate Only Account...", $COLOR_ORANGE)
 	Else
-		$IsDonateAccount = 0
+		$IsDonateAccount = False
 		SetLog("Current Account is not a Train/Donate Only Account...", $COLOR_ORANGE)
 	EndIf
 

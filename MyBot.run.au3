@@ -245,9 +245,7 @@ WEnd
 
 Func runBot() ;Bot that runs everything in order
 
-	If $FirstInit = 0 Then
-		SwitchAccount(True)
-	EndIf
+	If $FirstInit Then SwitchAccount(True)
 
 	$TotalTrainedTroops = 0
 	Local $Quickattack = False
