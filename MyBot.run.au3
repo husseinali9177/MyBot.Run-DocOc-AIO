@@ -203,9 +203,6 @@ LoadAmountOfResourcesImages()
 CheckVersion() ; check latest version on mybot.run site
 SetComboTroopComp()
 
-;~ Update profile to write config for SwitchAcc Mode - DEMEN
-btnUpdateProfile()
-
 SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
 SetLog("                       Welcome to " & $sAIOVersion & "!", $COLOR_RED) ; Message Log at start
@@ -248,11 +245,8 @@ WEnd
 
 Func runBot() ;Bot that runs everything in order
 
-	If $ichkSwitchAcc = 1 And $bReMatchAcc = True Then ; SwitchAcc - DEMEN
-		$nCurProfile = _GUICtrlComboBox_GetCurSel($cmbProfile) + 1
-		Setlog("Rematching Profile [" & $nCurProfile & "] - " & $ProfileList[$nCurProfile] & " (CoC Acc. " & $aMatchProfileAcc[$nCurProfile - 1] & ")")
-		SwitchCoCAcc()
-		$bReMatchAcc = False
+	If $FirstInit = 0 Then
+		SwitchAccount(True)
 	EndIf
 
 	$TotalTrainedTroops = 0
@@ -328,6 +322,7 @@ Func runBot() ;Bot that runs everything in order
 			If $Restart = True Then ContinueLoop
 
 			DonateCC()
+			TrainDonateOnlyLoop()
 
 			If _Sleep($iDelayRunBot3) Then Return
 			If IsSearchAttackEnabled() Then ; if attack is disabled skip reporting, requesting, donating, training, and boosting
@@ -381,8 +376,6 @@ Func runBot() ;Bot that runs everything in order
 				UpgradeWall()
 				If _Sleep($iDelayRunBot3) Then Return
 				If $Restart = True Then ContinueLoop
-
-				If $ichkSwitchAcc = 1 And $aProfileType[$nCurProfile - 1] = 2 Then checkSwitchAcc() ;  Switching to active account after donation - SwitchAcc for  - DEMEN
 
 				Idle()
 				;$fullArmy1 = $fullArmy
@@ -453,6 +446,8 @@ Func Idle() ;Sequence that runs until Full Army
 		If _Sleep($iDelayIdle1) Then Return
 		If $CommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_GREEN)
 		If ($CommandStop = 3 Or $CommandStop = 0) Then SetLog("====== Train / Donate Mode ======", $COLOR_GREEN)
+
+		SwitchAccount()
 
 		; Ck timer for Collecting Chart Data
 		If TimerDiff($t1HrTimer) > 3600000 Then ChartAddDataPoint1hr("Total", False) ; 180 000 3 min, 3600000 1 hr.
@@ -575,11 +570,7 @@ Func Idle() ;Sequence that runs until Full Army
 		If $iChkSnipeWhileTrain = 1 Then SnipeWhileTrain() ;snipe while train
 
 		If $CommandStop = -1 Then ; Check if closing bot/emulator while training and not in halt mode
-			If $ichkSwitchAcc = 1 Then ; SwitchAcc - DEMEN
-				checkSwitchAcc() ; SwitchAcc - DEMEN
-			Else ; SwitchAcc - DEMEN
-				SmartWait4Train()
-			EndIf
+			SmartWait4Train()
 			If $Restart = True Then ExitLoop ; if smart wait activated, exit to runbot in case user adjusted GUI or left emulator/bot in bad state
 		EndIf
 
@@ -630,13 +621,7 @@ Func AttackMain() ;Main control for attack functions
 			Setlog("Waiting on troops, heroes and/or spells according to search settings", $COLOR_BLUE)
 			GetReadTimeHeroesAndSpell()
 
-			; SwitchAcc - DEMEN
-			If $ichkSwitchAcc = 1 Then
-				checkSwitchAcc()
-			Else
-				SmartWait4Train()
-			EndIf
-			; =============== SwitchAcc - DEMEN
+			SmartWait4Train()
 
 		EndIf
 	Else

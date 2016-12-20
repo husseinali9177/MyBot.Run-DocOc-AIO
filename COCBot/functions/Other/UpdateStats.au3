@@ -247,7 +247,6 @@ Func UpdateStats()
 
 	If $iOldSkippedVillageCount <> $iSkippedVillageCount Then
 		GUICtrlSetData($lblresultvillagesskipped, _NumberFormat($iSkippedVillageCount, True))
-		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($lblResultSkippedHourNow, _NumberFormat($iSkippedVillageCount, True))		; SwitchAcc Mode unchecked - Demen
 		$iOldSkippedVillageCount = $iSkippedVillageCount
 	EndIf
 
@@ -384,7 +383,6 @@ Func UpdateStats()
 
 	If $iOldAttackedCount <> $iAttackedCount Then
 		GUICtrlSetData($lblresultvillagesattacked, _NumberFormat($iAttackedCount, True))
-		If $ichkSwitchAcc <> 1 Then GUICtrlSetData($lblResultAttackedHourNow, _NumberFormat($iAttackedCount, True))		; SwitchAcc Mode unchecked - Demen
 		$iOldAttackedCount = $iAttackedCount
 	EndIf
 
@@ -417,17 +415,13 @@ Func UpdateStats()
 		EndIf
 		GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 
-		If $ichkSwitchAcc <> 1 Then 		; 	SwitchAcc Mode - Demen
 			GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
 			GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
 			If $iDarkStart <> "" Then
 				GUICtrlSetData($lblResultDEHourNow, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
-			EndIf							; 	SwitchAcc Mode - Demen
-		EndIf
+			EndIf
 
 	EndIf
-
-	If $ichkSwitchAcc = 1 Then UpdateStatsForSwitchAcc()	;	SwitchAcc Mode - Demen
 
 	; ============================================================================
     ; ====================== Stats Top Loot - Added by DocOC team ======================
@@ -455,7 +449,6 @@ Func UpdateStats()
     ; ====================== Stats Top Loot - Added by DocOC team ======================
     ; ============================================================================
 
-	If $ichkSwitchAcc = 1 Then UpdateStatsForSwitchAcc()	;	SwitchAcc Mode - Demen
 
 	If $ResetStats = 1 Then
 		$ResetStats = 0
@@ -510,8 +503,6 @@ Func ResetStats()
 	$iGoldFromMines = 0
 	$iElixirFromCollectors = 0
 	$iDElixirFromDrills = 0
-
-	If $ichkSwitchAcc = 1 Then ResetStatsForSwitchAcc()		;	SwitchAcc Mode - Demen
 
 ; ======================= SmartZap - Added by NTS team =======================
 	$smartZapGain = 0

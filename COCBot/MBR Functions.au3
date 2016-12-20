@@ -286,8 +286,6 @@
 #include "functions\Search\WaitForClouds.au3"
 #include "functions\Village\DonateStats.au3"
 #include "functions\Village\SuperXP.au3"
-#include "MOD\SwitchAcc.au3"
-#include "MOD\UpdateStats - Mod.au3"
 #include "functions\RoroTiti MODs\CoCStats.com.au3"
 #include "functions\RoroTiti MODs\SmartUpgrade.au3"
 #include "functions\RoroTiti MODs\TreasuryCollect.au3"
@@ -306,5 +304,7 @@
 #include "functions\RoroTiti MODs\Multi Fingers\eightFinger.au3"
 #include "functions\RoroTiti MODs\Multi Fingers\multiFinger.au3"
 #include "functions\RoroTiti MODs\Multi Fingers\unitInfo.au3"
+
+#include "functions\RoroTiti MODs\SmartSwitchAcc.au3"
 
 	; ================================================== DocOc END ================================================== ;

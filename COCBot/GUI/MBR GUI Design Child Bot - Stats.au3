@@ -1102,8 +1102,5 @@ $hGUI_STATS_TAB_ITEM4 = GUICtrlCreateTabItem("Donation Stats")
 		GUICtrlSetOnEvent(-1, "ResetDonateStats")
 ;--> TAB Donation Stats
 
-#include "../MOD/GUI Design - Stats Mod.au3"			; Adding GUI Profile Stats for SwitchAcc Mode - Demen
-
-
 GUICtrlCreateTabItem("")
 ;GUISetState()

@@ -87,3 +87,31 @@ Global $ichkGoldSwitchMax, $itxtMaxGoldAmount, $icmbGoldMaxProfile, $ichkGoldSwi
 Global $ichkElixirSwitchMax, $itxtMaxElixirAmount, $icmbElixirMaxProfile, $ichkElixirSwitchMin, $itxtMinElixirAmount, $icmbElixirMinProfile
 Global $ichkDESwitchMax, $itxtMaxDEAmount, $icmbDEMaxProfile, $ichkDESwitchMin, $itxtMinDEAmount, $icmbDEMinProfile
 Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkTrophySwitchMin, $itxtMinTrophyAmount, $icmbTrophyMinProfile
+
+; ================================================== SmartSwitchAccount PART ================================================== ;
+
+Global $cmbAccount[6] = [0, 0, 0, 0, 0, 0]
+Global $chkCanUse[6] = [0, 0, 0, 0, 0, 0]
+
+Global $chkDonateAccount[6] = [0, 0, 0, 0, 0, 0]
+
+Global $AllAccountsWaitTimeDiff[6] = [0, 0, 0, 0, 0, 0]
+Global $AllAccountsWaitTime[6] = [0, 0, 0, 0, 0, 0]
+
+Global $CurrentAccountWaitTime = 0
+
+Global $TimerDiffStart[6] = [0, 0, 0, 0, 0, 0]
+Global $TimerDiffEnd[6] = [0, 0, 0, 0, 0, 0]
+
+Global $Init = False
+Global $TotalAccountsOnEmu = 0
+Global $CurrentAccount = 1
+Global $CurrentDAccount = 1
+Global $FirstLoop = 0
+Global $FirstInit = 0
+Global $MustGoToDonateAccount = 0
+Global $yCoord, $HeroesRemainingWait, $TotalAccountsInUse, $TotalDAccountsInUse, $ichkSwitchAccount, $NextAccount, $NextProfile
+Global $cycleCount = 0
+Global $IsDonateAccount = 0
+
+; ================================================== SmartSwitchAccount END ================================================== ;
