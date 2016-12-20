@@ -1800,7 +1800,7 @@ Global $topTrophyloot = 0
 ;[1]xpos and ypos
 ;[2]...[n] redarea points
 
-#include "MOD\GLobal Variables - Mod.au3"	;	Adding SwitchAcc - Demen
+#include "functions\RoroTiti MODs\Misc\MBR Global Variables.au3"
 
 ;=== No variables below ! ================================================
 ; early load of config

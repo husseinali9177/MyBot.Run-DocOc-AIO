@@ -1,11 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Global Variables - Mod.au3
-; Description ...: Extension of MBR Global Variables for Mod
+; Name ..........: MBR Global Variables
+; Description ...: This file Includes several files in the current script and all Declared variables, constant, or create an array.
 ; Syntax ........: #include , Global
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........:
-; Modified ......:
+; Modified ......: Everyone all the time  :)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:

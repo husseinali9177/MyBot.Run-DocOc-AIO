@@ -1103,7 +1103,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		$iNameMyBot = IniRead($config, "MyBotName", "Name", "")
 
-		#include "..\..\MOD\Config read - Mod.au3"				;	Adding Config Read for SwitchAcc Mode - Demen
+		#include "..\..\functions\RoroTiti MODs\Misc\readConfig.au3"
 
 		; ================================================== DocOc END ================================================== ;
 

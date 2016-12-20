@@ -1,9 +1,9 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Config apply - Mod.au3
-; Description ...: Extension of applyConfig() for Mod
+; Name ..........: applyConfig.au3
+; Description ...: Applies all of the  variable to the GUI
 ; Syntax ........: applyConfig()
-; Parameters ....:
-; Return values .:
+; Parameters ....: $bRedrawAtExit = True, redraws bot window after config was applied
+; Return values .: NA
 ; Author ........:
 ; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
@@ -16,6 +16,9 @@
 ; Multi Finger (LunaEclipse) added rulesss
 _GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
 cmbDBMultiFinger()
+
+cmbDeployAB()
+cmbDeployDB()
 
 _GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 _GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])

@@ -286,6 +286,7 @@
 #include "functions\Search\WaitForClouds.au3"
 #include "functions\Village\DonateStats.au3"
 #include "functions\Village\SuperXP.au3"
+
 #include "functions\RoroTiti MODs\CoCStats.com.au3"
 #include "functions\RoroTiti MODs\SmartUpgrade.au3"
 #include "functions\RoroTiti MODs\TreasuryCollect.au3"

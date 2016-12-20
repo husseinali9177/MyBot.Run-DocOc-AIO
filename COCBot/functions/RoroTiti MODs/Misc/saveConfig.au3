@@ -1,6 +1,6 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: Config save - Mod.au3
-; Description ...: Extension of saveConfig() for Mod
+; Name ..........: saveConfig.au3
+; Description ...: Saves all of the GUI values to the config.ini and building.ini files
 ; Syntax ........: saveConfig()
 ; Parameters ....: NA
 ; Return values .: NA

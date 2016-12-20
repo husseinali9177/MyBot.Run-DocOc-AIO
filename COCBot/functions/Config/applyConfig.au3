@@ -2859,7 +2859,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	cmbWarReplay()
 
 
-	#include "..\..\MOD\Config apply - Mod.au3"				;	Adding Config Apply for SwitchAcc Mode - Demen
+	#include "..\..\functions\RoroTiti MODs\Misc\applyConfig.au3"
 
 	; ================================================== DocOc END ================================================== ;
 

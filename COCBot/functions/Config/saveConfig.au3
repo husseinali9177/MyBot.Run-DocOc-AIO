@@ -2724,7 +2724,7 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "MyBotName", "Name", GUICtrlRead($NameMyBot))
 
-	#include "..\..\MOD\Config save - Mod.au3"				;	Adding Config Save for SwitchAcc Mode - Demen
+	#include "..\..\functions\RoroTiti MODs\Misc\saveConfig.au3"
 
 	; ================================================== DocOc END ================================================== ;
 

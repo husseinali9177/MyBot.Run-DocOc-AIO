@@ -150,7 +150,7 @@ AtkLogHead()
 #include "GUI\MBR GUI Control Bot Options.au3"
 #include "GUI\MBR GUI Control Preset.au3"
 #include "GUI\MBR GUI Control Child Misc.au3"
-#include "MOD\GUI Control - Mod.au3"			; ============ DEMEN SwitchAcc Mod
+#include "functions\RoroTiti MODs\Misc\MBR GUI Control.au3"
 
 ; Accelerator Key, more responsive than buttons in run-mode
 Local $aAccelKeys[2][2] = [["{ESC}", $btnStop], ["{PAUSE}", $btnPause]]
