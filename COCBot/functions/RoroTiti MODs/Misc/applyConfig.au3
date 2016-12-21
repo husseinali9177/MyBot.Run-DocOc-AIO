@@ -262,3 +262,28 @@ Else
 EndIf
 GUICtrlSetData($txtAutoHideDelay, $ichkAutoHideDelay)
 chkAutoHide()
+
+; SSA
+
+If $ichkSwitchAccount = 1 Then
+	GUICtrlSetState($chkEnableSwitchAccount, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkEnableSwitchAccount, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbAccountsQuantity, $icmbAccountsQuantity)
+
+For $i = 1 To 5
+	If $ichkCanUse[$i] = 1 Then
+		GUICtrlSetState($chkCanUse[$i], $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkCanUse[$i], $GUI_UNCHECKED)
+	EndIf
+	If $ichkDonateAccount[$i] = 1 Then
+		GUICtrlSetState($chkDonateAccount[$i], $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDonateAccount[$i], $GUI_UNCHECKED)
+	EndIf
+	_GUICtrlComboBox_SetCurSel($cmbAccount[$i], $icmbAccount[$i])
+Next
+
+chkSwitchAccount()

@@ -86,3 +86,12 @@ $itxtMaxTrophyAmount = IniRead($config, "profiles", "txtMaxTrophyAmount", "3000"
 $ichkTrophySwitchMin = IniRead($config, "profiles", "chkTrophySwitchMin", "0")
 $icmbTrophyMinProfile = IniRead($config, "profiles", "cmbTrophyMinProfile", "0")
 $itxtMinTrophyAmount = IniRead($config, "profiles", "txtMinTrophyAmount", "1000")
+
+; SSA
+IniReadS($ichkSwitchAccount, $SSAConfig, "SwitchAccount", "chkEnableSwitchAccount", "0")
+IniReadS($icmbAccountsQuantity, $SSAConfig, "SwitchAccount", "cmbAccountsQuantity", "0")
+For $i = 1 To 5
+	IniReadS($ichkCanUse[$i], $SSAConfig, "SwitchAccount", "chkCanUse[" & $i & "]", "0")
+	IniReadS($ichkDonateAccount[$i], $SSAConfig, "SwitchAccount", "chkDonateAccount[" & $i & "]", "0")
+	IniReadS($icmbAccount[$i], $SSAConfig, "SwitchAccount", "cmbAccount[" & $i & "]", "0")
+Next

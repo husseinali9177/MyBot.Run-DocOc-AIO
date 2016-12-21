@@ -223,8 +223,7 @@ Func cmbAccountsQuantity()
 		Next
 	EndIf
 
-	chkCanUse()
-	MakeSummaryLog()
+	chkAccountsProperties()
 
 EndFunc   ;==>cmbAccountsQuantity
 
@@ -234,6 +233,8 @@ Func chkSwitchAccount()
 		For $i = $lblNB To $chkDonateAccount[5]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
+		cmbAccountsQuantity()
+		chkAccountsProperties()
 		$ichkSwitchAccount = 1
 	Else
 		For $i = $lblNB To $chkDonateAccount[5]
@@ -242,14 +243,11 @@ Func chkSwitchAccount()
 		$ichkSwitchAccount = 0
 	EndIf
 
-	chkCanUse()
-	cmbAccountsQuantity()
-	MakeSummaryLog()
-
 EndFunc   ;==>chkSwitchAccount
 
 Func MakeSummaryLog()
 
+	cmbAccountsQuantity()
 	CheckAccountsInUse()
 	CheckDAccountsInUse()
 
@@ -257,112 +255,32 @@ Func MakeSummaryLog()
 
 EndFunc   ;==>MakeSummaryLog
 
-Func chkCanUse()
+Func chkAccountsProperties()
 
-	If GUICtrlRead($chkCanUse[1]) = $GUI_CHECKED Then
-		For $i = $cmbAccount[1] To $chkDonateAccount[1]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		$ichkCanUse[1] = 1
-	Else
-		For $i = $cmbAccount[1] To $chkDonateAccount[1]
-			GUICtrlSetState($i, $GUI_DISABLE)
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
-		$ichkCanUse[1] = 0
-	EndIf
+	For $h = 1 To 5
 
-	If GUICtrlRead($chkCanUse[2]) = $GUI_CHECKED Then
-		For $i = $cmbAccount[2] To $chkDonateAccount[2]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		$ichkCanUse[2] = 1
-	Else
-		For $i = $cmbAccount[2] To $chkDonateAccount[2]
-			GUICtrlSetState($i, $GUI_DISABLE)
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
-		$ichkCanUse[2] = 0
-	EndIf
+		If GUICtrlRead($chkCanUse[$h]) = $GUI_CHECKED Then
+			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
+				GUICtrlSetState($i, $GUI_ENABLE)
+			Next
+			$ichkCanUse[$h] = 1
+		Else
+			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
+				GUICtrlSetState($i, $GUI_DISABLE)
+				GUICtrlSetState($i, $GUI_UNCHECKED)
+			Next
+			$ichkCanUse[$h] = 0
+		EndIf
 
-	If GUICtrlRead($chkCanUse[3]) = $GUI_CHECKED Then
-		For $i = $cmbAccount[3] To $chkDonateAccount[3]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		$ichkCanUse[3] = 1
-	Else
-		For $i = $cmbAccount[3] To $chkDonateAccount[3]
-			GUICtrlSetState($i, $GUI_DISABLE)
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
-		$ichkCanUse[3] = 0
-	EndIf
+		If GUICtrlRead($chkDonateAccount[$h]) = $GUI_CHECKED Then
+			$ichkDonateAccount[$h] = 1
+		Else
+			$ichkDonateAccount[$h] = 0
+		EndIf
 
-	If GUICtrlRead($chkCanUse[4]) = $GUI_CHECKED Then
-		For $i = $cmbAccount[4] To $chkDonateAccount[4]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		$ichkCanUse[4] = 1
-	Else
-		For $i = $cmbAccount[4] To $chkDonateAccount[4]
-			GUICtrlSetState($i, $GUI_DISABLE)
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
-		$ichkCanUse[4] = 0
-	EndIf
+	Next
 
-	If GUICtrlRead($chkCanUse[5]) = $GUI_CHECKED Then
-		For $i = $cmbAccount[5] To $chkDonateAccount[5]
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		$ichkCanUse[5] = 1
-	Else
-		For $i = $cmbAccount[5] To $chkDonateAccount[5]
-			GUICtrlSetState($i, $GUI_DISABLE)
-			GUICtrlSetState($i, $GUI_UNCHECKED)
-		Next
-		$ichkCanUse[5] = 0
-	EndIf
-
-	MakeSummaryLog()
-
-EndFunc   ;==>chkCanUse
-
-Func chkDonateAccount()
-
-	If GUICtrlRead($chkDonateAccount[1]) = $GUI_CHECKED Then
-		$ichkDonateAccount[1] = 1
-	Else
-		$ichkDonateAccount[1] = 0
-	EndIf
-
-	If GUICtrlRead($chkDonateAccount[2]) = $GUI_CHECKED Then
-		$ichkDonateAccount[2] = 1
-	Else
-		$ichkDonateAccount[2] = 0
-	EndIf
-
-	If GUICtrlRead($chkDonateAccount[3]) = $GUI_CHECKED Then
-		$ichkDonateAccount[3] = 1
-	Else
-		$ichkDonateAccount[3] = 0
-	EndIf
-
-	If GUICtrlRead($chkDonateAccount[4]) = $GUI_CHECKED Then
-		$ichkDonateAccount[4] = 1
-	Else
-		$ichkDonateAccount[4] = 0
-	EndIf
-
-	If GUICtrlRead($chkDonateAccount[5]) = $GUI_CHECKED Then
-		$ichkDonateAccount[5] = 1
-	Else
-		$ichkDonateAccount[5] = 0
-	EndIf
-
-	MakeSummaryLog()
-
-EndFunc   ;==>chkDonateAccount
+EndFunc   ;==>chkAccountsProperties
 
 Func TrainDonateOnlyLoop()
 

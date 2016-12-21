@@ -65,10 +65,15 @@ Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkT
 
 ; ================================================== SmartSwitchAccount PART ================================================== ;
 
-Global $cmbAccount[6] = [0, 0, 0, 0, 0, 0]
 Global $chkCanUse[6] = [0, 0, 0, 0, 0, 0]
-
 Global $chkDonateAccount[6] = [0, 0, 0, 0, 0, 0]
+Global $cmbAccount[6] = [0, 0, 0, 0, 0, 0]
+
+Global $ichkCanUse[6] = [0, 0, 0, 0, 0, 0]
+Global $ichkDonateAccount[6] = [0, 0, 0, 0, 0, 0]
+Global $icmbAccount[6] = [0, 0, 0, 0, 0, 0]
+
+Global $icmbAccountsQuantity = 0
 
 Global $AllAccountsWaitTimeDiff[6] = [0, 0, 0, 0, 0, 0]
 Global $AllAccountsWaitTime[6] = [0, 0, 0, 0, 0, 0]
@@ -88,5 +93,7 @@ Global $MustGoToDonateAccount = 0
 Global $yCoord, $HeroesRemainingWait, $TotalAccountsInUse, $TotalDAccountsInUse, $ichkSwitchAccount, $NextAccount, $NextProfile
 Global $cycleCount = 0
 Global $IsDonateAccount = 0
+
+Global $SSAConfig = $sProfilePath & "\Profile.ini"
 
 ; ================================================== SmartSwitchAccount END ================================================== ;
