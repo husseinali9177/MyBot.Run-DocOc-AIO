@@ -445,8 +445,6 @@ Func Idle() ;Sequence that runs until Full Army
 		If $CommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_GREEN)
 		If ($CommandStop = 3 Or $CommandStop = 0) Then SetLog("====== Train / Donate Mode ======", $COLOR_GREEN)
 
-		SwitchAccount()
-
 		; Ck timer for Collecting Chart Data
 		If TimerDiff($t1HrTimer) > 3600000 Then ChartAddDataPoint1hr("Total", False) ; 180 000 3 min, 3600000 1 hr.
 		Local $hTimer = TimerInit() ; Timer to track Idle Time
@@ -513,6 +511,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
+		SwitchAccount()
 		If $CommandStop = -1 Then
 			TestTrainRevamp()
 			MainSuperXPHandler()
