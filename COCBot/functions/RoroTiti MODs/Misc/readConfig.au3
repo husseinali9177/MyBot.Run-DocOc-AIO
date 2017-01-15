@@ -60,3 +60,15 @@ For $i = 1 To 5
 	IniReadS($ichkDonateAccount[$i], $SSAConfig, "SwitchAccount", "chkDonateAccount[" & $i & "]", "0")
 	IniReadS($icmbAccount[$i], $SSAConfig, "SwitchAccount", "cmbAccount[" & $i & "]", "0")
 Next
+
+;Forecast Added by rulesss
+$iChkForecastBoost = IniRead($config, "forecast", "chkForecastBoost", "0")
+$iTxtForecastBoost = IniRead($config, "forecast", "txtForecastBoost", "6.0")
+$ichkForecastHopingSwitchMax = IniRead($config, "profiles", "chkForecastHopingSwitchMax", "0")
+$icmbForecastHopingSwitchMax = IniRead($config, "profiles", "cmbForecastHopingSwitchMax", "0")
+$itxtForecastHopingSwitchMax = IniRead($config, "profiles", "txtForecastHopingSwitchMax", "2.5")
+$ichkForecastHopingSwitchMin = IniRead($config, "profiles", "chkForecastHopingSwitchMin", "0")
+$icmbForecastHopingSwitchMin = IniRead($config, "profiles", "cmbForecastHopingSwitchMin", "0")
+$itxtForecastHopingSwitchMin = IniRead($config, "profiles", "txtForecastHopingSwitchMin", "2.5")
+;Added Multi Switch Language by rulesss and Kychera
+$icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")

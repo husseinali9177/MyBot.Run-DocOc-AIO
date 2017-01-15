@@ -91,3 +91,21 @@ Global $LastDate = ""
 Global $profileString = ""
 
 ; ================================================== SmartSwitchAccount END ================================================== ;
+
+;Forecast Added by rulesss
+Global Const $COLOR_DEEPPINK = 0xFF1493
+Global Const $COLOR_DARKGREEN = 0x006400
+Global $oIE = ObjCreate("Shell.Explorer.2")
+Global $dtStamps[0]
+Global $lootMinutes[0]
+Global $timeOffset = 0
+Global $TimerForecast = 0
+Global $lootIndexScaleMarkers
+Global $currentForecast
+Global $chkForecastBoost, $txtForecastBoost
+Global $iChkForecastBoost, $iTxtForecastBoost
+Global $cmbForecastHopingSwitchMax, $cmbForecastHopingSwitchMin
+Global $ichkForecastHopingSwitchMax, $icmbForecastHopingSwitchMax, $itxtForecastHopingSwitchMax, $ichkForecastHopingSwitchMin, $icmbForecastHopingSwitchMin, $itxtForecastHopingSwitchMin
+;Added Multi Switch Language by rulesss and Kychera
+Global $icmbSwLang
+Global $cmbSwLang

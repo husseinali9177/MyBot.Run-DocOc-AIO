@@ -29,8 +29,12 @@ Func setupProfileComboBox()
 
 	; Clear the combo box current data in case profiles were deleted
 	GUICtrlSetData($cmbProfile, "", "")
+	GUICtrlSetData($cmbForecastHopingSwitchMin, "", "")
+	GUICtrlSetData($cmbForecastHopingSwitchMax, "", "")
 	; Set the new data of available profiles
 	GUICtrlSetData($cmbProfile, $profileString, "<No Profiles>")
+	GUICtrlSetData($cmbForecastHopingSwitchMax, $profileString, "<No Profiles>")
+	GUICtrlSetData($cmbForecastHopingSwitchMin, $profileString, "<No Profiles>")
 EndFunc   ;==>setupProfileComboBox
 
 Func renameProfile()

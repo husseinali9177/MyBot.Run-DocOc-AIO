@@ -211,3 +211,33 @@ For $i = 1 To 5
 Next
 
 chkSwitchAccount()
+
+;Forecast Added by rulesss
+GUICtrlSetData($txtForecastBoost, $iTxtForecastBoost)
+If $iChkForecastBoost = 1 Then
+	GUICtrlSetState($chkForecastBoost, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkForecastBoost, $GUI_UNCHECKED)
+EndIf
+chkForecastBoost()
+
+If $ichkForecastHopingSwitchMax = 1 Then
+	GUICtrlSetState($chkForecastHopingSwitchMax, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkForecastHopingSwitchMax, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbForecastHopingSwitchMax, $icmbForecastHopingSwitchMax)
+GUICtrlSetData($txtForecastHopingSwitchMax, $itxtForecastHopingSwitchMax)
+chkForecastHopingSwitchMax()
+
+If $ichkForecastHopingSwitchMin = 1 Then
+	GUICtrlSetState($chkForecastHopingSwitchMin, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkForecastHopingSwitchMin, $GUI_UNCHECKED)
+EndIf
+_GUICtrlComboBox_SetCurSel($cmbForecastHopingSwitchMin, $icmbForecastHopingSwitchMin)
+GUICtrlSetData($txtForecastHopingSwitchMin, $itxtForecastHopingSwitchMin)
+chkForecastHopingSwitchMin()
+;Added Multi Switch Language by rulesss and Kychera
+_GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
+$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)

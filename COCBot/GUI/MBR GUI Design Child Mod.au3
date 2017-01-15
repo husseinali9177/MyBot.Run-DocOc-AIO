@@ -161,6 +161,74 @@ setupProfileComboBoxswitch()
 
 GUICtrlCreateTabItem("")
 
+$hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(107,1,"Forecast"))
+
+Global $grpForecast
+Global $ieForecast
+
+Local $xStart = 0, $yStart = 0
+Local $x = $xStart + 10, $y = $yStart + 25
+	$ieForecast = GUICtrlCreateObj($oIE, $x , $y , 430, 310)
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+$y += + 318
+	$chkForecastBoost = GUICtrlCreateCheckbox("Boost When >", $x, $y, -1, -1)
+		$txtTip = "Boost Barracks,Heroes, when the loot index."
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetOnEvent(-1, "chkForecastBoost")
+	$txtForecastBoost = GUICtrlCreateInput("6.0", $x + 90, $y + 2, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+		$txtTip = "Minimum loot index for boosting."
+		GUICtrlSetLimit(-1, 3)
+		GUICtrlSetTip(-1, $txtTip)
+		_GUICtrlEdit_SetReadOnly(-1, True)
+		GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+$y += - 27
+	$chkForecastHopingSwitchMax = GUICtrlCreateCheckbox("", $x + 158, $y + 27, 13, 13)
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMax")
+			GUICtrlCreateLabel(GetTranslated(107,16,"Switch to"), $x + 177, $y + 27, -1, -1)
+	$cmbForecastHopingSwitchMax = GUICtrlCreateCombo("", $x + 225, $y + 25, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+	$lblForecastHopingSwitchMax = GUICtrlCreateLabel(GetTranslated(107,17,"When Index <"), $x + 325, $y + 28, -1, -1)
+	$txtForecastHopingSwitchMax = GUICtrlCreateInput("2.5", $x + 400, $y + 26, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetLimit(-1, 3)
+			GUICtrlSetData(-1, 2.5)
+			GUICtrlSetTip(-1, $txtTip)
+			_GUICtrlEdit_SetReadOnly(-1, True)
+	$chkForecastHopingSwitchMin = GUICtrlCreateCheckbox("", $x + 158, $y + 55, 13, 13)
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMin")
+			GUICtrlCreateLabel(GetTranslated(107,18,"Switch to"), $x + 177, $y + 55, -1, -1)
+	$cmbForecastHopingSwitchMin = GUICtrlCreateCombo("", $x + 225, $y + 53, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+	$lblForecastHopingSwitchMin = GUICtrlCreateLabel(GetTranslated(107,19,"When Index >"), $x + 325, $y + 58, -1, -1)
+	$txtForecastHopingSwitchMin = GUICtrlCreateInput("2.5", $x + 400, $y + 54, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			$txtTip = "" ; à renseigner
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetLimit(-1, 3)
+			GUICtrlSetData(-1, 2.5)
+			GUICtrlSetTip(-1, $txtTip)
+			_GUICtrlEdit_SetReadOnly(-1, True)
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+setupProfileComboBox()
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$cmbSwLang = GUICtrlCreateCombo("", $x, $y + 50, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+             GUICtrlSetData(-1, "EN|RU|FR|DE|ES|IT|PT|IN", "EN")
+GUICtrlCreateTabItem("")
+
 ;~ -------------------------------------------------------------
 ;~ This dummy is used in btnStart and btnStop to disable/enable all labels, text, buttons etc. on all tabs.                   A LAISSER IMPERATIVEMENT !!!!!!!!!!!!!!
 ;~ -------------------------------------------------------------

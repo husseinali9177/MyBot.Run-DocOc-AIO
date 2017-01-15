@@ -15,6 +15,9 @@
 ; ===============================================================================================================================
 
 Func BoostKing()
+
+	If $iChkForecastBoost = 1 And $currentForecast <= Number($iTxtForecastBoost, 3) Then Return
+
 	; Verifying existent Variables to run this routine
 	If AllowBoosting("Barbarian King", $icmbBoostBarbarianKing) = False Then Return
 
@@ -33,6 +36,9 @@ EndFunc   ;==>BoostKing
 
 
 Func BoostQueen()
+
+	If $iChkForecastBoost = 1 And $currentForecast <= Number($iTxtForecastBoost, 3) Then Return
+
 	; Verifying existent Variables to run this routine
 	If AllowBoosting("Archer Queen", $icmbBoostArcherQueen) = False Then Return
 
@@ -50,6 +56,9 @@ Func BoostQueen()
 EndFunc   ;==>BoostQueen
 
 Func BoostWarden()
+
+	If $iChkForecastBoost = 1 And $currentForecast <= Number($iTxtForecastBoost, 3) Then Return
+
 	; Verifying existent Variables to run this routine
 	If AllowBoosting("Grand Warden", $icmbBoostWarden) = False Then Return
 
