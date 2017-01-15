@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Control
 ; Description ...: This file Includes all functions to current GUI
@@ -654,6 +656,22 @@ Func ToggleGuiControls($Enable, $OptimizedRedraw = True)
 			GUICtrlSetState($i, $iPrevState[$i])
 		EndIf
 	Next
+
+	For $i = $FirstControlToHideMOD To $LastControlToHideMOD
+		If IsTab($i) Or IsAlwaysEnabledControl($i) Then ContinueLoop
+		If $NotifyPBEnabled And $i = $btnNotifyDeleteMessages Then ContinueLoop ; exclude the DeleteAllMesages button when PushBullet is enabled
+		If $i = $btnMakeScreenshot Then ContinueLoop ; exclude
+		If $i = $divider Then ContinueLoop ; exclude divider
+		If $Enable = False Then
+			; Save state of all controls on tabs
+			$iPrevState[$i] = GUICtrlGetState($i)
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Else
+			; Restore previous state of controls
+			GUICtrlSetState($i, $iPrevState[$i])
+		EndIf
+	Next
+
 	If $Enable = False Then
 		ControlDisable("","",$cmbLanguage)
 	Else

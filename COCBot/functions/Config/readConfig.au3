@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: readConfig.au3
 ; Description ...: Reads config file and sets variables
@@ -1274,6 +1276,8 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		$ichkFullDarkTrCollect = IniRead($config, "Treasury", "chkFullDarkTrCollect", "0")
 
 		; ================================================== TREASURY COLLECT END ================================================== ;
+
+		#include "..\..\functions\RoroTiti MODs\Misc\readConfig.au3"
 
 	Else
 		Return False

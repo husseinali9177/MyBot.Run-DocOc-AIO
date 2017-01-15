@@ -1,4 +1,6 @@
-﻿; #FUNCTION# ====================================================================================================================
+;MODded by DocOc++ Team
+
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contens the Sequence that runs all MBR Bot
 ; Author ........:  (2014)
@@ -37,9 +39,10 @@ Global $hBotLaunchTime = TimerInit()
 
 Global $sBotVersion = "v6.5.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 Global $sModversion = "v3.5.3" ;<== Just Change This to Version Number
+Global $sAIOVersion = "DocOc++ v0.8" ;<== Just Change This to Version Number
 Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/27601-mybotrun-dococ-v352/&" ;<== Our Website Link Or Link Download
 
-Global $sBotTitle = "My Bot " & $sBotVersion & "  DocOc " & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+Global $sBotTitle = "My Bot " & $sBotVersion & " - " & $sAIOVersion & " (DocOc " & $sModversion & ") " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 #include "COCBot\functions\Config\DelayTimes.au3"
 #include "COCBot\MBR Global Variables.au3"
 _GDIPlus_Startup()
@@ -195,6 +198,13 @@ $iGUIEnabled = 1
 ;~ InitializeVariables();initialize variables used in extrawindows
 CheckVersion() ; check latest version on mybot.run site
 
+SetLog("===============================================", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
+SetLog("                       Welcome to " & $sAIOVersion & "!", $COLOR_RED) ; Message Log at start
+SetLog("                 Made with love by the DocOc++ Team!", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
+SetLog("===============================================", $COLOR_RED) ; Message Log at start
+SetLog(" ", $COLOR_RED) ; Message Log at start
 
 $sMsg = GetTranslated(500, 9, "Android Shield not available for %s", @OSVersion)
 If $AndroidShieldEnabled = False Then
@@ -237,6 +247,9 @@ While 1
 WEnd
 
 Func runBot() ;Bot that runs everything in order
+
+	If $FirstInit Then SwitchAccount(True)
+
 	$TotalTrainedTroops = 0
 	Local $Quickattack = False
 	Local $iWaitTime
@@ -265,6 +278,7 @@ Func runBot() ;Bot that runs everything in order
 			If $Restart = True Then ContinueLoop
 			If _Sleep($iDelayRunBot3) Then Return
 			VillageReport()
+			ProfileSwitch()
 			If $OutOfGold = 1 And (Number($iGoldCurrent) >= Number($itxtRestartGold)) Then ; check if enough gold to begin searching again
 				$OutOfGold = 0 ; reset out of gold flag
 				Setlog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
@@ -301,6 +315,7 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 				If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			WEnd
+			TrainDonateOnlyLoop()
 			AddIdleTime()
 			If $RunState = False Then Return
 			If $Restart = True Then ContinueLoop
@@ -326,6 +341,7 @@ Func runBot() ;Bot that runs everything in order
 					If Unbreakable() = True Then ContinueLoop
 				EndIf
 			EndIf
+			SmartUpgrade()
 			MainSuperXPHandler()
 			Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding']
 			While 1
@@ -471,6 +487,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
+		SwitchAccount()
 		AddIdleTime()
 		checkMainScreen(False) ; required here due to many possible exits
 		If $CommandStop = -1 Then

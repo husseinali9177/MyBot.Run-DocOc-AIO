@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -14,6 +16,8 @@
 ; ===============================================================================================================================
 ;$hGUI_BotOptions = GUICreate("", $_GUI_MAIN_WIDTH - 28, $_GUI_MAIN_HEIGHT - 255 - 28, 5, 25, BitOR($WS_CHILD, $WS_TABSTOP), -1, $hGUI_BOT)
 ;GUISwitch($hGUI_BotOptions)
+
+Global $FirstControlToHideMOD = GUICtrlCreateDummy()
 
 Local $x = 25, $y = 45
 $grpLanguages = GUICtrlCreateGroup(GetTranslated(636,83, "GUI Language"), $x - 20, $y - 20, 210, 47)
@@ -74,7 +78,7 @@ $grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y += 48
-$grpOnStartBot = GUICtrlCreateGroup(GetTranslated(636,12, "When Bot Starts"), $x - 20, $y - 20, 210, 112)
+$grpOnStartBot = GUICtrlCreateGroup(GetTranslated(636,12, "When Bot Starts"), $x - 20, $y - 20, 210, 135)
 	$y -= 5
 	$chkAutostart = GUICtrlCreateCheckbox(GetTranslated(636,13, "Auto START after") & ":", $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslated(636,58, "Auto START the Bot after this No. of seconds."))
@@ -83,6 +87,14 @@ $grpOnStartBot = GUICtrlCreateGroup(GetTranslated(636,12, "When Bot Starts"), $x
 		GUICtrlSetFont(-1, 8)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$lblAutostartSeconds = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 150, $y + 4, 27, 18)
+	$y += 22
+	$chkAutohide = GUICtrlCreateCheckbox(GetTranslated(636,202, "Auto HIDE after") & ":", $x, $y, -1, -1)
+		_GUICtrlSetTip(-1, GetTranslated(636,203, "Auto HIDE the Bot after this No. of seconds."))
+		GUICtrlSetOnEvent(-1, "chkAutohide")
+	$txtAutohideDelay = GUICtrlCreateInput("10", $x + 120, $y + 2, 25, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		GUICtrlSetFont(-1, 8)
+		GUICtrlSetState(-1, $GUI_DISABLE)
+	$lblAutohideSeconds = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 150, $y + 4, 27, 18)
 	$y += 22
 	$chkLanguage = GUICtrlCreateCheckbox(GetTranslated(636,15, "Check Game Language (EN)"), $x, $y, -1, -1)
 		_GUICtrlSetTip(-1, GetTranslated(636,16, "Check if the Game is set to the correct language (Must be set to English)."))
@@ -191,3 +203,36 @@ $chkFixClanCastle = GUICtrlCreateCheckbox(GetTranslated(636,104, "Force Clan Cas
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+$y += 50
+$grpShieldOpt = GUICtrlCreateGroup("Android Shield Color", $x - 20, $y - 18, 225, 70)
+
+$x -= 10
+$y -= 3
+$btnColorShield = GUICtrlCreateButton("Shield", $x, $y, 70, -1)
+	GUICtrlSetOnEvent(-1, "btnColorShield")
+	_GUICtrlSetTip(-1, "Set the Android Shield's Color")
+$btnColorIdleShield = GUICtrlCreateButton("Idle Shield", $x, $y + 25, 70, -1)
+	GUICtrlSetOnEvent(-1, "btnColorIdleShield")
+	_GUICtrlSetTip(-1, "Set the Inactive Android Shield's Color")
+$x += 70
+$y += 1
+$sldrTransparancyShield = GUICtrlCreateSlider($x, $y, 140, -1, BitOR($TBS_TOOLTIPS, $TBS_NOTICKS))
+	GUICtrlSetLimit(-1, 255, 1)
+	GUICtrlSetBkColor(-1, 0xFFFFFF)
+	GUICtrlSetOnEvent(-1, "sldrTransparancyShield")
+	_GUICtrlSetTip(-1, "Set the Android Shield's Transparancy")
+$sldrTransparancyIdleShield = GUICtrlCreateSlider($x, $y + 25, 140, -1, BitOR($TBS_TOOLTIPS, $TBS_NOTICKS))
+	GUICtrlSetLimit(-1, 255, 1)
+	GUICtrlSetBkColor(-1, 0xFFFFFF)
+	GUICtrlSetOnEvent(-1, "sldrTransparancyIdleShield")
+	_GUICtrlSetTip(-1, "Set the Inactive Android Shield's Transparancy")
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+;~ -------------------------------------------------------------
+;~ This dummy is used in btnStart and btnStop to disable/enable all labels, text, buttons etc. on all tabs.                   A LAISSER IMPERATIVEMENT !!!!!!!!!!!!!!
+;~ -------------------------------------------------------------
+Global $LastControlToHideMOD = GUICtrlCreateDummy()
+Global $iPrevState[$LastControlToHideMOD + 1]
+;~ -------------------------------------------------------------

@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: saveConfig.au3
 ; Description ...: Saves all of the GUI values to the config.ini and building.ini files
@@ -2924,6 +2926,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "Treasury", "chkFullDarkTrCollect", $ichkFullDarkTrCollect)
 
 	; ================================================== TREASURY COLLECT END ================================================== ;
+
+	#include "..\..\functions\RoroTiti MODs\Misc\saveConfig.au3"
 
 	If $hFile <> -1 Then FileClose($hFile)
 

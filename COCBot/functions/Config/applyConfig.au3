@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: applyConfig.au3
 ; Description ...: Applies all of the  variable to the GUI
@@ -3077,6 +3079,8 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	chkEnableTrCollect()
 
 	; ================================================== TREASURY COLLECT END ================================================== ;
+
+	#include "..\..\functions\RoroTiti MODs\Misc\applyConfig.au3"
 
 	If $iGUIEnabled = 0 Then
 		lblTotalCount2()

@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: AttackReport
 ; Description ...: This function will report the loot from the last Attack: gold, elixir, dark elixir and trophies.
@@ -174,7 +176,8 @@ Func AttackReport()
 	SetLog("Stars earned: " & $starsearned)
 
 	Local $AtkLogTxt
-	$AtkLogTxt = "" & _NowTime(4) & "|"
+	$AtkLogTxt = "#" & $CurrentAccount & "|"
+	$AtkLogTxt &= "" & _NowTime(4) & "|"
 	$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
 	$AtkLogTxt &= StringFormat("%6d", $SearchCount) & "|"
 	$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
@@ -196,6 +199,8 @@ Func AttackReport()
 		SetAtkLog($AtkLogTxt, $AtkLogTxtExtend, $COLOR_ERROR)
 	EndIf
 
+	AppendLineToSSALog($AtkLogTxt)
+
 	; rename or delete zombie
 	If $debugDeadBaseImage = 1 Then
 		setZombie($iElixirLast)
@@ -211,6 +216,9 @@ Func AttackReport()
 			$iShareAttackNow = 0
 		EndIf
 	EndIf
+
+
+	    CoCStats($starsearned)
 
 	If $FirstAttack = 0 Then $FirstAttack = 1
 	$iGoldTotal += $iGoldLast + $iGoldLastBonus

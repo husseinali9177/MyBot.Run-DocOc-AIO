@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Functions
 ; Description ...: This file Includes several files in the current script.
@@ -283,12 +285,20 @@
 ; Added by DocOC team
 ;==============================================================
 
+#include "functions\Village\SuperXP.au3"
+#include "functions\Village\TreasuryCollect.au3"
 #include "functions\BotHumanization\BotHumanization.au3"
 #include "functions\BotHumanization\AttackNDefenseActions.au3"
 #include "functions\BotHumanization\BestClansNPlayersActions.au3"
 #include "functions\BotHumanization\ChatActions.au3"
 #include "functions\BotHumanization\ClanActions.au3"
 #include "functions\BotHumanization\ClanWarActions.au3"
+
+#include "functions\RoroTiti MODs\CoCStats.com.au3"
+#include "functions\RoroTiti MODs\SmartUpgrade.au3"
+#include "functions\RoroTiti MODs\AutoHide.au3"
+#include "functions\RoroTiti MODs\ProfileSwitch.au3"
+#include "functions\RoroTiti MODs\SmartSwitchAcc.au3"
 
 ;OLD CODE
 
@@ -304,6 +314,3 @@
 ;#include "functions\Village\LocateSpell.au3"
 ;#include "functions\Image Search\checkTownhall.au3"
 ;#include "functions\Village\ClanLevel.au3"
-
-#include "functions\Village\SuperXP.au3"
-#include "functions\Village\TreasuryCollect.au3"

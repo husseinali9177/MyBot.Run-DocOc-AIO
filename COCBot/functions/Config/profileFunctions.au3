@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: profileFunctions.au3
 ; Description ...: Functions for the new profile system
@@ -9,7 +11,7 @@
 
 Func setupProfileComboBox()
 	; Array to store Profile names to add to ComboBox
-	Local $profileString = ""
+	$profileString = ""
 	Local $aProfiles = _FileListToArray($sProfilePath, "*", $FLTA_FOLDERS)
 	If @error Then
 		; No folders for profiles so lets set the combo box to a generic entry

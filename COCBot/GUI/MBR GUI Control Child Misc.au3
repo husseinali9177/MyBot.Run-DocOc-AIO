@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Control Misc
 ; Description ...: This file Includes all functions to current GUI
@@ -39,6 +41,9 @@ Func btnAddConfirm()
 			GUICtrlSetState($btnCancel, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_HIDE)
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($btnRecycle, $GUI_HIDE)
+			; IceCube (Misc v1.0)
 		Case $btnConfirmAdd
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($txtVillageName), '[/:*?"<>|]', '_')
 			If FileExists($sProfilePath & "\" & $newProfileName) Then
@@ -50,6 +55,7 @@ Func btnAddConfirm()
 			; Setup the profile if it doesn't exist.
 			createProfile()
 			setupProfileComboBox()
+			setupProfileComboBoxswitch()
 			selectProfile()
 			GUICtrlSetState($txtVillageName, $GUI_HIDE)
 			GUICtrlSetState($cmbProfile, $GUI_SHOW)
@@ -59,9 +65,15 @@ Func btnAddConfirm()
 			GUICtrlSetState($btnCancel, $GUI_HIDE)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($btnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 
 			If GUICtrlGetState($btnDelete) <> $GUI_ENABLE Then GUICtrlSetState($btnDelete, $GUI_ENABLE)
 			If GUICtrlGetState($btnRename) <> $GUI_ENABLE Then GUICtrlSetState($btnRename, $GUI_ENABLE)
+			; IceCube (Misc v1.0)
+			If GUICtrlGetState($btnRecycle) <> $GUI_ENABLE Then GUICtrlSetState($btnRecycle, $GUI_ENABLE)
+			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
@@ -94,6 +106,9 @@ Func btnDeleteCancel()
 			GUICtrlSetState($btnDelete, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($btnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
@@ -101,6 +116,9 @@ Func btnDeleteCancel()
 	If GUICtrlRead($cmbProfile) = "<No Profiles>" Then
 		GUICtrlSetState($btnDelete, $GUI_DISABLE)
 		GUICtrlSetState($btnRename, $GUI_DISABLE)
+		; IceCube (Misc v1.0)
+		GUICtrlSetState($btnRecycle, $GUI_DISABLE)
+		; IceCube (Misc v1.0)
 	EndIf
 EndFunc   ;==>btnDeleteCancel
 
@@ -116,6 +134,9 @@ Func btnRenameConfirm()
 			GUICtrlSetState($btnCancel, $GUI_SHOW)
 			GUICtrlSetState($btnRename, $GUI_HIDE)
 			GUICtrlSetState($btnConfirmRename, $GUI_SHOW)
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($btnRecycle, $GUI_HIDE)
+			; IceCube (Misc v1.0)
 		Case $btnConfirmRename
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($txtVillageName), '[/:*?"<>|]', '_')
 			If FileExists($sProfilePath & "\" & $newProfileName) Then
@@ -127,6 +148,7 @@ Func btnRenameConfirm()
 			; Rename the profile.
 			renameProfile()
 			setupProfileComboBox()
+			setupProfileComboBoxswitch()
 			selectProfile()
 
 			GUICtrlSetState($txtVillageName, $GUI_HIDE)
@@ -137,6 +159,9 @@ Func btnRenameConfirm()
 			GUICtrlSetState($btnDelete, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
+			; IceCube (Misc v1.0)
+			GUICtrlSetState($btnRecycle, $GUI_SHOW)
+			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch

@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: DropTroopFromINI
 ; Description ...:
@@ -118,7 +120,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			$lastTroopPositionDropTroopFromINI = $troopPosition
 			ReleaseClicks()
 		EndIf
-		
+
 		;sleep time Before deploy all troops
 		Local $sleepBefore = 0
 		If $sleepBeforeMin <> $sleepBeforeMax Then
@@ -156,8 +158,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 				;delay time between 2 drops in different point
 				If $delayDropMin <> $delayDropMax Then
 					$delayDrop = Random($delayDropMin, $delayDropMax, 1)
+					$delayDrop = Int($delayDrop / $Divider)
 				Else
 					$delayDrop = $delayDropMin
+					$delayDrop = Int($delayDrop / $Divider)
 				EndIf
 				debugAttackCSV(">> delay change drop point: " & $delayDrop)
 			EndIf
@@ -174,8 +178,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 					;delay time between 2 drops in same point
 					If $delayPointmin <> $delayPointmax Then
 						Local $delayPoint = Random($delayPointmin, $delayPointmax, 1)
+						$delayPoint = Int($delayPoint / $Divider)
 					Else
 						Local $delayPoint = $delayPointmin
+						$delayPoint = Int($delayPoint / $Divider)
 					EndIf
 
 					Switch Eval("e" & $troopName)
@@ -237,8 +243,10 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 		Local $sleepafter = 0
 		If $sleepafterMin <> $sleepAfterMax Then
 			$sleepafter = Random($sleepafterMin, $sleepAfterMax, 1)
+			$sleepafter = Int($sleepafter / $Divider)
 		Else
 			$sleepafter = Int($sleepafterMin)
+			$sleepafter = Int($sleepafter / $Divider)
 		EndIf
 		If $sleepafter > 0 And IsKeepClicksActive() = False Then
 			debugAttackCSV(">> delay after drop all troops: " & $sleepafter)

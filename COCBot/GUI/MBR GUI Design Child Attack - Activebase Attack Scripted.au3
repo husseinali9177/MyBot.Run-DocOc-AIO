@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -66,6 +68,18 @@ Local $x = 25, $y = 20
 			$txtTip =  GetTranslated(607,8, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
+
+		$y += 140
+		$btnAttNowLB = GUICtrlCreateButton(GetTranslated(607, 34, -1), $x + 85, $y - 20, 80, -1)
+			;GUISetState(@SW_SHOW)
+			GUICtrlSetOnEvent(-1, "AttackNowLB")
+
+		Local $x = 50, $y = 275
+
+		GUICtrlCreateLabel("CSV Deployment Speed", $x - 2, $y, -1, -1)
+		$cmbCSVSpeed[$LB] = GUICtrlCreateCombo("", $x + 122, $y - 5, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "0.5x|0.75x|1x|1.25x|1.5x|2x|3x", "1x")
+
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()
