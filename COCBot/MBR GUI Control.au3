@@ -161,7 +161,7 @@ AtkLogHead()
 #include "GUI\MBR GUI Control Child Misc.au3"
 #include "GUI\MBR GUI Control Android.au3"
 #include "functions\RoroTiti MODs\Misc\MBR GUI Control.au3"
-#include "GUI\MBR GUI Control Tab Meteo.au3"
+#include "functions\RoroTiti MODs\Misc\MBR GUI Control Tab Meteo.au3"
 
 ; Accelerator Key, more responsive than buttons in run-mode
 Local $aAccelKeys[2][2] = [["{ESC}", $btnStop], ["{PAUSE}", $btnPause]]
@@ -629,7 +629,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 					GUICtrlSetState($hGUI_MOD_TAB_ITEM3, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
-						cmbSwLang() ;Added Multi Switch Language by rulesss and kychera							
+						cmbSwLang() ;Added Multi Switch Language by rulesss and kychera
 						$TimerForecast = TimerInit()
 					EndIf
 				EndIf
