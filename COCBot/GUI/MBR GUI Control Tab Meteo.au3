@@ -21,11 +21,9 @@ Func chkForecastBoost()
 	If GUICtrlRead($chkForecastBoost) = $GUI_CHECKED Then
 		_GUICtrlEdit_SetReadOnly($txtForecastBoost, False)
 		GUICtrlSetState($txtForecastBoost, $GUI_ENABLE)
-		GUICtrlSetState($txtForecastBoost, $GUI_SHOW)
 	Else
 		_GUICtrlEdit_SetReadOnly($txtForecastBoost, True)
 		GUICtrlSetState($txtForecastBoost, $GUI_DISABLE)
-		GUICtrlSetState($txtForecastBoost, $GUI_HIDE)
 	EndIf
 EndFunc   ;==>chkForecastBoost
 

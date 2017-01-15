@@ -446,17 +446,17 @@ Func Idle() ;Sequence that runs until Full Army
 					DonateCC(True)
 				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False Then
 					DonateCC(True)
-				;modification Chat by rulesss
-				If $iReHere = 6 Then
-			  		 ChatbotMessage()
-				EndIf
-            			;End Chat
+					;modification Chat by rulesss
+					If $iReHere = 6 Then
+						ChatbotMessage()
+					EndIf
+					;End Chat
 				EndIf
 				If _Sleep($iDelayIdle2) Then ExitLoop
 				If $Restart = True Then ExitLoop
 				If checkAndroidReboot() Then ContinueLoop 2
 			WEnd
-		EndIF
+		EndIf
 		If _Sleep($iDelayIdle1) Then ExitLoop
 		checkObstacles() ; trap common error messages also check for reconnecting animation
 		checkMainScreen(False) ; required here due to many possible exits
@@ -700,12 +700,12 @@ Func _RunFunction($action)
 				;If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = False Then getArmyCapacity(True, True)
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 				If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
-			EndIF
+			EndIf
 		Case "DonateCC,Train"
-			If $iSkipDonateNearFulLTroopsEnable = 1 and $FirstStart = true Then getArmyCapacity(True, True)
+			If $iSkipDonateNearFulLTroopsEnable = 1 And $FirstStart = True Then getArmyCapacity(True, True)
 			If $bActiveDonate = True Then
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
-			EndIF
+			EndIf
 			If _Sleep($iDelayRunBot1) = False Then checkMainScreen(False)
 			If $troops_maked_after_fullarmy = False And $actual_train_skip < $max_train_skip Then
 				$troops_maked_after_fullarmy = False
