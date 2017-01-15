@@ -241,3 +241,24 @@ chkForecastHopingSwitchMin()
 ;Added Multi Switch Language by rulesss and Kychera
 _GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
 $icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
+
+;==========Russian Languages by Kychera==========
+	If $ichkRusLang = 1 Then
+		GUICtrlSetState($chkRusLang, $GUI_CHECKED)
+
+	ElseIf $ichkRusLang = 0 Then
+		GUICtrlSetState($chkRusLang, $GUI_UNCHECKED)
+
+	EndIf
+	If $ichkRusLang2 = 1 Then
+		GUICtrlSetState($chkRusLang2, $GUI_CHECKED)
+
+	ElseIf $ichkRusLang2 = 0 Then
+		GUICtrlSetState($chkRusLang2, $GUI_UNCHECKED)
+
+	EndIf
+	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+
+;modification Chat by rulesss
+GUICtrlSetData($chkchatdelay, $ichkchatdelay)

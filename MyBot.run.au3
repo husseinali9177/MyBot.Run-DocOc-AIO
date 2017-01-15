@@ -49,6 +49,7 @@ _GDIPlus_Startup()
 #include "COCBot\GUI\MBR GUI Design Splash.au3"
 #include "COCBot\functions\Config\ScreenCoordinates.au3"
 #include "COCBot\functions\Other\ExtMsgBox.au3"
+#include "COCBot\functions\Chatbot\Chatbot.au3"
 
 Opt("GUIResizeMode", $GUI_DOCKALL) ; Default resize mode for dock android support
 Opt("GUIEventOptions", 1) ; Handle minimize and restore for dock android support
@@ -445,6 +446,11 @@ Func Idle() ;Sequence that runs until Full Army
 					DonateCC(True)
 				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False Then
 					DonateCC(True)
+				;modification Chat by rulesss
+				If $iReHere = 6 Then
+			  		 ChatbotMessage()
+				EndIf
+            			;End Chat
 				EndIf
 				If _Sleep($iDelayIdle2) Then ExitLoop
 				If $Restart = True Then ExitLoop

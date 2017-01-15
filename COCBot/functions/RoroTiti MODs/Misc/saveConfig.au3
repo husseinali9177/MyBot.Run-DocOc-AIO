@@ -13,6 +13,24 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
+IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
+IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
+IniWrite($config, "upgrade", "chkIgnoreQueen", $ichkIgnoreQueen)
+IniWrite($config, "upgrade", "chkIgnoreWarden", $ichkIgnoreWarden)
+IniWrite($config, "upgrade", "chkIgnoreCC", $ichkIgnoreCC)
+IniWrite($config, "upgrade", "chkIgnoreLab", $ichkIgnoreLab)
+IniWrite($config, "upgrade", "chkIgnoreBarrack", $ichkIgnoreBarrack)
+IniWrite($config, "upgrade", "chkIgnoreDBarrack", $ichkIgnoreDBarrack)
+IniWrite($config, "upgrade", "chkIgnoreFactory", $ichkIgnoreFactory)
+IniWrite($config, "upgrade", "chkIgnoreDFactory", $ichkIgnoreDFactory)
+IniWrite($config, "upgrade", "chkIgnoreGColl", $ichkIgnoreGColl)
+IniWrite($config, "upgrade", "chkIgnoreEColl", $ichkIgnoreEColl)
+IniWrite($config, "upgrade", "chkIgnoreDColl", $ichkIgnoreDColl)
+IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
+IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
+IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
+
 If GUICtrlRead($chkCoCStats) = $GUI_CHECKED Then
 	IniWrite($config, "Stats", "chkCoCStats", "1")
 Else
@@ -135,3 +153,22 @@ IniWrite($config, "profiles", "txtForecastHopingSwitchMin", GUICtrlRead($txtFore
 ;Added Multi Switch Language by rulesss and Kychera
 $icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 IniWriteS($config, "Lang", "cmbSwLang", $icmbSwLang)
+
+;==========;Russian Languages by Kychera==========
+	If GUICtrlRead($chkRusLang) = $GUI_CHECKED Then
+		$ichkRusLang = 1
+	Else
+		$ichkRusLang = 0
+	EndIf
+IniWriteS($config, "Lang", "chkRusLang", $ichkRusLang)
+	If GUICtrlRead($chkRusLang2) = $GUI_CHECKED Then
+		$ichkRusLang2 = 1
+	Else
+		$ichkRusLang2 = 0
+	EndIf
+IniWriteS($config, "Lang", "chkRusLang2", $ichkRusLang2)
+$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+IniWriteS($config, "Lang", "cmbLang", $icmbLang)
+
+;modification Chat by rulesss
+	IniWrite($config, "global", "chdelay", GUICtrlRead($chkchatdelay))

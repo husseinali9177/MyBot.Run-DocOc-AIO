@@ -467,6 +467,7 @@ Global $aWeakBaseStats
 
 Func SetupProfileFolder()
 	Global $config = $sProfilePath & "\" & $sCurrProfile & "\config.ini"
+	Global $chatIni = $sProfilePath & "\" & $sCurrProfile & "\chat.ini"
 	Global $InputConfigFile = $sProfilePath & "\" & $sCurrProfile & "\InputConfig.ini"
 	Global $statChkWeakBase = $sProfilePath & "\" & $sCurrProfile & "\stats_chkweakbase.INI"
 	Global $statChkTownHall = $sProfilePath & "\" & $sCurrProfile & "\stats_chktownhall.INI"

@@ -109,3 +109,21 @@ Global $ichkForecastHopingSwitchMax, $icmbForecastHopingSwitchMax, $itxtForecast
 ;Added Multi Switch Language by rulesss and Kychera
 Global $icmbSwLang
 Global $cmbSwLang
+
+; ChatBot -modification by rulesss
+Global $FoundChatMessage = 0
+Global $ChatbotStartTime
+
+;====================
+; ChatBot -modification by rulesss
+Global $FoundChatMessage = 0
+Global $ChatbotStartTime
+;=====================
+;==========Modified kychera===========
+Global $chkRusLang2
+Global $ichkRusLang2 = 0
+Global $chkRusLang
+Global $ichkRusLang = 0
+Global $cmbLang
+Global $icmbLang
+;======================================

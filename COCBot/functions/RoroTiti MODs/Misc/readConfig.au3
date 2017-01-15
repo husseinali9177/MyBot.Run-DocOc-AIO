@@ -13,6 +13,24 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+$ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
+$ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
+$ichkIgnoreKing = IniRead($config, "upgrade", "chkIgnoreKing", "0")
+$ichkIgnoreQueen = IniRead($config, "upgrade", "chkIgnoreQueen", "0")
+$ichkIgnoreWarden = IniRead($config, "upgrade", "chkIgnoreWarden", "0")
+$ichkIgnoreCC = IniRead($config, "upgrade", "chkIgnoreCC", "0")
+$ichkIgnoreLab = IniRead($config, "upgrade", "chkIgnoreLab", "0")
+$ichkIgnoreBarrack = IniRead($config, "upgrade", "chkIgnoreBarrack", "0")
+$ichkIgnoreDBarrack = IniRead($config, "upgrade", "chkIgnoreDBarrack", "0")
+$ichkIgnoreFactory = IniRead($config, "upgrade", "chkIgnoreFactory", "0")
+$ichkIgnoreDFactory = IniRead($config, "upgrade", "chkIgnoreDFactory", "0")
+$ichkIgnoreGColl = IniRead($config, "upgrade", "chkIgnoreGColl", "0")
+$ichkIgnoreEColl = IniRead($config, "upgrade", "chkIgnoreEColl", "0")
+$ichkIgnoreDColl = IniRead($config, "upgrade", "chkIgnoreDColl", "0")
+$iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
+$iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
+$iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
+
 $ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
 $MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
 
@@ -72,3 +90,12 @@ $icmbForecastHopingSwitchMin = IniRead($config, "profiles", "cmbForecastHopingSw
 $itxtForecastHopingSwitchMin = IniRead($config, "profiles", "txtForecastHopingSwitchMin", "2.5")
 ;Added Multi Switch Language by rulesss and Kychera
 $icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")
+
+;==========;Russian Languages by Kychera==========
+	   $ichkRusLang = IniRead($config, "Lang", "chkRusLang", "0")
+       $ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")	   
+	   ;sw langs
+        $icmbLang = IniRead($config, "Lang", "cmbLang", "8")
+	  ;==========;Russian Languages by Kychera==========
+	;modification Chat by rulesss
+	  $ichkchatdelay = IniRead($config, "global", "chdelay", "0")  
