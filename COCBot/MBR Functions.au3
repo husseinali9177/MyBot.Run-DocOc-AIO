@@ -299,6 +299,8 @@
 #include "functions\RoroTiti MODs\AutoHide.au3"
 #include "functions\RoroTiti MODs\ProfileSwitch.au3"
 #include "functions\RoroTiti MODs\SmartSwitchAcc.au3"
+#include "functions\RoroTiti MODs\AreCollectorsOutside.au3"
+#include "functions\RoroTiti MODs\SimpleQuickTrain.au3"
 
 ;OLD CODE
 

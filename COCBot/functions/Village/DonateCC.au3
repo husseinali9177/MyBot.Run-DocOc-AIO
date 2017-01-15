@@ -612,6 +612,13 @@ Func DonateCC($Check = False)
 
 	If _Sleep($iDelayDonateCC2) Then Return
 
+; SimpleQuickTrain (Demen) - Added By NguyenAnhHD
+	If $bDonationEnabled = True And $ichkSimpleQuickTrain = 1 And $ichkTrainDonated = 1 Then
+		If OpenArmyWindow() = False Then Return
+		MakingDonatedTroops()
+	EndIf
+; SimpleQuickTrain (Demen) - Added By NguyenAnhHD
+
 EndFunc   ;==>DonateCC
 
 Func CheckDonateTroop($Type, $aDonTroop, $aBlkTroop, $aBlackList, $ClanString)

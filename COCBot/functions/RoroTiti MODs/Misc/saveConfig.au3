@@ -172,3 +172,56 @@ IniWriteS($config, "Lang", "cmbLang", $icmbLang)
 
 ;modification Chat by rulesss
 	IniWrite($config, "global", "chdelay", GUICtrlRead($chkchatdelay))
+
+	; Quicktrain Combo (Demen) - Added By NguyenAnhHD
+	If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "QuickTrain12", 1)
+	Else
+		IniWriteS($config, "troop", "QuickTrain12", 0)
+	EndIf
+
+	If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
+		IniWriteS($config, "troop", "QuickTrain123", 1)
+	Else
+		IniWriteS($config, "troop", "QuickTrain123", 0)
+	EndIf
+
+	; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+	If GUICtrlRead($chkSimpleQuickTrain) = $GUI_CHECKED Then
+		$ichkSimpleQuickTrain = 1
+	Else
+		$ichkSimpleQuickTrain = 0
+	EndIf
+	IniWriteS($config, "troop", "SimpleQuickTrain", $ichkSimpleQuickTrain)
+
+	If GUICtrlRead($chkFillArcher) = $GUI_CHECKED Then
+		$ichkFillArcher = 1
+	Else
+		$ichkFillArcher = 0
+	EndIf
+	IniWriteS($config, "troop", "ChkFillArcher", $ichkFillArcher)
+
+	$iFillArcher = GUICtrlRead($txtFillArcher)
+	IniWriteS($config, "troop", "FillArcher", GUICtrlRead($txtFillArcher))
+
+	If GUICtrlRead($chkFillEQ) = $GUI_CHECKED Then
+		$ichkFillEQ = 1
+	Else
+		$ichkFillEQ = 0
+	EndIf
+	IniWriteS($config, "troop", "FillEQ", $ichkFillEQ)
+
+	If GUICtrlRead($chkTrainDonated) = $GUI_CHECKED Then
+		$ichkTrainDonated = 1
+	Else
+		$ichkTrainDonated = 0
+	EndIf
+	IniWriteS($config, "troop", "TrainDonated", $ichkTrainDonated)
+
+	; Check Collectors Outside - Added By NguyenAnhHD
+	If GUICtrlRead($chkDBMeetCollOutside) = $GUI_CHECKED Then
+		IniWriteS($config, "search", "DBMeetCollOutside", 1)
+	Else
+		IniWriteS($config, "search", "DBMeetCollOutside", 0)
+	EndIf
+	IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))

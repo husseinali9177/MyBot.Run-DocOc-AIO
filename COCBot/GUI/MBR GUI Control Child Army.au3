@@ -31,6 +31,9 @@ Func chkUseQTrain()
 		lblTotalCount()
 		lblTotalCountSpell()
 	EndIf
+
+	GUIControlForSimpleQTrain()		; QuickTrainCombo & SimpleQuickTrain (Demen) - Added By NguyenAnhHD
+
 EndFunc   ;==>chkUseQTrain
 
 Func SetComboTroopComp()

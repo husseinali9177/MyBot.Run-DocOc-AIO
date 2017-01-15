@@ -262,3 +262,51 @@ $icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 
 ;modification Chat by rulesss
 GUICtrlSetData($chkchatdelay, $ichkchatdelay)
+
+	; QuicktrainCombo (Demen) - Added By NguyenAnhHD
+	If $iRadio_Army12 = 1 Then
+		GUICtrlSetState($hRadio_Army12, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($hRadio_Army12, $GUI_UNCHECKED)
+	EndIf
+
+	If $iRadio_Army123 = 1 Then
+		GUICtrlSetState($hRadio_Army123, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($hRadio_Army123, $GUI_UNCHECKED)
+	EndIf
+
+	; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+	If $ichkSimpleQuickTrain = 1 Then
+		GUICtrlSetState($chkSimpleQuickTrain, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkSimpleQuickTrain, $GUI_UNCHECKED)
+	EndIf
+
+	If $ichkFillArcher = 1 Then
+		GUICtrlSetState($chkFillArcher, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkFillArcher, $GUI_UNCHECKED)
+	EndIf
+	GUICtrlSetData($txtFillArcher, $iFillArcher)
+
+	If $ichkFillEQ = 1 Then
+		GUICtrlSetState($chkFillEQ, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkFillEQ, $GUI_UNCHECKED)
+	EndIf
+
+	If $ichkTrainDonated = 1 Then
+		GUICtrlSetState($chkTrainDonated, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkTrainDonated, $GUI_UNCHECKED)
+	EndIf
+
+	; Check Collectors Outside - Added By NguyenAnhHD
+	If $ichkDBMeetCollOutside = 1 Then
+		GUICtrlSetState($chkDBMeetCollOutside, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDBMeetCollOutside, $GUI_UNCHECKED)
+	EndIf
+	chkDBMeetCollOutside()
+	GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)

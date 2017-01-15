@@ -55,9 +55,18 @@ Local $y = $yStart + 8
 	GUICtrlSetState(-1, $GUI_DISABLE)
 	$hRadio_Army3 = GUICtrlCreateRadio(GetTranslated(621, 39, "Army 3"), $x + 240, $y + 20, 50, 15)
 	GUICtrlSetState(-1, $GUI_DISABLE)
+	$hRadio_Army12 = GUICtrlCreateRadio(GetTranslated(621, 100, "Army 12"), $x + 300, $y + 20, 54, 15)
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetState(-1, $GUI_HIDE)
+	$hRadio_Army123 = GUICtrlCreateRadio(GetTranslated(621, 101, "Army 123"), $x + 365, $y + 20, 60, 15)
+	GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlSetState(-1, $GUI_HIDE)
 	$LblRemovecamp = GUICtrlCreateLabel(GetTranslated(621, 41, "Remove Army"), $x + 335, $y + 20, -1, 15, $SS_LEFT)
 	$icnRemovecamp = GUICtrlCreateIcon($pIconLib, $eIcnResetButton, $x + 405, $y + 17, 24, 24)
 	GUICtrlSetOnEvent(-1, "Removecamp")
+
+; Adding GUI SimpleQuickTrain - Added by NguyenAnhHD
+#include "..\functions\RoroTiti MODs\Misc\MBR GUI Design - SimpleQuickTrain.au3"
 
 Local $x = 10
 Local $y = 45

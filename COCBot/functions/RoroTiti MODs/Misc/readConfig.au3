@@ -93,9 +93,24 @@ $icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")
 
 ;==========;Russian Languages by Kychera==========
 	   $ichkRusLang = IniRead($config, "Lang", "chkRusLang", "0")
-       $ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")	   
+       $ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")
 	   ;sw langs
         $icmbLang = IniRead($config, "Lang", "cmbLang", "8")
 	  ;==========;Russian Languages by Kychera==========
 	;modification Chat by rulesss
-	  $ichkchatdelay = IniRead($config, "global", "chdelay", "0")  
+	  $ichkchatdelay = IniRead($config, "global", "chdelay", "0")
+
+		; QuicktrainCombo (Demen) - Added By NguyenAnhHD
+		IniReadS($iRadio_Army12, $config, "troop", "QuickTrain12", "0")
+		IniReadS($iRadio_Army123, $config, "troop", "QuickTrain123", "0")
+
+		; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+		IniReadS($ichkSimpleQuickTrain, $config, "troop", "SimpleQuickTrain", "0")
+		IniReadS($ichkFillArcher, $config, "troop", "ChkFillArcher", "0")
+		IniReadS($iFillArcher, $config, "troop", "FillArcher", "0")
+		IniReadS($ichkFillEQ, $config, "troop", "FillEQ", "0")
+		IniReadS($ichkTrainDonated, $config, "troop", "TrainDonated", "0")
+
+		; Check Collectors Outside - Added By NguyenAnhHD
+		$ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
+		$iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")

@@ -161,7 +161,7 @@ Func chkCoCStats()
 EndFunc   ;==>chkCoCStats
 
 Func cmbSwLang();Added Multi Switch Language by rulesss and kychera
- Switch GUICtrlRead($cmbSwLang) 
+ Switch GUICtrlRead($cmbSwLang)
 	Case "EN"
 		setForecast2()
 	Case "RU"
@@ -179,4 +179,35 @@ Func cmbSwLang();Added Multi Switch Language by rulesss and kychera
 	Case "IN"
 		setForecast9()
  EndSwitch
-EndFunc	 
+EndFunc
+
+; GUI Control for SimpleQuickTrain - Added by NguyenAnhHD
+Global Const $grpTrainTroops2=$grpTrainTroopsGUI&"#"&$icnBarb&"#"&$txtLevBarb&"#"&$icnArch&"#"&$txtLevArch&"#"&$icnGiant&"#"&$txtLevGiant&"#"&$icnGobl&"#"&$txtLevGobl&"#"&$icnWall&"#"&$txtLevWall&"#"&$icnBall&"#"&$txtLevBall&"#"&$icnWiza&"#"&$txtLevWiza&"#"&$icnHeal&"#"&$txtLevHeal&"#"&$icnDrag&"#"&$txtLevDrag&"#"&$icnPekk&"#"&$txtLevPekk&"#"&$icnBabyD&"#"&$txtLevBabyD&"#"&$icnMine&"#"&$txtLevMine&"#"&$icnMini&"#"&$txtLevMini&"#"&$icnHogs&"#"&$txtLevHogs&"#"&$icnValk&"#"&$txtLevValk&"#"&$icnGole&"#"&$txtLevGole&"#"&$icnWitc&"#"&$txtLevWitc&"#"&$icnLava&"#"&$txtLevLava&"#"&$icnBowl&"#"&$txtLevBowl
+Global Const $grpSimpleQT=$grpSimpleQuickTrain&"#"&$chkSimpleQuickTrain&"#"&$chkFillArcher&"#"&$txtFillArcher&"#"&$chkFillEQ&"#"&$chkTrainDonated
+Func GUIControlForSimpleQTrain()
+	If GUICtrlRead($hChk_UseQTrain) = $GUI_CHECKED Then
+		_GUI_Value_STATE("SHOW", $hRadio_Army12 & "#" & $hRadio_Army123 & "#" & $grpSimpleQT)
+		_GUI_Value_STATE("ENABLE", $hRadio_Army12 & "#" & $hRadio_Army123)
+		_GUI_Value_STATE("HIDE", $LblRemovecamp & "#" & $icnRemovecamp & "#" & $grpTrainTroops & "#" & $grpTrainTroops2)
+		_GUI_Value_STATE("ENABLE", $chkSimpleQuickTrain & "#" & $chkFillArcher & "#" & $txtFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
+		chkSimpleQuickTrain()
+	Else
+		_GUI_Value_STATE("DISABLE", $hRadio_Army12 & "#" & $hRadio_Army123)
+		_GUI_Value_STATE("HIDE", $hRadio_Army12 & "#" & $hRadio_Army123 & "#" & $grpSimpleQT)
+		_GUI_Value_STATE("SHOW", $LblRemovecamp & "#" &  $icnRemovecamp & "#" & $grpTrainTroops & "#" & $grpTrainTroops2)
+		_GUI_Value_STATE("DISABLE", $chkSimpleQuickTrain & "#" & $chkFillArcher & "#" & $txtFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
+	EndIf
+EndFunc		;==>GUIControlForSimpleQTrain - additional Control to Func chkUseQTrain()
+
+Func chkSimpleQuickTrain()
+	If GUICtrlRead($chkSimpleQuickTrain) = $GUI_CHECKED Then
+		_GUI_Value_STATE("ENABLE", $chkFillArcher & "#" & $txtFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
+
+	Else
+		_GUI_Value_STATE("DISABLE", $chkFillArcher & "#" & $txtFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
+		_GUI_Value_STATE("UNCHECKED", $chkFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
+
+	EndIf
+EndFunc   ;==>chkSimpleQuickTrain
+; ======================== SimpleQuickTrain ========================
+

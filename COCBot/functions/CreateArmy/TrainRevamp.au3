@@ -43,35 +43,41 @@ Func TrainRevamp()
 
 	If $Runstate = False Then Return
 
-	If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
-
-		If $IsFullArmywithHeroesAndSpells Then Setlog(" - Your Army is Full, let's make troops before Attack!", $COLOR_BLUE)
-		If ($CurCamp = 0 And $FirstStart) Then
-			Setlog(" - Your Army is Empty, let's make troops before Attack!", $COLOR_ACTION1)
-			Setlog(" - Go to TrainRevamp Tab and select your Quick Army position!", $COLOR_ACTION1)
-		EndIf
-
-		DeleteQueued("Troops")
-		If _Sleep(250) Then Return
-		DeleteQueued("Spells")
-		If _Sleep(500) Then Return
-
-		CheckCamp()
-
-		ResetVariables("donated")
-
-		If $FirstStart Then $FirstStart = False
-
-		If _Sleep(700) Then Return
+	; SimpleQuickTrain (Demen) - Added by NguyenAnhHD
+	If $ichkSimpleQuickTrain = 1 Then
+		If $bDonationEnabled = True And $ichkTrainDonated = 1 Then MakingDonatedTroops()
+		SimpleQuickTrain()
 	Else
+		If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
 
-		If $bDonationEnabled = True Then MakingDonatedTroops()
+			If $IsFullArmywithHeroesAndSpells Then Setlog(" - Your Army is Full, let's make troops before Attack!", $COLOR_BLUE)
+			If ($CurCamp = 0 And $FirstStart) Then
+				Setlog(" - Your Army is Empty, let's make troops before Attack!", $COLOR_ACTION1)
+				Setlog(" - Go to TrainRevamp Tab and select your Quick Army position!", $COLOR_ACTION1)
+			EndIf
 
-		CheckIsFullQueuedAndNotFullArmy()
-		If $Runstate = False Then Return
-		CheckIsEmptyQueuedAndNotFullArmy()
-		If $Runstate = False Then Return
-		If $FirstStart Then $FirstStart = False
+			DeleteQueued("Troops")
+			If _Sleep(250) Then Return
+			DeleteQueued("Spells")
+			If _Sleep(500) Then Return
+
+			CheckCamp()
+
+			ResetVariables("donated")
+
+			If $FirstStart Then $FirstStart = False
+
+			If _Sleep(700) Then Return
+		Else
+
+			If $bDonationEnabled = True Then MakingDonatedTroops()
+
+			CheckIsFullQueuedAndNotFullArmy()
+			If $Runstate = False Then Return
+			CheckIsEmptyQueuedAndNotFullArmy()
+			If $Runstate = False Then Return
+			If $FirstStart Then $FirstStart = False
+		EndIf
 	EndIf
 
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
@@ -98,7 +104,21 @@ Func CheckCamp($NeedOpenArmy = False, $CloseCheckCamp = False)
 	If $ReturnCamp = 1 Then
 		OpenTrainTabNumber($QuickTrainTAB)
 		If _Sleep(1000) Then Return
-		TrainArmyNumber($Num)
+		If $Num > 0 Then
+			TrainArmyNumber($Num)
+		Else
+			Setlog(" » Quick Train Combo Army")
+			If $Runstate = False Then Return
+			If ISArmyWindow(True, $QuickTrainTAB) Then
+				For $i = 1 to 3
+					Setlog(" » TrainArmy Number: " & $i, $COLOR_ORANGE)
+					Click(817, 248 + 118*$i)
+					If $i = 2 And GUICtrlRead($hRadio_Army12)  = $GUI_CHECKED Then ExitLoop
+				Next
+			Else
+				Setlog(" » Error Clicking On Army! You are not on Quick Train Window", $COLOR_RED)
+			EndIf
+		EndIf
 		If _Sleep(700) Then Return
 	EndIf
 	If $ReturnCamp = 0 Then
