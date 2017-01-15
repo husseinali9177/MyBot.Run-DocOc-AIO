@@ -40,26 +40,33 @@ Func btnchkbxRepeat()
 EndFunc   ;==>btnchkbxRepeat
 
 Func picUpgradeTypeLocation()
+	Local $wasRunState = $RunState
 	$RunState = True
 	PureClick(1, 40, 1, 0, "#9999") ; Clear screen
 	Sleep(100)
 	Zoomout() ; Zoom out if needed
-	For $j = 0 To UBound($aUpgrades, 1) - 1
-		If @GUI_CtrlId = $picUpgradeType[$j] Then
-			If isInsideDiamondXY($aUpgrades[$j][0], $aUpgrades[$j][0]) Then ; check for valid location
-				Click($aUpgrades[$j][0], $aUpgrades[$j][1], 1, 0, "#9999")
+	Local $inum
+	For $inum = 0 To UBound($aUpgrades, 1) - 1
+		If @GUI_CtrlId = $picUpgradeType[$inum] Then
+			Local $x = $aUpgrades[$inum][0]
+			Local $y = $aUpgrades[$inum][1]
+			Local $n = $aUpgrades[$inum][4]
+			SetDebugLog("Selecting #" & $inum + 1 & ": " & $n & ", " & $x & "/" & $y)
+			If isInsideDiamondXY($x, $y) Then ; check for valid location
+				BuildingClick($aUpgrades[$inum][0], $aUpgrades[$inum][1], "#9999")
 				Sleep(100)
-				If StringInStr($aUpgrades[$j][4], "collect", $STR_NOCASESENSEBASIC) Or _
-						StringInStr($aUpgrades[$j][4], "mine", $STR_NOCASESENSEBASIC) Or _
-						StringInStr($aUpgrades[$j][4], "drill", $STR_NOCASESENSEBASIC) Then
+				If StringInStr($n, "collect", $STR_NOCASESENSEBASIC) Or _
+						StringInStr($n, "mine", $STR_NOCASESENSEBASIC) Or _
+						StringInStr($n, "drill", $STR_NOCASESENSEBASIC) Then
 					Click(1, 40, 1, 0, "#0999") ;Click away to deselect collector if was not full, and collected with previous click
 					Sleep(100)
-					Click($aUpgrades[$j][0], $aUpgrades[$j][1], 1, 0, "#9999") ;Select collector
+					BuildingClick($aUpgrades[$inum][0], $aUpgrades[$inum][1], "#9999") ;Select collector
 				EndIf
 			EndIf
+			ExitLoop
 		EndIf
 	Next
-	$RunState = False
+	$RunState = $wasRunState
 EndFunc   ;==>picUpgradeTypeLocation
 
 Func btnResetUpgrade()
@@ -92,14 +99,14 @@ Func chkLab()
 		GUICtrlSetState($icnLabUpgrade, $GUI_SHOW)
 		GUICtrlSetState($lblNextUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($cmbLaboratory, $GUI_ENABLE)
-;		GUICtrlSetState($btnLocateLaboratory, $GUI_SHOW)
+		;GUICtrlSetState($btnLocateLaboratory, $GUI_SHOW)
 		GUICtrlSetImage($icnLabUpgrade, $pIconLib, $aLabTroops[$icmbLaboratory][4])
 	Else
 		$ichkLab = 0
 		GUICtrlSetState($icnLabUpgrade, $GUI_HIDE)
 		GUICtrlSetState($lblNextUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($cmbLaboratory, $GUI_DISABLE)
-;		GUICtrlSetState($btnLocateLaboratory, $GUI_HIDE)
+		;GUICtrlSetState($btnLocateLaboratory, $GUI_HIDE)
 		GUICtrlSetImage($icnLabUpgrade, $pIconLib, $aLabTroops[0][4])
 	EndIf
 	LabStatusGUIUpdate()
@@ -134,7 +141,7 @@ Func ResetLabUpgradeTime()
 	Local $stext = @CRLF & GetTranslated(614, 13, "Are you 100% sure you want to reset lab upgrade timer?") & @CRLF & _
 			GetTranslated(614, 14, "Click OK to reset") & @CRLF & GetTranslated(614, 15, "Or Click Cancel to exit") & @CRLF
 	Local $MsgBox = _ExtMsgBox(0, GetTranslated(614, 16, "Reset timer") & "|" & GetTranslated(614, 17, "Cancel and Return"), GetTranslated(614, 18, "Reset laboratory upgrade timer?"), $stext, 120, $frmBot)
-	If $DebugSetlog = 1 Then Setlog("$MsgBox= " & $MsgBox, $COLOR_DEBUG) ;Debug
+	If $DebugSetlog = 1 Then Setlog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
 	If $MsgBox = 1 Then
 		$sLabUpgradeTime = ""
 		$txtTip = GetTranslated(614, 8, "Visible Red button means that laboratory upgrade in process") & @CRLF & _
@@ -244,14 +251,13 @@ Func chkWalls()
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
 		$ichkWalls = 1
 		GUICtrlSetState($UseGold, $GUI_ENABLE)
-		GUICtrlSetState($sldMaxNbWall, $GUI_ENABLE)
+		; GUICtrlSetState($sldMaxNbWall, $GUI_ENABLE)
 		;GUICtrlSetState($sldToleranceWall, $GUI_ENABLE)
 		;GUICtrlSetState($btnFindWalls, $GUI_ENABLE)
 		;		GUICtrlSetState($UseElixir, $GUI_ENABLE)
 		;		GUICtrlSetState($UseElixirGold, $GUI_ENABLE)
 		GUICtrlSetState($cmbWalls, $GUI_ENABLE)
 		GUICtrlSetState($txtWallMinGold, $GUI_ENABLE)
-		GUICtrlSetState($chkUpgradeContinually, $GUI_ENABLE)
 		;		GUICtrlSetState($txtWallMinElixir, $GUI_ENABLE)
 		cmbWalls()
 	Else
@@ -262,10 +268,10 @@ Func chkWalls()
 		GUICtrlSetState($cmbWalls, $GUI_DISABLE)
 		GUICtrlSetState($txtWallMinGold, $GUI_DISABLE)
 		GUICtrlSetState($txtWallMinElixir, $GUI_DISABLE)
-		GUICtrlSetState($sldMaxNbWall, $GUI_DISABLE)
+		; GUICtrlSetState($sldMaxNbWall, $GUI_DISABLE)
 		;GUICtrlSetState($sldToleranceWall, $GUI_DISABLE)
 		;GUICtrlSetState($btnFindWalls, $GUI_DISABLE)
-		GUICtrlSetState($chkUpgradeContinually, $GUI_DISABLE)
+
 	EndIf
 EndFunc   ;==>chkWalls
 
@@ -278,20 +284,12 @@ Func chkSaveWallBldr()
 	EndIf
 EndFunc   ;==>chkSaveWallBldr
 
-Func chkUpgradeContinually()
-	If GUICtrlRead($chkUpgradeContinually) = $GUI_CHECKED Then
-		$ichkUpgradeContinually = 1
-	Else
-		$ichkUpgradeContinually = 0
-	EndIf
-EndFunc   ;==>chkUpgradeContinually
-
 Func cmbWalls()
 	$icmbWalls = _GUICtrlComboBox_GetCurSel($cmbWalls)
 	$WallCost = $WallCosts[_GUICtrlComboBox_GetCurSel($cmbWalls)]
 	GUICtrlSetData($lblWallCost, _NumberFormat($WallCost))
-	_GUI_Value_STATE("HIDE", $txtWall04ST & "#" & $txtWall05ST & "#" & $txtWall06ST & "#" & $txtWall07ST & "#" & $txtWall08ST & "#" & $txtWall09ST & "#" & $txtWall10ST & "#" & $txtWall11ST)
-	_GUI_Value_STATE("HIDE", $Wall04ST & "#" & $Wall05ST & "#" & $Wall06ST & "#" & $Wall07ST & "#" & $Wall08ST & "#" & $Wall09ST & "#" & $Wall10ST & "#" & $Wall11ST)
+	_GUI_Value_STATE("HIDE", $txtWall04ST & "#" & $txtWall05ST & "#" & $txtWall06ST & "#" & $txtWall07ST & "#" & $txtWall08ST & "#" & $txtWall09ST & "#" & $txtWall10ST & "#" & $txtWall11ST & "#" & $txtWall12ST)
+	_GUI_Value_STATE("HIDE", $Wall04ST & "#" & $Wall05ST & "#" & $Wall06ST & "#" & $Wall07ST & "#" & $Wall08ST & "#" & $Wall09ST & "#" & $Wall10ST & "#" & $Wall11ST & "#" & $Wall12ST)
 	Switch $icmbWalls ;
 		Case 0
 			_GUI_Value_STATE("SHOW", $txtWall04ST & "#" & $Wall04ST & "#" & $txtWall05ST & "#" & $Wall05ST)
@@ -334,13 +332,20 @@ Func cmbWalls()
 			GUICtrlSetState($txtWallMinElixir, $GUI_ENABLE)
 		Case 5
 			_GUI_Value_STATE("SHOW", $txtWall04ST & "#" & $Wall04ST & "#" & $txtWall05ST & "#" & $Wall05ST & "#" & $txtWall06ST & "#" & $Wall06ST & "#" & $txtWall07ST & "#" & $Wall07ST & "#" & $txtWall08ST & "#" & $Wall08ST & "#" & $txtWall09ST & "#" & $Wall09ST & "#" & $txtWall10ST & "#" & $Wall10ST)
-			$WallCost = 3000000
+			$WallCost = 2000000
 			GUICtrlSetData($lblWallCost, _NumberFormat($WallCost))
 			GUICtrlSetState($UseElixir, $GUI_ENABLE)
 			GUICtrlSetState($UseElixirGold, $GUI_ENABLE)
 			GUICtrlSetState($txtWallMinElixir, $GUI_ENABLE)
 		Case 6
 			_GUI_Value_STATE("SHOW", $txtWall04ST & "#" & $Wall04ST & "#" & $txtWall05ST & "#" & $Wall05ST & "#" & $txtWall06ST & "#" & $Wall06ST & "#" & $txtWall07ST & "#" & $Wall07ST & "#" & $txtWall08ST & "#" & $Wall08ST & "#" & $txtWall09ST & "#" & $Wall09ST & "#" & $txtWall10ST & "#" & $Wall10ST & "#" & $txtWall11ST & "#" & $Wall11ST)
+			$WallCost = 3000000
+			GUICtrlSetData($lblWallCost, _NumberFormat($WallCost))
+			GUICtrlSetState($UseElixir, $GUI_ENABLE)
+			GUICtrlSetState($UseElixirGold, $GUI_ENABLE)
+			GUICtrlSetState($txtWallMinElixir, $GUI_ENABLE)
+		Case 7
+			_GUI_Value_STATE("SHOW", $txtWall04ST & "#" & $Wall04ST & "#" & $txtWall05ST & "#" & $Wall05ST & "#" & $txtWall06ST & "#" & $Wall06ST & "#" & $txtWall07ST & "#" & $Wall07ST & "#" & $txtWall08ST & "#" & $Wall08ST & "#" & $txtWall09ST & "#" & $Wall09ST & "#" & $txtWall10ST & "#" & $Wall10ST & "#" & $txtWall11ST & "#" & $Wall11ST & "#" & $txtWall12ST & "#" & $Wall12ST)
 			$WallCost = 4000000
 			GUICtrlSetData($lblWallCost, _NumberFormat($WallCost))
 			GUICtrlSetState($UseElixir, $GUI_ENABLE)

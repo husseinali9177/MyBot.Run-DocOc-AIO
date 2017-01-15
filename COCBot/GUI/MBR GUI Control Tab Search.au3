@@ -244,11 +244,13 @@ EndFunc   ;==>chkDBActivateTropies
 
 Func chkDBActivateCamps()
 	If GUICtrlRead($chkDBActivateCamps) = $GUI_CHECKED Then
+		GUICtrlSetState($lblDBArmyCamps, $GUI_ENABLE)
 		GUICtrlSetState($txtDBArmyCamps, $GUI_ENABLE)
 		;_GUI_Value_STATE("SHOW", $groupSearchDB)
 		;cmbDBGoldElixir()
 		;_GUI_Value_STATE("SHOW", $groupHerosDB)
 	Else
+		GUICtrlSetState($lblDBArmyCamps, $GUI_DISABLE)
 		GUICtrlSetState($txtDBArmyCamps, $GUI_DISABLE)
 		;_GUI_Value_STATE("HIDE", $groupSearchDB)
 		;_GUI_Value_STATE("HIDE", $groupHerosDB)
@@ -418,11 +420,13 @@ EndFunc   ;==>chkABActivateTropies
 
 Func chkABActivateCamps()
 	If GUICtrlRead($chkABActivateCamps) = $GUI_CHECKED Then
+		GUICtrlSetState($lblABArmyCamps, $GUI_ENABLE)
 		GUICtrlSetState($txtABArmyCamps, $GUI_ENABLE)
 		;_GUI_Value_STATE("SHOW", $groupSearchAB)
 		;cmbABGoldElixir()
 		;_GUI_Value_STATE("SHOW", $groupHerosAB)
 	Else
+		GUICtrlSetState($lblABArmyCamps, $GUI_DISABLE)
 		GUICtrlSetState($txtABArmyCamps, $GUI_DISABLE)
 		;_GUI_Value_STATE("HIDE", $groupSearchAB)
 		;_GUI_Value_STATE("HIDE", $groupHerosAB)
@@ -609,41 +613,49 @@ EndFunc   ;==>chkABWardenWait
 
 Func chkDBSpellsWait()
 	If $iTownHallLevel > 4 Or $iTownHallLevel = 0 Then ; Must be TH5+ to have spells
-		GUICtrlSetState($IMGchkDBLightSpellWait, $GUI_ENABLE)
+		For $i = $IMGchkDBLightSpellWait To $IMGchkDBHasteSpellWait
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
 		If GUICtrlRead($chkDBSpellsWait) = $GUI_CHECKED Then
 			$iEnableSpellsWait[$DB] = 1
 			chkSpellWaitError()
 			If @error Then
 				GUICtrlSetState($chkDBSpellsWait, $GUI_UNCHECKED)
 				$iEnableSpellsWait[$DB] = 0
-				Setlog("Wait for Spells disabled due training count error", $COLOR_RED)
+				Setlog("Wait for Spells disabled due training count error", $COLOR_ERROR)
 			EndIf
 		Else
 			$iEnableSpellsWait[$DB] = 0
 		EndIf
 	Else
 		GUICtrlSetState($chkDBSpellsWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
-		GUICtrlSetState($IMGchkDBLightSpellWait, $GUI_ENABLE)
+		For $i = $IMGchkDBLightSpellWait To $IMGchkDBHasteSpellWait
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
 	EndIf
 EndFunc
 
 Func chkABSpellsWait()
 	If $iTownHallLevel > 4 Or $iTownHallLevel = 0 Then ; Must be TH5+ to have spells
-		GUICtrlSetState($IMGchkABLightSpellWait, $GUI_ENABLE)
+		For $i = $IMGchkABLightSpellWait To $IMGchkABHasteSpellWait
+			GUICtrlSetState($i, $GUI_ENABLE)
+		Next
 		If GUICtrlRead($chkABSpellsWait) = $GUI_CHECKED Then
 			$iEnableSpellsWait[$LB] = 1
 			chkSpellWaitError()
 			If @error Then
 				GUICtrlSetState($chkABSpellsWait, $GUI_UNCHECKED)
 				$iEnableSpellsWait[$LB] = 0
-				Setlog("Wait for Spells disabled due training count error", $COLOR_RED)
+				Setlog("Wait for Spells disabled due training count error", $COLOR_ERROR)
 			EndIf
 		Else
 			$iEnableSpellsWait[$LB] = 0
 		EndIf
 	Else
 		GUICtrlSetState($chkABSpellsWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
-		GUICtrlSetState($IMGchkABLightSpellWait, $GUI_DISABLE)
+		For $i = $IMGchkABLightSpellWait To $IMGchkABHasteSpellWait
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
 	EndIf
 EndFunc
 
@@ -695,7 +707,7 @@ Func chkSpellWaitError()
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 480)
 			While 1
 				$MsgBox3 = _ExtMsgBox(128, "1|2|3|4|5|6|7", GetTranslated(625,123,"You are a WINNER!!"), $sFunnyText, 900, $frmBot)
-				If @error Then Setlog("_ExtMsgBox error: " & @error, $COLOR_RED)
+				If @error Then Setlog("_ExtMsgBox error: " & @error, $COLOR_ERROR)
 				If $iCount > 7 And Int($MsgBox3) = Random(1,8,1) Then
 					ExitLoop
 				Else

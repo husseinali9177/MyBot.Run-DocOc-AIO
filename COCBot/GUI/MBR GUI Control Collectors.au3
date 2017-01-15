@@ -12,46 +12,11 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-;~ Func chkOutSideCollectors()
-;~ 	If GUICtrlRead($chkOutSideCollectors) = $GUI_CHECKED Then
-;~ 		For $i = $chkOutSideCollectors + 1 To $txtPercentCollectors
-;~ 			GUICtrlSetState($i, $GUI_ENABLE)
-;~ 		Next
-;~ 	Else
-;~ 		For $i = $chkOutSideCollectors + 1 To $txtPercentCollectors
-;~ 			GUICtrlSetState($i, $GUI_DISABLE)
-;~ 		Next
-;~ 	EndIf
-;~ EndFunc   ;==>chkOutSideCollectors
-
-;~ Func chkOutSideMines()
-;~ 	If GUICtrlRead($chkOutSideMines) = $GUI_CHECKED Then
-;~ 		For $i = $chkOutSideMines + 1 To $txtPercentMines
-;~ 			GUICtrlSetState($i, $GUI_ENABLE)
-;~ 		Next
-;~ 	Else
-;~ 		For $i = $chkOutSideMines + 1 To $txtPercentMines
-;~ 			GUICtrlSetState($i, $GUI_DISABLE)
-;~ 		Next
-;~ 	EndIf
-;~ EndFunc   ;==>chkOutSideMines
-
-;~ Func chkOutSideDrills()
-;~ 	If GUICtrlRead($chkOutSideDrills) = $GUI_CHECKED Then
-;~ 		For $i = $chkOutSideDrills + 1 To $txtPercentDrills
-;~ 			GUICtrlSetState($i, $GUI_ENABLE)
-;~ 		Next
-;~ 	Else
-;~ 		For $i = $chkOutSideDrills + 1 To $txtPercentDrills
-;~ 			GUICtrlSetState($i, $GUI_DISABLE)
-;~ 		Next
-;~ 	EndIf
-;~ EndFunc   ;==>chkOutSideDrills
 
 Func checkCollectors($log = False, $showLabel = True)
 	Local $anyCollectorsEnabled = 0
 	For $i = 6 To 12
-		If Eval("chkLvl" & $i & "Enabled") = 1 Then
+		If Eval("chkLvl"&$i&"Enabled") = 1 Then
 			$anyCollectorsEnabled = 1
 			ExitLoop
 		EndIf
@@ -59,9 +24,9 @@ Func checkCollectors($log = False, $showLabel = True)
 	If $anyCollectorsEnabled = 0 Then
 		If $showLabel Then GUICtrlSetState($lblCollectorWarning, $GUI_SHOW)
 		If $log Then
-			SetLog("Warning: Dead base is enabled, but no collectors are selected!", $COLOR_RED)
-			SetLog("Dead base will never be found!", $COLOR_RED)
-			SetLog("Select some in Attack Plan-Search&Attack-DeadBase-Collectors", $COLOR_RED)
+			SetLog("Warning: Dead base is enabled, but no collectors are selected!", $COLOR_ERROR)
+			SetLog("Dead base will never be found!", $COLOR_ERROR)
+			SetLog("Select some in Attack Plan-Search&Attack-DeadBase-Collectors", $COLOR_ERROR)
 			Return False
 		EndIf
 	ElseIf $anyCollectorsEnabled = 1 Then
@@ -69,10 +34,11 @@ Func checkCollectors($log = False, $showLabel = True)
 		Return True
 	EndIf
 	Return False
-EndFunc   ;==>checkCollectors
+EndFunc
 Func chkLvl6()
 	$chkLvl6Enabled = 0
 	GUICtrlSetState($cmbLvl6, $GUI_DISABLE)
+	#cs
 	If GUICtrlRead($chkLvl6) = $GUI_CHECKED Then
 		$chkLvl6Enabled = 1
 		GUICtrlSetState($cmbLvl6, $GUI_ENABLE)
@@ -80,6 +46,7 @@ Func chkLvl6()
 		$chkLvl6Enabled = 0
 		GUICtrlSetState($cmbLvl6, $GUI_DISABLE)
 	EndIf
+	#ce
 	checkCollectors()
 EndFunc   ;==>chkLvl6
 Func chkLvl7()
@@ -168,4 +135,4 @@ Func sldCollectorTolerance()
 EndFunc   ;==>sldCollectorTolerance
 Func cmbMinCollectorMatches()
 	$iMinCollectorMatches = _GUICtrlComboBox_GetCurSel($cmbMinCollectorMatches) + 1
-EndFunc   ;==>cmbMinCollectorMatches
+EndFunc   ;==>cmbLvl12

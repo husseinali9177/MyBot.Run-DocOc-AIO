@@ -50,17 +50,9 @@ Func WaitForClouds()
 	ForceCaptureRegion() ; ensure screenshots are not cached
 	Local $hMinuteTimer = TimerInit() ; initialize timer for tracking search time
 
-	While _CheckPixel2($aNoCloudsAttack2, $bCapturePixel) = False ; loop to wait for clouds to disappear
+	While _CheckPixel($aNoCloudsAttack, $bCapturePixel) = False ; loop to wait for clouds to disappear
 		If _Sleep($iDelayGetResources1) Then Return
 		$iCount += 1
-		If IsWaitingForConnection(100, 70) = True Then ; Loop with a delay of 70 in each loop, 7 seconds
-			checkMainScreen()
-			PrepareSearch()
-			$Is_ClientSyncError = True
-			If $OutOfGold = 1 Then Return ; Check flag for enough gold to search
-			If $Restart = True Then Return
-			$iCount = 0
-		EndIf
 		If isProblemAffect(True) Then ; check for reload error messages and restart search if needed
 			resetAttackSearch()
 			Return
@@ -114,7 +106,7 @@ Func WaitForClouds()
 	EndIf
 
 	; add delay as few clouds might be still on screen (better to check for remaining clouds at top right?)
-	If _Sleep($iDelayGetResources2) Then Return
+	If _Sleep($iDelayCloudsCleared) Then Return
 
 EndFunc   ;==>WaitForClouds
 
@@ -134,18 +126,18 @@ Func EnableLongSearch()
 	If chkSearchText() = True Then ;verify still in clouds by screen text and attempt to keep alive with chat tab
 		$iCount = 0 ; initialize safety loop counter #1
 		While 1
-			If _CheckPixel2($aOpenChatTab, $bCapturePixel, Default, "OpenChatTab check", $COLOR_DEBUG) Then ; check for open chat tab
+			If _CheckPixel($aOpenChatTab, $bCapturePixel, Default, "OpenChatTab check", $COLOR_DEBUG) Then ; check for open chat tab
 				ClickP($aOpenChatTab, 1, 0, "#0510") ; Open chat tab
 				If _Sleep($iDelayGetResources1) Then Return
 				$jCount = 0 ; initialize safety loop counter #2
 				While 1 ; wait for close chat tab to appear
-					If _CheckPixel2($aCloseChat, $bCapturePixel, Default, "CloseChatTab check", $COLOR_DEBUG) Then ; check for close chat tab
+					If _CheckPixel($aCloseChat, $bCapturePixel, Default, "CloseChatTab check", $COLOR_DEBUG) Then ; check for close chat tab
 						ClickP($aCloseChat, 1, 0, "#0511") ; close chat tab
 						$kCount = 0 ; initialize safety loop counter #3
 						While 1 ; paranoid verification that chat window has closed
 							If _Sleep($iDelaySleep) Then Return
 							$result = getCloudTextShort(260, 349 + $midOffsetY, "Cloud Search Text: sea=", $COLOR_DEBUG, Default) ; OCR "Searching for oponents..." partially blocked text
-							If _CheckPixel2($aCloseChat, $bCapturePixel, Default, "CloseChatTab check", $COLOR_DEBUG) Then ; check for close chat tab is still there
+							If _CheckPixel($aCloseChat, $bCapturePixel, Default, "CloseChatTab check", $COLOR_DEBUG) Then ; check for close chat tab is still there
 								$kCount += 1
 							ElseIf $result <> "" And StringInStr($result, "sea", $STR_NOCASESENSEBASIC) > 0 Then ; found "sea" characters in "Search" text?
 								Return True ; success
@@ -218,7 +210,7 @@ Func chkAttackSearchPersonalBreak()
 	$result = getCloudFailShort(499, 350 + $midOffsetY, "Cloud Search PB Text: Break=", $COLOR_DEBUG, Default)
 	If $result <> "" And StringInStr($result, "break", $STR_NOCASESENSEBASIC) > 0 Then ; found "break" characters in text
 		Setlog("Prepare base before Personal Break in clouds..", $COLOR_INFO)
-		CheckBaseQuick2(True, "cloud") ; check and restock base before exit.
+		CheckBaseQuick(True, "cloud") ; check and restock base before exit.
 		Return True
 	EndIf
 	If $ichkSinglePBTForced And _DateIsValid($sPBStartTime) Then  ; silly feature to use with long clouds, but check if single PB is enabled.
@@ -226,7 +218,7 @@ Func chkAttackSearchPersonalBreak()
 		If $debugSetlog = 1 Then Setlog("PB starts in: " & $iTimeTillPBTstartSec & " Seconds", $COLOR_DEBUG)
 		If $iTimeTillPBTstartSec >= 0 Then ; test if PBT date/time in past (positive value) or future (negative value
 			Setlog("Prepare base before user forced Break..", $COLOR_INFO)
-			CheckBaseQuick2(True, "cloud") ; check and restock base before exit.
+			CheckBaseQuick(True, "cloud") ; check and restock base before exit.
 			Return True
 		EndIf
 	EndIf
@@ -237,11 +229,11 @@ Func btnSearchFailRetry()
 	; verify retry button exists, and press button, return false if button not found
 	Local $offColors[3][3] = [[0x000000, 50, 8], [0x60B014, 55, 21], [0x020201, 90, 7]] ; 2nd=Black in "R", 3rd=green centered under text, 4th=black in v of letter "Y"
 	Global $ButtonPixel = _MultiPixelSearch(364, 405 + $midOffsetY, 466, 430 + $midOffsetY, 1, 1, Hex(0x000000, 6), $offColors, 20) ; first vertical black pixel of Retry button edge
-	If $debugSetlog = 1 Then Setlog("Retry btn clr chk-#1: " & _GetPixelColor2(368, 347 + $midOffsetY, True) & ", #2: " & _GetPixelColor2(368 + 50, 347 + 8 + $midOffsetY, True) & ", #3: " & _GetPixelColor2(368 + 55, 347 + 21 + $midOffsetY, True) & ", #4: " & _GetPixelColor2(368 + 90, 347 + 7 + $midOffsetY, True), $COLOR_DEBUG)
+	If $debugSetlog = 1 Then Setlog("Retry btn clr chk-#1: " & _GetPixelColor(368, 347 + $midOffsetY, True) & ", #2: " & _GetPixelColor(368 + 50, 347 + 8 + $midOffsetY, True) & ", #3: " & _GetPixelColor(368 + 55, 347 + 21 + $midOffsetY, True) & ", #4: " & _GetPixelColor(368 + 90, 347 + 7 + $midOffsetY, True), $COLOR_DEBUG)
 	If IsArray($ButtonPixel) Then
 		If $debugSetlog = 1 Then
 			Setlog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
-			Setlog("Retry Btn Pixel color found #1: " & _GetPixelColor2($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor2($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor2($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor2($ButtonPixel[0] + 54, $ButtonPixel[1] + 27, True), $COLOR_DEBUG)
+			Setlog("Retry Btn Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 27, True), $COLOR_DEBUG)
 		EndIf
 		Click($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 1, 0, "#0512") ; Click Retry Button
 		Return True
@@ -253,7 +245,7 @@ Func chkSurrenderBtn()
 	; loop for a few seconds checking if surrender button exists and search is over
 	Local $wCount = 0
 	While 1
-		If _CheckPixel2($aSurrenderButton, $bCapturePixel, Default, "Surrender btn wait #" & $wCount, $COLOR_DEBUG) = True Then
+		If _CheckPixel($aSurrenderButton, $bCapturePixel, Default, "Surrender btn wait #" & $wCount, $COLOR_DEBUG) = True Then
 			If $debugSetlog = 1 Then Setlog("Surrender button found, clouds gone, continue...", $COLOR_DEBUG)
 			Return True
 		EndIf

@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BoostBarracks.au3
 ; Description ...:
-; Syntax ........: BoostBarracks(), BoostDarkBarracks(), BoostSpellFactory(), BoostDarkSpellFactory()
+; Syntax ........: BoostBarracks(), BoostSpellFactory()
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: MR.ViPER

@@ -180,8 +180,8 @@ EndFunc   ;==>FindTroopInAttBar
 Func CheckMinDE($iMinDE, $showlog = False)
 	Local $iAvailableDark
 	_CaptureRegion()
-	If _ColorCheck(_GetPixelColor(30, 145, False), Hex(0x000000, 6), 20) Or _ColorCheck(_GetPixelColor(38, 135, False), Hex(0xF6F3F7, 6), 20) Or _ColorCheck(_GetPixelColor(31, 144, False), Hex(0x0a050a, 6), 10) Or _ColorCheck(_GetPixelColor(31, 144, False), Hex(0x0F0617, 6), 5) Then ; check if the village have a Dark Elixir Storage
-		$iAvailableDark = getDarkElixirVillageSearch(45, 125)
+	If _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x282020, 6), 10) Or _ColorCheck(_GetPixelColor(31, 144, True), Hex(0x0F0617, 6), 5) Then ; check if the village have a Dark Elixir Storage/Drill
+		$iAvailableDark = getDarkElixirVillageSearch(48, 126)
 		If $showlog = True Then SetLog("Available Dark: " & $iAvailableDark & ", Min Dark To Zap: " & $iMinDE, $COLOR_BLUE)
 		Return Not (Number($iMinDE, 2) > Number($iAvailableDark, 2))
 	Else

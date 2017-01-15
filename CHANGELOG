@@ -1,3 +1,284 @@
+﻿* **V6.5.3**
+ * Add Donation of 2 Space Spells
+ * Add new Detection of Troops in Training Window using ImgLoc
+ * Fix deadbase search during trophy drop
+ * Fix error deploying all available heros during trophy drop
+ * Fix SmartZap And N00bZap Mode
+ * Fix Full Drop line first Redline point not starting/ending at axis position
+ * Fix using selected redline stratey in CSV Attack on live base when standard attack (not used!) had DES or TH attack selected
+ * Fix weak base detection mixing live and dead base settings
+ * Fix Donation Clan Mates Filter setting not saved when Cyrillic/Chinese Alphabet Recoginition checked
+ * Fix "cannot use ADB on shared folder" error for BlueStacks (and probably other Androids) related to a timing issue
+ * Fix Training Minions instead of Bowlers issue
+ * Fix Incorrect statistics of Donate Wizz, Ball, Golem and Witch
+ * Fix Check Dark Elixier Full does not work on Attack Screen
+ * Fix Language not shown correct on fresh Profiles
+ * Fix to use SearchCamps before not use when bot is in idle mode only wait full camps
+ * Fix Bully Mode errors on search Village
+ * Fix Glitch on GUI when the troops are level 0 and the input box don't disappears.
+ * Improve search performance not measuring village when resources don't match
+ * Improve watchdog not restarting crashed bot when manually restarted within 2 Minutes
+ * Improve the Lighting Spell detection , on armyover view window
+ * Revert forced ADB clicks for BS 2.5.x to WinAPI/ControlClick as not required anymore
+ * Update Turkish Language By @TuborGRedTR And @CHiNo-
+ * Update Icons for Troops and Spells extract from DEC Update
+ * Add New detection of Train/Brew slots
+ * Add Red Line Option on CSV to deploy on external Edges
+ 
+* **V6.5.2**
+ * Fix Android or Bot window out of visible screen problem
+ * Fix Bot /restart parameter not closing other bot instance when Window not accessible
+ * Fix Debug variable error on Drills detection
+ * Fix the troops limitation of 5 on Donate to All
+ * Fix Detection and Donation of the Skeleton Spell
+ * Fix Not Counting Spells on First Loop with Donate All activated
+ * Fix OCR on attack bar when heroes are not present
+ * Fix reported Randomly dropping CC, using Spells and Clicking on Heroes
+ * Fix All DonateCCWBL file bugs/issues
+ * Fix PushBullet / Telegram settings not saved issue
+ * Fix Drop Trophies and wait for heroes , GUI changed to control correctly the variables
+ * Fix attack log sometime wrong color or style
+ * Fix iTools Mouse Click when not docked
+ * Fix GDI Handle leak
+ * Improve status timer display with hours, days when necessary
+ * Improve Heroes detection on attack bar after deployment
+ * Add SmartZap and N00bZap Mode
+ * Add detect advertisements and close them for non Google APKs
+ * Add Ice Wizard detection and change Troops train coords
+ * Add auto-enable saving of dead base zombie images after 200 skipped bases
+
+* **V6.5.1**
+ * Fix Milking Error Message on Start
+ * Fix Hero Upgrading
+ * Fix Auto Hero Upgrading
+ * Fix mismatched TH from lower level (6/7)
+ * Fix Milking Script & Auto Align X/Y blanks config load
+ * Fix the Donate when exist queued troops between available
+ * Fix train positions
+ * Fix the Pekka detection on Attack bar
+ * Fix the Halt Attack idle interruption
+ * Fix the Train system when not exist Spells factory
+ * Fix the Manual Activation Heroes Power included the Warden
+ * Fix the Exiting battle, activating King and queen, but not warden (to recover some health)
+ * Fix the Drop trophies OCR (DEC Update)
+ * Fix for Wall Upgrade on Map Edges
+ * Fix GUI bug with Donate all Skeletonspell
+ * Fix Train Loop Heroes not Ready If Drop Trophy with Heroes is Checked
+ * Move the Boost barracks to train tab
+ * Move the Boost Spells factory to Brew Tab
+ * Improve the Queen and warden activation on all slots
+ * Improve log message/format on train
+ * Add Santa's Surprise Spell detection and change Spells coords
+ * Add new Function will check if TH snipes was selected and IF the troops
+ to make are more then one troop kind, if yes proceeds directly to battle
+ and make troops AFTER the battle. This option is ONLY available on Custom train.
+
+* **V6.5**
+ * Fix the Spells Factory and Brew Capacity issues
+ * Fix possible error or variables in IsGUICheckedForSpell
+ * Fix CleanYard log when not enabled
+ * Fix Button Search Mode
+ * Fix the Remain Time to request CC Troops|OCR
+ * Fix the Request CC troops (DEC Update)
+ * Fix the Donate CC troops (DEC Update)
+ * Fix the Army Overview detections (DEC Update)
+ * Fix the DE detection main page (DEC Update)
+ * Fix the Trophies detection main page (DEC Update)
+ * Fix the Trophies detection Attack page (DEC Update)
+ * Fix the Attack bar detection (DEC Update)
+ * Fix the train custom troops (DEC Update)
+ * Fix the OCR Language detection (DEC Update)
+ * Fix the Hero auto activation on low health (DEC Update)
+ * Fix the Colect Obstacles with snow (DEC Update)
+ * Fix the Notify Restart Loop
+ * Fix the Snow theme detection
+ * Improve the MyBotRunImgloc.dll
+ * Improve adding 34 more Chinese characters total 150 including elixir spells
+ * Improve the Gold Mines / Elixir Collector / Drills Snow detection
+ * Improve village search village measuring when returning home if failing
+ * Add Stat Donate Tab
+ * Add Portuguese GUI translation
+ * Add Auto Wall Upgrade Lv11
+ * Add Wizard Tower Snow Theme for weak base
+
+* **V6.4.1**
+ * Fix bot ghosting/freezing jumping window when busy
+ * Fix minor GUI refresh issues
+ * Fix slow bot GUI when docked
+ * Fix Donate in Halt Attack ( donate/train only )
+ * Fix Halt Attack ( stay online only )
+ * Fix Android Failed to Stop Log
+ * Improve watchdog CPU utilization
+ * Improve the Hero Activation check
+ * Revert zombie mode to be off
+ * Add a check for outdated CoC double capacity on Train window
+ * Changed the Debug Dead Base images to dir Temp Debug inside Profile
+
+* **V6.4**
+ * Fix iTools AVM WinAPI screen resize
+ * Fix create shared folder for iTools, Nox and Droid4X
+ * Fix the change log prepare attack when the conditional are not checked
+ * Fix some logic on Quick Train System
+ * Fix the Donation limits (skip donation)
+ * Fix Train donated troops (quick train)
+ * Fix Close While Train issues
+ * Fix Wait for Heroes & Spells for SC Oct Update
+ * Fix some setlog issues
+ * Fix rare bot freeze during Android inizialize phase (related to a mutex bug)
+ * Fix Donate GUI overlap bug
+ * Fix iTools docking refreshing Android screen
+ * Full revamp of Notify v1.5.1
+ * Add quick check for Donate, Don't test Donate Near Full Troops if Donate not select
+ * Add Telegram to Notify
+ * Add the new attack bar detection
+ * Add Chinese(both Traditional and Simplified) Alphabet Recognition for Request/Donation
+ * Add the Clone and Skeleton Spell to scripted attack
+ * Add CoC reconnecting check that restarts CoC when reconnecting animation exists for 60 Seconds
+ * Improve performance of checking for CoC obstacles/popup windows/stable state of CoC
+ * Improve rate never CoC
+ * Improve Close While Train And Wait For ...
+ * Improve (reduce) watchdog CPU utilization by 50%
+ * Revert LeapDroid System Bar close (it must be closed in order to detect system messages during CoC launch, but cannot be restored anymore)
+
+* **V6.3.u8** (CoC October Update BETA Version) ...
+ * Add Android support for iTools AVM 2.0.6.8 (http://pro.itools.cn/simulate/), background mode only supported in DirectX mode
+ * Add Android Shared Folder secure behavior creating anonymous filenames that are deleted immediately when not required anymore
+ * Add DocOc Mod Train System, Weak Air Defense by @ProMac, @TheRevenor, @ezeck0001, @MR.ViPeR, @rulesss, @ahsan iqbal, @Roro-Titi, @IceCube
+ * Add watchdog process that automatically restarts bot when not responding or crashed
+ * Add Attack CSV redline engine selection and drop line/edge mode selection
+ * Add check that CoC app is running in foreground and restart CoC app if not
+ * Add Drop trophy now you can select priority of heroes to drop @sardo
+ * Add Chinese(both Traditional, Simplified) translation and detection
+ * Add Multiple CoC APKs support/detection with 20 build-ins and an extra user option (config.ini)
+ * Add Exit CoC gracefully to most APKs
+ * Fix redline and drop line accuracy
+ * Fix redline drop lines missing randomly some areas
+ * Fix Attack early exit when no End Battle Options configured
+ * Fix Nox problems when path contained "\\" (fixed for all emulators as well) @Roro-Titi
+ * Fix wait for heroes
+ * Fix closing running bot instance properly using /restart parameter
+ * Fix Android Nox shared folder issue
+ * Fix rare bot crash
+ * Fix wall upgrade and improve lvl 8 wall detection
+ * Fix Shield Button protection when cleaning yard (now executed more often)
+ * Fix false page error leading to frequent Android reboots
+ * Fix dock mode ESC & Enter keypress removing focus of Android
+ * Fix dock mode shield flickering when Android having focus and log messages printed
+ * Fix collect resource and loot cart from clicking CoC village buttons
+ * Fix weak base settings being used when DB or LB search is completely disabled
+ * Fix ADB problems when connection is not returning anything
+ * Fix LeapDroid GUI error/crashing when starting Android System Bar
+ * Improve village search not centering enemy village anymore
+ * Improve tree obstacles removal with additonal tile for large trees
+ * Improve obstacles removal to get executed also during bot idle
+ * Improve deadbase collector lvl 7 50% detection
+ * Improve LeapDroid Android reboot behavior and it works now well with all other Android's
+ * Improve Nox 3.7.5 support finding Run-time directory
+ * Improve bot performance by refreshing log output only every 500ms
+ * Improve Android logging valid shared folder
+ * Improve CoC App start when Android is instable by restarting Android
+ * Change Android priority order to MEmu, BlueStacks2, BlueStacks, KOPLAYER, LeapDroid, iTools, Droid4X, Nox
+
+* **V6.3.u7** (CoC October Update BETA Version)
+ * Fix locate Barracks
+ * Fix boost Barracks, Spell Factory, Dark Spell Factory and Heroes
+ * Fix bot crash for TH6 or SmartWait error
+
+* **V6.3.u6** (CoC October Update BETA Version)
+ * Fix BlueStacks 0.9.x/0.10.x not supported bug (introduced in Beta 5)
+ * Fix a reline issue that village offset and zoom factor is not applied to redline data and calculations
+ * Fix number of required collectors for deadbase is not 3 but blank for new profile
+ * Fix wall upgrade when a wall not found
+ * Fix CSV Attack using village offset and zoom factor for fixed coordinates
+ * Improve dead base elixir collector level 12 image detection
+
+* **V6.3.u5** (CoC October Update BETA Version)
+ * Add Android support for BlueStacks 1.x
+ * Update imgloc debug fixes and village centering fixes
+ * Improve deadbase images using new images and logic
+ * Improve "zombie" option to save screenshot of attacking village for better post DB detection analysis
+ * Fix centering of attacking village that happened to deploy troops sometimes
+ * Fix centering of home village that happened to click clan wars button sometimes
+ * Fix centering/zoomout of village when obstacles block fix points
+ * Fix Android startup when unusable instance found and bot not closing correctly
+ * Fix returning to home village during attack at search count 99
+ * Fix Ctrl-MouseWheel zoom for BlueStacks/BlueStacks2 when docked
+ * Fix bot smartwait that still check for Android existence when closed
+
+* **V6.3.u4** (CoC October Update BETA Version)
+ * Replace deadbase check using imgloc for collector levels 7-12 with 50% and 100% fill levels
+ * Add centering of attacking village
+ * Fix entire village coordination calculation to compensate different zoom-out levels and village location
+ * Fix wall upgrade using gold
+ * Fix Train Tab not found when tab takes >1s to open
+
+* **V6.3.u3** (CoC October Update BETA Version)
+ * Fix restart CoC after Train
+ * Fix OCR remaining train time for troops (smartwait working again)
+ * Fix OCR remaining heal time for heroes
+ * Fix waiting for heroes
+ * Fix yellow circle coordinates marking upgrades during selection
+
+* **V6.3.u2** (CoC October Update BETA Version)
+ * Fix Request Troops
+
+* **V6.3.u** (CoC October Update BETA Version)
+ * Fix Donate and Request Troops
+ * Fix Train. Use preconfigured Quick Train Previous Army or Army 1 - 3 (default is Army 1)
+ * Fix support for located structurs and upgrades (re-locate for TH, structures and upgrades is required)
+ * Fix Scroll support for BlueStacks 0.x and 2.x
+ * Fix zoom-out and center village, restart CoC App when zoom-out fails after 20 iterations
+ * Improve BlueStacks ADB connection stability using TCP
+ * Add Android Reboot after 5 page error within 10 Minutes
+ * Disable "over waters" scroll in zoom-out
+
+* **V6.3** (Pre CoC October Update Changes)
+ * Add Android support for BlueStacks 2.5.xx.xxxx
+ * Add Android support for KOPLAYER 1.4.1049 (http://www.koplayer.com/)
+ * Add Android support for LeapDroid 1.8.0, 1.7.0 and 1.6.1
+ * Add ability to support long "cloud times" without app time out while searching for attack in higher leauges. Includes randomization of keep alive activation time (2-3.5 minutes) and randomized maximum wait time.  Maximum wait time is increased for each league as needed, with a range of 20-30 minutes for Champion1 to 3-4 hours for Legend league. Also supports detection/reset of SC matchmaking 30 min timeout, and prepares base for exit for detected PB events during long search in clouds.
+ * Add random delay between two train army calls @sardo
+ * Add control to prevent continuously remove and recreate troops when we have full army and waiting heroes @sardo
+ * Fix blank hero slot detection problem for some users due pixel color differences
+ * Fix skeleton spell training detection issue with additional match images
+ * Fix random issues reading troop training digits
+ * Fix wrong log search conditions for Trophies @sardo
+ * Fix error with missing user click delay when training and removing troops due random click feature changes
+ * Fix detection of "Please Rate CoC" message due change in window position with recent game update
+ * Fix GDI memory leak when using weak base filter with save debug images enabled
+ * Fix village attack delay settings reset to same min/max value when using more than 9 seconds of delay.
+ * Add additional log messages to help tracl error with DLL calls for weak base filter
+ * Add advise if loot cart found but no collectable because near clan chat tab @sardo
+ * Add option to disable collector filters in Dead Bases (transform DB search in LB search) @sardo
+ * Add White List Donations: Donate Only to specific clan mates @sardo
+ * Add Black List Donations: Donate at all except to specific clan mates @sardo
+ * Add enable/disable complete camps with archers if some space free in army camps @sardo
+ * Add new clan castle images in attack bar
+ * Add option "force clan castle detection". If clan castle it is undetected and it is not placed in last slot force bot to consider the undetected slot as clan castle @sardo
+ * Fix problems that lead to Android restarting loops
+ * Fix bot freezing or crashing related to MBRfunction.dll calls
+ * Fix error that moved /debug/ocr from \Lib folder and created in root drive
+ * Fix bot window deletion when selecting upgrades and Android not docked
+ * Fix bot testing every minute if Android is available when bot not started
+ * Fix Rearm "only when needed" feature to check rearm after all major reload errors (Personal Break, Maintenance, Another device)
+ * Fix random errors with some buttons when random click feature enabled
+ * Fix Warden locate and upgrade issues in building upgrade feature
+ * Fix selecting upgrades during smartwait
+ * Fix clicking upgrade type icon to select building
+ * Fix Android by automatically reboot when clicks fail on train or donate page 5 times
+ * Fix double Android restart on error when docked
+ * Update map size for TH searching (missed after Nov 2015 update due TH snipe is not useful)
+ * Add check to skip gathering Hero data during training for TH below TH7
+ * Add Russian language file (from @wowamin)
+ * Improved profile icons for GUI (from @fliegerfaust)
+ * Update Persian language file (from @Eloy)
+ * Update French language file (from @Boju)
+ * Update German language file (from @fliegerfaust)
+ * Replaced old Wall search with new imgloc image search
+ * Updated imgloc with several bugfixes and new features (see: https://mybot.run/forums/index.php?/topic/23162-imgloc-developer-manual-moddevs-only/ ) for more details.
+ * Replaced TH finding with imgloc image search
+ * Fixed WeakBase object limiting by TH Level with TH info from imgloc THSearch
+
 * **V6.2.2**
  * Add Android support for LeapDroid 1.5.0 - 1.3.0 (http://www.leapdroid.com/)
  * Fix bot stop working and freezing sometimes (bot buttons did disappear as well)
@@ -14,7 +295,7 @@
  * Fix close while training GUI errors
  * Fix random click not adding window offset and reduce zone size on collectors to remove errors
  * Fix typo in CSV forced side code that prevent proper operation
- * Fix saving photo when bot stopped and Android Window moved
+ * Fix saving photo when Bot stopped and Android Window moved
  * Fix Dock Mode when Windows Screen Size changes
  * Fix Android Window minimize when bot stopped or paused
  * Fix restarting bot with /restart parameter
@@ -31,6 +312,7 @@
  * Improve Android Shield support in Window 7
  * Improve non background mode not stealing focus to bring android to front
  * Improve train order log message
+ * Increase maximim cloud time while searching to ~4 hours for Titan/Legend league attacks
  * Add warning message when heroes are found being upgraded and wait for hero is enabled in GUI
  * Add check of reload CoC messages for banned accounts and stop bot
  * Remove forced bot repositioning on low screen resolution
@@ -42,23 +324,6 @@
    Pause/Break Key = Pause/Resume bot
    ESC = Stop bot
 
-﻿* **V6.2.1 ProMac/MR.ViPeR/ezeck0001/TheRevenor**
- * Fix the Dark Spells creation
- * Fix Heroes Activation and exist more than 11 slots
- * Fix spells detection on Army OverView
- * Fix the Force Side on CSV Attacks
- * Fix some minor issues on Donation Quantities ( slower click )
- * New Train System , Balanced Time, Troops and donated troops
- * Barbarians , Archers and goblins are in units not in %
- * New Boost Dark Barracks
- * New Troops Presets
- * New Donate Stats TAB
- * Scroll Donate Window inverted
- * Waiting for Heroes | Spells don't Delete army and make it again
- * Updated the Castle detection on Attack bar
- * SecureME, clean androiod shared folders and random folders'files name
- * Add check for wifi signal option and if disconnected Restart CoC
-   
 * **V6.2.1**
  * Fix GUI display of clone/skeleton spells for TH level where they are not available
  * Fix old training bug (@Promac submitted)

@@ -4,15 +4,129 @@
    |_| |___/_/ \_\_|  |_| |___/\___/\__|\___/ \___|
 
 
-				Based on MyBot.run v6.2.2
+			Based on MyBot.run v6.5.3
 
-  _____               ____   _____        ____  _  _  __ 
- |  __ \             / __ \ / ____|      |___ \| || |/_ |
- | |  | | ___   ___ | |  | | |      __   ____) | || |_| |
- | |  | |/ _ \ / __|| |  | | |      \ \ / /__ <|__   _| |
- | |__| | (_) | (__ | |__| | |____   \ V /___) |  | |_| |
- |_____/ \___/ \___(_)____/ \_____|   \_/|____(_) |_(_)_|
-                                                                                    
+  _____               ____              ____   _____  ____  
+ |  __ \             / __ \            |___ \ | ____||___ \ 
+ | |  | | ___   ___ | |  | | ___  __   ____) || |__    __) |
+ | |  | |/ _ \ / __|| |  | |/ __| \ \ / /__ < |___ \  |__ < 
+ | |__| | (_) | (__ | |__| | (__   \ V /___) | ___) | ___) |
+ |_____/ \___/ \___(_)____/ \___|   \_/|____(_)____(_)____/
+                                                           
+
+	- Official 6.5.3
+	- Fix for Cannot find train Window
+	- Fix Bad pixel check on troop position
+	- Fix for detecting Air Defence in Weak Base
+	- Add Bot Humanization
+	- Add Clusterattack to SmartZap, zapping multiple drills at once
+	- Improve Search Tab
+	- Improve Walls Upgrade Tab
+
+
+				 Doc Oc v3.5.2 
+	- Fix Locate brew spells icons for any event 
+	- Fix Bully Mode issues on Search Village (found by @Gerd)
+	- Add Debug Button on GUI with a script to zip all necessary files 
+	and upload directly to 'dropfile'
+	- Add Support for SLEEPBEFORE column in CSV
+	- Add CSV without Redlines , External Edges
+	- Improved Persian OCR
+	- Improve the Lighting Spell detection and Freeze on Train
+	- Improve Smart Zap
+	- Removed the ice Wizard from GUI , but the  code is prepared 
+	
+                 Doc Oc v3.5.1 
+	- Fix the train order with Ice Wizard
+	- Fix the CSV attack error
+	- Fix the EarthQuake spell on Samrt N00b Mode
+	
+                 Doc Oc v3.5                                    
+   - Official 6.5.2  
+   - Fix the Healer Slot , train window
+   - Fix Smart Zap N00b Mode
+   - Fix the Air Def. values on GUI / Weak Base
+   - Fix the GUI glitch on train when the Barbs , Giants , 
+   Arch and Wallb are set to zero and level zero but the input box doesn't disappear
+   - Fix Bully Mode issues on search village
+   - Fix VillageSearch checks for dead base even if dead base search is not activated.
+   - Add Logo
+   - Add Version checker
+   - Add Classic FFF
+   - Add New edges coordinates , used on FFF
+   - Add Persian OCR/Text Support in Donation
+   - Add New detection of Train/Brew slots | image detection (prepared for any new event)
+   - Add CSV new commands ZAP , SideP , DropS, Remain
+   - Warden forced timer Activation, separated from King and Queen
+   - Add Ice Wizard on train and Attack
+   - Improve Standard attack : 
+   changed the CC deploy after deploy Giants, wall breaker before barbarians
+   - Improve The Smart Zap with Spells Level detection on attack Bar
+   - Improve The Logs on Smart Zap and GUI
+   - Bot startup faster
+   
+   Notes :
+   
+    - Add New detection of Train/Brew slots : 
+	All $Train'Troop' variables are empty [-1] , on first loop the imgloc will detect position of troop to train 
+	and store [0] X positiom , [1] Y position , [2] Color to check , [3] Tolerance.
+	If was not detected, because is gray / full , or doesn't exist will store again the [-1].
+	All $Full'Troop' variables are empty , after $train'Troop' routine , will check gray color on [i] symbol in each slot , symbol [i]
+	positions previous stored. If the slot is NOT Full will be Blue not Gray.
+	
+	- Warden forced timer Activation, separated from King and Queen :
+	Warden haves a check/input box to force the activation by timer.
+	All the timers are stored AFTER the Heroes deployment and not on final of script like the old method.
+	Work on standard attack and CSV attack.
+	The function CheckHeroesHealth have the auto and timer routine.
+	
+	- CSV commmnads , DropS , SideP , Zap
+	
+	SideP ...you can say multi side or whatever and each side will calculate current/buildings, you can use this to determine 
+		a new side in csv several times, And SideP using Parallel Search and is more fast than default method
+		AND Rewrite the 'MAKE' command after SIDEP commands are necessary (to update the drop positions)
+		Only Elixir Collectors/Gold Mines/Dark Elixir Drills are Supported, 'Yet'
+	
+	DropS
+		(1). DEFENSE
+		for now only selected buildings can be type:
+		INFERNO
+		ADEFENCE
+		EAGLE
+
+		(2). OPTIONS
+		"R:F,B:T,S:S,L:T" ! Those Named as Options (Or Whatever you want to name/call it)! :
+		 - Options should be entered in this Syntax: "PARAM:VALUE,ParamN:ValueN" 
+		 - Option Parameters Are: "R", "B", "S" and "L"	 
+		 - Values T/F is Turn on/off or True/False	 
+		 - Values For "R" Parameter! is To Randomize Drop Point with Low Values to be More Human Like! after fair play i suggest for 
+		 always randomize	   
+		 - Values For "B" Parameter! is To Drop Spell Between Defense! Useful for Spells Like Freeze Spell, ONLY INFERNO TOWERS 
+		 are Supported for this parameter if its FALSE, Don't Drop Spell Between Defense EVEN If it was possible to affect them with ONE Spell	    
+		 - Values For "S" Parameter!  is Side
+			* "S" Value is SameSide, where 
+			* "O" Value is OppositeSide, ONLY Drop IF The Defense Is Located In The Other Side (Opposite), If MainSide Detected as BOTTOM, 
+			Will Drop Spell ONLY IF The Defense Is Located in TOP
+			* "A" Value is AnySide, Drop Spell And Ignore Where it's Located And It's Side!
+		  - Values For "L" Parameter! is Locate if its true then it will locate location at start (NOTE:it will drop on destroyed buildings 
+		  if enabled)
+	  
+	- ZAP is like DROP command
+		DeploySide i dont have to explain twise ;), Like DropS, BUT In Zap, It Also Support the Drill Index/Number, recommended to put Drill 
+		Index/Number, E.g: 1
+		Lightning and Earth is set to be true/fale or use/dont use
+		LCount and ECount max lightning
+		Check can be set A or Always for check if drill is there or not (destroyed) and N or No for dont check (can drop on destroyed drills)
+		MinDE minimum DE to check if
+
+	Drop - Remain
+	
+		This command will detect the remain troops and drop left over troops
+	
+	
+		    Based on MyBot.run v6.2.2
+			
+					Doc Oc v3.4.1
   - Removed the zoomout check before attack
   - Add zoomout at beginning of search conditional
   - Add Check for waiting connection in village search

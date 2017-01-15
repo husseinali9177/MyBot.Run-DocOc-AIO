@@ -2,7 +2,7 @@
 ; Name ..........: OCR
 ; Description ...: Gets complete value of gold/Elixir/DarkElixir/Trophy/Gem xxx,xxx
 ; Author ........: Didipe (2015)
-; Modified ......: ProMac (2015), Hervidero (2015-12)
+; Modified ......: ProMac (2015), Hervidero (2015-12), MMHK (2016-12)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -20,7 +20,7 @@ Func getGoldVillageSearch($x_start, $y_start) ;48, 69 -> Gets complete value of 
 EndFunc   ;==>getGoldVillageSearch
 
 Func getRemainTrainTimer($x_start, $y_start) ;
-	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 90, 18, True)
+	Return getOcrAndCapture("coc-RemainTrain", $x_start, $y_start, 70, 12, True)
 EndFunc   ;==>getRemainTrainTimer
 
 Func getElixirVillageSearch($x_start, $y_start) ;48, 69+29 -> Gets complete value of Elixir xxx,xxx, top left,  Getresources.au3
@@ -103,16 +103,16 @@ Func getProfile($x_start, $y_start) ;  -> Gets Attack Win/Defense Win/Donated/Re
 	Return getOcrAndCapture("coc-profile", $x_start, $y_start, 46, 11, True)
 EndFunc   ;==>getProfile
 
-Func getTroopCountSmall($x_start, $y_start) ;  -> Gets troop amount on Attack Screen for non-selected troop kind
-	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 15, True)
+Func getTroopCountSmall($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for non-selected troop kind
+	Return getOcrAndCapture("coc-t-s", $x_start, $y_start, 53, 15, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountSmall
 
-Func getTroopCountBig($x_start, $y_start) ;  -> Gets troop amount on Attack Screen for selected troop kind
-	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 16, True)
+Func getTroopCountBig($x_start, $y_start, $bNeedNewCapture = Default) ;  -> Gets troop amount on Attack Screen for selected troop kind
+	Return getOcrAndCapture("coc-t-b", $x_start, $y_start, 53, 16, True, Default, $bNeedNewCapture)
 EndFunc   ;==>getTroopCountBig
 
 Func getArmyTroopQuantity($x_start, $y_start) ;  -> Gets troop amount on army camp or new windows
-	Return getOcrAndCapture("coc-train-quant", $x_start, $y_start, 40, 20, True)
+	Return getOcrAndCapture("coc-train-quant", $x_start, $y_start, 45, 12, True)
 EndFunc   ;==>getArmyTroopQuantity
 
 Func getArmyTroopKind($x_start, $y_start) ;  -> Gets kind of troop on army camp or new windows
@@ -128,29 +128,15 @@ Func getCastleDonateCap($x_start, $y_start) ;  -> Gets clan castle capacity,  --
 EndFunc   ;==>getCastleDonateCap
 
 Func getBarracksTroopQuantity($x_start, $y_start) ;  -> Gets quantity of troops in training --> train.au3
-	Local $result = getOcrAndCapture("coc-train", $x_start, $y_start, 45, 18, True)
-
-	If $result <> "" Or $result <> " " Then
-
-		Local $StringSlipt = StringSplit($result, "x", $STR_NOCOUNT)
-		If UBound($StringSlipt) > 0 And Number($StringSlipt[0]) < 100 Then
-			Return $StringSlipt[0]
-		Else
-			Setlog("Error on OCR 'coc-train'!", $COLOR_RED)
-			Return ""
-		EndIf
-	Else
-		Return 0
-	EndIf
-
+	Return getOcrAndCapture("coc-train", $x_start, $y_start, 52, 16, True)
 EndFunc   ;==>getBarracksTroopQuantity
 
 Func getAttackDisable($x_start, $y_start) ;  -> 346, 182 - Gets red text disabled for early warning of Personal Break
 	Return getOcrAndCapture("coc-dis", $x_start, $y_start, 118, 24, True)
 EndFunc   ;==>getAttackDisable
 
-Func getOcrLanguage($x_start, $y_start) ;  -> Get english language - main screen - "Builder" text at top--> getLanguage(324,6)
-	Return getOcrAndCapture("coc-ms-testl", $x_start, $y_start, 43, 11, True)
+Func getOcrLanguage($x_start, $y_start) ;  -> Get english language - main screen - "Attack" text on attack button
+	Return getOcrAndCapture("coc-ms-testl", $x_start, $y_start, 93, 16, True)
 EndFunc   ;==>getOcrLanguage
 
 Func getOcrSpellDetection($x_start, $y_start) ;  -> Recognition of the Spells in Armyoverview window
@@ -203,8 +189,12 @@ EndFunc   ;==>getOcrPBTtime
 Func getOcrMaintenanceTime($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	;  -> Get the Text with time till maintenance is over from reload msg(171, 375)
 	Local $result = getOcrAndCapture("coc-reloadmsg", $x_start, $y_start, 116, 19, True)
-	Local $String = $sLogText & " " & $result
-	If $debugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	If $sLogText = Default Then
+		$String = "getOcrMaintenanceTime: " & $result
+	Else
+		$String = $sLogText & " " & $result
+	EndIf
+	If $debugSetlog = 1 Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -214,9 +204,13 @@ EndFunc   ;==>getOcrMaintenanceTime
 
 Func getOcrRateCoc($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	;  -> Get the Text with time till maintenance is over from reload msg(228, 402)
-	Local $result = getOcrAndCapture("coc-ratecoc", $x_start, $y_start, 42, 18, True)
-	Local $String = $sLogText & " " & $result
-	If $debugSetlog = 1 And $sLogText <> Default And IsString($sLogText) Then ; if enabled generate debug log message
+	Local $result = getOcrAndCapture("coc-ratecoc", $x_start, $y_start, 42, 28, True)
+	If $sLogText = Default Then
+		$String = "getOcrRateCoc: " & $result
+	Else
+		$String = $sLogText & " " & $result
+	EndIf
+	If $debugSetlog = 1 Then ; if enabled generate debug log message
 		SetDebugLog($String, $LogTextColor, $bSilentSetLog)
 	ElseIf $result <> "" Then ;
 		SetDebugLog($String, $LogTextColor, True) ; if result found, add to log file
@@ -229,12 +223,16 @@ Func getRemainTLaboratory($x_start, $y_start) ; read actual time remaining in La
 EndFunc   ;==>getRemainTLaboratory
 
 Func getRemainTHero($x_start, $y_start) ; Get time remaining for hero to be ready for attack from train window, BK:443,504 AQ:504,504 GW:565:504
-	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 38, 12, True)
+	Return getOcrAndCapture("coc-remainhero", $x_start, $y_start, 55, 12, True)
 EndFunc   ;==>getRemainTHero
 
 Func getHeroStatus($x_start, $y_start) ; Get status/type_of_Hero from Hero Slots in training overview window, Slot1:464,446 Slot2:526,446 Slot3:588:446
 	Return getOcrAndCapture("coc-herostatus", $x_start, $y_start, 20, 20)
 EndFunc   ;==>getHeroStatus
+
+Func getRequestRemainTime($x_start, $y_start) ; Get Remain Time To request Troops
+	Return getOcrAndCapture("coc-CCremainTime", $x_start, $y_start, 30, 14)
+EndFunc   ;==>getRequestRemainTime
 
 Func getCloudTextShort($x_start, $y_start, $sLogText = Default, $LogTextColor = Default, $bSilentSetLog = Default)
 	; Get 3 characters of yellow text in center of attack search window during extended cloud waiting (388,378)
@@ -262,6 +260,11 @@ Func getBarracksNewTroopQuantity($x_start, $y_start) ;  -> Gets quantity of troo
 	Return getOcrAndCapture("coc-newarmy", $x_start, $y_start, 45, 18, True)
 EndFunc   ;==>getBarracksNewTroopQuantity
 
+Func getTroopsSpellsLevel($x_start, $y_start) ;  -> Gets quantity of troops in army Window
+	Return getOcrAndCapture("coc-spellslevel", $x_start, $y_start, 20, 14, True)
+EndFunc   ;==>getTroopsSpellsLevel
+
+
 Func getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
 	Return getOcrAndCapture("coc-NewCapacity", $x_start, $y_start, 67, 14, True)
 EndFunc   ;==>getArmyCapacityOnTrainTroops
@@ -270,15 +273,88 @@ Func getQueueTroopsQuantity($x_start, $y_start) ;  -> Gets quantity of troops in
 	Return StringReplace(getOcrAndCapture("coc-qqtroop", $x_start, $y_start, 71, 22, True), "b", "")
 EndFunc   ;==>getQueueTroopsQuantity
 
-Func getVillageExp($x_start, $y_start, $removeSpace = False) ; 55, 20,  -> Gets Exp Value of Village
-	Return getOcrAndCapture("coc-ms", $x_start, $y_start, 70, 22, $removeSpace)
-EndFunc   ;==>getVillageExp
+Func getChatStringChinese($x_start, $y_start) ; -> Get string chat request - Chinese - "DonateCC.au3"
+	Local $bUseOcrImgLoc = True
+	Return getOcrAndCapture("chinese-bundle", $x_start, $y_start, 160, 14, Default, $bUseOcrImgLoc)
+EndFunc   ;==>getChatStringChinese
 
-Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = False)
-	_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
-	Local $result = getOcr($hHBitmap2, $language)
+Func getChatStringPersian($x_start, $y_start, $bConvert = True) ; -> Get string chat request - Persian - "DonateCC.au3"
+	Local $bUseOcrImgLoc = True
+	Local $OCRString = getOcrAndCapture("persian-bundle", $x_start, $y_start, 240, 20, Default, $bUseOcrImgLoc, True)
+	If $bConvert = True Then
+		$OCRString = StringReverse($OCRString)
+		$OCRString = StringReplace($OCRString, "A", "ا")
+		$OCRString = StringReplace($OCRString, "B", "ب")
+		$OCRString = StringReplace($OCRString, "C", "چ")
+		$OCRString = StringReplace($OCRString, "D", "د")
+		$OCRString = StringReplace($OCRString, "F", "ف")
+		$OCRString = StringReplace($OCRString, "G", "گ")
+		$OCRString = StringReplace($OCRString, "J", "ج")
+		$OCRString = StringReplace($OCRString, "H", "ه")
+		$OCRString = StringReplace($OCRString, "R", "ر")
+		$OCRString = StringReplace($OCRString, "K", "ک")
+		$OCRString = StringReplace($OCRString, "K", "ل")
+		$OCRString = StringReplace($OCRString, "M", "م")
+		$OCRString = StringReplace($OCRString, "N", "ن")
+		$OCRString = StringReplace($OCRString, "P", "پ")
+		$OCRString = StringReplace($OCRString, "S", "س")
+		$OCRString = StringReplace($OCRString, "T", "ت")
+		$OCRString = StringReplace($OCRString, "V", "و")
+		$OCRString = StringReplace($OCRString, "Y", "ی")
+		$OCRString = StringReplace($OCRString, "L", "ل")
+		$OCRString = StringReplace($OCRString, "Z", "ز")
+		$OCRString = StringReplace($OCRString, "X", "خ")
+		$OCRString = StringReplace($OCRString, "Q", "ق")
+		$OCRString = StringReplace($OCRString, ",", ",")
+		$OCRString = StringReplace($OCRString, "0", " ")
+		$OCRString = StringReplace($OCRString, "1", ".")
+		$OCRString = StringReplace($OCRString, "22", "ع")
+		$OCRString = StringReplace($OCRString, "44", "ش")
+		$OCRString = StringReplace($OCRString, "55", "ح")
+		$OCRString = StringReplace($OCRString, "66", "ض")
+		$OCRString = StringReplace($OCRString, "77", "ط")
+		$OCRString = StringReplace($OCRString, "88", "لا")
+		$OCRString = StringReplace($OCRString, "99", "ث")
+		$OCRString = StringStripWS($OCRString, 1 + 2)
+	EndIf
+	Return $OCRString
+EndFunc   ;==>getChatStringPersian
+
+Func getCurrentXP($x_start, $y_start) ; -> Get Current/Total XP, Used in SuperXP.au3
+	Local $bUseOcrImgLoc = True
+	Return getOcrAndCapture("CurXpOCR-bundle", $x_start, $y_start, 95, 15, True, $bUseOcrImgLoc)
+EndFunc   ;==>getCurrentXP
+
+Func OcrForceCaptureRegion($bForce = Default)
+	If $bForce = Default Then Return $bOcrForceCaptureRegion
+	Local $wasForce = $bOcrForceCaptureRegion
+	$bOcrForceCaptureRegion = $bForce
+	Return $wasForce
+EndFunc   ;==>OcrForceCaptureRegion
+
+Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
+	If $removeSpace = Default Then $removeSpace = False
+	If $bImgLoc = Default Then $bImgLoc = False
+	If $bForceCaptureRegion = Default Then $bForceCaptureRegion = $bOcrForceCaptureRegion
+	Local $bDelete_hHBitmap = False
+	If $bForceCaptureRegion = True Then
+		_CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
+		Local $_hHBitmap = $hHBitmap2
+	Else
+		$bDelete_hHBitmap = True
+		Local $_hHBitmap = GetHHBitmapArea($hHBitmap2, $x_start, $y_start, $x_start + $width, $y_start + $height)
+	EndIf
+	Local $result
+	If $bImgLoc Then
+		$result = getOcrImgLoc($_hHBitmap, $language)
+	Else
+		$result = getOcr($_hHBitmap, $language)
+	EndIf
+	If $bDelete_hHBitmap Then _WinAPI_DeleteObject($_hHBitmap)
 	If ($removeSpace) Then
 		$result = StringReplace($result, " ", "")
+	Else
+		$result = StringStripWS($result, BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING, $STR_STRIPSPACES))
 	EndIf
 	Return $result
 EndFunc   ;==>getOcrAndCapture
@@ -291,3 +367,22 @@ Func getOcr($hBitmap, $language)
 		Return ""
 	EndIf
 EndFunc   ;==>getOcr
+
+Func getOcrImgLoc($hBitmap, $sLanguage)
+	Local $result = DllCall($pImgLib, "str", "DoOCR", "handle", $hBitmap, "str", $sLanguage)
+
+	Local $error = @error ; Store error values as they reset at next function call
+	Local $extError = @extended
+	If $error Then
+		_logErrorDLLCall($pImgLib, $error)
+		If $debugSetlog = 1 Then SetLog(" imgloc DLL Error : " & $error & " --- " & $extError)
+		Return SetError(2, $extError, "") ; Set external error code = 2 for DLL error
+	EndIf
+	If $debugImageSave = 1 Then DebugImageSave($sLanguage, False)
+
+	If IsArray($result) Then
+		Return $result[0]
+	Else
+		Return ""
+	EndIf
+EndFunc   ;==>getOcrImgLoc

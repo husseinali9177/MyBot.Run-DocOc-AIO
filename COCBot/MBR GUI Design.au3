@@ -22,7 +22,7 @@
 Global Const $TCM_SETITEM = 0x1306
 
 Global Const $_GUI_MAIN_WIDTH = 470
-Global Const $_GUI_MAIN_HEIGHT = 650
+Global Const $_GUI_MAIN_HEIGHT = 690 ; 650
 Global Const $_GUI_MAIN_TOP = 5
 Global Const $_GUI_BOTTOM_HEIGHT = 135
 Global Const $_GUI_CHILD_LEFT = 10
@@ -35,7 +35,6 @@ Global $hImageList = 0
 ;~ ------------------------------------------------------
 SplashStep(GetTranslated(500, 23, "Loading Main GUI..."))
 $frmBot = GUICreate($sBotTitle, $_GUI_MAIN_WIDTH, $_GUI_MAIN_HEIGHT + $_GUI_MAIN_TOP, $frmBotPosX, $frmBotPosY, BitOr($WS_MINIMIZEBOX, $WS_CAPTION, $WS_POPUP, $WS_SYSMENU, $WS_CLIPCHILDREN, $WS_CLIPSIBLINGS))
-GUISetOnEvent($GUI_EVENT_PRIMARYDOWN, "leftclick")
 GUISetOnEvent($GUI_EVENT_SECONDARYDOWN, "rightclick")
 ; group multiple bot windows using _WindowAppId
 _WindowAppId($frmBot, "MyBot.run")
@@ -50,12 +49,6 @@ GUICtrlSetBkColor(-1, $COLOR_WHITE)
 $frmBot_MAIN_PIC = _GUICtrlCreatePic($sLogoPath, 0, $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH, 67)
 $frmBot_URL_PIC = _GUICtrlCreatePic($sLogoUrlPath, 0, $_GUI_MAIN_TOP + 67, $_GUI_MAIN_WIDTH, 13)
 GUICtrlSetCursor(-1, 0)
-	GUICtrlSetState( $frmBot_MAIN_PIC, $GUI_DISABLE)
-
-$lblDisplayName = GUICtrlCreateLabel($iNameMyBot, 10, 10, 200, 50)
-	GUICtrlSetBkColor($lblDisplayName, $GUI_BKCOLOR_TRANSPARENT)
-	GUICtrlSetColor($lblDisplayName,0xFFFFFF)
-	GUICtrlSetFont($lblDisplayName, 20, 800)
 
 $hToolTip = _GUIToolTip_Create($frmBot) ; tool tips for URL links etc
 _GUIToolTip_SetMaxTipWidth($hToolTip, $_GUI_MAIN_WIDTH) ; support multiple lines
@@ -102,10 +95,6 @@ SplashStep(GetTranslated(500, 27, "Loading Attack tab..."))
 #include "GUI\MBR GUI Design Child Attack.au3"
 SplashStep(GetTranslated(500, 28, "Loading Bot tab..."))
 #include "GUI\MBR GUI Design Child Bot.au3"
-
-SplashStep("Loading MOD tab...")
-#include "GUI\MBR GUI Design Child Mod.au3"
-
 ;GUISetState()
 GUISwitch($frmBotEx)
 $tabMain = GUICtrlCreateTab(5, 85 + $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH - 9, $_GUI_MAIN_HEIGHT - 225); , $TCS_MULTILINE)
@@ -114,7 +103,6 @@ $tabGeneral = GUICtrlCreateTabItem(GetTranslated(600,1, "Log"))
 $tabVillage = GUICtrlCreateTabItem(GetTranslated(600,2, "Village")) ; Village
 $tabAttack = GUICtrlCreateTabItem(GetTranslated(600,3,"Attack Plan"))
 $tabBot = GUICtrlCreateTabItem(GetTranslated(600,4,"Bot"))
-$tabMod = GUICtrlCreateTabItem("Mod")
 
 ;~ -------------------------------------------------------------
 ;~ About Us Tab
@@ -135,6 +123,7 @@ Local $x = 28, $y = 128 + $_GUI_MAIN_TOP
 		$lblCredits2 = GUICtrlCreateLabel($txtCredits, $x + 44, $y, 180, 30, $SS_CENTER)
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 		$labelMyBotURL = GUICtrlCreateLabel("https://mybot.run/forums", $x + 223, $y, 150, 20)
+			;GUICtrlSetCursor(-1, 0) ; not working :(
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_INFO)
 		$y += 22
@@ -165,7 +154,7 @@ Local $x = 28, $y = 128 + $_GUI_MAIN_TOP
 		$lbltxtCreditsDead2 = GUICtrlCreateLabel($txtCredits, $x + 5, $y + 15, 410, 50, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $SS_LEFT), 0)
 			GUICtrlSetFont(-1, 9, $FW_MEDIUM)
 		$y += 66
-		$txtCredits = "Special thanks to all contributing forum members helping " & @CRLF & "to make this software better! "
+		$txtCredits = "Special thanks to all contributing forum members helping to make this" & @CRLF & "software better! And a special note to: @KevinM our server admin!"
 		$lbltxtCredits2 = GUICtrlCreateLabel($txtCredits, $x + 14, $y, 390, 30, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_CENTER), 0)
 			GUICtrlSetFont(-1, 9, $FW_MEDIUM)
 		$y += 40
@@ -174,6 +163,7 @@ Local $x = 28, $y = 128 + $_GUI_MAIN_TOP
 			GUICtrlSetFont(-1, 10, $FW_BOLD)
 		$y += 18
 		$labelForumURL = GUICtrlCreateLabel("https://mybot.run/forums/index.php?/forum/4-official-releases/", $x + 25, $y, 450, 20)
+			;GUICtrlSetCursor(-1, 0) ; not working :(
 			GUICtrlSetFont(-1, 9.5, $FW_BOLD)
 			GUICtrlSetColor(-1, $COLOR_INFO)
 		$y = 455
@@ -208,7 +198,6 @@ Bind_ImageList($hGUI_AttackOption_TAB)
 Bind_ImageList($hGUI_THSNIPE_TAB)
 Bind_ImageList($hGUI_BOT_TAB)
 Bind_ImageList($hGUI_STRATEGIES_TAB)
-Bind_ImageList($hGUI_MOD_TAB)
 Bind_ImageList($hGUI_STATS_TAB)
 #EndRegion ; Bind Icon images to all Tabs in all GUI windows (main and children)
 
@@ -250,7 +239,7 @@ $frmBotPosInit[6] = ControlGetPos($frmBot, "", $frmBotEx)[3]
 ;~ -------------------------------------------------------------
 
 $statLog = _GUICtrlStatusBar_Create($frmBotBottom)
-;_ArrayConcatenate($G, $y)
+_ArrayConcatenate($G, $y)
 _GUICtrlStatusBar_SetSimple($statLog)
 _GUICtrlStatusBar_SetText($statLog, "Status : Idle")
 $tiShow = TrayCreateItem(GetTranslated(500,31,"Show bot"))
@@ -281,4 +270,6 @@ SetDebugLog("$frmBot=" & $frmBot, Default, True)
 SetDebugLog("$frmBotEx=" & $frmBotEx, Default, True)
 SetDebugLog("$frmBotBottom=" & $frmBotBottom, Default, True)
 SetDebugLog("$frmBotEmbeddedShield=" & $frmBotEmbeddedShield, Default, True)
+SetDebugLog("$frmBotEmbeddedShieldInput=" & $frmBotEmbeddedShieldInput, Default, True)
 SetDebugLog("$frmBotEmbeddedGarphics=" & $frmBotEmbeddedGarphics, Default, True)
+

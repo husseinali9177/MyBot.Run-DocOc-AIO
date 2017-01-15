@@ -22,7 +22,7 @@ $chkUseAltRClick = GUICtrlCreateCheckbox(GetTranslated(42, 1, "Make ALL BOT clic
 	GUICtrlSetOnEvent(-1, "chkUseAltRClick")
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
-$Group1 = GUICtrlCreateGroup(GetTranslated(42, 2, "Settings"), 4, 55, 440, 335)
+GUICtrlCreateGroup(GetTranslated(42, 2, "Settings"), 4, 55, 440, 335)
 
 Local $x = 0, $y = 20
 
@@ -58,7 +58,7 @@ $y += 81
 	$cmbPriority[4] = GUICtrlCreateCombo("", $x + 155, $y + 25, 75, 25, BitOR($CBS_DROPDOWNLIST,$CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, $FrequenceChain, "Never")
 		GUICtrlSetOnEvent(-1, "cmbStandardReplay")
-	$Label7 = GUICtrlCreateLabel(GetTranslated(42, 13, "Max Replay Speed"), $x + 240, $y + 5, 110, 17)
+	$Label7 = GUICtrlCreateLabel(GetTranslated(42, 13, "Max Replay Speed") & " ", $x + 240, $y + 5, 110, 17)
 	$cmbMaxSpeed[0] = GUICtrlCreateCombo("", $x + 355, $y, 75, 25, BitOR($CBS_DROPDOWNLIST,$CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, $ReplayChain, "2")
 	$Label8 = GUICtrlCreateLabel(GetTranslated(42, 14, "Pause Replay"), $x + 240, $y + 30, 110, 17)
@@ -91,7 +91,7 @@ $y += 56
 	$cmbPriority[10] = GUICtrlCreateCombo("", $x + 155, $y + 25, 75, 25, BitOR($CBS_DROPDOWNLIST,$CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, $FrequenceChain, "Never")
 		GUICtrlSetOnEvent(-1, "cmbWarReplay")
-	$Label13 = GUICtrlCreateLabel(GetTranslated(42, 13, "Max Replay Speed"), $x + 240, $y + 5, 110, 17)
+	$Label13 = GUICtrlCreateLabel(GetTranslated(42, 13, "Max Replay Speed") & " ", $x + 240, $y + 5, 110, 17)
 	$cmbMaxSpeed[1] = GUICtrlCreateCombo("", $x + 355, $y, 75, 25, BitOR($CBS_DROPDOWNLIST,$CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, $ReplayChain, "2")
 	$Label15 = GUICtrlCreateLabel(GetTranslated(42, 14, "Pause Replay"), $x + 240, $y + 30, 110, 17)

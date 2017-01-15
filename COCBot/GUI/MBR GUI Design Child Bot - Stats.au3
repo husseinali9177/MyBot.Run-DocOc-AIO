@@ -37,27 +37,27 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 	Local $xStart = 25, $yStart = 45
 	$x = $xStart
 	$y = $yStart
-		$PicStats = GUICtrlCreatePic(@ScriptDir & "\images\Resources\Stats\TopBanner.jpg", $x - 18, $y - 20, 426, 80)
+		$PicStats = GUICtrlCreatePic(@ScriptDir & "\images\Stats\Stats001.jpg", $x - 18, $y - 20, 426, 80)
 
-	$x = $xStart + 278
+	$x = $xStart + 276
 	$y = $yStart - 14
 		;Boju Display TH Level in Stats
 		;$THLevels = GUICtrlCreateGroup(GetTranslated(632,0, "TownHall"), $x - 15, $y - 15, 70, 90)
-		$THLevels04 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV04.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels04 = GUICtrlCreateIcon($pIconLib, $eHdV04, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels05 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV05.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels05 = GUICtrlCreateIcon($pIconLib, $eHdV05, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels06 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV06.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels06 = GUICtrlCreateIcon($pIconLib, $eHdV06, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels07 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV07.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels07 = GUICtrlCreateIcon($pIconLib, $eHdV07, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels08 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV08.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels08 = GUICtrlCreateIcon($pIconLib, $eHdV08, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels09 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV09.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels09 = GUICtrlCreateIcon($pIconLib, $eHdV09, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels10 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV10.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels10 = GUICtrlCreateIcon($pIconLib, $eHdV10, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$THLevels11 = GUICtrlCreateIcon(@ScriptDir & "\images\TH\Levels\HdV11.ico",-1, $x - 11, $y + 15, 52, 52)
+		$THLevels11 = GUICtrlCreateIcon($pIconLib, $eHdV11, $x - 11, $y + 15, 52, 52)
 		GUICtrlSetState(-1,$GUI_HIDE)
 
 		$txtTHLevels = GUICtrlCreateLabel(GetTranslated(632,0, "TownHall"), $x - 11, $y, -1, -1, $SS_CENTER)
@@ -70,27 +70,27 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = $xStart + 342
+	$x = $xStart + 340
 	$y = $yStart - 14
 	;Display League in Stats ==>
 	;$grpLeague = GUICtrlCreateGroup(GetTranslated(632,106, "League"), $x - 5, $y - 15, 70, 90)
-		$UnrankedLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Unranked.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$UnrankedLeague = GUICtrlCreateIcon($pIconLib, $eUnranked, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_SHOW)
-		$BronzeLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Bronze.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$BronzeLeague = GUICtrlCreateIcon($pIconLib, $eBronze, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$SilverLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Silver.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$SilverLeague = GUICtrlCreateIcon($pIconLib, $eSilver, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$GoldLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Gold.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$GoldLeague = GUICtrlCreateIcon($pIconLib, $eGold, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$CrystalLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Crystal.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$CrystalLeague = GUICtrlCreateIcon($pIconLib, $eCrystal, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$MasterLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Master.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$MasterLeague = GUICtrlCreateIcon($pIconLib, $eMaster, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$ChampionLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Champion.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$ChampionLeague = GUICtrlCreateIcon($pIconLib, $eChampion, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$TitanLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Titan.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$TitanLeague = GUICtrlCreateIcon($pIconLib, $eTitan, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
-		$LegendLeague = GUICtrlCreateIcon(@ScriptDir & "\images\League\Legend.ico",-1, $x - 2, $y - 5 + 15, 56, 56)
+		$LegendLeague = GUICtrlCreateIcon($pIconLib, $eLegend, $x - 2, $y - 5 + 15, 56, 56)
 		GUICtrlSetState(-1,$GUI_HIDE)
 
 		$txtLeague = GUICtrlCreateLabel(GetTranslated(632,106, "League"), $x + 3, $y, -1, -1, $SS_CENTER)
@@ -105,23 +105,23 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x = $xStart + 3
 	$y = $yStart + 100
-		$lblStatsRev = GUICtrlCreateLabel("Stats", $x - 20, $y - 32, 87, 17, $SS_CENTER)
+		$lblStatsRev = GUICtrlCreateLabel(GetTranslated(632, 107, "Stats"), $x - 20, $y - 32, 87, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblGoldRev = GUICtrlCreateLabel("Gold", $x - 18 + 85, $y - 32, 95, 17, $SS_CENTER)
+		$lblGoldRev = GUICtrlCreateLabel(GetTranslated(632, 108, "Gold"), $x - 18 + 85, $y - 32, 95, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblElixirRev = GUICtrlCreateLabel("Elixir", $x - 18 + (60 * 3), $y - 32, 75, 17, $SS_CENTER)
+		$lblElixirRev = GUICtrlCreateLabel(GetTranslated(632, 109, "Elixir"), $x - 18 + (60 * 3), $y - 32, 75, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblDarkRev = GUICtrlCreateLabel("DarkE", $x - 23 + (65 * 4), $y - 32, 90, 17, $SS_CENTER)
+		$lblDarkRev = GUICtrlCreateLabel(GetTranslated(632, 110, "DarkE"), $x - 23 + (65 * 4), $y - 32, 90, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblTrophyRev = GUICtrlCreateLabel("Trophy", $x - 23 + (70 * 5), $y - 32, 75, 17, $SS_CENTER)
+		$lblTrophyRev = GUICtrlCreateLabel(GetTranslated(632, 111, "Trophy"), $x - 23 + (70 * 5), $y - 32, 75, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
@@ -311,17 +311,14 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 		_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	   ; ============================================================================
-       ; ====================== Stats Top Loot - Added by DocOC team ================
-       ; ============================================================================
  	$x = $xStart + 3
 	$y = $yStart + 265
 		$grpMods = GUICtrlCreateGroup("", $x - 20, $y - 20, 422, 28)
-		$lblMods = GUICtrlCreateLabel(GetTranslated(11,1,"Top Loot") & ":", $x - 15, $y - 11, - 1, - 1)
+		$lblMods = GUICtrlCreateLabel(GetTranslated(632, 112, "Top Loot") & ":", $x - 15, $y - 11, - 1, - 1)
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnGold, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,2, "Top Gold gained")
+		$txtTip = GetTranslated(632, 113, "Top Gold gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopgoldloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopgoldloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -330,7 +327,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnElixir, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,3, "Top Elixir gained")
+		$txtTip = GetTranslated(632, 114, "Top Elixir gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopelixirloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopelixirloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -339,7 +336,7 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 85
 		GUICtrlCreateIcon($pIconLib, $eIcnDark, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,4, "Top Dark gained")
+		$txtTip = GetTranslated(632, 115, "Top Dark gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopdarkloot = GUICtrlCreateLabel("0", $x - 18, $y - 12, 65, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopdarkloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
@@ -348,31 +345,12 @@ $hGUI_STATS_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,38,"Gain"))
 
 	$x += 75
 		GUICtrlCreateIcon($pIconLib, $eIcnTrophy, $x + 50, $y - 12, 16, 16)
-		$txtTip = GetTranslated(11,5, "Top Trophy gained")
+		$txtTip = GetTranslated(632, 116, "Top Trophy gained")
 		_GUICtrlSetTip(-1, $txtTip)
 		$lbltopTrophyloot = GUICtrlCreateLabel("0", $x - 18 + 5, $y - 12, 60, 17, $SS_RIGHT)
 		GUICtrlSetFont($lbltopTrophyloot, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-        ; ============================================================================
-        ; ====================== Stats Top Loot - Added by DocOC team ================
-        ; ============================================================================
-
-	$x = $xStart + 42
-	$y = $yStart + 282
-		$btn1Chart = GUICtrlCreateButton("Totals 3D Bar", $x, $y + 5, 75, -1)
-			GUICtrlSetOnEvent(-1, "btn1DisplayChart")
-
-		$btn2Chart = GUICtrlCreateButton("Totals Line", $x + 77, $y + 5, 75, -1)
-			GUICtrlSetOnEvent(-1, "btn2DisplayChart")
-
-		$btn3Chart = GUICtrlCreateButton("Rate/Hr Line", $x + 154, $y + 5, 75, -1)
-			GUICtrlSetOnEvent(-1, "btn3DisplayChart")
-
-		$btn4Chart = GUICtrlCreateButton("Attacks Line", $x + 231, $y + 5, 75, -1)
-			GUICtrlSetOnEvent(-1, "btn4DisplayChart")
-		;==> Display League in Stats
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;-->TAB Gain
@@ -390,7 +368,7 @@ $hGUI_STATS_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,39,"Misc"))
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
-		$lblCostandCollectRev = GUICtrlCreateLabel("Cost && Collect", $x - 18 + 212, $y - 32, 207, 17, $SS_CENTER)
+		$lblCostandCollectRev = GUICtrlCreateLabel(GetTranslated(632, 117, "Cost && Collect"), $x - 18 + 212, $y - 32, 207, 17, $SS_CENTER)
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
@@ -630,12 +608,10 @@ $hGUI_STATS_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,39,"Misc"))
 		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 		GUICtrlSetColor(-1, $COLOR_BLACK)
 		_GUICtrlSetTip(-1, $txtTip)
-
-		$x -= 20
-		$y -= 85
-			$lblRev1 = GUICtrlCreateLabel("", $x + 28, $y - 160, 5, 300)
-			GUICtrlSetBkColor(-1, 0xA8A8A8)
-
+	$x -= 20
+	$y -= 85
+		$lblRev1 = GUICtrlCreateLabel("", $x + 28, $y - 160, 5, 300)
+		GUICtrlSetBkColor(-1, 0xA8A8A8)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;--> TAB Misc
@@ -957,150 +933,239 @@ $hGUI_STATS_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,40,"Attacks"))
 		GUICtrlSetBkColor(-1, 0xA8A8A8)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+
+	$x = $xStart + 5
+	$y = $yStart + 310
+		$lblStatsTSRev = GUICtrlCreateLabel(GetTranslated(632,122, "Smart Zap"), $x - 20, $y - 32, 187, 17, $SS_CENTER)
+		GUICtrlSetBkColor(-1, 0xC3C3C3)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+		$lblStatsTSRev = GUICtrlCreateLabel("", $x + 35 + 130, $y - 32, 30, 17, $SS_CENTER)
+		GUICtrlSetBkColor(-1, 0xC3C3C3)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+		$lblStatsTBRev = GUICtrlCreateLabel("", $x - 18 + 212, $y - 32, 207, 17, $SS_CENTER)
+		GUICtrlSetBkColor(-1, 0xC3C3C3)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+	$x -= 10
+	$y -= 10
+		GUICtrlCreateIcon($pIconLib, $eIcnDark, $x - 10, $y, 16, 16)
+		$txtTip = GetTranslated(632,124,"The amount of Dark Elixir won while zapping")
+		_GUICtrlSetTip(-1, $txtTip)
+		GUICtrlCreateLabel(GetTranslated(632,74, -1) & ":", $x + 13, $y + 2, -1, 17)
+		_GUICtrlSetTip(-1, $txtTip)
+		$lblSmartZapGain = GUICtrlCreateLabel("0", $x + 115, $y + 2, 70, 17, $SS_RIGHT)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+		_GUICtrlSetTip(-1, $txtTip)
+	$y += 20
+		GUICtrlCreateIcon($pIconLib, $eIcnLightSpell, $x - 10, $y, 16, 16)
+		$txtTip = GetTranslated(632,125, "The amount of Lightning Spells used to zap")
+		_GUICtrlSetTip(-1, $txtTip)
+		GUICtrlCreateLabel(GetTranslated(632,123, "Used") & ":", $x + 13, $y + 2, -1, 17)
+		_GUICtrlSetTip(-1, $txtTip)
+		$lblLightningUsed = GUICtrlCreateLabel("0", $x + 115, $y + 2, 70, 17, $SS_RIGHT)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+		_GUICtrlSetTip(-1, $txtTip)
+	$y += 20
+		GUICtrlCreateIcon($pIconLib, $eIcnEarthQuakeSpell, $x - 10, $y, 16, 16)
+		$txtTip = GetTranslated(632,126, "The amount of Earthquake Spells used to zap")
+		_GUICtrlSetTip(-1, $txtTip)
+		GUICtrlCreateLabel(GetTranslated(632,123, "Used") & ":", $x + 13, $y + 2, -1, 17)
+		_GUICtrlSetTip(-1, $txtTip)
+		$lblEarthQuakeUsed = GUICtrlCreateLabel("0", $x + 115, $y + 2, 70, 17, $SS_RIGHT)
+		GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+		GUICtrlSetColor(-1, $COLOR_BLACK)
+		_GUICtrlSetTip(-1, $txtTip)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x = $xStart + 160
+	$y = $yStart + 150
+
+		$lblRev1 = GUICtrlCreateLabel("", $x + 28, $y - 160, 5, 368)
+		GUICtrlSetBkColor(-1, 0xA8A8A8)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 ;--> TAB Attacks
+;TAB Attacks
+$hGUI_STATS_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600, 55,"Donations"))
 
-;TAB Donation Stats
-$hGUI_STATS_TAB_ITEM4 = GUICtrlCreateTabItem("Donation Stats")
-	Local $xStart = 25, $yStart = 45
-	$x = $xStart
-	$y = $yStart
-	$grpStatsETroops = GUICtrlCreateGroup("Elixir Troops", $x - 20, $y - 20, 425, 130)
-	;Barbarian
-		GUICtrlCreateIcon($pIconLib, $eIcnBarbarian, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eBarb, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Archer
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnArcher, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eArch, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Giant
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnGiant, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eGiant, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Goblin
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnGoblin, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eGobl, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Wall Breaker
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnWallBreaker, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eWall, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Balloon
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnBalloon, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eBall, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
+Local $x = 5, $y = 28, $z = 33
 
-	;2nd ROW
-	$x = $xStart
-	$y += 35
-	;Wizard
-		GUICtrlCreateIcon($pIconLib, $eIcnWizard, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eWiza, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Healer
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnHealer, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eHeal, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Dragon
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnDragon, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eDrag, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Pekka
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnPekka, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $ePekk, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Baby Dragon
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnBabyDragon, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eBabyD, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Miner
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnMiner, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eMine, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
+$grpElxTr = GUICtrlCreateGroup(GetTranslated(632,118,"Troops"), $x, $y, 427, 220, BitOR($GUI_SS_DEFAULT_GROUP,$BS_CENTER))
 
-	;3rd ROW
-	$x = $xStart
-	$y += 42
+$x -= 25
+$y += 20
+$z += 20
 
-	;Total Label
-	$x += 32 + 27 + 10 + 32 + 27 + 126
-		$lblTotalDonated = GUICtrlCreateLabel("Total Donated: 0", $x, $y + 10, 150, 16)
-			GUICtrlSetFont(-1, 10, 800, "", "Arial") ; bold
-			GUICtrlSetBkColor (-1, 0xbfdfff)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateIcon($pIconLib, $eIcnBarbarian, $x + 60, $y, 32, 32)
+	$lblDonQ[1] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-	$x = $xStart
-	$y = $yStart + 130
-	$grpStatsDTroops = GUICtrlCreateGroup("Dark Elixir Troops", $x - 20, $y - 20, 425, 100)
-	;Minion
-		GUICtrlCreateIcon($pIconLib, $eIcnMinion, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eMini, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Hog Rider
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnHogRider, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eHogs, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Valkyrie
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnValkyrie, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eValk, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Golem
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnGolem, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eGole, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Witch
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnWitch, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eWitc, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Lava Hound
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnLavaHound, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eLava, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;2nd ROW
-	$x = $xStart
-	$y += 35
-	;Bowler
-		GUICtrlCreateIcon($pIconLib, $eIcnBowler, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eBowl, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
+	GUICtrlCreateIcon($pIconLib, $eIcnArcher, $x + 130, $y, 32, 32)
+	$lblDonQ[2] = GUICtrlCreateLabel("0", $x + 90, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-	$y += 12
-	;Total Donation
-	$x += 32 + 27 + 10 + 32 + 27 + 126
-		$lblTotalDonatedDark = GUICtrlCreateLabel("Total Donated: 0", $x, $y + 10, 150, 16)
-			GUICtrlSetFont(-1, 10, 800, "", "Arial") ; bold
-			GUICtrlSetBkColor (-1, 0xbfdfff)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateIcon($pIconLib, $eIcnGiant, $x + 200, $y, 32, 32)
+	$lblDonQ[3] = GUICtrlCreateLabel("0", $x + 160, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-	$x = $xStart
-	$y = $yStart + 130 + 100
-	$grpStatsDTroops = GUICtrlCreateGroup("Dark Spells", $x - 20, $y - 20, 425, 70)
-	;Poison
-		GUICtrlCreateIcon($pIconLib, $eIcnPoisonSpell, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $ePSpell, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;EarthQuake
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnEarthQuakeSpell, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eESpell, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Haste
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eHaSpell, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
-	;Skeleton
-	$x += 32 + 27 + 10
-		GUICtrlCreateIcon($pIconLib, $eIcnSkeletonSpell, $x - 5, $y, 32, 32)
-			Assign("lblDonated" & $eSkSpell, GUICtrlCreateLabel("0", $x + 32, $y + 8, 27, 16), 2)
+	GUICtrlCreateIcon($pIconLib, $eIcnGoblin, $x + 270, $y, 32, 32)
+	$lblDonQ[4] = GUICtrlCreateLabel("0", $x + 230, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-	$y += 11
-	;Total Donation
-	$x += 32 + 22
-		$lblTotalDonatedSpell = GUICtrlCreateLabel("Total Donated: 0", $x - 7, $y + 16, 150, 16)
-			GUICtrlSetFont(-1, 10, 800, "", "Arial") ; bold
-			GUICtrlSetBkColor (-1, 0xbfdfff)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateIcon($pIconLib, $eIcnWallBreaker, $x + 340, $y, 32, 32)
+	$lblDonQ[5] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-	$y -= 6
-	$x += 15
-	;Reset Donation Stats
-	GUICtrlCreateButton("Reset Don. Stats", $x + 20, $y + 48, 110,30)
-		GUICtrlSetOnEvent(-1, "ResetDonateStats")
-;--> TAB Donation Stats
+	GUICtrlCreateIcon($pIconLib, $eIcnBalloon, $x + 410, $y, 32, 32)
+	$lblDonQ[7] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+$y += 35
+$z += 35
+
+	GUICtrlCreateIcon($pIconLib, $eIcnWizard, $x + 60, $y, 32, 32)
+	$lblDonQ[6] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnHealer, $x + 130, $y, 32, 32)
+	$lblDonQ[8] = GUICtrlCreateLabel("0", $x + 90, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnDragon, $x + 200, $y, 32, 32)
+	$lblDonQ[9] = GUICtrlCreateLabel("0", $x + 160, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnPekka, $x + 270, $y, 32, 32)
+	$lblDonQ[10] = GUICtrlCreateLabel("0", $x + 230, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnBabyDragon, $x + 340, $y, 32, 32)
+	$lblDonQ[11] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnMiner, $x + 410, $y, 32, 32)
+	$lblDonQ[12] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+$y += 50
+$z += 50
+
+	GUICtrlCreateIcon($pIconLib, $eIcnMinion, $x + 60, $y, 32, 32)
+	$lblDonQ[13] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnHogRider, $x + 130, $y, 32, 32)
+	$lblDonQ[14] = GUICtrlCreateLabel("0", $x + 90, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnValkyrie, $x + 200, $y, 32, 32)
+	$lblDonQ[15] = GUICtrlCreateLabel("0", $x + 160, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnGolem, $x + 270, $y, 32, 32)
+	$lblDonQ[17] = GUICtrlCreateLabel("0", $x + 230, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnWitch, $x + 340, $y, 32, 32)
+	$lblDonQ[16] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnLavaHound, $x +410, $y, 32, 32)
+	$lblDonQ[18] = GUICtrlCreateLabel("0", $x + 370, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+$y += 35
+$z += 35
+
+	GUICtrlCreateIcon($pIconLib, $eIcnBowler, $x + 60, $y, 32, 32)
+	$lblDonQ[19] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+$x += 26
+$y += 45
+
+	$lblTotalTroopsQ = GUICtrlCreateLabel(GetTranslated(632,120,"Total Donated") & " : 0", $x + 5, $y, 230, 20, $SS_CENTER)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	GUICtrlSetBkColor(-1, 0xA8A8A8)
+
+	$lblTotalTroopsXP = GUICtrlCreateLabel(GetTranslated(632,121,"XP Won") & " : 0", $x + 240, $y, 180, 20, $SS_CENTER)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	GUICtrlSetBkColor(-1, 0xA8A8A8)
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+Local $x = 5, $y = 250, $z = 263
+
+$grpDElxTrSp = GUICtrlCreateGroup(GetTranslated(632,119,"Spells"), $x, $y, 427, 150, BitOR($GUI_SS_DEFAULT_GROUP,$BS_CENTER))
+
+$x -= 25
+$y += 20
+$z += 20
+
+	GUICtrlCreateIcon($pIconLib, $eIcnLightSpell, $x + 60, $y, 32, 32)
+	$lblDonQ[20] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnHealSpell, $x + 130, $y, 32, 32)
+	$lblDonQ[21] = GUICtrlCreateLabel("0", $x + 90, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnRageSpell, $x + 200, $y, 32, 32)
+	$lblDonQ[22] = GUICtrlCreateLabel("0", $x + 160, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnJumpSpell, $x + 270, $y, 32, 32)
+	$lblDonQ[23] = GUICtrlCreateLabel("0", $x + 230, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnFreezeSpell, $x + 340, $y, 32, 32)
+	$lblDonQ[24] = GUICtrlCreateLabel("0", $x + 300, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+
+$y += 50
+$z += 50
+
+
+	GUICtrlCreateIcon($pIconLib, $eIcnPoisonSpell, $x + 60, $y, 32, 32)
+	$lblDonQ[25] = GUICtrlCreateLabel("0", $x + 25, $z, 30, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnHasteSpell, $x + 130, $y, 32, 32)
+	$lblDonQ[26] = GUICtrlCreateLabel("0", $x + 90, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnEarthquakeSpell, $x + 200, $y, 32, 32)
+	$lblDonQ[27] = GUICtrlCreateLabel("0", $x + 160, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+	GUICtrlCreateIcon($pIconLib, $eIcnSkeletonSpell, $x + 270, $y, 32, 32)
+	$lblDonQ[28] = GUICtrlCreateLabel("0", $x + 230, $z, 35, 20, $SS_RIGHT)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+
+
+$x += 26
+$y += 45
+
+	$lblTotalSpellsQ = GUICtrlCreateLabel(GetTranslated(632,120,"Total Donated") & " : 0", $x + 5, $y, 230, 20, $SS_CENTER)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	GUICtrlSetBkColor(-1, 0xA8A8A8)
+
+	$lblTotalSpellsXP = GUICtrlCreateLabel(GetTranslated(632,121,"XP Won") & " : 0", $x + 240, $y, 180, 20, $SS_CENTER)
+	GUICtrlSetFont(-1, 11, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
+	GUICtrlSetColor(-1, $COLOR_BLACK)
+	GUICtrlSetBkColor(-1, 0xA8A8A8)
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+;--> TAB Don Stats
 
 GUICtrlCreateTabItem("")
 ;GUISetState()

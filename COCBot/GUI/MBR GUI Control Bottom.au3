@@ -15,17 +15,17 @@
 
 Func Initiate()
 	WinGetAndroidHandle()
-	If $HWnD <> 0 And ($AndroidBackgroundLaunched = True Or AndroidControlAvailable()) Then
-		SetLog(_PadStringCenter(" " & $sBotTitle & " Powered by MyBot.run ", 50, "~"), $COLOR_DEBUG) ;Debug
+    If $HWnD <> 0 And ($AndroidBackgroundLaunched = True Or AndroidControlAvailable()) Then
+		SetLog(_PadStringCenter(" " & $sBotTitle & " Powered by MyBot.run ", 50, "~"), $COLOR_DEBUG)
 		SetLog($Compiled & " running on " & @OSVersion & " " & @OSServicePack & " " & @OSArch)
 		If Not $bSearchMode Then
-			SetLog(_PadStringCenter(" Bot Start ", 50, "="), $COLOR_GREEN)
+			SetLog(_PadStringCenter(" Bot Start ", 50, "="), $COLOR_SUCCESS)
 		Else
-			SetLog(_PadStringCenter(" Search Mode Start ", 50, "="), $COLOR_GREEN)
+			SetLog(_PadStringCenter(" Search Mode Start ", 50, "="), $COLOR_SUCCESS)
 		EndIf
-		SetLog(_PadStringCenter("  Current Profile: " & $sCurrProfile & " ", 73, "-"), $COLOR_BLUE)
-		If $DebugSetlog = 1 Or $DebugOcr = 1 Or $debugRedArea = 1 Or $DevMode = 1 Or $debugImageSave = 1 Or $debugBuildingPos = 1 Or $debugOCRdonate = 1 Then
-			SetLog(_PadStringCenter(" Warning Debug Mode Enabled! Setlog: " & $DebugSetlog & " OCR: " & $DebugOcr & " RedArea: " & $debugRedArea & " ImageSave: " & $debugImageSave & " BuildingPos: " & $debugBuildingPos & " OCRDonate: " & $debugOCRdonate, 55, "-"), $COLOR_DEBUG) ;Debug
+		SetLog(_PadStringCenter("  Current Profile: " & $sCurrProfile & " ", 73, "-"), $COLOR_INFO)
+		If $DebugSetlog = 1 Or $DebugOcr = 1 Or $debugRedArea = 1 Or $DevMode = 1 Or $debugImageSave = 1 Or $debugBuildingPos = 1 Or $debugOCRdonate = 1 Or $debugAttackCSV  = 1 Then
+			SetLog(_PadStringCenter(" Warning Debug Mode Enabled! Setlog: " & $DebugSetlog & " OCR: " & $DebugOcr & " RedArea: " & $debugRedArea & " ImageSave: " & $debugImageSave & " BuildingPos: " & $debugBuildingPos & " OCRDonate: " & $debugOCRdonate & " AttackCSV: " & $debugAttackCSV, 55, "-"), $COLOR_ERROR)
 		EndIf
 
 		$AttackNow = False
@@ -70,7 +70,7 @@ Func Initiate()
 			runBot()
 		EndIf
 	Else
-		SetLog("Not in Game!", $COLOR_RED)
+		SetLog("Not in Game!", $COLOR_ERROR)
 		;		$RunState = True
 		btnStop()
 	EndIf
@@ -87,7 +87,7 @@ Func InitiateLayout()
 		Local $BSx = $BSsize[2]
 		Local $BSy = $BSsize[3]
 
-		SetDebugLog("InitiateLayout: " & $title & " Android-ClientSize: " & $BSx & " x " & $BSy, $COLOR_BLUE)
+		SetDebugLog("InitiateLayout: " & $title & " Android-ClientSize: " & $BSx & " x " & $BSy, $COLOR_INFO)
 
 		If Not CheckScreenAndroid($BSx, $BSy) Then ; Is Client size now correct?
 			If $AdjustScreenIfNecessarry = True Then
@@ -103,8 +103,8 @@ Func InitiateLayout()
 					;Return "RebootAndroidSetScreen()"
 				EndIf
 			Else
-				SetLog("Cannot use " & $Android & ".", $COLOR_RED)
-				SetLog("Please set its screen size manually to " & $AndroidClientWidth & " x " & $AndroidClientHeight, $COLOR_RED)
+				SetLog("Cannot use " & $Android & ".", $COLOR_ERROR)
+				SetLog("Please set its screen size manually to " & $AndroidClientWidth & " x " & $AndroidClientHeight, $COLOR_ERROR)
 				btnStop()
 				Return False
 			EndIf
@@ -144,7 +144,10 @@ Func btnStart()
 	Else
 		$BotAction = $eBotStart
 	EndIf
-	$iGUIEnabled = False
+			$troops_maked_after_fullarmy= false ; reset due to start button pressed
+			$actual_train_skip = 0
+			If $debugsetlogTrain = 1 Then SetLog("troops_maked_after_fullarmy= false",$color_purple)
+
 EndFunc   ;==>btnStart
 
 Func btnStop()
@@ -154,7 +157,6 @@ Func btnStop()
 		$RunState = False ; Exit BotStart()
 		$BotAction = $eBotStop
 	EndIf
-	$iGUIEnabled = True
 EndFunc   ;==>btnStop
 
 Func btnSearchMode()
@@ -177,6 +179,12 @@ Func btnResume()
 	;Send("{PAUSE}")
 	TogglePause()
 EndFunc   ;==>btnResume
+
+Func btnReport()
+
+	Run (@ScriptDir & "\Bug Reporter.exe","")
+
+EndFunc
 
 Func btnAttackNowDB()
 	If $RunState Then
@@ -213,24 +221,16 @@ Func updateBtnHideState($newState = $GUI_ENABLE)
 	Local $hideState = GUICtrlGetState($btnHide)
 	Local $newHideState = ($AndroidEmbedded = True ? $GUI_DISABLE : $newState)
 	If $hideState <> $newHideState Then GUICtrlSetState($btnHide, $newHideState)
-EndFunc   ;==>updateBtnHideState
+EndFunc	  ;==>updateBtnHideState
 
 Func btnHide()
-	ResumeAndroid()
-	WinGetAndroidHandle() ; updates android position
-	WinGetPos($HWnD)
-	If @error <> 0 Then Return SetError(0, 0, 0)
-
 	If $Hide = False Then
 		GUICtrlSetData($btnHide, GetTranslated(602, 26, "Show"))
-		Local $a = WinGetPos($HWnD)
-		WinMove2($HWnD, "", -32000, -32000)
+		HideAndroidWindow(True)
 		$Hide = True
-	Else
+	ElseIf $Hide = True Then
 		GUICtrlSetData($btnHide, GetTranslated(602, 11, "Hide"))
-
-		WinMove2($HWnD, "", $AndroidPosX, $AndroidPosY)
-		WinActivate($HWnD)
+		HideAndroidWindow(False)
 		$Hide = False
 	EndIf
 EndFunc   ;==>btnHide
@@ -264,7 +264,7 @@ Func btnEmbed()
 	WinGetPos($HWnD)
 	If @error <> 0 Then Return SetError(0, 0, 0)
 	AndroidEmbed(Not $AndroidEmbedded)
-EndFunc   ;==>btnEmbed
+EndFunc   ;==>btnHide
 
 Func btnMakeScreenshot()
 	If $RunState Then $iMakeScreenshotNow = True
@@ -276,16 +276,20 @@ Func GetFont()
 	For $i = 0 To UBound($DefaultFont) - 1
 		$sText &= " $DefaultFont[" & $i & "]= " & $DefaultFont[$i] & ", "
 	Next
-	Setlog($sText, $COLOR_DEBUG) ;Debug
+	Setlog($sText, $COLOR_DEBUG)
 EndFunc   ;==>GetFont
+
+
 
 Func btnAnalyzeVillage()
 	$debugBuildingPos = 1
 	$debugDeadBaseImage = 1
 	SETLOG("DEADBASE CHECK..................")
 	$dbBase = checkDeadBase()
-	SETLOG("TOWNHALL CHECK..................")
-	$searchTH = townHallCheck(True)
+	SETLOG("TOWNHALL CHECK imgloc..................")
+	$searchTH = imgloccheckTownhallADV2()
+	SETLOG("TOWNHALL C# CHECK. IMGLOC..............")
+	imglocTHSearch()
 	SETLOG("MINE CHECK C#...................")
 	$PixelMine = GetLocationMine()
 	SetLog("[" & UBound($PixelMine) & "] Gold Mines")
@@ -300,23 +304,23 @@ Func btnAnalyzeVillage()
 	SetLog("[" & UBound($BuildingToLoc) & "] Dark Elixir Storage")
 	For $i = 0 To UBound($BuildingToLoc) - 1
 		$pixel = $BuildingToLoc[$i]
-		If $DebugSetlog = 1 Then SetLog("- Dark Elixir Storage " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG) ;Debug
+		If $DebugSetlog = 1 Then SetLog("- Dark Elixir Storage " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG)
 	Next
 	SETLOG("LOCATE BARRACKS C#..............")
 	Local $PixelBarrackHere = GetLocationItem("getLocationBarrack")
-	SetLog("Total No. of Barracks: " & UBound($PixelBarrackHere), $COLOR_DEBUG) ;Debug
+	SetLog("Total No. of Barracks: " & UBound($PixelBarrackHere), $COLOR_DEBUG)
 	For $i = 0 To UBound($PixelBarrackHere) - 1
 		$pixel = $PixelBarrackHere[$i]
-		If $DebugSetlog = 1 Then SetLog("- Barrack " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG) ;Debug
+		If $DebugSetlog = 1 Then SetLog("- Barrack " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG)
 	Next
 	SETLOG("LOCATE BARRACKS C#..............")
 	Local $PixelDarkBarrackHere = GetLocationItem("getLocationDarkBarrack")
-	SetLog("Total No. of Dark Barracks: " & UBound($PixelBarrackHere), $COLOR_DEBUG) ;Debug
+	SetLog("Total No. of Dark Barracks: " & UBound($PixelBarrackHere), $COLOR_DEBUG)
 	For $i = 0 To UBound($PixelDarkBarrackHere) - 1
 		$pixel = $PixelDarkBarrackHere[$i]
-		If $DebugSetlog = 1 Then SetLog("- Dark Barrack " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG) ;Debug
+		If $DebugSetlog = 1 Then SetLog("- Dark Barrack " & $i + 1 & ": (" & $pixel[0] & "," & $pixel[1] & ")", $COLOR_DEBUG)
 	Next
-	SetLog("WEAK BASE C#.....................", $COLOR_TEAL)
+	SetLog("WEAK BASE C#.....................", $COLOR_DEBUG1)
 	; Weak Base Detection modified by LunaEclipse
 	Local $weakBaseValues
 	If IsWeakBaseActive($DB) Or IsWeakBaseActive($LB) Then
@@ -325,21 +329,22 @@ Func btnAnalyzeVillage()
 	For $i = 0 To $iModeCount - 2
 		If IsWeakBaseActive($i) Then
 			If getIsWeak($weakBaseValues, $i) Then
-				SetLog(StringUpper($sModeText[$i]) & " IS A WEAK BASE: TRUE", $COLOR_DEBUG) ;Debug
+				SetLog(StringUpper($sModeText[$i]) & " IS A WEAK BASE: TRUE", $COLOR_DEBUG)
 			Else
-				SetLog(StringUpper($sModeText[$i]) & " IS A WEAK BASE: FALSE", $COLOR_DEBUG) ;Debug
+				SetLog(StringUpper($sModeText[$i]) & " IS A WEAK BASE: FALSE", $COLOR_DEBUG)
 			EndIf
 
-			SetLog("Time taken: " & $weakBaseValues[5][0] & " " & $weakBaseValues[5][1], $COLOR_DEBUG) ;Debug
+			SetLog("Time taken: " & $weakBaseValues[5][0] & " " & $weakBaseValues[5][1], $COLOR_DEBUG)
 		EndIf
 	Next
-	Setlog("--------------------------------------------------------------", $COLOR_TEAL)
+	Setlog("--------------------------------------------------------------", $COLOR_DEBUG1)
 	$debugBuildingPos = 0
 	$debugDeadBaseImage = 0
 EndFunc   ;==>btnAnalyzeVillage
 
-Func btnVillageStat()
-	GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
+Func btnVillageStat($source = "")
+
+	If $FirstRun = 0 And $RunState = True And $TPaused = False Then SetTime(True)
 
 	If GUICtrlGetState($lblResultGoldNow) = $GUI_ENABLE + $GUI_SHOW Then
 		;hide normal values
@@ -353,9 +358,11 @@ Func btnVillageStat()
 		GUICtrlSetState($lblResultGoldHourNow, $GUI_ENABLE + $GUI_SHOW)
 		GUICtrlSetState($lblResultElixirHourNow, $GUI_ENABLE + $GUI_SHOW)
 		GUICtrlSetState($lblResultDEHourNow, $GUI_ENABLE + $GUI_SHOW)
-		GUICtrlSetState($lblResultRuntimeNow, $GUI_ENABLE + $GUI_SHOW)
-		GUICtrlSetState($lblResultAttackedHourNow, $GUI_ENABLE + $GUI_SHOW)
-		GUICtrlSetState($lblResultSkippedHourNow, $GUI_ENABLE + $GUI_SHOW)
+		If $FirstRun = 0 or $source = "UpdateStats" Then
+			GUICtrlSetState($lblResultRuntimeNow, $GUI_ENABLE + $GUI_SHOW)
+			GUICtrlSetState($lblResultAttackedHourNow, $GUI_ENABLE + $GUI_SHOW)
+			GUICtrlSetState($lblResultSkippedHourNow, $GUI_ENABLE + $GUI_SHOW)
+		EndIf
 		; hide normal pics
 		GUICtrlSetState($picResultTrophyNow, $GUI_ENABLE + $GUI_HIDE)
 		GUICtrlSetState($picResultBuilderNow, $GUI_ENABLE + $GUI_HIDE)
@@ -391,25 +398,8 @@ Func btnVillageStat()
 
 EndFunc   ;==>btnVillageStat
 
-Func btnTestDeadBase()
-	Local $test = 0
-	;LoadTHImage()
-	LoadElixirImage()
-	LoadElixirImage75Percent()
-	LoadElixirImage50Percent()
-	Zoomout()
-	If $debugBuildingPos = 0 Then
-		$test = 1
-		$debugBuildingPos = 1
-	EndIf
-	SETLOG("DEADBASE CHECK..................")
-	$dbBase = checkDeadBase()
-	SETLOG("TOWNHALL CHECK..................")
-	$searchTH = townHallCheck(True)
-	If $test = 1 Then $debugBuildingPos = 0
-EndFunc   ;==>btnTestDeadBase
-
 Func btnTestDonate()
+	Local $wasRunState = $RunState
 	$RunState = True
 	SETLOG("DONATE TEST..................START")
 	ZoomOut()
@@ -418,7 +408,7 @@ Func btnTestDonate()
 	applyconfig()
 	DonateCC()
 	SETLOG("DONATE TEST..................STOP")
-	$RunState = False
+	$RunState = $wasRunState
 EndFunc   ;==>btnTestDonate
 
 Func btnTestButtons()
@@ -450,7 +440,7 @@ Func btnTestButtons()
 
 	For $i = 0 To 2
 		If FileExists($ImagesToUse[$i]) Then
-			$res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $ImagesToUse[$i], "str", $SearchArea, "str", $AreaInRectangle)
+			$res = DllCall($pImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $ImagesToUse[$i], "str", $SearchArea, "str", $AreaInRectangle)
 			If @error Then _logErrorDLLCall($pImgLib, @error)
 			If IsArray($res) Then
 				If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_ERROR)
@@ -534,48 +524,40 @@ Func btnTestButtons()
 
 EndFunc   ;==>btnTestButtons
 
-Func btnDBCheck()
-	SetLog("Func btnDBCheck", $COLOR_DEBUG) ;Debug
-	Local $oDebugBuildingPos = $debugBuildingPos
-	$debugBuildingPos = 1
-	checkDeadBase()
-	$debugBuildingPos = $oDebugBuildingPos
-	SetLog("EndFunc btnDBCheck", $COLOR_DEBUG) ;Debug
-EndFunc   ;==>btnDBCheck
-
 Func ButtonBoost()
 
+	Local $wasRunState = $RunState
 	$RunState = True
 	Local $ButtonX, $ButtonY
 	Local $hTimer = TimerInit()
 	Local $res
 	Local $ImagesToUse[2]
-	$ImagesToUse[0] = @ScriptDir & "\images\Button\BoostBarrack.png"
-	$ImagesToUse[1] = @ScriptDir & "\images\Button\BarrackBoosted.png"
+	$ImagesToUse[0] = @ScriptDir & "\imgxml\boostbarracks\BoostBarrack_0_92.xml"
+	$ImagesToUse[1] = @ScriptDir & "\imgxml\boostbarracks\BarrackBoosted_0_92.xml"
 	$ToleranceImgLoc = 0.90
 	SETLOG("MBRSearchImage TEST..................STARTED")
 	_CaptureRegion2(125, 610, 740, 715)
 	For $i = 0 To 1
 		If FileExists($ImagesToUse[$i]) Then
-			$res = DllCall($hImgLib, "str", "MBRSearchImage", "handle", $hHBitmap2, "str", $ImagesToUse[$i], "float", $ToleranceImgLoc)
+			$res = DllCall($hImgLib, "str", "FindTile", "handle", $hHBitmap2, "str", $ImagesToUse[$i], "str", "FV", "int", 1)
 			If @error Then _logErrorDLLCall($pImgLib, @error)
 			If IsArray($res) Then
-				If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_DEBUG) ;Debug
+				If $DebugSetlog = 1 Then SetLog("DLL Call succeeded " & $res[0], $COLOR_ERROR)
 				If $res[0] = "0" Then
 					; failed to find a loot cart on the field
 					If $i = 1 Then SetLog("No Button found")
 				ElseIf $res[0] = "-1" Then
-					SetLog("DLL Error", $COLOR_RED)
+					SetLog("DLL Error", $COLOR_ERROR)
 				ElseIf $res[0] = "-2" Then
-					SetLog("Invalid Resolution", $COLOR_RED)
+					SetLog("Invalid Resolution", $COLOR_ERROR)
 				Else
-					If _Sleep(200) Then Return
+					_Sleep(200)
 					If $i = 0 Then
 						SetLog("Found the Button to Boost individual")
 						$expRet = StringSplit($res[0], "|", 2)
 						$ButtonX = 125 + Int($expRet[1])
 						$ButtonY = 610 + Int($expRet[2])
-						SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_GREEN)
+						SetLog("found (" & $ButtonX & "," & $ButtonY & ")", $COLOR_SUCCESS)
 						;If IsMainPage() Then Click($ButtonX, $ButtonY, 1, 0, "#0330")
 						ExitLoop
 					Else
@@ -585,314 +567,62 @@ Func ButtonBoost()
 			EndIf
 		EndIf
 	Next
-	SetLog("  - Calculated  in: " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds ", $COLOR_TEAL)
+	SetLog("  - Calculated  in: " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds ", $COLOR_DEBUG1)
 	SETLOG("MBRSearchImage TEST..................STOP")
-	$RunState = False
+	$RunState = $wasRunState
 
-EndFunc   ;==>ButtonBoost
+EndFunc
 
-Func btnEagle()
-
-	Local $PixelEaglePos[2]
-	Local $colorVariation = 40
-	Local $xSkip = 1
-	Local $ySkip = 5
-
-	$hTimer = TimerInit()
-
-	Local $directory = @ScriptDir & "\imgxml\WeakBase\Eagle"
-	Local $return = returnHighestLevelSingleMatch($directory)
-	Local $NotdetectedEagle = True
-	Setlog(" »» Ubound ROW $return: " & UBound($return, $UBOUND_ROWS))
-	Setlog(" »» Ubound COLUMNS $return: " & UBound($return, $UBOUND_COLUMNS))
-	Setlog(" »» Ubound DIMENSIONS $return: " & UBound($return, $UBOUND_DIMENSIONS))
-
-	Local $result = DllCall($hFuncLib, "str", "getRedArea", "ptr", $hHBitmap2, "int", $xSkip, "int", $ySkip, "int", $colorVariation)
-
-	If UBound($return) > 0 Then
-		Setlog(" »» Image: " & $return[0])
-		Setlog(" »» Build: " & $return[1])
-		Setlog(" »» Level: " & $return[2])
-		Local $EaglePosition = $return[5]
-		Setlog(" »» $EaglePosition[0] X: " & $EaglePosition[0][0])
-		Setlog(" »» $EaglePosition[1] Y: " & $EaglePosition[0][1])
-		Setlog(" »» Ubound ROW $EaglePosition: " & UBound($EaglePosition, $UBOUND_ROWS))
-		Setlog(" »» Ubound COLUMNS $EaglePosition: " & UBound($EaglePosition, $UBOUND_COLUMNS))
-		Setlog(" »» Ubound DIMENSIONS $EaglePosition: " & UBound($EaglePosition, $UBOUND_DIMENSIONS))
-		Setlog(" »» REDlines Imgloc: " & $return[6])
-		Setlog(" »» REDlines MBRFunction: " & $result[0])
-
-		Local $AllPoints = StringSplit($return[6], "|", $STR_NOCOUNT)
-		Dim $EachPoint[UBound($AllPoints)][2]
-		Local $PixelTopLeft, $PixelBottomLeft, $PixelBottomRight, $PixelTopRight
-
-		For $i = 0 To UBound($AllPoints) - 1
-			Local $temp = StringSplit($AllPoints[$i], ",", $STR_NOCOUNT)
-			$EachPoint[$i][0] = Number($temp[0])
-			$EachPoint[$i][1] = Number($temp[1])
-			Setlog(" $EachPoint[0]: " & $EachPoint[$i][0] & " | $EachPoint[1]: " & $EachPoint[$i][1])
-		Next
-
-		_ArraySort($EachPoint, 0, 0, 0, 0)
-
-		For $i = 0 To UBound($EachPoint) - 1
-
-			If $EachPoint[$i][0] > 0 And $EachPoint[$i][0] < 430 And $EachPoint[$i][1] > 0 And $EachPoint[$i][1] < 338 Then
-
-				$PixelTopLeft &= String("|" & $EachPoint[$i][0] & "-" & $EachPoint[$i][1])
-
-			ElseIf $EachPoint[$i][0] > 0 And $EachPoint[$i][0] < 430 And $EachPoint[$i][1] > 338 And $EachPoint[$i][1] < 650 Then
-
-				$PixelBottomLeft &= String("|" & $EachPoint[$i][0] & "-" & $EachPoint[$i][1])
-
-			ElseIf $EachPoint[$i][0] > 430 And $EachPoint[$i][0] < 840 And $EachPoint[$i][1] > 338 And $EachPoint[$i][1] < 650 Then
-
-				$PixelBottomRight &= String("|" & $EachPoint[$i][0] & "-" & $EachPoint[$i][1])
-
-			ElseIf $EachPoint[$i][0] > 430 And $EachPoint[$i][0] < 840 And $EachPoint[$i][1] > 0 And $EachPoint[$i][1] < 338 Then
-
-				$PixelTopRight &= String("|" & $EachPoint[$i][0] & "-" & $EachPoint[$i][1])
-			EndIf
-
-		Next
-
-		If Not StringIsSpace($PixelTopLeft) Then $PixelTopLeft = StringTrimLeft($PixelTopLeft, 1)
-		If Not StringIsSpace($PixelBottomLeft) Then $PixelBottomLeft = StringTrimLeft($PixelBottomLeft, 1)
-		If Not StringIsSpace($PixelBottomRight) Then $PixelBottomRight = StringTrimLeft($PixelBottomRight, 1)
-		If Not StringIsSpace($PixelTopRight) Then $PixelTopRight = StringTrimLeft($PixelTopRight, 1)
-
-		Local $NewRedLineString = $PixelTopLeft & "#" & $PixelBottomLeft & "#" & $PixelBottomRight & "#" & $PixelTopRight
-
-		Setlog(" »» NEW REDlines Imgloc: " & $NewRedLineString)
-
-		If $EaglePosition[0][0] <> "" Then
-			$PixelEaglePos[0] = $EaglePosition[0][0]
-			$PixelEaglePos[1] = $EaglePosition[0][1]
-			Setlog(" »» Eagle located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds")
-			Switch StringLeft(Slice8($PixelEaglePos), 1)
-				Case 1, 2
-					$MAINSIDE = "BOTTOM-RIGHT"
-				Case 3, 4
-					$MAINSIDE = "TOP-RIGHT"
-				Case 5, 6
-					$MAINSIDE = "TOP-LEFT"
-				Case 7, 8
-					$MAINSIDE = "BOTTOM-LEFT"
-			EndSwitch
-			Setlog(" » Eagle located : " & $MAINSIDE, $COLOR_BLUE)
-			$NotdetectedEagle = False
-		Else
-			Setlog("> Eagle not detected!", $COLOR_BLUE)
-			DebugImageSave("EagleDetection_NotDetected_", True)
-		EndIf
-	Else
-		Setlog("> Eagle not detected!", $COLOR_BLUE)
-		DebugImageSave("EagleDetection_NotPresent_", True)
-	EndIf
-
-EndFunc   ;==>btnEagle
-
-Func btnDropRSpell()
-	$oldDebugSetlog = $DebugSetlog
-	$oldRunState = $RunState
-	Local $debugDropSCommand
-	Local $oldDropSDebug = $debugDropSCommand
-
-	$debugDropSCommand = 1
-	$DebugSetlog = 1
-	$iMatchMode = $LB ; Select Live Base As Attack Type
-	$iAtkAlgorithm[$LB] = 1 ; Select Scripted Attack
-	$scmbABScriptName = "Test DropS Command" ; Select Scripted Attack File From The Combo Box, Cos it wasn't refreshing until pressing Start button
-	$iMatchMode = 1 ; Select Live Base As Attack Type
-	$RunState = True
-	PrepareAttack($iMatchMode)
-	Attack() ; Fire xD
-	$RunState = $oldRunState
-	$DebugSetlog = $oldDebugSetlog
-	$debugDropSCommand = $oldDropSDebug
-EndFunc   ;==>btnDropRSpell
-
-Func btnNEWRedLineDetection()
-
+Func DebugSpellsCoords()
 	$RunState = True
 
-	$hTimer = TimerInit()
-;~ 	_CaptureRegion2()
-;~ 	Local $GetRed = DllCall($hFuncRedLib, "str", "getRedArea", "ptr", $hHBitmap2, "int", 1, "int", 5, "int", 57) ;GetImgLoc2MBR()
-;~ 	Setlog("$GetRed: " & UBound($GetRed) )
-;~ 	Setlog(" »» getRedArea located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds")
-;~ 	Setlog("Get Red Area : " & $GetRed[0])
-;~ 	Local $listPixelBySide = StringSplit($GetRed[0], "#", 2)
-;~ 	Local $1 = StringSplit($listPixelBySide[0], "|", 2)
-;~ 	Local $2 = StringSplit($listPixelBySide[1], "|", 2)
-;~ 	Local $3 = StringSplit($listPixelBySide[2], "|", 2)
-;~ 	Local $4 = StringSplit($listPixelBySide[3], "|", 2)
-;~ 	Setlog("Sides: " & UBound($listPixelBySide))
-;~ 	Setlog("Side TopLeft: " & UBound($1) & " Pixels")
-;~ 	Setlog("Side BottomLeft: " & UBound($2) & " Pixels")
-;~ 	Setlog("Side BottomRight: " & UBound($3) & " Pixels")
-;~ 	Setlog("Side TopRigh: " & UBound($4) & " Pixels")
+		;CheckForSantaSpell()
 
-;~ 	_CaptureRegion()
+		_CaptureRegion2()
+		Local $subDirectory = $dirTempDebug & "SpellsCoords"
+		DirCreate($subDirectory)
+		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
+		Local $Time = @HOUR & "." & @MIN & "." & @SEC
+		Local $filename = String($Date & "_" & $Time & "_.png")
+		Local $editedImage = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
+		Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($editedImage)
+		Local $hPenRED = _GDIPlus_PenCreate(0xFFFF0000, 3) ; Create a pencil Color FF0000/RED
 
-;~ 	; Store a copy of the image handle
-;~ 	Local $editedImage = $hBitmap
-;~ 	Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($editedImage)
-;~ 	Local $hPenRED = _GDIPlus_PenCreate(0xFFFF0000, 2) ; Create a pencil Color FF0000/RED
-;~ 	Local $hPenBlue = _GDIPlus_PenCreate(0xFF0000ff, 2) ; Create a pencil Color FF0000/RED
-;~ 	Local $subDirectory = @ScriptDir & "\TestsImages"
-;~ 	DirCreate($subDirectory)
-;~ 	Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
-;~ 	Local $Time = @HOUR & "." & @MIN & "." & @SEC
-;~ 	Local $fileName = String($Date & "_" & $Time &"_.png")
-
-;~ 	Setlog("Pixels 1")
-;~ 	For $i = 0 To UBound($1) - 1
-;~ 		Local $temp = StringSplit($1[$i], "-", 2)
-;~ 		If UBound($temp) > 1 Then
-;~ 			_GDIPlus_GraphicsDrawRect($hGraphic, $temp[0] - 2, $temp[1] - 2, 4, 4, $hPenRED)
-;~ 		EndIf
-;~ 	Next
-;~ 	For $i = 0 To UBound($2) - 1
-;~ 		Local $temp = StringSplit($2[$i], "-", 2)
-;~ 		If UBound($temp) > 1 Then
-;~ 			_GDIPlus_GraphicsDrawRect($hGraphic, $temp[0] - 2, $temp[1] - 2, 4, 4, $hPenRED)
-;~ 		EndIf
-;~ 	Next
-;~ 	For $i = 0 To UBound($3) - 1
-;~ 		Local $temp = StringSplit($3[$i], "-", 2)
-;~ 		If UBound($temp) > 1 Then
-;~ 			_GDIPlus_GraphicsDrawRect($hGraphic, $temp[0] - 2, $temp[1] - 2, 4, 4, $hPenRED)
-;~ 		EndIf
-;~ 	Next
-;~ 	For $i = 0 To UBound($4) - 1
-;~ 		Local $temp = StringSplit($4[$i], "-", 2)
-;~ 		If UBound($temp) > 1 Then
-;~ 			_GDIPlus_GraphicsDrawRect($hGraphic, $temp[0] - 2, $temp[1] - 2, 4, 4, $hPenRED)
-;~ 		EndIf
-;~ 	Next
-
-;~ 	Setlog("Pixels 3")
-;~ 	_GDIPlus_ImageSaveToFile($editedImage, $subDirectory & "\" & $fileName)
-;~ 	_GDIPlus_PenDispose($hPenRED)
-;~ 	_GDIPlus_PenDispose($hPenBlue)
-;~ 	_GDIPlus_GraphicsDispose($hGraphic)
+		addInfoToDebugImage($hGraphic, $hPenRED, "Light", $TrainLSpell[0], $TrainLSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Rage", $TrainRSpell[0], $TrainRSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Freeze", $TrainFSpell[0], $TrainFSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Heal", $TrainHSpell[0], $TrainHSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Jump", $TrainJSpell[0], $TrainJSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Clone", $TrainCSpell[0], $TrainCSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Poison", $TrainPSpell[0], $TrainPSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Earth", $TrainESpell[0], $TrainESpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Haste", $TrainHaSpell[0], $TrainHaSpell[1])
+		addInfoToDebugImage($hGraphic, $hPenRED, "Skeleton", $TrainSkSpell[0], $TrainSkSpell[1])
 
 
-	$DebugOcr = 1
-	$debugImageSave = 1
+		_GDIPlus_ImageSaveToFile($editedImage, $subDirectory & "\" & $filename)
+		_GDIPlus_PenDispose($hPenRED)
+		_GDIPlus_GraphicsDispose($hGraphic)
+		_GDIPlus_BitmapDispose($EditedImage)
 
-	Local $result = AttackBarCheck()
-	Local $plural = 0
-
-	Local $aTroopDataList = StringSplit($result, "|" , $STR_NOCOUNT)
-	Local $aTemp[Ubound($aTroopDataList)][3]
-	If $result <> "" Then
-		For $i = 0 To UBound($aTroopDataList) - 1
-			Local $troopData = StringSplit($aTroopDataList[$i], "#", $STR_NOCOUNT)
-			$aTemp[$i][0] = $troopData[0] ; Troop number
-			$aTemp[$i][1] = Number($troopData[1]) ; Slot
-			$aTemp[$i][2] = Number($troopData[2]) ; Quant
-		Next
-	EndIf
-
-	Local $x = 0, $y = 659, $x1 = 853, $y1 = 698
-
-	_CaptureRegion($x,$y,$x1,$y1)
-	Local $subDirectory = @ScriptDir & "\AttackBarCheck"
-	DirCreate($subDirectory)
-	Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
-	Local $Time = @HOUR & "." & @MIN & "." & @SEC
-	Local $fileName = String($Date & "_" & $Time & "_.png")
-	Local $editedImage = $hBitmap
-	Local $hGraphic = _GDIPlus_ImageGetGraphicsContext($editedImage)
-	Local $hPenRED = _GDIPlus_PenCreate(0xFFFF0000, 2) ; Create a pencil Color FF0000/RED
-
-
-	For $i = 0 To UBound($aTemp) - 1
-		$plural = 0
-		If $aTemp[$i][2] > 1  then $plural = 1
-		SetLog($aTemp[$i][1] & " » " & $aTemp[$i][2] & " " & NameOfTroop($aTemp[$i][0], $Plural), $COLOR_GREEN)
-	Next
-
-	_GDIPlus_ImageSaveToFile($editedImage, $subDirectory & "\" & $fileName)
-	_GDIPlus_PenDispose($hPenRED)
-	_GDIPlus_GraphicsDispose($hGraphic)
-
-	Setlog(" »» AttackBarCheck located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds")
-	$DebugOcr = 0
-	$debugImageSave = 0
+		Local $iCount = 1
+		TrainIt($eLSpell, $iCount, 300)
+		TrainIt($eHSpell, $iCount, 300)
+		TrainIt($eRSpell, $iCount, 300)
+		TrainIt($eJSpell, $iCount, 300)
+		TrainIt($eFSpell, $iCount, 300)
+		TrainIt($eCSpell, $iCount, 300)
+		TrainIt($ePSpell, $iCount, 300)
+		TrainIt($eESpell, $iCount, 300)
+		TrainIt($eHaSpell, $iCount, 300)
+		TrainIt($eSkSpell, $iCount, 300)
 
 	$RunState = False
-EndFunc   ;==>btnNEWRedLineDetection
-
-Func btnTestAD()
-	$hTimer = TimerInit()
-	Local $directory = @ScriptDir & "\imgxml\WeakBase\ADefense"
-	Local $return = returnAllMatches($directory)
-	Setlog(" »» Air Defense located in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds")
-	_ArrayDisplay($return)
-EndFunc   ;==>btnTestAD
-
-Func btnPosCheck()
-	Local $oRunState = $RunState
-	$RunState = True
-
-	Local $ToCheck = "IsMainGrayed"
-	Select
-		Case $ToCheck = "IsPostDefenseSummaryPage"
-			$result = IsPostDefenseSummaryPage()
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Result = " & $result, $COLOR_TEAL)
-		Case $ToCheck = "NoCloudsAttack"
-			$result = _CheckPixel($aNoCloudsAttack, $bCapturePixel)
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Result = " & $result, $COLOR_TEAL)
-			;If $Result = False Then SetLog("Cur Color = " & _GetPixelColor($aNoCloudsAttack[0], $aNoCloudsAttack[1], True), $COLOR_TEAL)
-		Case $ToCheck = "SurrenderButton"
-			$result = _CheckPixel($aSurrenderButton, $bCapturePixel)
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Result = " & $result, $COLOR_TEAL)
-			If $result = False Then SetLog("Cur Color = " & _GetPixelColor($aSurrenderButton[0], $aSurrenderButton[1], True), $COLOR_TEAL)
-		Case $ToCheck = "IsMain"
-			$result = _CheckPixel($aIsMain, $bCapturePixel)
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Result = " & $result, $COLOR_TEAL)
-			If $result = False Then SetLog("Cur Color = " & _GetPixelColor($aIsMain[0], $aIsMain[1], True), $COLOR_TEAL)
-		Case $ToCheck = "RequestCC"
-			$result = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True)
-			$CCheck1 = _ColorCheck($result, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5])
-			$CCheck2 = _ColorCheck($result, Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5])
-			$CCheck3 = _ColorCheck($result, Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5])
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Can Request = " & $CCheck1, $COLOR_TEAL)
-			SetLog("Already Made = " & $CCheck2, $COLOR_TEAL)
-			SetLog("Army Full / No Clan = " & $CCheck3, $COLOR_TEAL)
-		Case $ToCheck = "IsMainGrayed"
-			$result = _CheckPixel($aIsMainGrayed, $bCapturePixel)
-			SetLog("=============", $COLOR_TEAL)
-			SetLog("#*# Func btnPosCheck", $COLOR_TEAL)
-			SetLog("To Check = " & $ToCheck, $COLOR_TEAL)
-			SetLog("Result = " & $result, $COLOR_TEAL)
-			If $result = False Then SetLog("Cur Color = " & _GetPixelColor($aIsMainGrayed[0], $aIsMainGrayed[1], True), $COLOR_TEAL)
-	EndSelect
-
-	$RunState = $oRunState
-EndFunc   ;==>btnPosCheck
+EndFunc
 
 Func arrows()
 	getArmyHeroCount()
-EndFunc   ;==>arrows
+EndFunc
 
 Func EnableGuiControls($OptimizedRedraw = True)
 	Return ToggleGuiControls(True, $OptimizedRedraw)
@@ -924,22 +654,11 @@ Func ToggleGuiControls($Enable, $OptimizedRedraw = True)
 			GUICtrlSetState($i, $iPrevState[$i])
 		EndIf
 	Next
-
-	For $i = $FirstControlToHideMOD To $LastControlToHideMOD
-		If IsTab($i) Or IsAlwaysEnabledControl($i) Then ContinueLoop
-		If $NotifyPBEnabled And $i = $btnNotifyDeleteMessages Then ContinueLoop ; exclude the DeleteAllMesages button when PushBullet is enabled
-		If $i = $btnMakeScreenshot Then ContinueLoop ; exclude
-		If $i = $divider Then ContinueLoop ; exclude divider
-		If $Enable = False Then
-			; Save state of all controls on tabs
-			$iPrevState[$i] = GUICtrlGetState($i)
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Else
-			; Restore previous state of controls
-			GUICtrlSetState($i, $iPrevState[$i])
-		EndIf
-	Next
-
+	If $Enable = False Then
+		ControlDisable("","",$cmbLanguage)
+	Else
+		ControlEnable("","",$cmbLanguage)
+	EndIf
 	$GUIControl_Disabled = False
 	If $OptimizedRedraw = True Then SetRedrawBotWindow(True)
 EndFunc   ;==>ToggleGuiControls

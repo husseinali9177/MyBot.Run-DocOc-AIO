@@ -15,20 +15,22 @@
 
 Func Alogrithm_MilkingAttack()
 
+	LoadAmountOfResourcesImages()
+
 	;--- TH snipe After Milking...
-	If $THSnipeBeforeDBEnable = 1 and $searchTH = "-" Then townHallCheck(True) ; if no previous detect search townhall
+	If $THSnipeBeforeDBEnable = 1 and $searchTH = "-" Then FindTownHall(True) ; if no previous detect search townhall
 	If $THSnipeBeforeDBEnable = 1 Then
 		If $searchTH <> "-" Then
 			If 	SearchTownHallLoc()  Then
-				Setlog(_PadStringCenter(" TH snipe Before Milking ", 54,"="),$color_blue)
+				Setlog(_PadStringCenter(" TH snipe Before Milking ", 54,"="),$COLOR_INFO)
 				$THusedKing = 0
 				$THusedQueen = 0
 				AttackTHParseCSV()
 			Else
-				Setlog("TH snipe Before Milking skip, TH inside village",$color_blue)
+				Setlog("TH snipe Before Milking skip, TH inside village",$COLOR_INFO)
 			EndIf
 		Else
-			Setlog("TH snipe Before Milking skip, no th detected",$color_blue)
+			Setlog("TH snipe Before Milking skip, no th detected",$COLOR_INFO)
 		EndIf
 	EndIf
 	;---
@@ -50,27 +52,27 @@ Func Alogrithm_MilkingAttack()
 
 	;If $MilkAttackAfterScriptedAtk = 1 Then SmartAttackStrategy($MA)
 
-	Setlog(_PadStringCenter(" Milking Attack ", 54,"="),$color_blue)
+	Setlog(_PadStringCenter(" Milking Attack ", 54,"="),$COLOR_INFO)
 
 	;07 - Attack  Resources -----------------------------------------------------------------------------------------------------------------------
 	If StringLen($MilkFarmObjectivesSTR) > 0 Then
 		Local $vect = StringSplit($MilkFarmObjectivesSTR, "|", 2)
-		If $debugsetlog = 1 Then Setlog("MilkFarmObjectivesSTR = <" & $MilkFarmObjectivesSTR & ">.. UBOUND=" & UBound($vect), $COLOR_DEBUG) ;Debug
+		If $debugsetlog = 1 Then Setlog("MilkFarmObjectivesSTR = <" & $MilkFarmObjectivesSTR & ">.. UBOUND=" & UBound($vect))
 		If UBound($vect) > 0 Then
 			If StringLen($vect[0]) > 0 Then
-				If $debugsetlog = 1 Then SetLog(">Structures to attack: (" & UBound($vect) & ")", $COLOR_DEBUG) ;Debug
+				If $debugsetlog = 1 Then SetLog(">Structures to attack: (" & UBound($vect) & ")", $COLOR_DEBUG)
 				For $i = 0 To UBound($vect) - 1
-					If $debugsetlog = 1 Then Setlog("> " & $i & " " & $vect[$i], $COLOR_DEBUG) ;Debug
+					If $debugsetlog = 1 Then Setlog("> " & $i & " " & $vect[$i], $COLOR_DEBUG)
 				Next
 				MilkFarmObjectivesDebugImage($MilkFarmObjectivesSTR, 0)
 				Local $troopPosition = -1
 				For $i = 0 To UBound($atkTroops) - 1
 					If $atkTroops[$i][1] <> -1 Then ;if not empty
 						If $atkTroops[$i][0] = $eGobl Then
-							If $debugsetlog = 1 Then SetLog("-*-" & $atkTroops[$i][0] & " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1] & " <<---" & $eGobl, $COLOR_DEBUG) ;Debug
+							If $debugsetlog = 1 Then SetLog("-*-" & $atkTroops[$i][0] & " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1] & " <<---" & $eGobl, $COLOR_SUCCESS)
 							$troopPosition = $i
 						Else
-							If $debugsetlog = 1 Then SetLog("-*-" & $atkTroops[$i][0] & " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1] & "", $COLOR_DEBUG) ;Debug
+							If $debugsetlog = 1 Then SetLog("-*-" & $atkTroops[$i][0] & " " & NameOfTroop($atkTroops[$i][0]) & " " & $atkTroops[$i][1] & "", $COLOR_GRAY)
 						EndIf
 					EndIf
 				Next
@@ -82,12 +84,12 @@ Func Alogrithm_MilkingAttack()
 							Case 1 ;RANDOM
 								Local $rnd = _RandomUnique(UBound($vect) - 1, 0, UBound($vect) - 2, 1) ;make a random list of structure to attack
 								For $i = 0 To UBound($rnd) - 1
-									If $debugsetlog = 1 Then Setlog("random vect pos " & $i & " value " & $rnd[$i], $COLOR_DEBUG) ;Debug
+									If $debugsetlog = 1 Then Setlog("random vect pos " & $i & " value " & $rnd[$i],$COLOR_DEBUG)
 								Next
 							Case 2 ; ORDERED BY SIDE
 								Local $rnd = _OrderBySideObjectives($vect)
 								For $i = 0 To UBound($rnd) - 1
-									If $debugsetlog = 1 Then Setlog("order by side vect pos " & $i & " value " & $rnd[$i], $COLOR_DEBUG) ;Debug
+									If $debugsetlog = 1 Then Setlog("order by side vect pos " & $i & " value " & $rnd[$i],$COLOR_DEBUG)
 								Next
 							Case else ; AS FOUND
 								Local $tmpstr = ""
@@ -97,7 +99,7 @@ Func Alogrithm_MilkingAttack()
 								$tmpstr=StringLeft($tmpStr,StringLen($tmpstr)-1)
 								Local $rnd = StringSplit($tmpStr,"-",2)
 								For $i = 0 To UBound($rnd) - 1
-									If $debugsetlog = 1 Then Setlog("as found vect pos " & $i & " value " & $rnd[$i], $COLOR_DEBUG) ;Debug
+									If $debugsetlog = 1 Then Setlog("as found vect pos " & $i & " value " & $rnd[$i],$COLOR_DEBUG)
 								Next
 						EndSwitch
 
@@ -106,14 +108,14 @@ Func Alogrithm_MilkingAttack()
 							;Msgbox("","", "attack structure n. " &$i)
 							Local $vect2 = StringSplit($vect[$i], ".", 2)
 							If UBound($vect2) > 1 Then
-								If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. " & $rnd[$i] +1 & "/" & UBound($vect) & " - " & $vect2[0], $COLOR_DEBUG) ;Debug
+								If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. " & $rnd[$i] +1 & "/" & UBound($vect) & " - " & $vect2[0], $COLOR_DEBUG)
 								If UBound($vect) > $rnd[$i] Then
 									MilkingAttackStructure($vect[$rnd[$i]])
 								Else
-									If $debugsetlog = 1 Then Setlog($i & " range exceeded of $vect!", $COLOR_DEBUG) ;Debug
+									If $debugsetlog = 1 Then Setlog($i & " range exceeded of $vect!")
 								EndIf
 							Else
-								If $debugsetlog = 1 Then Setlog("Error @18", $COLOR_DEBUG) ;Debug
+								If $debugsetlog = 1 Then Setlog("Error @18")
 							EndIf
 						Next
 					EndIf
@@ -121,23 +123,23 @@ Func Alogrithm_MilkingAttack()
 					If UBound($vect) = 2 Then
 						For $i = 0 To 1
 							;Msgbox("","", "attack structure n. " &$i)
-							If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. " & $i & "/1 ", $COLOR_DEBUG) ;Debug
+							If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. " & $i & "/1 ", $COLOR_DEBUG)
 							MilkingAttackStructure($vect[$i])
 						Next
 					EndIf
 
 					If UBound($vect) = 1 Then
-						If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. 0/0 ", $COLOR_DEBUG) ;Debug
+						If $debugsetlog = 1 Then Setlog($i & "- Attack structure n. 0/0 ", $COLOR_DEBUG)
 						MilkingAttackStructure($vect[0])
 					EndIf
 				Else
-					If $debugsetlog = 1 Then Setlog("No Goblins left ", $COLOR_DEBUG) ;Debug
+					If $debugsetlog = 1 Then Setlog("No Goblins left ")
 				EndIf
 			Else
-				If $debugsetlog = 1 Then Setlog("No structures to attack...", $COLOR_DEBUG) ;Debug
+				If $debugsetlog = 1 Then Setlog("No structures to attack...")
 			EndIf
 		Else
-			If $debugsetlog = 1 Then Setlog("No structures to attack..", $COLOR_DEBUG) ;Debug
+			If $debugsetlog = 1 Then Setlog("No structures to attack..")
 		EndIf
 	Else
 		Setlog("No structures to attack, skip attack structures!")
@@ -147,13 +149,13 @@ Func Alogrithm_MilkingAttack()
 	If $MilkAttackAfterTHSnipe = 1 Then
 			; TH snipe attack selected, if no th found before, search enemy TH location
 			;a check th position
-			townHallCheck(True) ;force search townhall bacause we have possibility to allready destroyed
+			FindTownHall(True) ;force search townhall bacause we have possibility to allready destroyed
 
 			;b check th outside
 			If $searchTH <>"-" Then
 				If SearchTownHallLoc() Then  ;check if townhall position it is outside
 					$iMatchMode = $TS
-					Setlog(_PadStringCenter(" Attack TH snipe after Milking Attack ", 54,"="),$color_blue)
+					Setlog(_PadStringCenter(" Attack TH snipe after Milking Attack ", 54,"="),$COLOR_INFO)
 					;if, after TH snipe, we have standard attack, need to detect the positions of special troops (king, queen, warden)
 					If $MilkAttackAfterScriptedAtk = 0 Then
 						PrepareAttack($iMatchMode, True)
@@ -165,15 +167,15 @@ Func Alogrithm_MilkingAttack()
 						AttackTHParseCSV()
 					EndIf
 				Else
-					Setlog("TH it is not outside, skip attack", $color_blue)
+					Setlog("TH it is not outside, skip attack", $COLOR_INFO)
 				EndIf
 
 			Else
-				Setlog("Cannot detect Townhall, skip THsnipe after Milking", $color_blue)
+				Setlog("Cannot detect Townhall, skip THsnipe after Milking", $COLOR_INFO)
 			EndIf
 	EndIf
 	If $MilkAttackAfterScriptedAtk = 1 Then
-		Setlog(_PadStringCenter("Scripted Attack after Miliking ", 54,"="),$color_blue)
+		Setlog(_PadStringCenter("Scripted Attack after Miliking ", 54,"="),$COLOR_INFO)
 		Algorithm_AttackCSV(False,False) ;launch algorithm without launch redarea (allready calculated)
 ;~ 		$iMatchMode = $MA
 ;~ 		PrepareAttack($iMatchMode, True)

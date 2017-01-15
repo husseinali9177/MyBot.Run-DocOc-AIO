@@ -33,6 +33,10 @@ Func TogglePauseImpl($Source)
 EndFunc   ;==>TogglePauseImpl
 
 Func TogglePauseUpdateState($Source)
+	$troops_maked_after_fullarmy= false ; reset variable due to pause button pressed
+	$actual_train_skip = 0
+	If $debugsetlogTrain = 1 Then SetLog("troops_maked_after_fullarmy= false",$color_purple)
+
 	$TogglePauseUpdateState = False
 	;Local $BlockInputPausePrev
 	If $TPaused Then

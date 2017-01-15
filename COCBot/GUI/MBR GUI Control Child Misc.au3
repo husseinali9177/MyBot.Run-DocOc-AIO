@@ -39,9 +39,6 @@ Func btnAddConfirm()
 			GUICtrlSetState($btnCancel, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_HIDE)
-			; IceCube (Misc v1.0)
-			GUICtrlSetState($btnRecycle, $GUI_HIDE)
-			; IceCube (Misc v1.0)
 		Case $btnConfirmAdd
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($txtVillageName), '[/:*?"<>|]', '_')
 			If FileExists($sProfilePath & "\" & $newProfileName) Then
@@ -53,7 +50,6 @@ Func btnAddConfirm()
 			; Setup the profile if it doesn't exist.
 			createProfile()
 			setupProfileComboBox()
-			setupProfileComboBoxswitch()
 			selectProfile()
 			GUICtrlSetState($txtVillageName, $GUI_HIDE)
 			GUICtrlSetState($cmbProfile, $GUI_SHOW)
@@ -63,15 +59,9 @@ Func btnAddConfirm()
 			GUICtrlSetState($btnCancel, $GUI_HIDE)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
-			; IceCube (Misc v1.0)
-			GUICtrlSetState($btnRecycle, $GUI_SHOW)
-			; IceCube (Misc v1.0)
 
 			If GUICtrlGetState($btnDelete) <> $GUI_ENABLE Then GUICtrlSetState($btnDelete, $GUI_ENABLE)
 			If GUICtrlGetState($btnRename) <> $GUI_ENABLE Then GUICtrlSetState($btnRename, $GUI_ENABLE)
-			; IceCube (Misc v1.0)
-			If GUICtrlGetState($btnRecycle) <> $GUI_ENABLE Then GUICtrlSetState($btnRecycle, $GUI_ENABLE)
-			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
@@ -104,9 +94,6 @@ Func btnDeleteCancel()
 			GUICtrlSetState($btnDelete, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
-			; IceCube (Misc v1.0)
-			GUICtrlSetState($btnRecycle, $GUI_SHOW)
-			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
@@ -114,9 +101,6 @@ Func btnDeleteCancel()
 	If GUICtrlRead($cmbProfile) = "<No Profiles>" Then
 		GUICtrlSetState($btnDelete, $GUI_DISABLE)
 		GUICtrlSetState($btnRename, $GUI_DISABLE)
-		; IceCube (Misc v1.0)
-		GUICtrlSetState($btnRecycle, $GUI_DISABLE)
-		; IceCube (Misc v1.0)
 	EndIf
 EndFunc   ;==>btnDeleteCancel
 
@@ -132,9 +116,6 @@ Func btnRenameConfirm()
 			GUICtrlSetState($btnCancel, $GUI_SHOW)
 			GUICtrlSetState($btnRename, $GUI_HIDE)
 			GUICtrlSetState($btnConfirmRename, $GUI_SHOW)
-			; IceCube (Misc v1.0)
-			GUICtrlSetState($btnRecycle, $GUI_HIDE)
-			; IceCube (Misc v1.0)
 		Case $btnConfirmRename
 			Local $newProfileName = StringRegExpReplace(GUICtrlRead($txtVillageName), '[/:*?"<>|]', '_')
 			If FileExists($sProfilePath & "\" & $newProfileName) Then
@@ -146,7 +127,6 @@ Func btnRenameConfirm()
 			; Rename the profile.
 			renameProfile()
 			setupProfileComboBox()
-			setupProfileComboBoxswitch()
 			selectProfile()
 
 			GUICtrlSetState($txtVillageName, $GUI_HIDE)
@@ -157,13 +137,11 @@ Func btnRenameConfirm()
 			GUICtrlSetState($btnDelete, $GUI_SHOW)
 			GUICtrlSetState($btnConfirmRename, $GUI_HIDE)
 			GUICtrlSetState($btnRename, $GUI_SHOW)
-			; IceCube (Misc v1.0)
-			GUICtrlSetState($btnRecycle, $GUI_SHOW)
-			; IceCube (Misc v1.0)
 		Case Else
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
 EndFunc   ;==>btnRenameConfirm
+
 Func cmbBotCond()
 	If _GUICtrlComboBox_GetCurSel($cmbBotCond) = 15 Then
 		If _GUICtrlComboBox_GetCurSel($cmbHoursStop) = 0 Then _GUICtrlComboBox_SetCurSel($cmbHoursStop, 1)
@@ -183,34 +161,6 @@ Func chkBotStop()
 		GUICtrlSetState($cmbBotCond, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkBotStop
-;Func btnLocateBarracks()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateBarrack()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateBarracks") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateBarracks
-
-
-;Func btnLocateDarkBarracks()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateDarkBarrack()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateBarracks") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateDarkBarracks
-
-
-;Func btnLocateArmyCamp()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateBarrack(True)
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateArmyCamp") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateArmyCamp
 
 Func btnLocateClanCastle()
 	Local $wasRunState = $RunState
@@ -221,28 +171,10 @@ Func btnLocateClanCastle()
 	AndroidShield("btnLocateClanCastle") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateClanCastle
 
-;Func btnLocateSpellfactory()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateSpellFactory()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateSpellfactory") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateSpellfactory
-
-;Func btnLocateDarkSpellfactory()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateDarkSpellFactory()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateDarkSpellfactory") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateDarkSpellfactory
 
 Func btnLocateKingAltar()
 	LocateKingAltar()
 EndFunc   ;==>btnLocateKingAltar
-
 
 Func btnLocateQueenAltar()
 	LocateQueenAltar()
@@ -273,8 +205,6 @@ Func btnLocateTownHall()
 	$RunState = $wasRunState
 	AndroidShield("btnLocateTownHall") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateTownHall
-
-
 
 Func btnResetBuilding()
 	Local $wasRunState = $RunState
@@ -340,13 +270,29 @@ Func chkTrophyRange()
 		GUICtrlSetState($chkTrophyHeroes, $GUI_ENABLE)
 		GUICtrlSetState($chkTrophyAtkDead, $GUI_ENABLE)
 		chkTrophyAtkDead()
+		chkTrophyHeroes()
 	Else
 		GUICtrlSetState($txtdropTrophy, $GUI_DISABLE)
 		GUICtrlSetState($txtMaxTrophy, $GUI_DISABLE)
 		GUICtrlSetState($chkTrophyHeroes, $GUI_DISABLE)
+		GUICtrlSetState($chkTrophyHeroes, $GUI_UNCHECKED)
 		GUICtrlSetState($chkTrophyAtkDead, $GUI_DISABLE)
+		GUICtrlSetState($chkTrophyAtkDead, $GUI_UNCHECKED)
 		GUICtrlSetState($txtDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmypercent, $GUI_DISABLE)
+	    GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	    GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkTrophyRange
+
+ Func chkTrophyHeroes()
+	If  GUICtrlRead($chkTrophyHeroes) = $GUI_CHECKED  Then
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_ENABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_ENABLE)
+	Else
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
+	EndIf
+
+ EndFunc   ;==>chkTrophyHeroes

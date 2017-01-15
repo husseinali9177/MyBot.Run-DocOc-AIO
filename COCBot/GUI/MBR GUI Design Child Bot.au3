@@ -13,15 +13,12 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Global $chkDisableSplash, $chkVersion, $chkDeleteLogs, $chkDeleteTemp, $chkDeleteLoots
-Global $chkAutostart, $txtAutostartDelay, $chkAutohide, $txtAutohideDelay, $chkLanguage, $chkDisposeWindows, $txtWAOffsetx, $txtWAOffsety, $cmbDisposeWindowsCond
-Global $chkDebugClick, $chkDebugSetlog, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate, $chkdebugDeadBaseImage
-Global $chkTotalCampForced, $txtTotalCampForced
+Global $chkAutostart, $txtAutostartDelay, $chkLanguage,$chkDisposeWindows, $txtWAOffsetx, $txtWAOffsety, $cmbDisposeWindowsCond
+Global $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate, $chkdebugAttackCSV, $chkMakeIMGCSV
 Global $txtDeleteLogsDays, $txtDeleteTempDays, $txtDeleteLootsDays, $cmbLanguage, $chkScreenshotType, $chkScreenshotHideName, $chkUseRandomClick
 Global $sldVSDelay, $sldMaxVSDelay, $lblVSDelay, $lblMaxVSDelay, $lbltxtVSDelay, $lbltxtMaxVSDelay
 Global $sldTrainITDelay ,  $lbltxtTrainITDelay, $chkAlertSearch
 Global $chkSinglePBTForced, $txtSinglePBTimeForced, $txtPBTimeForcedExit
-Global $txtPresetSaveFilename, $txtSavePresetMessage, $lblLoadPresetMessage,$btnGUIPresetDeleteConf, $chkCheckDeleteConf
-Global $cmbPresetList, $txtPresetMessage,$btnGUIPresetLoadConf,  $lblLoadPresetMessage,$btnGUIPresetDeleteConf, $chkCheckDeleteConf
 
 $hGUI_BOT = GUICreate("", $_GUI_MAIN_WIDTH - 20, $_GUI_MAIN_HEIGHT - 255, $_GUI_CHILD_LEFT, $_GUI_CHILD_TOP, BitOR($WS_CHILD, $WS_TABSTOP), -1, $frmBotEx)
 ;GUISetBkColor($COLOR_WHITE, $hGUI_BOT)
@@ -33,17 +30,17 @@ $hGUI_BOT_TAB = GUICtrlCreateTab(0, 0, $_GUI_MAIN_WIDTH - 20, $_GUI_MAIN_HEIGHT 
 $hGUI_BOT_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,35,"Options"))
 #include "MBR GUI Design Child Bot - Options.au3"
 GUICtrlCreateTabItem("")
-
-$hGUI_BOT_TAB_ITEM2 = GUICtrlCreateTabItem("Bot Humanization")
+$hGUI_BOT_TAB_ITEM6 = GUICtrlCreateTabItem("Humanization")
 #include "MBR GUI Design Child Bot - Humanization.au3"
 GUICtrlCreateTabItem("")
-
+$hGUI_BOT_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,53,"Android"))
+#include "MBR GUI Design Child Bot - Android.au3"
+GUICtrlCreateTabItem("")
 $hGUI_BOT_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,51,"Debug"))
 #include "MBR GUI Design Child Bot - Debug.au3"
 GUICtrlCreateTabItem("")
 $hGUI_BOT_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,36,"Profiles"))
 #include "MBR GUI Design Child Bot - Profiles.au3"
-GUICtrlCreateTabItem("")
 ; this tab will be empty because it is only used to display a child GUI
 $hGUI_BOT_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslated(600,37, "Stats"))
 GUICtrlCreateTabItem("")

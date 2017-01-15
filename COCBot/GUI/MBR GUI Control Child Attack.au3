@@ -53,18 +53,48 @@ EndFunc   ;==>chkEnableSuperXP
 Func chkDBWaitForCCSpell()
 	If GUICtrlRead($chkDBWaitForCastleSpell) = $GUI_CHECKED Then
 		GUICtrlSetState($cmbDBWaitForCastleSpell, $GUI_ENABLE)
+		GUICtrlSetState($cmbDBWaitForCastleSpell2, $GUI_ENABLE)
+		GUICtrlSetState($lblDBWaitForCastleSpell, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($cmbDBWaitForCastleSpell, $GUI_DISABLE)
+		GUICtrlSetState($cmbDBWaitForCastleSpell2, $GUI_DISABLE)
+		GUICtrlSetState($lblDBWaitForCastleSpell, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkDBWaitForCCSpell
+
+Func cmbDBWaitForCCSpell()
+	$iSpellSelection = _GUICtrlComboBox_GetCurSel($cmbDBWaitForCastleSpell)
+	If $iSpellSelection > 0 And  $iSpellSelection < 6 Then
+		GUICtrlSetState($cmbDBWaitForCastleSpell2, $GUI_DISABLE)
+		GUICtrlSetState($lblDBWaitForCastleSpell, $GUI_DISABLE)
+	Else
+		GUICtrlSetState($cmbDBWaitForCastleSpell2, $GUI_ENABLE)
+		GUICtrlSetState($lblDBWaitForCastleSpell, $GUI_ENABLE)
+	EndIf
+EndFunc
 
 Func chkABWaitForCCSpell()
 	If GUICtrlRead($chkABWaitForCastleSpell) = $GUI_CHECKED Then
 		GUICtrlSetState($cmbABWaitForCastleSpell, $GUI_ENABLE)
+		GUICtrlSetState($cmbABWaitForCastleSpell2, $GUI_ENABLE)
+		GUICtrlSetState($lblABWaitForCastleSpell, $GUI_ENABLE)
 	Else
 		GUICtrlSetState($cmbABWaitForCastleSpell, $GUI_DISABLE)
+		GUICtrlSetState($cmbABWaitForCastleSpell2, $GUI_DISABLE)
+		GUICtrlSetState($lblABWaitForCastleSpell, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkABWaitForCCSpell
+
+Func cmbABWaitForCCSpell()
+	$iSpellSelection = _GUICtrlComboBox_GetCurSel($cmbABWaitForCastleSpell)
+	If $iSpellSelection > 0 And  $iSpellSelection < 6 Then
+		GUICtrlSetState($cmbABWaitForCastleSpell2, $GUI_DISABLE)
+		GUICtrlSetState($lblABWaitForCastleSpell, $GUI_DISABLE)
+	Else
+		GUICtrlSetState($cmbABWaitForCastleSpell2, $GUI_ENABLE)
+		GUICtrlSetState($lblABWaitForCastleSpell, $GUI_ENABLE)
+	EndIf
+EndFunc
 
 Func chkBalanceDR()
 	If GUICtrlRead($chkUseCCBalanced) = $GUI_CHECKED Then
@@ -613,19 +643,9 @@ Func sldVSDelay()
 	Else
 		GUICtrlSetData($lbltxtMaxVSDelay, GetTranslated(603, 8, "seconds"))
 	EndIf
-EndFunc   ;==>sldVSDelay
+ EndFunc   ;==>sldVSDelay
 
-#CS
-; GUI Control for Classic FourFinger Attack
-Func cmbDeployAB() ; avoid conflict between FourFinger and SmartAttack
-   If _GUICtrlCombobox_GetCurSel($cmbDeployAB) = 4 Then
-	  GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_UNCHECKED)
-	  GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_DISABLE)
-   Else
-	  GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_ENABLE)
-   EndIf
-EndFunc
-
+; DOC OC ADD - CLASSIC FFF
 Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack
    If _GUICtrlCombobox_GetCurSel($cmbDeployDB) = 4 Then
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
@@ -634,4 +654,13 @@ Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack
 	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
    EndIf
 EndFunc
-#CE
+
+Func CheckWardenTimer()
+
+	If GUICtrlRead($chkUseWardenAbility) = $GUI_CHECKED Then
+		GUICtrlSetState($txtWardenAbility, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($txtWardenAbility, $GUI_DISABLE)
+	EndIf
+
+EndFunc

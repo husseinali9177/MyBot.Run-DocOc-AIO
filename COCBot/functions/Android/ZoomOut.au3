@@ -46,10 +46,9 @@ Func ZoomOutBlueStacks() ;Zooms out
 EndFunc
 
 Func ZoomOutBlueStacks2()
-
 	If $__BlueStacks2Version_2_5_or_later = False Then
 		; ctrl click is best and most stable for BlueStacks, but not working after 2.5.55.6279 version
-	Return ZoomOutCtrlClick(False, False, False, False)
+		Return ZoomOutCtrlClick(False, False, False, False)
 	Else
 		; newer BlueStacks versions don't work with Ctrl-Click, so fall back to original arraw key
 		Return DefaultZoomOut("{DOWN}", 0)
@@ -296,7 +295,7 @@ Func ZoomOutCtrlClick($ZoomOutOverWaters = False, $CenterMouseWhileZooming = Fal
 			   $Result[1] = ControlSend($HWnD, "", "", "{CTRLDOWN}")
 			   $SendCtrlUp = True
 			   If $CenterMouseWhileZooming Then MouseMove($BSpos[0] + Int($DEFAULT_WIDTH / 2), $BSpos[1] + Int($DEFAULT_HEIGHT / 2), 0)
-			   $Result[2] = ControlClick($HWnD, "", "", "left", "1", $BSrpos[0] + Int($DEFAULT_WIDTH / 2), $BSrpos[1] + 600)
+			   $Result[2] = _ControlClick(Int($DEFAULT_WIDTH / 2), 600)
 			   If _Sleep($ClickDelay) Then ExitLoop
 			   $Result[3] = ControlSend($HWnD, "", "", "{CTRLUP}{SPACE}")
 			   $SendCtrlUp = False
@@ -372,96 +371,104 @@ Func AndroidOnlyZoomOut() ;Zooms out
 	Return False
 EndFunc   ;==>AndroidOnlyZoomOut
 
-
-Func SearchZoomOut($directory = @ScriptDir & "\imgxml\zoomout", $bCenterVillage = $CenterVillage[0], $attack = False)
-	; Setup arrays, including default return values for $return
-	Local $x, $y, $x1, $y1, $right, $bottom
-
-	Local $aZoomoutImgPos[2] = [191, 498]
-
-	; New Safe position for Scouted village ( on Water )
-	Local $_ZoomOutPosition[2] = [40,533]
-
-	Local $iAdditional = 50
-	$x1 = $aZoomoutImgPos[0] - $iAdditional
-	$y1 = $aZoomoutImgPos[1] - $iAdditional
-	$right = $x1 + 37 + $iAdditional * 2
-	$bottom = $y1 + 25 + $iAdditional * 2
-
-	_CaptureRegion()
-
-	Local $aResult[1]
-	$aResult[0] = "zoomout" ; expected dummy value
-
-	Local $aFiles = _FileListToArray($directory, "zoomout*.*", $FLTA_FILES)
-	If @error Then
-		SetLog("Error: Missing zoom-out files", $COLOR_ERROR)
-		Return $aResult
+; SearchZoomOut returns always an Array.
+; If village can be measured and villages size < 500 pixel then it returns in idx 0 a String starting with "zoomout:" and tries to center base
+; Return Array:
+; 0 = Empty string if village cannot be measured (e.g. window blocks village or not zoomed out)
+; 1 = Current Village X Offset (after centering village)
+; 2 = Current Village Y Offset (after centering village)
+; 3 = Difference of previous Village X Offset and current (after centering village)
+; 4 = Difference of previous Village Y Offset and current (after centering village)
+Func SearchZoomOut($CenterVillageBoolOrScrollPos = $aCenterHomeVillageClickDrag, $UpdateMyVillage = True, $sSource = "", $CaptureRegion = True, $DebugLog = True)
+	If $sSource <> "" Then $sSource = " (" & $sSource & ")"
+	Local $bCenterVillage = $CenterVillageBoolOrScrollPos
+	If $bCenterVillage = Default Or $debugDisableVillageCentering = 1 Then $bCenterVillage = ($debugDisableVillageCentering = 0)
+	Local $aScrollPos[2] = [0, 0]
+	If UBound($CenterVillageBoolOrScrollPos) >= 2 Then
+		$aScrollPos[0] = $CenterVillageBoolOrScrollPos[0]
+		$aScrollPos[1] = $CenterVillageBoolOrScrollPos[1]
+		$bCenterVillage = ($debugDisableVillageCentering = 0)
 	EndIf
-	local $i, $findImage
+	; Setup arrays, including default return values for $return
+	Local $x, $y, $z, $stone[2]
+	Local $villageSize = 0
+
+	If $CaptureRegion = True Then _CaptureRegion2()
+
+	Local $aResult = ["", 0, 0, 0, 0] ; expected dummy value
+
+	Local $village = GetVillageSize($DebugLog)
 
 	If $SearchZoomOutCounter[0] > 0 Then
 		If _Sleep(1000) Then Return $aResult
 	EndIf
 
-	$aResult[0] = ""
-	For $i = 1 To $aFiles[0]
-		$findImage = $aFiles[$i]
-		If StringRegExp($findImage, "[.](xml|png|bmp)$") Then
-			;SetDebugLog("Zoomout check for image " & $findImage)
-			If _ImageSearchAreaImgLocZoom($directory & "\" & $findImage, 1, $x1, $y1, $right, $bottom, $x, $y) Then
-				;SetDebugLog("Found zoomout image at " & $x & ", " & $y & ": " & $findImage)
-				$aResult[0] = $findImage
-				; Update offset
-				$x -= 54
-				$y -= 89
-				If $bCenterVillage = True And ($x <> 0 Or $y <> 0) And ($x <> $CenterVillage[1] Or $y <> $CenterVillage[2]) Then
-					SetDebugLog("Center Village by: " & $x & ", " & $y)
-					If $attack = False then ClickDrag($aZoomoutImgPos[0], $aZoomoutImgPos[1], $aZoomoutImgPos[0] - $x, $aZoomoutImgPos[1] - $y)
-					If $attack = True then ClickDrag($_ZoomOutPosition[0], $_ZoomOutPosition[1], $_ZoomOutPosition[0] - $x, $_ZoomOutPosition[1] - $y)
-					If _Sleep(250) Then Return $aResult
-					$aResult = SearchZoomOut($directory, False)
-					$CenterVillage[1] = $VILLAGE_OFFSET_X
-					$CenterVillage[2] = $VILLAGE_OFFSET_Y
-					SetDebugLog("Centered Village Offset: " & $CenterVillage[1] & ", " & $CenterVillage[2])
-					Return $aResult
-				EndIf
+	If IsArray($village) = 1 Then
+		$villageSize = $village[0]
+		If $villageSize < 500 Or $debugDisableZoomout = 1 Then
+			$z = $village[1]
+			$x = $village[2]
+			$y = $village[3]
+			$stone[0] = $village[4]
+			$stone[1] = $village[5]
+			$aResult[0] = "zoomout:" & $village[6]
+			$aResult[1] = $x
+			$aResult[2] = $y
 
-				If $x <> $VILLAGE_OFFSET_X Or $y <> $VILLAGE_OFFSET_Y Then
-					SetDebugLog("Village Offset updated to " & $x & ", " & $y)
+			If $bCenterVillage = True And ($x <> 0 Or $y <> 0) And ($UpdateMyVillage = False Or $x <> $VILLAGE_OFFSET[0] Or $y <> $VILLAGE_OFFSET[1]) Then
+				If $DebugLog Then SetDebugLog("Center Village" & $sSource & " by: " & $x & ", " & $y)
+				If $aScrollPos[0] = 0 And $aScrollPos[1] = 0 Then
+					$aScrollPos[0] = $stone[0]
+					$aScrollPos[1] = $stone[1]
 				EndIf
-				$VILLAGE_OFFSET_X = $x
-				$VILLAGE_OFFSET_Y = $y
-				ExitLoop
+				ClickDrag($aScrollPos[0], $aScrollPos[1], $aScrollPos[0] - $x, $aScrollPos[1] - $y)
+				If _Sleep(250) Then Return $aResult
+				Local $aResult2 = SearchZoomOut(False, $UpdateMyVillage)
+				; update difference in offset
+				$aResult2[3] = $aResult2[1] - $aResult[1]
+				$aResult2[4] = $aResult2[2] - $aResult[2]
+				If $DebugLog Then SetDebugLog("Centered Village Offset" & $sSource & ": " & $aResult2[1] & ", " & $aResult2[2] & ", change: " & $aResult2[3] & ", " & $aResult2[4])
+				Return $aResult2
 			EndIf
-		EndIf
-	Next
 
-	If $aResult[0] = "" Then
-		If $SearchZoomOutCounter[0] > 20 Then
-			$SearchZoomOutCounter[0] = 0
-			;CloseCoC(True)
-			SetLog("Restart CoC to reset zoom...", $COLOR_INFO)
-			PoliteCloseCoC("Zoomout")
-			If _Sleep(1000) Then Return
-			CloseCoC() ; ensure CoC is gone
-			OpenCoC()
-
-			Return SearchZoomOut()
-		Else
-			$SearchZoomOutCounter[0] += 1
-		EndIf
-	Else
-		If $SkipFirstZoomout = False Then
-			; force additional zoom-out
-			$aResult[0] = ""
-		ElseIf $SearchZoomOutCounter[1] > 0 And $SearchZoomOutCounter[0] > 0  Then
-			; force additional zoom-out
-			$SearchZoomOutCounter[1] -= 1
-			$aResult[0] = ""
+			If $UpdateMyVillage = True Then
+				If $x <> $VILLAGE_OFFSET[0] Or $y <> $VILLAGE_OFFSET[1] Or $z <> $VILLAGE_OFFSET[2] Then
+					If $DebugLog Then SetDebugLog("Village Offset" & $sSource & " updated to " & $x & ", " & $y & ", " & $z)
+				EndIf
+				setVillageOffset($x, $y, $z)
+				ConvertInternalExternArea() ; generate correct internal/external diamond measures
+			EndIf
 		EndIf
 	EndIf
 
-	$SkipFirstZoomout = True
+	If $UpdateMyVillage = True Then
+		If $aResult[0] = "" Then
+			If $SearchZoomOutCounter[0] > 20 Then
+				$SearchZoomOutCounter[0] = 0
+				;CloseCoC(True)
+				SetLog("Restart CoC to reset zoom" & $sSource & "...", $COLOR_INFO)
+				PoliteCloseCoC("Zoomout" & $sSource)
+				If _Sleep(1000) Then Return $aResult
+				CloseCoC() ; ensure CoC is gone
+				OpenCoC()
+				Return SearchZoomOut()
+			Else
+				$SearchZoomOutCounter[0] += 1
+			EndIf
+		Else
+			If $debugDisableZoomout = 0 And $villageSize > 480 Then
+				If $SkipFirstZoomout = False Then
+					; force additional zoom-out
+					$aResult[0] = ""
+				ElseIf $SearchZoomOutCounter[1] > 0 And $SearchZoomOutCounter[0] > 0  Then
+					; force additional zoom-out
+					$SearchZoomOutCounter[1] -= 1
+					$aResult[0] = ""
+				EndIf
+			EndIf
+		EndIf
+		$SkipFirstZoomout = True
+	EndIf
+
 	Return $aResult
-EndFunc   ;==>SearchArmy
+EndFunc   ;==>SearchZoomOut

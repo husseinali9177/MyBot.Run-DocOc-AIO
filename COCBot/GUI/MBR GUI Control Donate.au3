@@ -85,6 +85,36 @@ Func btnDonateMiners()
 	EndIf
 EndFunc   ;==>btnDonateMiners
 
+Func btnDonateLightningSpells()
+	If GUICtrlGetState($grpLightningSpells) = BitOr($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpLightningSpells, $txtBlacklistLightningSpells)
+	EndIf
+EndFunc
+
+Func btnDonateHealSpells()
+	If GUICtrlGetState($grpHealSpells) = BitOr($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpHealSpells, $txtBlacklistHealSpells)
+	EndIf
+EndFunc
+
+Func btnDonateRageSpells()
+	If GUICtrlGetState($grpRageSpells) = BitOr($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpRageSpells, $txtBlacklistRageSpells)
+	EndIf
+EndFunc
+
+Func btnDonateJumpSpells()
+	If GUICtrlGetState($grpJumpSpells) = BitOr($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpJumpSpells, $txtBlacklistJumpSpells)
+	EndIf
+EndFunc
+
+Func btnDonateFreezeSpells()
+	If GUICtrlGetState($grpFreezeSpells) = BitOr($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpFreezeSpells, $txtBlacklistFreezeSpells)
+	EndIf
+EndFunc
+
 Func btnDonateMinions()
 	If GUICtrlGetState($grpMinions) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
 		_DonateBtn($grpMinions, $txtBlacklistMinions)
@@ -266,6 +296,46 @@ Func chkDonateAllMiners()
 		_DonateAllControls($eMine, False)
 	EndIf
 EndFunc   ;==>chkDonateAllMiners
+
+Func chkDonateAllLightningSpells()
+	If GUICtrlRead($chkDonateAllLightningSpells) = $GUI_CHECKED Then
+		_DonateAllControlsSpell(4, True)
+	Else
+		_DonateAllControlsSpell(4, False)
+	EndIf
+EndFunc
+
+Func chkDonateAllHealSpells()
+	If GUICtrlRead($chkDonateAllHealSpells) = $GUI_CHECKED Then
+		_DonateAllControlsSpell(5, True)
+	Else
+		_DonateAllControlsSpell(5, False)
+	EndIf
+EndFunc
+
+Func chkDonateAllRageSpells()
+	If GUICtrlRead($chkDonateAllRageSpells) = $GUI_CHECKED Then
+		_DonateAllControlsSpell(6, True)
+	Else
+		_DonateAllControlsSpell(6, False)
+	EndIf
+EndFunc
+
+Func chkDonateAllJumpSpells()
+	If GUICtrlRead($chkDonateAllJumpSpells) = $GUI_CHECKED Then
+		_DonateAllControlsSpell(7, True)
+	Else
+		_DonateAllControlsSpell(7, False)
+	EndIf
+EndFunc
+
+Func chkDonateAllFreezeSpells()
+	If GUICtrlRead($chkDonateAllFreezeSpells) = $GUI_CHECKED Then
+		_DonateAllControlsSpell(8, True)
+	Else
+		_DonateAllControlsSpell(8, False)
+	EndIf
+EndFunc
 
 Func chkDonateAllMinions()
 	If GUICtrlRead($chkDonateAllMinions) = $GUI_CHECKED Then
@@ -468,6 +538,46 @@ Func chkDonateMiners()
 	EndIf
 EndFunc   ;==>chkDonateMiners
 
+Func chkDonateLightningSpells()
+	If GUICtrlRead($chkDonateLightningSpells) = $GUI_CHECKED Then
+		_DonateControlsSpell(4)
+	Else
+		GUICtrlSetBkColor($lblBtnLightningSpells, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc
+
+Func chkDonateHealSpells()
+	If GUICtrlRead($chkDonateHealSpells) = $GUI_CHECKED Then
+		_DonateControlsSpell(5)
+	Else
+		GUICtrlSetBkColor($lblBtnHealSpells, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc
+
+Func chkDonateRageSpells()
+	If GUICtrlRead($chkDonateRageSpells) = $GUI_CHECKED Then
+		_DonateControlsSpell(6)
+	Else
+		GUICtrlSetBkColor($lblBtnRageSpells, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc
+
+Func chkDonateJumpSpells()
+	If GUICtrlRead($chkDonateJumpSpells) = $GUI_CHECKED Then
+		_DonateControlsSpell(7)
+	Else
+		GUICtrlSetBkColor($lblBtnJumpSpells, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc
+
+Func chkDonateFreezeSpells()
+	If GUICtrlRead($chkDonateFreezeSpells) = $GUI_CHECKED Then
+		_DonateControlsSpell(8)
+	Else
+		GUICtrlSetBkColor($lblBtnFreezeSpells, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc
+
 Func chkDonateMinions()
 	If GUICtrlRead($chkDonateMinions) = $GUI_CHECKED Then
 		_DonateControls($eMini)
@@ -574,7 +684,7 @@ Func chkDonateCustomB()
 EndFunc   ;==>chkDonateCustomB
 
 Func cmbDonateCustomA()
-	Local $aDonIcons[20] = [$eIcnDonBarbarian, $eIcnDonArcher, $eIcnDonGiant, $eIcnDonGoblin, $eIcnDonWallBreaker, $eIcnDonBalloon, $eIcnDonWizard, $eIcnDonHealer, $eIcnDonDragon, $eIcnDonPekka, $eIcnDonBabyDragon, $eIcnDonMiner, $eIcnDonMinion, $eIcnDonHogRider, $eIcnDonValkyrie, $eIcnDonGolem, $eIcnDonWitch, $eIcnDonLavaHound, $eIcnDonBowler, $eIcnDonBlank]
+	Local $aDonIcons[20] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnBlank]
 	Local $combo1 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomA1)
 	Local $combo2 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomA2)
 	Local $combo3 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomA3)
@@ -584,7 +694,7 @@ Func cmbDonateCustomA()
 EndFunc   ;==>cmbDonateCustomA
 
 Func cmbDonateCustomB()
-	Local $aDonIcons[20] = [$eIcnDonBarbarian, $eIcnDonArcher, $eIcnDonGiant, $eIcnDonGoblin, $eIcnDonWallBreaker, $eIcnDonBalloon, $eIcnDonWizard, $eIcnDonHealer, $eIcnDonDragon, $eIcnDonPekka, $eIcnDonBabyDragon, $eIcnDonMiner, $eIcnDonMinion, $eIcnDonHogRider, $eIcnDonValkyrie, $eIcnDonGolem, $eIcnDonWitch, $eIcnDonLavaHound, $eIcnDonBowler, $eIcnDonBlank]
+	Local $aDonIcons[20] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnBlank]
 	Local $combo1 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomB1)
 	Local $combo2 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomB2)
 	Local $combo3 = _GUICtrlComboBox_GetCurSel($cmbDonateCustomB3)
@@ -619,7 +729,7 @@ Func _DonateControls($TroopType)
 
 	For $i = 0 To UBound($aLblBtnControls) - 1
 		If $i = $TroopType Then
-			GUICtrlSetBkColor($aLblBtnControls[$i], $COLOR_GREEN)
+			GUICtrlSetBkColor($aLblBtnControls[$i], $COLOR_ORANGE)
 		Else
 			If GUICtrlGetBkColor($aLblBtnControls[$i]) = $COLOR_NAVY Then GUICtrlSetBkColor($aLblBtnControls[$i], $GUI_BKCOLOR_TRANSPARENT)
 		EndIf
@@ -642,7 +752,7 @@ EndFunc   ;==>_DonateControls
 Func _DonateControlsSpell($TroopType)
 	For $i = 0 To UBound($aLblBtnControlsSpell) - 1
 		If $i = $TroopType Then
-			GUICtrlSetBkColor($aLblBtnControlsSpell[$i], $COLOR_GREEN)
+			GUICtrlSetBkColor($aLblBtnControlsSpell[$i], $COLOR_ORANGE)
 		Else
 			If GUICtrlGetBkColor($aLblBtnControlsSpell[$i]) = $COLOR_NAVY Then GUICtrlSetBkColor($aLblBtnControlsSpell[$i], $GUI_BKCOLOR_TRANSPARENT)
 		EndIf
@@ -659,4 +769,22 @@ Func _DonateControlsSpell($TroopType)
 	For $i = 0 To UBound($aTxtBlacklistControlsSpell) - 1
 		If BitAND(GUICtrlGetState($aTxtBlacklistControlsSpell[$i]), $GUI_DISABLE) = $GUI_DISABLE Then GUICtrlSetState($aTxtBlacklistControlsSpell[$i], $GUI_ENABLE)
 	Next
-EndFunc   ;==>_DonateControlsSpell
+ EndFunc   ;==>_DonateControlsSpell
+
+ Func btnFilterDonationsCC()
+	 setlog ("open folder " & $donateimagefoldercapture,$color_aqua)
+	ShellExecute("explorer",$donateimagefoldercapture)
+EndFunc
+
+Func chkskipDonateNearFulLTroopsEnable()
+  	If GUICtrlRead($chkskipDonateNearFulLTroopsEnable) = $GUI_CHECKED Then
+		GUICtrlSetState($txtSkipDonateNearFulLTroopsPercentual, $GUI_ENABLE)
+		GUICtrlSetState($lblSkipDonateNearFulLTroopsText, $GUI_ENABLE)
+		GUICtrlSetState($lblSkipDonateNearFulLTroopsText1, $GUI_ENABLE)
+	 Else
+		GUICtrlSetState($txtSkipDonateNearFulLTroopsPercentual, $GUI_DISABLE)
+		GUICtrlSetState($lblSkipDonateNearFulLTroopsText, $GUI_DISABLE)
+		GUICtrlSetState($lblSkipDonateNearFulLTroopsText1, $GUI_DISABLE)
+	EndIf
+EndFunc
+

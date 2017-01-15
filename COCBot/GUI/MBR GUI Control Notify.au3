@@ -13,13 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func PushBulletRemoteControl()
-	If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyRemoteEnable = 1 Then NotifyRemoteControl()
-EndFunc   ;==>PushBulletRemoteControl
 
-Func PushBulletDeleteOldPushes()
-	If $NotifyPBEnabled = 1 And $NotifyDeletePushesOlderThan = 1 Then _DeleteOldPushes() ; check every 30 min if must delete old pushbullet messages, increase delay time for anti ban pushbullet
-EndFunc   ;==>PushBulletDeleteOldPushes
 
 Func chkPBTGenabled()
 	If GUICtrlRead($chkNotifyPBEnabled) = $GUI_CHECKED Then
@@ -44,7 +38,7 @@ Func chkPBTGenabled()
 		GUICtrlSetState($btnNotifyDeleteMessages, $GUI_ENABLE)
 		GUICtrlSetState($cmbNotifyPushHours, $GUI_DISABLE)
 	EndIf
-	
+
 	If GUICtrlRead($chkTGenabled) = $GUI_CHECKED Then
 		$NotifyTGEnabled = 1
 		GUICtrlSetState($txbNotifyTGToken, $GUI_ENABLE)
@@ -110,13 +104,13 @@ EndFunc   ;==>btnDeletePBMessages
 
 Func NotifyHelp()
 	If FileExists(@ScriptDir & "\Help\NotifyHelp_" & $sLanguage & ".mht") Then
-		Run("cmd.exe /c start """" Help\NotifyHelp_" & $sLanguage & ".mht", $WorkingDir, @SW_HIDE)
+		ShellExecute(@ScriptDir & "\Help\NotifyHelp_" & $sLanguage & ".mht")
 	ElseIf FileExists(@ScriptDir & "\Help\NotifyHelp_English.mht") Then
-		Run("cmd.exe /c start """" Help\NotifyHelp_English.mht", $WorkingDir, @SW_HIDE)
+		ShellExecute(@ScriptDir & "\Help\NotifyHelp_English.mht")
 	EndIf
 EndFunc	;==>NotifyHelp
 
-  
+
 ; Restart Bot
 Func _Restart()
 	SetDebugLog("Restart " & $sBotTitle)
@@ -135,7 +129,7 @@ Func _Restart()
 	; Restart My Bot
 	Local $pid = Run("cmd.exe /c start """" " & $sCmdLine, $WorkingDir, @SW_HIDE) ; cmd.exe only used to support launched like "..\AutoIt3\autoit3.exe" from console
 	If @error = 0 Then
-		CloseAndroid()
+		CloseAndroid("_Restart")
 		SetLog("Restarting " & $sBotTitle)
 		; Wait 1 Minute to get closed
 		_SleepStatus(60 * 1000)
@@ -208,7 +202,7 @@ Func chkNotifyWeekDays()
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 	EndIf
- 
+
 EndFunc	;==>chkNotifyWeekDays
 
 

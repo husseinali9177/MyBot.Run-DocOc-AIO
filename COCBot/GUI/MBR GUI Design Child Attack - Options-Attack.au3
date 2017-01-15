@@ -13,21 +13,21 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Local $x = 25, $y = 45
+Local $x = 25, $y = 70
 	$grpRoyalAbilitiesCSV = GUICtrlCreateGroup(GetTranslated(634,1, "Hero Abilities"), $x - 20, $y - 20, 420, 60)
-		GUICtrlCreateIcon($pIconLib, $eIcnKingAbility, $x-10, $y, 24, 24)
-		GUICtrlCreateIcon($pIconLib, $eIcnQueenAbility, $x+ 15, $y, 24, 24)
-		GUICtrlCreateIcon($pIconLib, $eIcnWardenAbility, $x+ 40, $y, 24, 24)
+		GUICtrlCreateIcon($pIconLib, $eIcnKing, $x-10, $y, 24, 24)
+		GUICtrlCreateIcon($pIconLib, $eIcnQueen, $x+ 15, $y, 24, 24)
+		GUICtrlCreateIcon($pIconLib, $eIcnWarden, $x+ 40, $y, 24, 24)
 
 	$x += 70
 	$y -= 4
-		$radAutoAbilities = GUICtrlCreateRadio(GetTranslated(634,2, "Auto activate (red zone)"), $x, $y-4 , 160, -1)
-		$txtTip = GetTranslated(634,3, "Activate the Ability when the Hero becomes weak.") & @CRLF & GetTranslated(634,4, "Heroes are checked and activated individually.")
+		$radAutoAbilities = GUICtrlCreateRadio(GetTranslated(634,2, "Auto activate (red zone)"), $x, $y-4 , 140, -1)
+		$txtTip = GetTranslated(634,3, "Activate the Ability when the Hero becomes weak.") & @CRLF & GetTranslated(634,4, "ALL are checked and activated individually.")
 		_GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetState(-1, $GUI_CHECKED)
 	$y += 15
 		$radManAbilities = GUICtrlCreateRadio(GetTranslated(634,5, "Timed after") & ":", $x , $y , -1, -1)
-			$txtTip = GetTranslated(634,6, "Activate the Ability on a timer.") & @CRLF & GetTranslated(634,7, "All Heroes are activated at the same time.")
+			$txtTip = GetTranslated(634,6, "Activate the Ability on a timer.") & @CRLF & GetTranslated(634,7, "ALL Heroes are activated at the same time.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 
@@ -36,24 +36,41 @@ Local $x = 25, $y = 45
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 		$lblRoyalAbilitiesSec = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 115, $y + 4, -1, -1)
-	$y += 40
-		$chkUseWardenAbility = GUICtrlCreateCheckbox(GetTranslated(634,9, "Timed activation of Warden Ability after") & ":", $x, $y, -1, -1)
+	$x += 150
+	$y -= 15
+		GUICtrlCreateIcon($pIconLib, $eIcnWarden, $x - 7, $y + 2, 32, 32)
+	$y += 12
+		$chkUseWardenAbility = GUICtrlCreateCheckbox(GetTranslated(634,9, "Force after") & ":", $x + 30, $y , -1, -1)
 			$txtTip = GetTranslated(634,10, "Use the ability of the Grand Warden on a timer.")
 			_GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetState(-1, $GUI_UNCHECKED+$GUI_DISABLE+$GUI_HIDE)
-			GUICtrlSetColor (-1,$COLOR_RED)
-		$txtWardenAbility = GUICtrlCreateInput("25", $x + 260, $y, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			$txtTip = GetTranslated(634,11, "Set the time in seconds for Timed Activation of Grand Warden Ability.")
+			GUICtrlSetOnEvent(-1, "CheckWardenTimer")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+		$txtWardenAbility = GUICtrlCreateInput("9", $x + 110, $y+3, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$txtTip = GetTranslated(634,8, "Set the time in seconds for Timed Activation of Warden Ability.")
 			_GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetState(-1, $GUI_DISABLE+$GUI_HIDE)
 			GUICtrlSetLimit(-1, 2)
-			GUICtrlSetColor (-1,$COLOR_RED)
-		$lblWardenAbilitiesSec = GUICtrlCreateLabel(GetTranslated(603,6, -1), $x + 293, $y, -1, -1)
-			GUICtrlSetState(-1, $GUI_DISABLE+$GUI_HIDE)
-			GUICtrlSetColor (-1,$COLOR_RED)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$lblWardenAbilitiesSec = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 145, $y + 4, -1, -1)
+
+
+;~ 		$chkUseWardenAbility = GUICtrlCreateCheckbox(GetTranslated(634,9, "Timed after") & ":", $x + 25, $y + 15, -1, -1)
+;~ 			$txtTip = GetTranslated(634,10, "Use the ability of the Grand Warden on a timer.")
+;~ 			_GUICtrlSetTip(-1, $txtTip)
+;~ 			;GUICtrlSetState(-1, $GUI_UNCHECKED+$GUI_DISABLE+$GUI_HIDE)
+;~ 			GUICtrlSetColor (-1,$COLOR_ERROR)
+;~ 		$txtWardenAbility = GUICtrlCreateInput("25", $x + 80, $y + 18, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+;~ 			$txtTip = GetTranslated(634,11, "Set the time in seconds for Timed Activation of Grand Warden Ability.")
+;~ 			_GUICtrlSetTip(-1, $txtTip)
+;~ 			;GUICtrlSetState(-1, $GUI_DISABLE+$GUI_HIDE)
+;~ 			GUICtrlSetLimit(-1, 2)
+;~ 			GUICtrlSetColor (-1,$COLOR_ERROR)
+;~ 		$lblWardenAbilitiesSec = GUICtrlCreateLabel(GetTranslated(603,6, -1), $x + 150, $y, -1, -1)
+;~ 			;GUICtrlSetState(-1, $GUI_DISABLE+$GUI_HIDE)
+;~ 			GUICtrlSetColor (-1,$COLOR_ERROR)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-Local $x = 25, $y = 110
+Local $x = 25, $y = 135
 Global $chkattackHours0, $chkattackHours1, $chkattackHours2, $chkattackHours3, $chkattackHours4, $chkattackHours5
 Global $chkattackHours6, $chkattackHours7, $chkattackHours8, $chkattackHours9, $chkattackHours10, $chkattackHours11
 Global $chkattackHours12, $chkattackHours13, $chkattackHours14, $chkattackHours15, $chkattackHours16, $chkattackHours17
@@ -98,20 +115,20 @@ Global $cmbAttackPlannerDayMin, $icmbAttackPlannerDayMin, $cmbAttackPlannerDayMa
 			GUICtrlSetOnEvent(-1, "cmbAttackPlannerRandom")
 		$lbAttackPlannerRandom = GUICtrlCreateLabel(GetTranslated(603,37, "hrs"), $x+148, $y+54, -1,-1)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$chkAttackPlannerDayLimit = GUICtrlCreateCheckbox(GetTranslated(634,35, "Daily Limit"), $x, $y+77, -1, -1)
+		$chkAttackPlannerDayLimit = GUICtrlCreateCheckbox(GetTranslated(634,35, "Daily Limit"), $x, $y+71, -1, -1)
 			$txtTip = GetTranslated(634,36, "Will randomly stop attacking when exceed random number of attacks between range selected") & @CRLF & _
 					GetTranslated(634,26, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "chkAttackPlannerDayLimit")
-		$cmbAttackPlannerDayMin = GUICtrlCreateInput("12",  $x+79 , $y+77, 37, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$cmbAttackPlannerDayMin = GUICtrlCreateInput("12",  $x+100 , $y+75, 37, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(634,37, "Enter minimum number of attacks allowed per day"))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetLimit(-1, 3)
 			GUICtrlSetOnEvent(-1, "cmbAttackPlannerDayMin")
-		$lbAttackPlannerDayLimit = GUICtrlCreateLabel(GetTranslated(634,39,"to"), $x+121, $y+80, -1,-1)
+		$lbAttackPlannerDayLimit = GUICtrlCreateLabel(GetTranslated(634,39,"to"), $x+142, $y+75, -1,-1)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$cmbAttackPlannerDayMax = GUICtrlCreateInput("15",  $x+136 , $y+77, 37, 18,  BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$cmbAttackPlannerDayMax = GUICtrlCreateInput("15",  $x+157 , $y+75, 37, 18,  BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(634,38, "Enter maximum number of attacks allowed per day"))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetLimit(-1, 3)
@@ -119,7 +136,7 @@ Global $cmbAttackPlannerDayMin, $icmbAttackPlannerDayMin, $cmbAttackPlannerDayMa
 
 	$x += 198
 	$y -= 5
-		$lbAttackWeekdays0 = GUICtrlCreateLabel(GetTranslated(603,36, "Day:"), $x, $y, -1, 15)
+		$lbAttackWeekdays0 = GUICtrlCreateLabel(GetTranslated(603,36, "Day") & ":", $x, $y, -1, 15)
 			_GUICtrlSetTip(-1, GetTranslated(603,31, "Only during these day of week"))
 		$lbAttackWeekdays1 = GUICtrlCreateLabel(GetTranslated(603,16, "Su"), $x + 30, $y, -1, 15)
 			_GUICtrlSetTip(-1, GetTranslated(603,17, "Sunday"))
@@ -175,7 +192,7 @@ Global $cmbAttackPlannerDayMin, $icmbAttackPlannerDayMin, $cmbAttackPlannerDayMa
 			GUICtrlSetOnEvent(-1, "chkattackWeekDaysE")
 	$x -= 25
 	$y += 17
-		$lbattackHours0 = GUICtrlCreateLabel(GetTranslated(603,35,"Hour:"), $x , $y, -1, 15)
+		$lbattackHours0 = GUICtrlCreateLabel(GetTranslated(603,15,"Hour") & ":", $x , $y, -1, 15)
 			$txtTip = GetTranslated(603,30, "Only during these hours of each day")
 			_GUICtrlSetTip(-1, $txtTip)
 		$lbattackHours1 = GUICtrlCreateLabel(" 0", $x + 30, $y, 13, 15)
@@ -321,7 +338,7 @@ Global $cmbAttackPlannerDayMin, $icmbAttackPlannerDayMin, $cmbAttackPlannerDayMa
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-Local $x = 25, $y = 245
+Local $x = 25, $y = 270
 	$grpClanCastleBal = GUICtrlCreateGroup(GetTranslated(634,12, "ClanCastle"), $x - 20, $y - 20, 420, 100)
 		GUICtrlCreateIcon($pIconLib, $eIcnCC, $x -10 , $y + 4, 24, 24)
 	$y -= 4
@@ -349,7 +366,7 @@ Local $x = 25, $y = 245
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "cmbBalanceDR")
  	$x += 188
-	$y = 245
+	$y = 270
 		$lblDropCCHours = GUICtrlCreateLabel(GetTranslated(603,30, -1), $x+8, $y)
 	$y += 14
 	$x -= 21

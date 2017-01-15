@@ -17,10 +17,10 @@
 Func TestLanguage()
 	If $Runstate Then
 		; test "builder" word top of sceen
-		If getOcrLanguage(324, 6) = "english" Then
-			Setlog("Language setting is English: Correct.", $COLOR_BLUE)
+		If getOcrLanguage($aDetectLang[0], $aDetectLang[1]) = "english" Then
+			Setlog("Language setting is English: Correct.", $COLOR_INFO)
 		Else
-			SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_RED)
+			SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_ERROR)
 			btnStop()
 		EndIf
 	EndIf

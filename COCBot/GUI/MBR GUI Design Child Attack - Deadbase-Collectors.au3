@@ -23,11 +23,10 @@ Local $txtFull = GetTranslated(626,30, "Full")
 
 	$grpDeadBaseCollectors = GUICtrlCreateGroup(GetTranslated(626,1,"Collectors"), $x - 5, $y - 20, 420, 305)
 		$txtCollectors = GUICtrlCreateLabel(GetTranslated(626,2, "Choose which collectors to search for while looking for a dead base. Also, choose how full they must be."), $x, $y, 250, 28)
-		$chkDeadBaseDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslated(626,32,"Disable Collector Filter"), $x+250, $y+7, 150, 18)
+		$chkDeadBaseDisableCollectorsFilter = GUICtrlCreateCheckbox(GetTranslated(626,32,"Disable Collector Filter"), $x+250, $y+60, 150, 18)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			_GUICtrlSetTip(-1, GetTranslated(626,33, "Excluding Collector Filter the bot consider DeadBase as LiveBase"))
-
-	$y += 40
+			_GUICtrlSetTip(-1, GetTranslated(626,33, "Excluding Collector Filter the bot consider DeadBase as ActiveBase"))
+	$y+=40
 		$chkLvl6 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1 & @CRLF & GetTranslated(626,16, "for level 6 elixir collectors during dead base detection.")
 			_GUICtrlSetTip(-1, $txtTip)
@@ -37,12 +36,14 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 		$txtLvl6 = GUICtrlCreateLabel(GetTranslated(626,3, "Lvl 6. Must be >"), $x + 40, $y + 3, -1, -1)
 			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
 		$cmbLvl6 = GUICtrlCreateCombo("", $x + 125, $y, 75, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(626,23,'Select how full a level 6 collector needs to be for it to be marked "dead"')
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl6")
+		$txtLvl6Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl7 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1 & @CRLF & GetTranslated(626,17, "for level 7 elixir collectors during dead base detection.")
@@ -58,6 +59,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl7")
+		$txtLvl7Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl8 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1 & @CRLF & GetTranslated(626,18,"for level 8 elixir collectors during dead base detection.")
@@ -73,6 +75,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl8")
+		$txtLvl8Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl9 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1 & @CRLF & GetTranslated(626,19,"for level 9 elixir collectors during dead base detection.")
@@ -88,6 +91,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl9")
+		$txtLvl9Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl10 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1&@CRLF&GetTranslated(626,20,"for level 10 elixir collectors during dead base detection.")
@@ -103,6 +107,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl10")
+		$txtLvl10Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl11 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1&@CRLF&GetTranslated(626,21,"for level 11 elixir collectors during dead base detection.")
@@ -118,6 +123,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl11")
+		$txtLvl11Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$chkLvl12 = GUICtrlCreateCheckbox("", $x, $y, 18, 18)
 			$txtTip = $txtTip1&@CRLF&GetTranslated(626,22,"for level 12 elixir collectors during dead base detection.")
@@ -133,6 +139,7 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "50%|100%", "50%")
 			GUICtrlSetOnEvent(-1, "cmbLvl12")
+		$txtLvl12Full = GUICtrlCreateLabel($txtFull, $x + 205, $y + 3)
 	$y+= 25
 		$txtMinCollectorMatches = GUICtrlCreateLabel(GetTranslated(626,34, "Collectors required"), $x, $y + 3, -1, -1)
 			$txtTip = GetTranslated(626,35,'Select how many collectors are needed to consider village "dead"')
@@ -143,9 +150,9 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			GUICtrlSetOnEvent(-1, "cmbMinCollectorMatches")
 
 	$y += 25
-		$lblTolerance = GUICtrlCreateLabel("-15" & _PadStringCenter(GetTranslated(626,11, "Tolerance"), 50, " ") & "15", $x, $y)
+		$lblTolerance = GUICtrlCreateLabel("-15" & _PadStringCenter(GetTranslated(626,11, "Tolerance"), 66, " ") & "15", $x, $y)
 	$y += 15
-		$sldCollectorTolerance = GUICtrlCreateSlider($x, $y, 205, 20, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
+		$sldCollectorTolerance = GUICtrlCreateSlider($x, $y, 250, 20, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
 		$txtTip = GetTranslated(626,12, "Use this slider to adjust the tolerance of ALL images.") &@CRLF& GetTranslated(626,13, "If you want to adjust individual images, you must edit the files.")&@CRLF&GetTranslated(626,31,"WARNING: Do not change this setting unless you know what you are doing. Set it to 0 if you're not sure.")
 			GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 			_GUICtrlSetTip(-1, $txtTip)
@@ -154,13 +161,13 @@ Local $txtFull = GetTranslated(626,30, "Full")
 			GUICtrlSetLimit(-1, 15,-15) ; change max/min value
 			GUICtrlSetData(-1, 0) ; default value
 			GUICtrlSetOnEvent(-1, "sldCollectorTolerance")
-		If $DevMode = 0 Then
+		;If $DevMode = 0 Then
 			GUICtrlSetState($lblTolerance, $GUI_HIDE)
 			GUICtrlSetState($sldCollectorTolerance, $GUI_HIDE)
-		EndIf
+		;EndIf
 	$y += 25
 		$lblCollectorWarning = GUICtrlCreateLabel("Warning: no collecters are selected. The bot will never find a dead base.", $x, $y, 255, 30)
 			GUICtrlSetFont(-1, 10, $FW_BOLD)
-			GUICtrlSetColor(-1, $COLOR_RED)
+			GUICtrlSetColor(-1, $COLOR_ERROR)
 			GUICtrlSetState(-1, $GUI_HIDE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

@@ -4,8 +4,8 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: MR.ViPER (2016-11-5), MR.ViPER (2016-11-13)
-; Modified ......:
+; Author ........: MR.ViPER (2016-11-5)
+; Modified ......: MR.ViPER (2016-11-13), MR.ViPER (2017-1-1)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -162,10 +162,10 @@ Func CheckForFullArmy()
 
 	If $IsFullArmywithHeroesAndSpells = False And (_ColorCheck(_GetPixelColor(391, 126, True), Hex(0x605C4C, 6), 15) = True And _ColorCheck(_GetPixelColor(587, 126, True), Hex(0x605C4D, 6), 15) = True) Then ; if Full army was false and nothing was in 'Train' and 'Brew' Queue then check for train
 		If $DebugSX = 1 Then SetLog("SX|CFFA TrainRevamp Condi. #1")
-		TestTrainRevamp()
+		TrainRevamp()
 	ElseIf $IsFullArmywithHeroesAndSpells = True And $ichkEnableSuperXP = 1 And $irbSXTraining = 1 Then ; Train Troops Before Attack
 		If $DebugSX = 1 Then SetLog("SX|CFFA TrainRevamp Condi. #2")
-		TestTrainRevamp()
+		TrainRevamp()
 	EndIf
 
 	ClickP($aAway, 2, 0, "#0346") ;Click Away
@@ -205,7 +205,7 @@ EndFunc   ;==>ExitSPPage
 
 Func AttackFinishedSX()
 	If $DebugSX = 1 Then SetLog("SX|AttackFinished", $COLOR_PURPLE)
-	$iCurrentXP = GetCurXP()
+	$iCurrentXP = GetCurXP("Current")
 	$iGainedXP += 5
 	SXSetXP()
 	$ActivatedHeroes[0] = False
@@ -214,8 +214,43 @@ Func AttackFinishedSX()
 	If $DebugSX = 1 Then SetLog("SX|AttackFinished Finished", $COLOR_PURPLE)
 EndFunc   ;==>AttackFinishedSX
 
-Func GetCurXP()
-	Return getVillageExp(55, 20)
+Func GetCurXP($returnVal = "Current")
+	;Return getVillageExp(55, 20)
+	If $DebugSX = 1 Then SetLog("SX|GetCurXP", $COLOR_PURPLE)
+	Local $ToReturn = "0#0"
+
+	Click(135, 30)
+	Local $iCounter = 0
+	While _ColorCheck(_GetPixelColor(143, 14 + $midOffsetY, True), Hex(0xE8E8E8, 6), 40) = False ; Wait for XP text to be shown
+		;If $DebugSX = 1 Or $DebugSetlog = 1 Then SetLog("SX|Loop Wait to Get XP Text #" & $iCounter, $COLOR_DEBUG)
+		If $RunState = False Then Return $iCurrentXP
+		_Sleep(10)
+		If $iCounter >= 1000 Then ExitLoop
+		$iCounter += 1
+	WEnd
+	If $iCounter >= 999 Then
+		SetLog("SX|Failed to Get Current XP|Loop #" & $iCounter, $COLOR_DEBUG)
+		If $RunState = False Then Return $iCurrentXP
+		Return $ToReturn
+	EndIf
+
+	Local $XPOCRResult = getCurrentXP(90, 60)
+
+	ClickP($aAway, 2, 0, "#0346") ; Click Away To Close XP Stats
+
+	If $returnVal = "" Then
+		$ToReturn = $XPOCRResult
+	ElseIf StringInStr($returnVal, "Cur") And StringInStr($XPOCRResult, "#") Then
+		$ToReturn = StringSplit($XPOCRResult, "#", 2)[0]
+	ElseIf StringInStr($returnVal, "Tot") And StringInStr($XPOCRResult, "#") Then
+		$ToReturn = StringSplit($XPOCRResult, "#", 2)[1]
+	Else
+		$ToReturn = $XPOCRResult
+	EndIf
+
+	Return $ToReturn
+
+	If $DebugSX = 1 Then SetLog("SX|GetCurXP Finished", $COLOR_PURPLE)
 EndFunc   ;==>GetCurXP
 
 Func TestSuperXP()
@@ -490,7 +525,7 @@ Func CheckEarnedStars($ExitWhileHave = 0) ; If the parameter is 0, will not exit
 EndFunc   ;==>CheckEarnedStars
 
 Func ReturnHomeSuperXP()
-	Local Const $EndBattleText[4] = [29, 595, 0xFFFFFF, 10], $EndBattle2Text[4] = [491, 424, 0xFFFFFF, 10], $ReturnHomeText[4] = [445, 575, 0xFFFFFF, 10]
+	Local Const $EndBattleText[4] = [29, 565 + $midOffsetY, 0xFFFFFF, 10], $EndBattle2Text[4] = [377, 244 + $midOffsetY, 0xFFFFFF, 20], $ReturnHomeText[4] = [428, 545 + $midOffsetY, 0xFFFFFF, 10]
 	Local Const $iDelayEachCheck = 70, $iRetryLimits = 429 ; Wait for each Color About 30 Seconds If didn't found!
 	Local $Counter = 0
 
@@ -501,6 +536,7 @@ Func ReturnHomeSuperXP()
 
 	; 1st Step
 	While _ColorCheck(_GetPixelColor($EndBattleText[0], $EndBattleText[1], True), Hex($EndBattleText[2], 6), $EndBattleText[3]) = False ; First EndBattle Button
+		If $DebugSX = 1 Then SetLog("SX|RHSX|1-Loop #" & $Counter, $COLOR_DEBUG)
 		If _Sleep($iDelayEachCheck) Then Return False
 		$Counter += 1
 		If $Counter >= $iRetryLimits Then
@@ -515,13 +551,8 @@ Func ReturnHomeSuperXP()
 	; 2nd Step
 	$Counter = 0 ; Reset Counter
 	While _ColorCheck(_GetPixelColor($EndBattle2Text[0], $EndBattle2Text[1], True), Hex($EndBattle2Text[2], 6), $EndBattle2Text[3]) = False ; Second EndBattle Button
+		If $DebugSX = 1 Then SetLog("SX|RHSX|2-Loop #" & $Counter, $COLOR_DEBUG)
 		If _Sleep($iDelayEachCheck) Then Return False
-		If IsMainPage() Then
-			_GUICtrlEdit_SetText($txtLog, _PadStringCenter(" BOT LOG ", 71, "="))
-			_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
-			_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
-			Return True
-		EndIf
 		$Counter += 1
 		If $Counter >= $iRetryLimits Then
 			If $DebugSX = 1 Then SetLog("SX|RHSX|Second EndBattle Button not found")
@@ -529,19 +560,14 @@ Func ReturnHomeSuperXP()
 		EndIf
 	WEnd
 
-	Click(Random($EndBattle2Text[0] - 5, $EndBattle2Text[0] + 5, 1), Random($EndBattle2Text[1] - 5, $EndBattle2Text[1] + 5, 1)) ; Click 2nd EndBattle Button, (Verify)
+	Click(Random(455, 565, 1), Random(412, 447, 1)) ; Click 2nd EndBattle Button, (Verify)
 	If _Sleep($iDelayEachCheck) Then Return False
 
 	; 3rd Step
 	$Counter = 0 ; Reset Counter
 	While _ColorCheck(_GetPixelColor($ReturnHomeText[0], $ReturnHomeText[1], True), Hex($ReturnHomeText[2], 6), $ReturnHomeText[3]) = False ; Last - Return Home Button
+		If $DebugSX = 1 Then SetLog("SX|RHSX|3-Loop #" & $Counter, $COLOR_DEBUG)
 		If _Sleep($iDelayEachCheck) Then Return False
-		If IsMainPage() Then
-			_GUICtrlEdit_SetText($txtLog, _PadStringCenter(" BOT LOG ", 71, "="))
-			_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
-			_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
-			Return True
-		EndIf
 		$Counter += 1
 		If $Counter >= $iRetryLimits Then
 			If $DebugSX = 1 Then SetLog("SX|RHSX|Last Return Home Button not found")
@@ -555,8 +581,9 @@ Func ReturnHomeSuperXP()
 	; Last Step, Check for Main Screen
 	$Counter = 0 ; Reset Counter
 	While 1
+		If $DebugSX = 1 Then SetLog("SX|RHSX|4-Loop #" & $Counter, $COLOR_DEBUG)
 		If _Sleep($iDelayReturnHome4) Then Return
-		If IsMainPage() Then
+		If IsMainPage(1) Then
 			_GUICtrlEdit_SetText($txtLog, _PadStringCenter(" BOT LOG ", 71, "="))
 			_GUICtrlRichEdit_SetFont($txtLog, 6, "Lucida Console")
 			_GUICtrlRichEdit_AppendTextColor($txtLog, "" & @CRLF, _ColorConvert($Color_Black))
@@ -565,7 +592,7 @@ Func ReturnHomeSuperXP()
 		$Counter += 1
 		If $Counter >= 50 Or isProblemAffect(True) Then
 			SetLog("Cannot return home.", $COLOR_RED)
-			checkMainScreen(False, True)
+			checkMainScreen(True)
 			Return True
 		EndIf
 	WEnd
@@ -643,7 +670,7 @@ Func OpenGoblinPicnic()
 			Return False
 		EndIf
 		SetLog("Attack Button Cannot be Verified", $COLOR_RED)
-		DebugImageSave("SuperXP_", True, "png", True, String(Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1], 2) & @CRLF & Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1] + 78, 2)), 80, 145, 35, $rDragToGoblinPicnic[0] - 5, $rDragToGoblinPicnic[1] - 5 + 78, 10, 10)
+		;DebugImageSave("SuperXP_", True, "png", True, String(Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1], 2) & @CRLF & Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1] + 78, 2)), 80, 145, 35, $rDragToGoblinPicnic[0] - 5, $rDragToGoblinPicnic[1] - 5 + 78, 10, 10)
 		SafeReturnSX()
 		Return False
 	EndIf
@@ -661,7 +688,7 @@ Func OpenGoblinPicnic()
 	WEnd
 	If $Counter >= 150 Then
 		SetLog("Still in SinglePlayer Page!! Something Strange Happened", $COLOR_RED)
-		DebugImageSave("SuperXP_", True, "png", True, String(Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1], 2) & @CRLF & Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1] + 78, 2)), 80, 145, 35, $rDragToGoblinPicnic[0] - 5, $rDragToGoblinPicnic[1] - 5 + 78, 10, 10)
+		;DebugImageSave("SuperXP_", True, "png", True, String(Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1], 2) & @CRLF & Number($rDragToGoblinPicnic[0], 2) & ", " & Number($rDragToGoblinPicnic[1] + 78, 2)), 80, 145, 35, $rDragToGoblinPicnic[0] - 5, $rDragToGoblinPicnic[1] - 5 + 78, 10, 10)
 		$canGainXP = False
 		Return False
 	EndIf
@@ -854,8 +881,6 @@ EndFunc   ;==>GetPositionInSinglePlayer
 
 Func OpenSinglePlayerPage()
 	If $DebugSX = 1 Then SetLog("SX|OpenSinglePlayerPage", $COLOR_PURPLE)
-
-	IsWaitingForConnection()
 
 	If WaitForMain(True, 50, 300) = False Then
 		If $DebugSX = 1 Then SetLog("SX|MainPage Not Displayed to Open SingleP")

@@ -16,7 +16,7 @@
 Local $x = 25, $y = 45
 	$grpTSActivate = GUICtrlCreateGroup(GetTranslated(625,0, -1), $x - 20, $y - 20, 190, 305)
 		$x -= 15
-		$chkTSActivateSearches = GUICtrlCreateCheckbox(GetTranslated(625,1, -1), $x, $y, 68, 18)
+		$chkTSActivateSearches = GUICtrlCreateCheckbox(GetTranslated(603,5, -1), $x, $y, 68, 18)
 			$txtTip = GetTranslated(625,68, -1) & @CRLF & GetTranslated(625,69, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1,$GUI_UNCHECKED)
@@ -70,7 +70,7 @@ Local $x = 220, $y = 45
 		$x -= 15
 		$cmbTSMeetGE = GUICtrlCreateCombo("", $x , $y + 10, 65, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = GetTranslated(625,15, -1) & @CRLF & GetTranslated(625,16, -1) & @CRLF & GetTranslated(625,17, -1) & @CRLF & GetTranslated(625,18, -1)
-			GUICtrlSetData(-1, GetTranslated(625,19, -1) &"|" & GetTranslated(625,20, -1) & "|" & GetTranslated(625,21, -1), GetTranslated(625,22, -1))
+			GUICtrlSetData(-1, GetTranslated(625,19, -1) &"|" & GetTranslated(625,20, -1) & "|" & GetTranslated(625,21, -1), GetTranslated(625,19, -1))
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "cmbTSGoldElixir")
 		$txtTSMinGold = GUICtrlCreateInput("80000", $x + 85, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))

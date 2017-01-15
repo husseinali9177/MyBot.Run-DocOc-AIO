@@ -9,7 +9,7 @@
 
 Func setupProfileComboBox()
 	; Array to store Profile names to add to ComboBox
-	$profileString = ""
+	Local $profileString = ""
 	Local $aProfiles = _FileListToArray($sProfilePath, "*", $FLTA_FOLDERS)
 	If @error Then
 		; No folders for profiles so lets set the combo box to a generic entry
@@ -42,7 +42,6 @@ Func renameProfile()
 		; Remove the directory and all files and sub folders.
 		DirMove($originalPath, $newPath, $FC_NOOVERWRITE)
 	EndIf
-	IniWrite($sProfilePath & "\profile.ini", "general", "defaultprofile", GUICtrlRead($txtVillageName))
 EndFunc   ;==>renameProfile
 
 Func deleteProfile()
@@ -66,6 +65,7 @@ Func createProfile($bCreateNew = False)
 		setupProfileComboBox()
 		setupProfile()
 		saveConfig()
+		; applyConfig()
 		setupProfileComboBox()
 		selectProfile()
 		Return
@@ -89,7 +89,9 @@ Func createProfile($bCreateNew = False)
 	DirCreate($dirLoots)
 	DirCreate($dirTemp)
 	DirCreate($dirTempDebug)
-	;DirCreate($dirDebug)
+	DirCreate($donateimagefoldercapture)
+	DirCreate($donateimagefoldercaptureWhiteList)
+	DirCreate($donateimagefoldercaptureBlackList)
 
 	If FileExists($config) = 0 Then SetLog("New Profile '" & $sCurrProfile & "' created")
 EndFunc   ;==>createProfile

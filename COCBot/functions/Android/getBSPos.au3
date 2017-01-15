@@ -106,7 +106,7 @@ Func getBSPos()
 		$BSrpos[1] = $aPos[1] + $ClientOffsetY
 
 		$Changed = Not ($aOldValues[0] = $BSpos[0] And $aOldValues[1] = $BSpos[1] And $aOldValues[2] = $BSrpos[0] And $aOldValues[3] = $BSrpos[1])
-		If $debugClick = 1 Or $debugSetlog = 1 And $Changed Then Setlog("$BSpos X,Y = " & $BSpos[0] & "," & $BSpos[1] & "; BSrpos X,Y = " & $BSrpos[0] & "," & $BSrpos[1], $COLOR_DEBUG, "Verdana", "7.5", 0)
+		If $debugClick = 1 Or $debugSetlog = 1 And $Changed Then Setlog("$BSpos X,Y = " & $BSpos[0] & "," & $BSpos[1] & "; BSrpos X,Y = " & $BSrpos[0] & "," & $BSrpos[1], $COLOR_ERROR, "Verdana", "7.5", 0)
 	EndIf
 
     SuspendAndroid($SuspendMode, False)
@@ -144,10 +144,10 @@ Func getAndroidPos($FastCheck = False, $RetryCount = 0)
 		If @error = 0 Then
 			$aWindowClientDiff[0] = $WinWidth - (DllStructGetData($tRECT, "Right") - DllStructGetData($tRECT, "Left"))
 			$aWindowClientDiff[1] = $WinHeight - (DllStructGetData($tRECT, "Bottom") - DllStructGetData($tRECT, "Top"))
-			If $debugSetlog = 1 Then SetLog($title & " Window-Client-Diff: " & $aWindowClientDiff[0] & "," & $aWindowClientDiff[1], $COLOR_DEBUG) ;Debug
+			If $debugSetlog = 1 Then SetLog($title & " Window-Client-Diff: " & $aWindowClientDiff[0] & "," & $aWindowClientDiff[1], $COLOR_INFO)
 			$aAndroidWindow[0] = $AndroidWindowWidth + $aWindowClientDiff[0]
 			$aAndroidWindow[1] = $AndroidWindowHeight + $aWindowClientDiff[1]
-			If $debugSetlog = 1 Then SetLog($title & " Adjusted Window Size: " & $aAndroidWindow[0] & " x " & $aAndroidWindow[1], $COLOR_DEBUG) ;Debug
+			If $debugSetlog = 1 Then SetLog($title & " Adjusted Window Size: " & $aAndroidWindow[0] & " x " & $aAndroidWindow[1], $COLOR_INFO)
 		 Else
 			SetDebugLog("WARNING: Cannot determine " & $Android & " Window Client Area!", $COLOR_ERROR)
 		EndIf
