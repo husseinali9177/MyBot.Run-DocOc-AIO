@@ -159,3 +159,24 @@ Func chkCoCStats()
 	EndIf
 	IniWrite($config, "Stats", "chkCoCStats", $ichkCoCStats)
 EndFunc   ;==>chkCoCStats
+
+Func cmbSwLang();Added Multi Switch Language by rulesss and kychera
+ Switch GUICtrlRead($cmbSwLang) 
+	Case "EN"
+		setForecast2()
+	Case "RU"
+		setForecast3()
+	Case "FR"
+		setForecast4()
+	Case "DE"
+		setForecast5()
+	Case "ES"
+		setForecast6()
+	Case "IT"
+		setForecast7()
+	Case "PT"
+		setForecast8()
+	Case "IN"
+		setForecast9()
+ EndSwitch
+EndFunc	 

@@ -227,6 +227,7 @@ setupProfileComboBox()
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$cmbSwLang = GUICtrlCreateCombo("", $x, $y + 50, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
              GUICtrlSetData(-1, "EN|RU|FR|DE|ES|IT|PT|IN", "EN")
+			 GUICtrlSetOnEvent(-1, "cmbSwLang")
 GUICtrlCreateTabItem("")
 
 $hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(106,1,"Chat"))
