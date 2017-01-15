@@ -29,7 +29,9 @@ $hGUI_DONATE_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,11,"Request Troo
 		$txtRequestCC = GUICtrlCreateInput(GetTranslated(611,3, "Anything please"), $x +40+30 , $y + 15, 214, 20,  BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			_GUICtrlSetTip(-1, GetTranslated(611,4, "This text is used on your request for troops in the Clan chat."))
-
+        $chkRusLang2 = GUICtrlCreateCheckbox(GetTranslated(611,7, "Russian request"), $x + 235, $y - 6)  
+         GUICtrlSetState(-1, $GUI_UNCHECKED)		
+		_GUICtrlSetTip(-1, GetTranslated(611,8, "On. Russian request for troops. Note: The input language in the Android emulator must be RUSSIAN.")) 
 		$x += 29 + 30
 		$y += 60
 		$lblRequestCC1 = GUICtrlCreateLabel(GetTranslated(603,30,"Only during these hours of each day"), $x + 30, $y, 400, 20, $BS_MULTILINE)

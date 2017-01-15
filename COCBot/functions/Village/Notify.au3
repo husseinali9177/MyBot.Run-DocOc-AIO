@@ -477,6 +477,10 @@ Func NotifyRemoteControlProc($OnlyPB)
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,21,"LASTRAID") & GetTranslated(620,22, " - send the last raid loot screenshot of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,23,"LASTRAIDTXT") & GetTranslated(620,24, " - send the last raid loot values of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,25,"SCREENSHOT") & GetTranslated(620,26, " - send a screenshot of") & " <" & $NotifyOrigin & ">"
+							;======addied kychera====== sendchat
+							$txtHelp &= '\n' & GetTranslated(620, 1, -1) & " <" & $NotifyOrigin & "> SENDCHAT <TEXT> - send TEXT in clan chat of <Village Name>"							
+							$txtHelp &= '\n' & GetTranslated(620, 1, -1) & " <" & $NotifyOrigin & "> GETCHATS <STOP|NOW|INTERVAL> - select any of this three option to do")
+							;======>
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,27,"SCREENSHOTHD") & GetTranslated(620,28, " - send a screenshot in high resolution of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,29,"BUILDER") & GetTranslated(620,30, " - send a screenshot of builder status of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,31,"SHIELD") & GetTranslated(620,32, " - send a screenshot of shield status of") & " <" & $NotifyOrigin & ">"
@@ -639,6 +643,43 @@ Func NotifyRemoteControlProc($OnlyPB)
 									NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,97, "Command not recognized") & "\n" & GetTranslated(620,99, "Please push BOT HELP to obtain a complete command list."))
 									NotifyDeleteMessageFromPushBullet($iden[$x])
 								EndIf
+						;=================================== "Chat Bot" ===================================	addied kychera 12.2016===
+						    If StringInStr($body[$x], StringUpper($NotifyOrigin) & " SENDCHAT ") Then
+								$FoundChatMessage = 1
+								$chatMessage = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($NotifyOrigin) & " SENDCHAT "))
+								$chatMessage = StringLower($chatMessage)
+								ChatbotPushbulletQueueChat($chatMessage)
+								NotifyPushToPushBullet($NotifyOrigin & " | Chat queued, will send on next idle")
+								NotifyDeleteMessageFromPushBullet($iden[$x])
+							ElseIf StringInStr($body[$x], StringUpper($NotifyOrigin) & " GETCHATS ") Then
+								$FoundChatMessage = 1
+								$Interval = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($NotifyOrigin) & " GETCHATS "))
+								If $Interval = "STOP" Then
+									ChatbotPushbulletStopChatRead()
+									NotifyPushToPushBullet($NotifyOrigin & " | Stopping interval sending")
+								ElseIf $Interval = "NOW" Then
+									ChatbotPushbulletQueueChatRead()
+									NotifyPushToPushBullet($NotifyOrigin & " | Command queued, will send clan chat image on next idle")
+								Else
+									If Number($Interval) <> 0 Then
+										ChatbotPushbulletIntervalChatRead(Number($Interval))
+										NotifyPushToPushBullet($NotifyOrigin & " | Command queued, will send clan chat image on interval")
+									Else
+										SetLog("Chatbot: incorrect command syntax, Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL", $COLOR_RED)
+										NotifyPushToPushBullet($NotifyOrigint & " | Command not recognized" & "\n" & "Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL")
+									EndIf
+								EndIf
+									NotifyDeleteMessageFromPushBullet($iden[$x])
+							Else
+								Local $lenstr = StringLen(GetTranslated(620, 1, -1) & " " & StringUpper($NotifyOrigin) & " " & "")
+								Local $teststr = StringLeft($body[$x], $lenstr)
+								If $teststr = (GetTranslated(620, 1, -1) & " " & StringUpper($NotifyOrigin) & " " & "") Then
+								SetLog("Pushbullet: received command syntax wrong, command ignored.", $COLOR_RED)
+									NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620, 51, "Command not recognized") & "\n" & GetTranslated(620, 52, "Please push BOT HELP to obtain a complete command list."))
+									NotifyDeleteMessageFromPushBullet($iden[$x])
+								EndIf
+							EndIf
+                        ;============>
 					EndSwitch
 					$body[$x] = ""
 					$iden[$x] = ""
@@ -684,7 +725,10 @@ Func NotifyRemoteControlProc($OnlyPB)
 						$txtHelp &= "\n" & GetTranslated(620,43,"HIBERNATE") & GetTranslated(620,44, " - Hibernate host PC")
 						$txtHelp &= "\n" & GetTranslated(620,46,"SHUTDOWN") & GetTranslated(620,48, " - Shut down host PC")
 						$txtHelp &= "\n" & GetTranslated(620,50,"STANDBY") & GetTranslated(620,51, " - Standby host PC")
-
+                        ;==========addied kychera=====						
+						$txtHelp &= "\n" & GetTranslated(18, 111, "GETCHATS <INTERVAL|NOW|STOP> - to get the latest clan chat as an image")
+						$txtHelp &= "\n" & GetTranslated(18, 112, "SENDCHAT <chat message> - to send a chat to your clan")
+						;=============================>
 						NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,100,"Request for Help") & "\n" & $txtHelp)
 						SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,702,"Your request has been received from ") & $NotifyOrigin & ". " & GetTranslated(620,703,"Help has been sent"), $COLOR_GREEN)
 					Case GetTranslated(620,9,"RESTART"), '\UD83D\UDD01 ' & GetTranslated(620,9,"RESTART")
@@ -829,6 +873,34 @@ Func NotifyRemoteControlProc($OnlyPB)
 						SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,702,"Your request has been received from ") & $NotifyOrigin & ". " & GetTranslated(620,723,"Standby PC"), $COLOR_GREEN)
 						NotifyPushToTelegram(GetTranslated(620,52,"PC Standby sequence initiated"))
 						Shutdown(32)
+					;=================================== "Chat Bot" ===================================addied Kychera 12.2016
+					Case Else
+						If StringInStr($TGActionMSG, "SENDCHAT") Then
+							$FoundChatMessage = 1
+							$chatMessage = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("SENDCHAT "))
+							$chatMessage = StringLower($chatMessage)
+							ChatbotPushbulletQueueChat($chatMessage)
+							NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 97, "Chat queued, will send on next idle"))
+						ElseIf StringInStr($TGActionMSG, "GETCHATS") Then
+							$FoundChatMessage = 1
+							$Interval = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("GETCHATS "))
+							If $Interval = "STOP" Then
+								ChatbotPushbulletStopChatRead()
+								NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 117, "Stopping interval sending"))
+							ElseIf $Interval = "NOW" Then
+								ChatbotPushbulletQueueChatRead()
+								NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 118, "Command queued, will send clan chat image on next idle"))
+							Else
+								If Number($Interval) <> 0 Then
+									ChatbotPushbulletIntervalChatRead(Number($Interval))
+									NotifyPushToTelegram($NotifyOrigint & " | " & GetTranslated(18, 119, "Command queued, will send clan chat image on interval"))
+								Else
+									SetLog("Telegram: received command syntax wrong, command ignored.", $COLOR_RED)
+									NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 46, "Command not recognized") & "\n" & GetTranslated(18, 47, "Please push BOT HELP to obtain a complete command list."))
+								EndIf
+							EndIf
+						EndIf
+                    ;=========================>
 				EndSwitch
 			EndIf
 		EndIf
@@ -1088,6 +1160,16 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				If $NotifyPBEnabled = 1 Then SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,128, "Your Army Camps are now Full"), $COLOR_GREEN)
 				If $NotifyTGEnabled = 1 Then SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,128, "Your Army Camps are now Full"), $COLOR_GREEN)
 			EndIf
+;===============Modified kychera===========
+		Case "SleepBot"
+		    If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertBOTSleep = 1 Then
+		      NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,736, "Bot Sleep") & "..." & "\n" & $sWaitTime)
+		    EndIf
+		Case "WakeUpBot"
+		    If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertBOTSleep = 1 Then
+		      NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,737, "Wake Up Bot"))
+		    EndIf
+;==========================================
 		Case "Misc"
 			NotifyPushToBoth($Message)
 	EndSwitch
