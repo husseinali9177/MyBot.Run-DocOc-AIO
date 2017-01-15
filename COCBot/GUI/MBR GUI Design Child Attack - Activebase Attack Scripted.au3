@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -21,51 +23,64 @@ $hGUI_ACTIVEBASE_ATTACK_SCRIPTED = GUICreate("", $_GUI_MAIN_WIDTH - 195, $_GUI_M
 Local $x = 25, $y = 20
 	$grpAttackCSVAB = GUICtrlCreateGroup(GetTranslated(607,1, -1), $x - 20, $y - 20, 270, 306)
 ;	$x -= 15
-	    $chkmakeIMGCSVAB = GUICtrlCreateCheckbox(GetTranslated(607,2, -1), $x + 150, $y, -1, -1)
-			$txtTip = GetTranslated(607,3, -1)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			GUICtrlSetState(-1, $GUI_HIDE)
-			_GUICtrlSetTip(-1, $txtTip)
+;	    $chkmakeIMGCSVAB = GUICtrlCreateCheckbox(GetTranslated(607,2, -1), $x + 150, $y, -1, -1)
+;			$txtTip = GetTranslated(607,3, -1)
+;			GUICtrlSetState(-1, $GUI_UNCHECKED)
+;			GUICtrlSetState(-1, $GUI_HIDE)
+;			_GUICtrlSetTip(-1, $txtTip)
 		$y +=15
-		$cmbScriptNameAB=GUICtrlCreateCombo("", $x , $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbScriptNameAB=GUICtrlCreateCombo("", $x , $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL, $WS_VSCROLL))
 			$txtTip = GetTranslated(607,4, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "cmbScriptNameAB")
-		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 192, $y + 2, 16, 16)
+		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnReload, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,5, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameAB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-			$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 180, 118)
-			PopulateComboScriptsFilesAB() ; populate
-			$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 192, $y + 2, 16, 16)
+		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
+		$cmbScriptRedlineImplAB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline|External Edges"))
+			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$LB])
+			$txtTip = GetTranslated(607,10, "Choose the Redline implementation. ImgLoc Redline is default and best.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptRedlineImplAB")
+		$cmbScriptDroplineAB = GUICtrlCreateCombo("", $x, $y + 220, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslated(607,11, "Drop line fix outer corner|Drop line fist Redline point|Full Drop line fix outer corner|Full Drop line fist Redline point|No Drop line"))
+			_GUICtrlComboBox_SetCurSel(-1, $iDroplineEdge[$LB])
+			$txtTip = GetTranslated(607,12, "Choose the drop line edges. Default is outer corner and safer. First Redline point can improve attack.")
+			_GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "cmbScriptDroplineAB")
+		$picreloadScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnEdit, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,6, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "EditScriptAB")
 		$y +=25
-			$picnewScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 192, $y + 2, 16, 16)
+		$picnewScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnAddcvs, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,7, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "NewScriptAB")
 		$y +=25
-			$picduplicateScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 192, $y + 2, 16, 16)
+		$picduplicateScriptsAB = GUICtrlCreateIcon($pIconLib, $eIcnCopy, $x + 210, $y + 2, 16, 16)
 			$txtTip =  GetTranslated(607,8, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
 
 		$y += 140
 		$btnAttNowLB = GUICtrlCreateButton(GetTranslated(607, 34, -1), $x + 85, $y - 20, 80, -1)
-				;GUISetState(@SW_SHOW)
-				GUICtrlSetOnEvent(-1, "AttackNowLB")
+			;GUISetState(@SW_SHOW)
+			GUICtrlSetOnEvent(-1, "AttackNowLB")
 
-Local $x = 50, $y = 275
+		Local $x = 50, $y = 275
 
 		GUICtrlCreateLabel("CSV Deployment Speed", $x - 2, $y, -1, -1)
 		$cmbCSVSpeed[$LB] = GUICtrlCreateCombo("", $x + 122, $y - 5, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, "0.5x|0.75x|1x|1.25x|1.5x|2x|3x", "1x")
 
-GUICtrlCreateGroup("", -99, -99, 1, 1)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;GUISetState()
 

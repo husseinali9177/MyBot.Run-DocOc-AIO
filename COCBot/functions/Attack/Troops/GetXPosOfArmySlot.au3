@@ -6,7 +6,7 @@
 ;                  $xOffsetFor11Slot    - an unknown value.
 ; Return values .: None
 ; Author ........:
-; Modified ......: Promac 08-2016
+; Modified ......: Promac 12-2016
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -14,33 +14,45 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot)
-
-	Local $SlotPixelColor, $SlotPixelColorTemp, $SlotPixelColor1
+Func GetXPosOfArmySlot($slotNumber, $xOffsetFor11Slot, $bNeedNewCapture = Default)
+	If $bNeedNewCapture = Default Then $bNeedNewCapture = True
+	Local $CheckSlot12, $SlotPixelColorTemp, $SlotPixelColor1
 
 	$xOffsetFor11Slot -= 8
 
 	Switch $slotNumber
-		Case 0 To 4
-			$SlotComp = 0
-		Case 5
+		Case 7
 			$SlotComp = 1
 		Case Else
-			$SlotComp = 2
+			$SlotComp = 0
 	EndSwitch
 
 	If $slotNumber = $King Or $slotNumber = $Queen Or $slotNumber = $Warden Then $xOffsetFor11Slot += 8
 
+	Local $oldBitmap = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 	; check Dark color on slot 0 to verify if exists > 11 slots
-	$SlotPixelColor = _ColorCheck(_GetPixelColor(15, 580 + $bottomOffsetY, True), Hex(0x07202A, 6), 15)
-
-	If $debugSetlog = 1 Then
-		Setlog(" Slot 0  _ColorCheck 0x040505 at (15," & 580 + $bottomOffsetY & "): " & $SlotPixelColor, $COLOR_DEBUG) ;Debug
-		$SlotPixelColorTemp = _GetPixelColor(15, 580 + $bottomOffsetY, $bCapturePixel)
-		Setlog(" Slot 0  _GetPixelColo(15," & 580 + $bottomOffsetY & "): " & $SlotPixelColorTemp, $COLOR_DEBUG) ;Debug
+	; $SlotPixelColor = _ColorCheck(_GetPixelColor(17, 580 + $bottomOffsetY, True), Hex(0x07202A, 6), 20)
+	If $bNeedNewCapture = True Then
+		$CheckSlot12 = _ColorCheck(_GetPixelColor(17, 643, True), Hex(0x478AC6, 6), 15) Or _  	; Slot Filled / Background Blue / More than 11 Slots
+					_ColorCheck(_GetPixelColor(17, 643, True), Hex(0x434343, 6), 10)   		; Slot deployed / Gray / More than 11 Slots
+	Else
+		$CheckSlot12 = _ColorCheck(Hex(_GDIPlus_BitmapGetPixel($oldBitmap, 17, 643), 6), Hex(0x478AC6, 6), 15) Or _  	; Slot Filled / Background Blue / More than 11 Slots
+					_ColorCheck(Hex(_GDIPlus_BitmapGetPixel($oldBitmap, 17, 643), 6), Hex(0x434343, 6), 10)   		; Slot deployed / Gray / More than 11 Slots
 	EndIf
 
-	If $SlotPixelColor = True Then
+	If $debugSetlog = 1 Then
+		Setlog(" Slot 0  _ColorCheck 0x478AC6 at (17," & 643 & "): " & $CheckSlot12, $COLOR_DEBUG) ;Debug
+		If $bNeedNewCapture = True Then
+			$SlotPixelColorTemp = _GetPixelColor(17, 643, $bCapturePixel)
+		Else
+			$SlotPixelColorTemp = Hex(_GDIPlus_BitmapGetPixel($oldBitmap, 17, 643), 6) ; Get pixel color
+		EndIf
+		Setlog(" Slot 0  _GetPixelColo(17," & 643 & "): " & $SlotPixelColorTemp, $COLOR_DEBUG) ;Debug
+	EndIf
+
+	_GDIPlus_BitmapDispose($oldBitmap)
+
+	If $CheckSlot12 = False Then
 		Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72)
 	Else
 		Return $xOffsetFor11Slot + $SlotComp + ($slotNumber * 72) - 13

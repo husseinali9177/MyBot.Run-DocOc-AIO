@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
-; Modified ......: Hervidero (2015)
+; Modified ......: Hervidero (2015), Boju (11-2016), MR.ViPER (11-2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -15,44 +15,32 @@
 
 Func chkUseQTrain()
 	If GUICtrlRead($hChk_UseQTrain) = $GUI_CHECKED Then
-		GUICtrlSetState($hRadio_Army1, $GUI_ENABLE)
-		GUICtrlSetState($hRadio_Army2, $GUI_ENABLE)
-		GUICtrlSetState($hRadio_Army3, $GUI_ENABLE)
-		GUICtrlSetState($hRadio_Army12, $GUI_ENABLE)	;	Adding Quicktrain Combo - Demen
-		GUICtrlSetState($hRadio_Army123, $GUI_ENABLE)	;	Adding Quicktrain Combo - Demen
-		GUICtrlSetState($hRadio_ArmyRandom, $GUI_ENABLE)
-		;GUICtrlSetState($grpTrainTroops, $GUI_DISABLE)
-		For $i = $txtNumBarb To $txtNumLava
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
-		For $i = $txtNumLightningSpell To $txtNumSkeletonSpell
-			GUICtrlSetState($i, $GUI_DISABLE)
-		Next
+		_GUI_Value_STATE("ENABLE", $hRadio_Army1 & "#" & $hRadio_Army2 & "#" & $hRadio_Army3)
+		_GUI_Value_STATE("DISABLE", $grpTrainTroops)
+		_GUI_Value_STATE("DISABLE", $grpCookSpell)
+		GUICtrlSetData($lblTotalCountCamp, " 0s")
+		GUICtrlSetData($lblTotalCountSpell, " 0s")
+		GUICtrlSetData($lblElixirCostCamp, "0")
+		GUICtrlSetData($lblDarkCostCamp, "0")
+		GUICtrlSetData($lblElixirCostSpell, "0")
+		GUICtrlSetData($lblDarkCostSpell, "0")
 	Else
-		GUICtrlSetState($hRadio_Army1, $GUI_DISABLE)
-		GUICtrlSetState($hRadio_Army2, $GUI_DISABLE)
-		GUICtrlSetState($hRadio_Army3, $GUI_DISABLE)
-		GUICtrlSetState($hRadio_Army12, $GUI_DISABLE)	;	Adding Quicktrain Combo - Demen
-		GUICtrlSetState($hRadio_Army123, $GUI_DISABLE)	;	Adding Quicktrain Combo - Demen
-		GUICtrlSetState($hRadio_ArmyRandom, $GUI_DISABLE)
-		;GUICtrlSetState($grpTrainTroops, $GUI_ENABLE)
-		For $i = $txtNumBarb To $txtNumLava
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
-		For $i = $txtNumLightningSpell To $txtNumSkeletonSpell
-			GUICtrlSetState($i, $GUI_ENABLE)
-		Next
+		_GUI_Value_STATE("DISABLE", $hRadio_Army1 & "#" & $hRadio_Army2 & "#" & $hRadio_Army3)
+		_GUI_Value_STATE("ENABLE", $grpTrainTroops)
+		_GUI_Value_STATE("ENABLE", $grpCookSpell)
+		lblTotalCount()
+		lblTotalCountSpell()
 	EndIf
-EndFunc
+EndFunc   ;==>chkUseQTrain
 
 Func SetComboTroopComp()
 	Local $bWasRedraw = SetRedrawBotWindow(False)
 	Local $ArmyCampTemp = 0
 
 	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
-		$ArmyCampTemp = Floor(GUICtrlRead($txtTotalCampForced) * GUICtrlRead($txtFullTroop)/100)
+		$ArmyCampTemp = Floor(GUICtrlRead($txtTotalCampForced) * GUICtrlRead($txtFullTroop) / 100)
 	Else
-		$ArmyCampTemp = Floor($TotalCamp * GUICtrlRead($txtFullTroop)/100)
+		$ArmyCampTemp = Floor($TotalCamp * GUICtrlRead($txtFullTroop) / 100)
 	EndIf
 
 	Local $TotalTroopsTOtrain = 0
@@ -60,6 +48,14 @@ Func SetComboTroopComp()
 	lblTotalCount()
 	SetRedrawBotWindow($bWasRedraw)
 EndFunc   ;==>SetComboTroopComp
+
+Func chkTotalCampForced()
+	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
+		GUICtrlSetState($txtTotalCampForced, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($txtTotalCampForced, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkTotalCampForced
 
 Func lblTotalCount()
 
@@ -69,7 +65,7 @@ Func lblTotalCount()
 	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
 		$ArmyCampTemp = Floor(GUICtrlRead($txtTotalCampForced) * GUICtrlRead($txtFullTroop) / 100)
 	Else
-		$ArmyCampTemp = Floor($TotalCamp * GUICtrlRead($txtFullTroop)/100)
+		$ArmyCampTemp = Floor($TotalCamp * GUICtrlRead($txtFullTroop) / 100)
 	EndIf
 
 	For $i = 0 To UBound($TroopName) - 1
@@ -80,139 +76,268 @@ Func lblTotalCount()
 		EndIf
 	Next
 
-	#CS		This Codes Not Needed With New 'True' Train Order and new Training System ;)
-	For $i = 0 To UBound($TroopDarkName) - 1
-		If GUICtrlRead(Eval("txtNum" & $TroopDarkName[$i])) > 0 Then
-			$TotalTroopsTOtrain += GUICtrlRead(Eval("txtNum" & $TroopDarkName[$i])) * $TroopDarkHeight[$i]
-		Else
-			GUICtrlSetData(Eval("txtNum" & $TroopDarkName[$i]), 0)
-		EndIf
-	Next
-	#CE
+	GUICtrlSetData($lblCountTotal, String($TotalTroopsTOtrain))
 
-	GUICtrlSetData($lblTotalCount, String($TotalTroopsTOtrain))
-
-	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($lblTotalCount) = GUICtrlRead($txtTotalCampForced) Then
-		GUICtrlSetBkColor($lblTotalCount, $COLOR_MONEYGREEN)
-	ElseIf GUICtrlRead($lblTotalCount) = $ArmyCampTemp Then
-		GUICtrlSetBkColor($lblTotalCount, $COLOR_MONEYGREEN)
-	ElseIf GUICtrlRead($lblTotalCount) > $ArmyCampTemp / 2 And GUICtrlRead($lblTotalCount) < $ArmyCampTemp Then
-		GUICtrlSetBkColor($lblTotalCount, $COLOR_ORANGE)
+	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($lblCountTotal) = GUICtrlRead($txtTotalCampForced) Then
+		GUICtrlSetBkColor($lblCountTotal, $COLOR_MONEYGREEN)
+	ElseIf GUICtrlRead($lblCountTotal) = $ArmyCampTemp Then
+		GUICtrlSetBkColor($lblCountTotal, $COLOR_MONEYGREEN)
+	ElseIf GUICtrlRead($lblCountTotal) > $ArmyCampTemp / 2 And GUICtrlRead($lblCountTotal) < $ArmyCampTemp Then
+		GUICtrlSetBkColor($lblCountTotal, $COLOR_ORANGE)
 	Else
-		GUICtrlSetBkColor($lblTotalCount, $COLOR_RED)
+		GUICtrlSetBkColor($lblCountTotal, $COLOR_RED)
 	EndIf
 
 	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED Then
-		GUICtrlSetData($caltotaltroops, (Floor((GUICtrlRead($lblTotalCount) / GUICtrlRead($txtTotalCampForced)) * 100) < 1 ? (GUICtrlRead($lblTotalCount) > 0 ? 1 : 0) : Floor((GUICtrlRead($lblTotalCount) / GUICtrlRead($txtTotalCampForced)) * 100)))
+		GUICtrlSetData($caltotaltroops, (Floor((GUICtrlRead($lblCountTotal) / GUICtrlRead($txtTotalCampForced)) * 100) < 1 ? (GUICtrlRead($lblCountTotal) > 0 ? 1 : 0) : Floor((GUICtrlRead($lblCountTotal) / GUICtrlRead($txtTotalCampForced)) * 100)))
 	Else
-		GUICtrlSetData($caltotaltroops, (Floor((GUICtrlRead($lblTotalCount) / $ArmyCampTemp) * 100) < 1 ? (GUICtrlRead($lblTotalCount) > 0 ? 1 : 0) : Floor((GUICtrlRead($lblTotalCount) / $ArmyCampTemp) * 100)))
+		GUICtrlSetData($caltotaltroops, (Floor((GUICtrlRead($lblCountTotal) / $ArmyCampTemp) * 100) < 1 ? (GUICtrlRead($lblCountTotal) > 0 ? 1 : 0) : Floor((GUICtrlRead($lblCountTotal) / $ArmyCampTemp) * 100)))
 	EndIf
 
-	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($lblTotalCount) > GUICtrlRead($txtTotalCampForced) Then
+	If GUICtrlRead($chkTotalCampForced) = $GUI_CHECKED And GUICtrlRead($lblCountTotal) > GUICtrlRead($txtTotalCampForced) Then
 		GUICtrlSetState($lbltotalprogress, $GUI_SHOW)
-	ElseIf GUICtrlRead($lblTotalCount) > $ArmyCampTemp Then
+	ElseIf GUICtrlRead($lblCountTotal) > $ArmyCampTemp Then
 		GUICtrlSetState($lbltotalprogress, $GUI_SHOW)
 	Else
 		GUICtrlSetState($lbltotalprogress, $GUI_HIDE)
 	EndIf
 
+	lblTotalCount2()
 EndFunc   ;==>lblTotalCount
 
-Func lblTotalCountSpell()
-	_GUI_Value_STATE("HIDE", $groupListSpells)
-	; calculate $iTotalTrainSpaceSpell value
-	$iTotalTrainSpaceSpell = (GUICtrlRead($txtNumLightningSpell) * 2) + (GUICtrlRead($txtNumHealSpell) * 2) + (GUICtrlRead($txtNumRageSpell) * 2) + (GUICtrlRead($txtNumJumpSpell) * 2) + _
-			(GUICtrlRead($txtNumFreezeSpell) * 2) + (GUICtrlRead($txtNumCloneSpell) * 4) + GUICtrlRead($txtNumPoisonSpell) + GUICtrlRead($txtNumHasteSpell) + GUICtrlRead($txtNumEarthSpell) + GUICtrlRead($txtNumSkeletonSpell)
-
-	For $i = 0 To UBound($TxtNameSpell) - 1
-		If GUICtrlRead(Eval("txtNum" & $TxtNameSpell[$i])) < 0 Then
-			GUICtrlSetData(Eval("txtNum" & $TxtNameSpell[$i]), 0)
+Func lblTotalCount2()
+	Local $TotalTotalTimeTroop = 0
+	Local $NbrOfBarrack = 4 ;For the moment fix to 4 until fine detect level of each Barrack
+	Local $NbrOfDarkBarrack = 2 ;For the moment fix to 2 until fine detect level of each Barrack
+	For $i = 0 To UBound($TroopName) - 1
+		Local $NbrOfTroop = GUICtrlRead(Eval("txtNum" & $TroopName[$i]))
+		Local $LevOfTroop = Eval("itxtLev" & $TroopName[$i])
+		If $NbrOfTroop > 0 And $LevOfTroop > 0 Then
+			If $TroopType[$i] = "e" Then
+				If IsInt($NbrOfTroop / $NbrOfBarrack) = 1 then
+					$TotalTotalTimeTroop += ($NbrOfTroop / $NbrOfBarrack) * $TroopTimes[$i]
+				Else
+					$TotalTotalTimeTroop += (Ceiling($NbrOfTroop / $NbrOfBarrack)) * $TroopTimes[$i]
+					$TotalTotalTimeTroop += ((Ceiling($NbrOfTroop / $NbrOfBarrack) - 1) - (Floor($NbrOfTroop / $NbrOfBarrack))) * $TroopTimes[$i]
+				EndIf
+			ElseIf $TroopType[$i] = "d" Then
+				If IsInt($NbrOfTroop / $NbrOfDarkBarrack) = 1 then
+					$TotalTotalTimeTroop += ($NbrOfTroop / $NbrOfDarkBarrack) * $TroopTimes[$i]
+				Else
+					$TotalTotalTimeTroop += (Ceiling($NbrOfTroop / $NbrOfDarkBarrack)) * $TroopTimes[$i]
+					$TotalTotalTimeTroop += ((Ceiling($NbrOfTroop / $NbrOfDarkBarrack) - 1) - (Floor($NbrOfTroop / $NbrOfDarkBarrack))) * $TroopTimes[$i]
+				EndIf
+			EndIf
 		EndIf
 	Next
-	
-	If $iTotalTrainSpaceSpell < GUICtrlRead($txtTotalCountSpell) + 1 Then
-		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumHealSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumRageSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumJumpSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumFreezeSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumCloneSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumPoisonSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_MONEYGREEN)
-	Else
-		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumHealSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumRageSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumFreezeSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumCloneSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumJumpSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumPoisonSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_RED)
-	EndIf
+
+	$TotalTotalTimeTroop = CalculTimeTo($TotalTotalTimeTroop)
+	GUICtrlSetData($lblTotalCountCamp, $TotalTotalTimeTroop)
+
+	CalCostCamp()
+EndFunc   ;==>lblTotalCount2
+
+Func lblTotalCountSpell2()
+	Local $tmpTotalTrainSpaceSpell = -1
+	; calculate $iTotalTrainSpaceSpell value
+	$tmpTotalTrainSpaceSpell = (Eval("LSpell" & "Comp") * 2) + (Eval("HSpell" & "Comp") * 2) + (Eval("RSpell" & "Comp") * 2) + (Eval("JSpell" & "Comp") * 2) + _
+			(Eval("FSpell" & "Comp") * 2) + (Eval("CSpell" & "Comp") * 4) + Eval("PSpell" & "Comp") + Eval("HaSpell" & "Comp") + Eval("ESpell" & "Comp") + Eval("SkSpell" & "Comp")
+	$iTotalTrainSpaceSpell = $tmpTotalTrainSpaceSpell
+	;If $tmpTotalTrainSpaceSpell <> $iTotalTrainSpaceSpell Then
+		If $iTotalTrainSpaceSpell < GUICtrlRead($txtTotalCountSpell) + 1 Then
+			GUICtrlSetBkColor($txtNumLSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumHSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumRSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumJSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumFSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumCSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumPSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumESpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumHaSpell, $COLOR_MONEYGREEN)
+			GUICtrlSetBkColor($txtNumSkSpell, $COLOR_MONEYGREEN)
+		Else
+			GUICtrlSetBkColor($txtNumLSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumHSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumRSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumFSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumCSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumJSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumPSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumESpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumHaSpell, $COLOR_RED)
+			GUICtrlSetBkColor($txtNumSkSpell, $COLOR_RED)
+		EndIf
+	;EndIf
+
+	Local $TotalTotalTimeSpell = 0
+	$TotalTotalTimeSpell = (Eval("LSpell" & "Comp") * 360) + _
+			(Eval("HSpell" & "Comp") * 360) + _
+			(Eval("RSpell" & "Comp") * 360) + _
+			(Eval("JSpell" & "Comp") * 360) + _
+			(Eval("FSpell" & "Comp") * 360) + _
+			(Eval("CSpell" & "Comp") * 360) + _
+			(Eval("PSpell" & "Comp") * 180) + _
+			(Eval("HaSpell" & "Comp") * 180) + _
+			(Eval("ESpell" & "Comp") * 180) + _
+			(Eval("SkSpell" & "Comp") * 180)
+	$TotalTotalTimeSpell = CalculTimeTo($TotalTotalTimeSpell)
+	GUICtrlSetData($lblTotalCountSpell, $TotalTotalTimeSpell)
+
+	CalCostSpell()
+
+EndFunc   ;==>lblTotalCountSpell2
+
+Func lblTotalCountSpell()
+	Local $bWasRedraw = SetRedrawBotWindow(False)
+	_GUI_Value_STATE("HIDE", $groupListSpells)
 	$iTownHallLevel = Int($iTownHallLevel)
 	If $iTownHallLevel > 4 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupLightning)
+		If $itxtLevLSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupLightning)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnLightning)
+		EndIf
 	Else
-		GUICtrlSetData($txtNumLightningSpell, 0)
-		GUICtrlSetData($txtNumRageSpell, 0)
-		GUICtrlSetData($txtNumHealSpell, 0)
-		GUICtrlSetData($txtNumJumpSpell, 0)
-		GUICtrlSetData($txtNumFreezeSpell, 0)
-		GUICtrlSetData($txtNumCloneSpell, 0)
-		GUICtrlSetData($txtNumPoisonSpell, 0)
-		GUICtrlSetData($txtNumEarthSpell, 0)
-		GUICtrlSetData($txtNumHasteSpell, 0)
-		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumLSpell, 0)
+		GUICtrlSetData($txtNumRSpell, 0)
+		GUICtrlSetData($txtNumHSpell, 0)
+		GUICtrlSetData($txtNumJSpell, 0)
+		GUICtrlSetData($txtNumFSpell, 0)
+		GUICtrlSetData($txtNumCSpell, 0)
+		GUICtrlSetData($txtNumPSpell, 0)
+		GUICtrlSetData($txtNumESpell, 0)
+		GUICtrlSetData($txtNumHaSpell, 0)
+		GUICtrlSetData($txtNumSkSpell, 0)
 		GUICtrlSetData($txtTotalCountSpell, 0)
+		GUICtrlSetData($txtLevLSpell, 0)
+		GUICtrlSetData($txtLevRSpell, 0)
+		GUICtrlSetData($txtLevHSpell, 0)
+		GUICtrlSetData($txtLevJSpell, 0)
+		GUICtrlSetData($txtLevFSpell, 0)
+		GUICtrlSetData($txtLevCSpell, 0)
+		GUICtrlSetData($txtLevPSpell, 0)
+		GUICtrlSetData($txtLevESpell, 0)
+		GUICtrlSetData($txtLevHaSpell, 0)
+		GUICtrlSetData($txtLevSkSpell, 0)
 	EndIf
 	If $iTownHallLevel > 5 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupHeal)
+		If $itxtLevHSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupHeal)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnHeal)
+		EndIf
 	Else
-		GUICtrlSetData($txtNumRageSpell, 0)
-		GUICtrlSetData($txtNumJumpSpell, 0)
-		GUICtrlSetData($txtNumFreezeSpell, 0)
-		GUICtrlSetData($txtNumCloneSpell, 0)
-		GUICtrlSetData($txtNumPoisonSpell, 0)
-		GUICtrlSetData($txtNumEarthSpell, 0)
-		GUICtrlSetData($txtNumHasteSpell, 0)
-		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumRSpell, 0)
+		GUICtrlSetData($txtNumJSpell, 0)
+		GUICtrlSetData($txtNumFSpell, 0)
+		GUICtrlSetData($txtNumCSpell, 0)
+		GUICtrlSetData($txtNumPSpell, 0)
+		GUICtrlSetData($txtNumESpell, 0)
+		GUICtrlSetData($txtNumHaSpell, 0)
+		GUICtrlSetData($txtNumSkSpell, 0)
+		GUICtrlSetData($txtLevRSpell, 0)
+		GUICtrlSetData($txtLevJSpell, 0)
+		GUICtrlSetData($txtLevFSpell, 0)
+		GUICtrlSetData($txtLevCSpell, 0)
+		GUICtrlSetData($txtLevPSpell, 0)
+		GUICtrlSetData($txtLevESpell, 0)
+		GUICtrlSetData($txtLevHaSpell, 0)
+		GUICtrlSetData($txtLevSkSpell, 0)
 	EndIf
 	If $iTownHallLevel > 6 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupRage)
+		If $itxtLevRSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupRage)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnRage)
+		EndIf
 	Else
-		GUICtrlSetData($txtNumJumpSpell, 0)
-		GUICtrlSetData($txtNumFreezeSpell, 0)
-		GUICtrlSetData($txtNumCloneSpell, 0)
-		GUICtrlSetData($txtNumPoisonSpell, 0)
-		GUICtrlSetData($txtNumEarthSpell, 0)
-		GUICtrlSetData($txtNumHasteSpell, 0)
-		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumJSpell, 0)
+		GUICtrlSetData($txtNumFSpell, 0)
+		GUICtrlSetData($txtNumCSpell, 0)
+		GUICtrlSetData($txtNumPSpell, 0)
+		GUICtrlSetData($txtNumESpell, 0)
+		GUICtrlSetData($txtNumHaSpell, 0)
+		GUICtrlSetData($txtNumSkSpell, 0)
+		GUICtrlSetData($txtLevJSpell, 0)
+		GUICtrlSetData($txtLevFSpell, 0)
+		GUICtrlSetData($txtLevCSpell, 0)
+		GUICtrlSetData($txtLevPSpell, 0)
+		GUICtrlSetData($txtLevESpell, 0)
+		GUICtrlSetData($txtLevHaSpell, 0)
+		GUICtrlSetData($txtLevSkSpell, 0)
 	EndIf
 	If $iTownHallLevel > 7 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupPoison)
-		_GUI_Value_STATE("SHOW", $groupEarthquake)
+		If $itxtLevPSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupPoison)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnPoison)
+		EndIf
+		If $itxtLevESpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupEarthquake)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnEarthquake)
+		EndIf
 	Else
-		GUICtrlSetData($txtNumJumpSpell, 0)
-		GUICtrlSetData($txtNumFreezeSpell, 0)
-		GUICtrlSetData($txtNumCloneSpell, 0)
-		GUICtrlSetData($txtNumHasteSpell, 0)
-		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumJSpell, 0)
+		GUICtrlSetData($txtNumFSpell, 0)
+		GUICtrlSetData($txtNumCSpell, 0)
+		GUICtrlSetData($txtNumHaSpell, 0)
+		GUICtrlSetData($txtNumSkSpell, 0)
+		GUICtrlSetData($txtLevJSpell, 0)
+		GUICtrlSetData($txtLevFSpell, 0)
+		GUICtrlSetData($txtLevCSpell, 0)
+		GUICtrlSetData($txtLevHaSpell, 0)
+		GUICtrlSetData($txtLevSkSpell, 0)
 	EndIf
 	If $iTownHallLevel > 8 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupJumpSpell)
-		_GUI_Value_STATE("SHOW", $groupFreeze)
-		_GUI_Value_STATE("SHOW", $groupHaste)
-		_GUI_Value_STATE("SHOW", $groupSkeleton)
+		If $itxtLevJSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupJumpSpell)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnJumpSpell)
+		EndIf
+		If $itxtLevFSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupFreeze)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnFreeze)
+		EndIf
+		If $itxtLevHaSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupHaste)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnHaste)
+		EndIf
+		If $itxtLevSkSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupSkeleton)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnSkeleton)
+		EndIf
 	Else
-		GUICtrlSetData($txtNumCloneSpell, 0)
+		GUICtrlSetData($txtNumCSpell, 0)
+		GUICtrlSetData($txtLevCSpell, 0)
 	EndIf
 	If $iTownHallLevel > 9 Or $iTownHallLevel = 0 Then
-		_GUI_Value_STATE("SHOW", $groupClone)
+		If $itxtLevCSpell > 0 Then
+			_GUI_Value_STATE("SHOW", $groupClone)
+		Else
+			_GUI_Value_STATE("SHOW", $groupIcnClone)
+		EndIf
 	EndIf
+;~ 	Local $TotalTotalTimeSpell = 0
+;~ 	$TotalTotalTimeSpell += Eval("LSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("HSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("RSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("JSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("FSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("CSpell" & "Comp") * 360
+;~ 	$TotalTotalTimeSpell += Eval("PSpell" & "Comp") * 180
+;~ 	$TotalTotalTimeSpell += Eval("ESpell" & "Comp") * 180
+;~ 	$TotalTotalTimeSpell += Eval("HaSpell" & "Comp") * 180
+;~ 	$TotalTotalTimeSpell += Eval("SkSpell" & "Comp") * 180
+
+;~ 	$TotalTotalTimeSpell = CalculTimeTo($TotalTotalTimeSpell)
+;~ 	GUICtrlSetData($lblTotalCountSpell, $TotalTotalTimeSpell)
+
+;~ 	CalCostSpell()
+	SetRedrawBotWindow($bWasRedraw)
 EndFunc   ;==>lblTotalCountSpell
 
 Func chkBoostBarracksHoursE1()
@@ -247,17 +372,11 @@ Func chkCloseWaitEnable()
 	If GUICtrlRead($chkCloseWaitEnable) = $GUI_CHECKED Then
 		$ichkCloseWaitEnable = 1
 		_GUI_Value_STATE("ENABLE", $groupCloseWaitTrain)
-		GUICtrlSetState($lblCloseWaitingTroops, $GUI_ENABLE)
-		GUICtrlSetState($cmbMinimumTimeClose, $GUI_ENABLE)
-		GUICtrlSetState($lblSymbolWaiting, $GUI_ENABLE)
-		GUICtrlSetState($lblWaitingInMinutes, $GUI_ENABLE)
+		_GUI_Value_STATE("ENABLE", $lblCloseWaitingTroops & "#" & $cmbMinimumTimeClose & "#" & $lblSymbolWaiting & "#" & $lblWaitingInMinutes)
 	Else
 		$ichkCloseWaitEnable = 0
 		_GUI_Value_STATE("DISABLE", $groupCloseWaitTrain)
-		GUICtrlSetState($lblCloseWaitingTroops, $GUI_DISABLE)
-		GUICtrlSetState($cmbMinimumTimeClose, $GUI_DISABLE)
-		GUICtrlSetState($lblSymbolWaiting, $GUI_DISABLE)
-		GUICtrlSetState($lblWaitingInMinutes, $GUI_DISABLE)
+		_GUI_Value_STATE("DISABLE", $lblCloseWaitingTroops & "#" & $cmbMinimumTimeClose & "#" & $lblSymbolWaiting & "#" & $lblWaitingInMinutes)
 	EndIf
 	If GUICtrlRead($btnCloseWaitStopRandom) = $GUI_CHECKED Then
 		GUICtrlSetState($btnCloseWaitStop, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -339,13 +458,12 @@ Func chkTroopOrder($bNoiseMode = True)
 			For $i = 0 To UBound($DefaultTroopGroup) - 1
 				$sNewTrainList &= $TroopName[$i] & ", "
 			Next
-			$sNewTrainList = StringLeft($sNewTrainList, StringLen($sNewTrainList)-2)
+			$sNewTrainList = StringLeft($sNewTrainList, StringLen($sNewTrainList) - 2)
 			Setlog("Current train order= " & $sNewTrainList, $COLOR_BLUE)
 		EndIf
 	EndIf
 EndFunc   ;==>chkTroopOrder
-
-
+#CS
 Func chkDarkTroopOrder2()
 	;GUI OnEvent functions cannot have parameters, so below call is used for the default parameter
 	chkDarkTroopOrder()
@@ -371,13 +489,12 @@ Func chkDarkTroopOrder($bNoiseMode = True)
 			For $i = 0 To UBound($DefaultTroopGroupDark) - 1
 				$sNewTrainList &= $TroopDarkName[$i] & ", "
 			Next
-			$sNewTrainList = StringLeft($sNewTrainList, StringLen($sNewTrainList)-2)
+			$sNewTrainList = StringLeft($sNewTrainList, StringLen($sNewTrainList) - 2)
 			Setlog("Current train order= " & $sNewTrainList, $COLOR_BLUE)
 		EndIf
 	EndIf
 EndFunc   ;==>chkDarkTroopOrder
-
-
+ #CE
 Func GUITrainOrder()
 	Local $bDuplicate = False
 	Local $iGUI_CtrlId = @GUI_CtrlId
@@ -403,7 +520,7 @@ Func GUITrainOrder()
 		GUICtrlSetImage($ImgTroopOrderSet, $pIconLib, $eIcnRedLight) ; set status indicator to show need to apply new order
 	EndIf
 EndFunc   ;==>GUITrainOrder
-
+#CS
 Func GUITrainDarkOrder()
 	Local $bDuplicate = False
 	Local $iGUI_CtrlId = @GUI_CtrlId
@@ -429,8 +546,9 @@ Func GUITrainDarkOrder()
 		GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnRedLight) ; set status indicator to show need to apply new order
 	EndIf
 EndFunc   ;==>GUITrainDarkOrder
-
+ #CE
 Func BtnTroopOrderSet()
+	SetRedrawBotWindow(False)
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewTrainList = ""
 
@@ -474,8 +592,9 @@ Func BtnTroopOrderSet()
 		GUICtrlSetImage($ImgTroopOrderSet, $pIconLib, $eIcnRedLight)
 	EndIf
 	GUICtrlSetState(BtnTroopOrderSet, $GUI_DISABLE)
+	SetRedrawBotWindow(True)
 EndFunc   ;==>BtnTroopOrderSet
-
+#CS
 Func BtnDarkTroopOrderSet()
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewTrainList = ""
@@ -521,8 +640,7 @@ Func BtnDarkTroopOrderSet()
 	EndIf
 	GUICtrlSetState($BtnDarkTroopOrderSet, $GUI_DISABLE)
 EndFunc   ;==>BtnDarkTroopOrderSet
-
-
+ #CE
 Func ChangeTroopTrainOrder()
 
 	If $debugsetlog = 1 Or $debugsetlogTrain = 1 Then Setlog("Begin Func ChangeTroopTrainOrder()", $COLOR_DEBUG) ;Debug
@@ -531,7 +649,7 @@ Func ChangeTroopTrainOrder()
 	;$TroopGroup[10][3] = [["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Gobl", 3, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20]]
 
 	Local $sComboText = ""
-	Local $NewTroopGroup[19][3]
+	Local $NewTroopGroup[19][6]
 	Local $iUpdateCount = 0
 
 	If UBound($aTroopOrderList) - 1 <> UBound($TroopGroup) Then ; safety check in case troops are added
@@ -571,6 +689,9 @@ Func ChangeTroopTrainOrder()
 			$TroopName[$i] = $TroopGroup[$i][0]
 			$TroopNamePosition[$i] = $TroopGroup[$i][1]
 			$TroopHeight[$i] = $TroopGroup[$i][2]
+			$TroopTimes[$i] = $TroopGroup[$i][3]
+			$TroopDons[$i] = $TroopGroup[$i][4]
+			$TroopType[$i] = $TroopGroup[$i][5]
 		Next
 		GUICtrlSetImage($ImgTroopOrderSet, $pIconLib, $eIcnGreenLight)
 	Else
@@ -582,7 +703,7 @@ Func ChangeTroopTrainOrder()
 	Return True
 
 EndFunc   ;==>ChangeTroopTrainOrder
-
+#CS
 Func ChangeDarkTroopTrainOrder()
 
 	If $debugsetlog = 1 Or $debugsetlogTrain = 1 Then Setlog("Begin Func ChangeDarkTroopTrainOrder()", $COLOR_DEBUG) ;Debug
@@ -607,7 +728,7 @@ Func ChangeDarkTroopTrainOrder()
 		$sComboText = StringLeft(StringStripWS(GUICtrlRead($cmbDarkTroopOrder[$i]), $STR_STRIPALL), 5)
 		For $j = 0 To UBound($DefaultTroopGroupDark) - 1
 			;Setlog("$i=" & $i & ", ComboSel=" & _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$i]) & ", $DefaultTroopGroupDark[" & $j & "][0]: " & StringLeft($DefaultTroopGroupDark[$j][0], 3) & " = " & $sComboText& " :$sComboText" , $COLOR_DEBUG) ;Debug
-			If StringInStr($sComboText, StringLeft($DefaultTroopGroupDark[$j][0],3), $STR_NOCASESENSEBASIC) = 0 Then ContinueLoop
+			If StringInStr($sComboText, StringLeft($DefaultTroopGroupDark[$j][0], 3), $STR_NOCASESENSEBASIC) = 0 Then ContinueLoop
 			$iUpdateCount += 1 ; keep count of troops updated to ensure success
 			;Setlog("$iUpdateCount: " & $iUpdateCount , $COLOR_DEBUG) ;Debug  ; debug
 			For $k = 0 To UBound($DefaultTroopGroupDark, 2) - 1 ; if true then assign next $i array element(s) in list to match in troopgroup
@@ -628,6 +749,7 @@ Func ChangeDarkTroopTrainOrder()
 			$TroopDarkName[$i] = $TroopGroupDark[$i][0]
 			$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
 			$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
+			$TroopDarkTimes[$i] = $TroopGroupDark[$i][3]
 		Next
 		GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnGreenLight)
 	Else
@@ -639,11 +761,12 @@ Func ChangeDarkTroopTrainOrder()
 	Return True
 
 EndFunc   ;==>ChangeDarkTroopTrainOrder
-
+ #CE
 Func SetDefaultTroopGroup($bNoiseMode = True)
 	;
 	; $TroopGroup[10][3] = [["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Gobl", 3, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20]]
 	;
+	_ArraySortEx($DefaultTroopGroup, 0, 0, 3, 1, 2, 0)
 	For $i = 0 To UBound($DefaultTroopGroup, 1) - 1
 		For $j = 0 To UBound($DefaultTroopGroup, 2) - 1
 			$TroopGroup[$i][$j] = $DefaultTroopGroup[$i][$j]
@@ -653,10 +776,21 @@ Func SetDefaultTroopGroup($bNoiseMode = True)
 		$TroopName[$i] = $TroopGroup[$i][0]
 		$TroopNamePosition[$i] = $TroopGroup[$i][1]
 		$TroopHeight[$i] = $TroopGroup[$i][2]
+		$TroopTimes[$i] = $TroopGroup[$i][3]
+		$TroopDons[$i] = $TroopGroup[$i][4]
+		$TroopType[$i] = $TroopGroup[$i][5]
 	Next
+#CS
+	For $i = 0 To UBound($DefaultTroopGroupElixir, 1) - 1
+		$TroopElixirName[$i] = $DefaultTroopGroupElixir[$i][0]
+		$TroopElixirNamePosition[$i] = $DefaultTroopGroupElixir[$i][1]
+		$TroopElixirHeight[$i] = $DefaultTroopGroupElixir[$i][2]
+		$TroopElixirTimes[$i] = $DefaultTroopGroupElixir[$i][3]
+	Next
+ #CE
 	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default troop training order set", $COLOR_GREEN)
 EndFunc   ;==>SetDefaultTroopGroup
-
+#CS
 Func SetDefaultTroopGroupDark($bNoiseMode = True)
 	;
 	; $DefaultTroopGroupDark[7][3] = [["Mini", 0, 2], ["Hogs", 1, 5], ["Valk", 2, 8], ["Gole", 3, 30], ["Witc", 4, 12], ["Lava", 5, 30], ["Bowl", 6, 6]]
@@ -670,10 +804,11 @@ Func SetDefaultTroopGroupDark($bNoiseMode = True)
 		$TroopDarkName[$i] = $TroopGroupDark[$i][0]
 		$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
 		$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
+		$TroopDarkTimes[$i] = $TroopGroupDark[$i][3]
 	Next
 	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default dark troop training order set", $COLOR_GREEN)
 EndFunc   ;==>SetDefaultTroopGroupDark
-
+ #CE
 Func IsUseCustomTroopOrder()
 	For $i = 0 To UBound($aTroopOrderList) - 2 ; Check if custom train order has been used to select log message
 		If $icmbTroopOrder[$i] = -1 Then
@@ -684,7 +819,7 @@ Func IsUseCustomTroopOrder()
 	If $debugsetlogTrain = 1 Then Setlog("Custom train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomTroopOrder
-
+#CS
 Func IsUseCustomDarkTroopOrder()
 	For $i = 0 To UBound($aDarkTroopOrderList) - 2 ; Check if custom train order has been used to select log message
 		If $icmbDarkTroopOrder[$i] = -1 Then
@@ -695,46 +830,61 @@ Func IsUseCustomDarkTroopOrder()
 	If $debugsetlogTrain = 1 Then Setlog("Custom dark train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomDarkTroopOrder
+ #CE
 
-;==============================================================
-; SmartZap - Added by DocOC team
-;==============================================================
+; ============================================================================
+; ================================= SmartZap =================================
+; ============================================================================
 Func chkSmartLightSpell()
 	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED Then
 		GUICtrlSetState($chkSmartZapDB, $GUI_ENABLE)
 		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_ENABLE)
 		GUICtrlSetState($txtMinDark, $GUI_ENABLE)
 		GUICtrlSetState($chkNoobZap, $GUI_ENABLE)
+		GUICtrlSetState($chkEarthQuakeZap, $GUI_ENABLE)
+		GUICtrlSetState($lblLSpell, $GUI_SHOW)
+;		If GUICtrlRead($chkNoobZap) = $GUI_UNCHECKED Then
+;			GUICtrlSetState($chkEarthQuakeZap, $GUI_ENABLE)
+;		Else
+;			GUICtrlSetState($chkEarthQuakeZap, $GUI_UNCHECKED)
+;			GUICtrlSetState($chkEarthQuakeZap, $GUI_DISABLE)
+;			GUICtrlSetState($lblEQZap, $GUI_HIDE)
+;		EndIf
 		$ichkSmartZap = 1
 	Else
 		GUICtrlSetState($chkSmartZapDB, $GUI_DISABLE)
 		GUICtrlSetState($chkSmartZapSaveHeroes, $GUI_DISABLE)
 		GUICtrlSetState($txtMinDark, $GUI_DISABLE)
 		GUICtrlSetState($chkNoobZap, $GUI_DISABLE)
+		GUICtrlSetState($chkEarthQuakeZap, $GUI_DISABLE)
+		GUICtrlSetState($lblLSpell, $GUI_HIDE)
 		$ichkSmartZap = 0
 	EndIf
 EndFunc   ;==>chkSmartLightSpell
 
-Func ForceTimeStopAtk()
-	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED And GUICtrlRead($chkDBTimeStopAtk) = $GUI_CHECKED Then
-		GUICtrlSetState($chkDBTimeStopAtk, $GUI_UNCHECKED)
-		$ichkTimeStopAtk[$DB] = 0
-	EndIf
-	If GUICtrlRead($chkSmartLightSpell) = $GUI_CHECKED And GUICtrlRead($chkABTimeStopAtk) = $GUI_CHECKED Then
-		GUICtrlSetState($chkABTimeStopAtk, $GUI_UNCHECKED)
-		$ichkTimeStopAtk[$LB] = 0
-	EndIf
-EndFunc   ;==>ForceTimeStopAtk
-
 Func chkNoobZap()
 	If GUICtrlRead($chkNoobZap) = $GUI_CHECKED Then
 		GUICtrlSetState($txtExpectedDE, $GUI_ENABLE)
+;		GUICtrlSetState($chkEarthQuakeZap, $GUI_UNCHECKED)
+;		GUICtrlSetState($chkEarthQuakeZap, $GUI_DISABLE)
+;		GUICtrlSetState($lblEQZap, $GUI_HIDE)
 		$ichkNoobZap = 1
 	Else
 		GUICtrlSetState($txtExpectedDE, $GUI_DISABLE)
+;		GUICtrlSetState($chkEarthQuakeZap, $GUI_ENABLE)
 		$ichkNoobZap = 0
 	EndIf
-EndFunc   ;==>chkDumbZap
+EndFunc   ;==>chkNoobZap
+
+Func chkEarthQuakeZap()
+	If GUICtrlRead($chkEarthQuakeZap) = $GUI_CHECKED Then
+		GUICtrlSetState($lblEQZap, $GUI_SHOW)
+		$ichkEarthQuakeZap = 1
+	Else
+		GUICtrlSetState($lblEQZap, $GUI_HIDE)
+		$ichkEarthQuakeZap = 0
+	EndIf
+EndFunc   ;==>chkEarthQuakeZap
 
 Func chkSmartZapDB()
     If GUICtrlRead($chkSmartZapDB) = $GUI_CHECKED Then
@@ -759,232 +909,738 @@ EndFunc   ;==>txtMinDark
 Func txtExpectedDE()
 	$itxtExpectedDE = GUICtrlRead($txtExpectedDE)
 EndFunc   ;==>TxtExpectedDE
-;==========================END=================================
-;			 SmartZap - Added by DocOC team
-;==============================================================
+; ============================================================================
+; ================================= SmartZap =================================
+; ============================================================================
 
-Func leftclick()
-	If $iGUIEnabled = False Then Return
-	$ilftclck = GUIGetCursorInfo($frmBot)
-	Switch $ilftclck[4]
-		;Troops
-		Case $icnBarb
-			LevUpDown("Barb")
-			lblTotalCount()
-		Case $icnArch
-			LevUpDown("Arch")
-			lblTotalCount()
-		Case $icnGiant
-			LevUpDown("Giant")
-			lblTotalCount()
-		Case $icnGobl
-			LevUpDown("Gobl")
-			lblTotalCount()
-		Case $icnWall
-			LevUpDown("Wall")
-			lblTotalCount()
-		Case $icnWiza
-			LevUpDown("Wiza")
-			lblTotalCount()
-		Case $icnBall
-			LevUpDown("Ball")
-			lblTotalCount()
-		Case $icnHeal
-			LevUpDown("Heal")
-			lblTotalCount()
-		Case $icnDrag
-			LevUpDown("Drag")
-			lblTotalCount()
-		Case $icnPekk
-			LevUpDown("Pekk")
-			lblTotalCount()
-		Case $icnBabyD
-			LevUpDown("BabyD")
-			lblTotalCount()
-		Case $icnMine
-			LevUpDown("Mine")
-			lblTotalCount()
-		Case $icnMini
-			LevUpDown("Mini")
-			lblTotalCount()
-		Case $icnHogs
-			LevUpDown("Hogs")
-			lblTotalCount()
-		Case $icnValk
-			LevUpDown("Valk")
-			lblTotalCount()
-		Case $icnGole
-			LevUpDown("Gole")
-			lblTotalCount()
-		Case $icnWitc
-			LevUpDown("Witc")
-			lblTotalCount()
-		Case $icnLava
-			LevUpDown("Lava")
-			lblTotalCount()
-		Case $icnBowl
-			LevUpDown("Bowl")
-			lblTotalCount()
-		;Spell
-		Case $lblLightningIcon
-			LevUpDown("LightningSpell")
-			lblTotalCountSpell()
-		Case $lblHealIcon
-			LevUpDown("HealSpell")
-			lblTotalCountSpell()
-		Case $lblRageIcon
-			LevUpDown("RageSpell")
-			lblTotalCountSpell()
-		Case $lblJumpSpellIcon
-			LevUpDown("JumpSpell")
-			lblTotalCountSpell()
-		Case $lblFreezeIcon
-			LevUpDown("FreezeSpell")
-			lblTotalCountSpell()
-		Case $lblCloneIcon
-			LevUpDown("CloneSpell")
-			lblTotalCountSpell()
-		Case $lblPoisonIcon
-			LevUpDown("PoisonSpell")
-			lblTotalCountSpell()
-		Case $lblEarthquakeIcon
-			LevUpDown("EarthSpell")
-			lblTotalCountSpell()
-		Case $lblHasteIcon
-			LevUpDown("HasteSpell")
-			lblTotalCountSpell()
-		Case $lblSkeletonIcon
-			LevUpDown("SkeletonSpell")
-			lblTotalCountSpell()
-	EndSwitch
-	Return
-EndFunc   ;==>leftclick
+Func LevUpDown($SelTroopSpell, $NoChangeLev = True)
+	Local $MaxLev = UBound(Eval("Lev" & $SelTroopSpell & "Cost"), 1)
+	Local $LevColor = $COLOR_WHITE
+	Local $TempLev
+	If $NoChangeLev Then
+		If _IsPressed("10") Or _IsPressed("02") Then
+			$TempLev = Eval("itxtLev" & $SelTroopSpell) - 1
+		Else
+			$TempLev = Eval("itxtLev" & $SelTroopSpell) + 1
+		EndIf
+	Else
+		$TempLev = Eval("itxtLev" & $SelTroopSpell)
+	EndIf
+	If $TempLev > $MaxLev - 1 Or $TempLev = 0 Then
+		$TempLev = 0
+		GUICtrlSetData(Eval("txtNum" & $SelTroopSpell), 0)
+		Assign($SelTroopSpell & "Comp", 0)
+		If IsGUICtrlHidden(Eval("txtNum" & $SelTroopSpell)) = False Then GUICtrlSetState(Eval("txtNum" & $SelTroopSpell), $GUI_HIDE)
+		Call("lblTotalCount" & $SelTroopSpell)
+	ElseIf $TempLev < 0 Then
+		$TempLev = $MaxLev - 1
+		If IsGUICtrlHidden(Eval("txtNum" & $SelTroopSpell)) Then GUICtrlSetState(Eval("txtNum" & $SelTroopSpell), $GUI_SHOW)
+	ElseIf $TempLev > 0 And $TempLev <= $MaxLev And IsGUICtrlHidden(Eval("txtNum" & $SelTroopSpell)) Then
+		GUICtrlSetState(Eval("txtNum" & $SelTroopSpell), $GUI_SHOW)
+	EndIf
+	Assign("itxtLev" & $SelTroopSpell, $TempLev)
+	If $TempLev = $MaxLev - 1 Then $LevColor = $COLOR_YELLOW
+	GUICtrlSetData(Eval("txtLev" & $SelTroopSpell), $TempLev)
+	If GUICtrlGetBkColor(Eval("txtLev" & $SelTroopSpell)) <> $LevColor Then GUICtrlSetBkColor(Eval("txtLev" & $SelTroopSpell), $LevColor)
+EndFunc   ;==>LevUpDown
 
 Func rightclick()
-	If $iGUIEnabled = False Then Return
+	If Not $iGUIEnabled Or $RunState = True Then Return
 	$irghtclck = GUIGetCursorInfo($frmBot)
 	Switch $irghtclck[4]
 		;Troops
 		Case $icnBarb
 			LevUpDown("Barb")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnArch
 			LevUpDown("Arch")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnGiant
 			LevUpDown("Giant")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnGobl
 			LevUpDown("Gobl")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnWall
 			LevUpDown("Wall")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnWiza
 			LevUpDown("Wiza")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnBall
 			LevUpDown("Ball")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnHeal
 			LevUpDown("Heal")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnDrag
 			LevUpDown("Drag")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnPekk
 			LevUpDown("Pekk")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnBabyD
 			LevUpDown("BabyD")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnMine
 			LevUpDown("Mine")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnMini
 			LevUpDown("Mini")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnHogs
 			LevUpDown("Hogs")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnValk
 			LevUpDown("Valk")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnGole
 			LevUpDown("Gole")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnWitc
 			LevUpDown("Witc")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnLava
 			LevUpDown("Lava")
-			lblTotalCount()
+			lblTotalCount2()
 		Case $icnBowl
 			LevUpDown("Bowl")
-			lblTotalCount()
-		;Spell
-		Case $lblLightningIcon
-			LevUpDown("LightningSpell")
-			lblTotalCountSpell()
-		Case $lblHealIcon
-			LevUpDown("HealSpell")
-			lblTotalCountSpell()
-		Case $lblRageIcon
-			LevUpDown("RageSpell")
-			lblTotalCountSpell()
-		Case $lblJumpSpellIcon
-			LevUpDown("JumpSpell")
-			lblTotalCountSpell()
-		Case $lblFreezeIcon
-			LevUpDown("FreezeSpell")
-			lblTotalCountSpell()
-		Case $lblCloneIcon
-			LevUpDown("CloneSpell")
-			lblTotalCountSpell()
-		Case $lblPoisonIcon
-			LevUpDown("PoisonSpell")
-			lblTotalCountSpell()
-		Case $lblEarthquakeIcon
-			LevUpDown("EarthSpell")
-			lblTotalCountSpell()
-		Case $lblHasteIcon
-			LevUpDown("HasteSpell")
-			lblTotalCountSpell()
-		Case $lblSkeletonIcon
-			LevUpDown("SkeletonSpell")
-			lblTotalCountSpell()
+			lblTotalCount2()
+			;Spell
+		Case $lblLSpellIcon
+			LevUpDown("LSpell")
+			lblTotalCountSpell2()
+		Case $lblHSpellIcon
+			LevUpDown("HSpell")
+			lblTotalCountSpell2()
+		Case $lblRSpellIcon
+			LevUpDown("RSpell")
+			lblTotalCountSpell2()
+		Case $lblJSpellIcon
+			LevUpDown("JSpell")
+			lblTotalCountSpell2()
+		Case $lblFSpellIcon
+			LevUpDown("FSpell")
+			lblTotalCountSpell2()
+		Case $lblCSpellIcon
+			LevUpDown("CSpell")
+			lblTotalCountSpell2()
+		Case $lblPSpellIcon
+			LevUpDown("PSpell")
+			lblTotalCountSpell2()
+		Case $lblESpellIcon
+			LevUpDown("ESpell")
+			lblTotalCountSpell2()
+		Case $lblHaSpellIcon
+			LevUpDown("HaSpell")
+			lblTotalCountSpell2()
+		Case $lblSeSpellIcon
+			LevUpDown("SkSpell")
+			lblTotalCountSpell2()
 	EndSwitch
-	Return
 EndFunc   ;==>rightclick
 
-Func LevUpDown($SelTroopSpell)
-	Local $TempClick
+Func LevBarb()
 	While _IsPressed(01)
-		$TempClick = Eval("txtNum" & $SelTroopSpell) + 1
-		GUICtrlSetData(Eval("txtNum" & $SelTroopSpell), GUICtrlRead(Eval("txtNum" & $SelTroopSpell)) + 1)
-		Sleep(150)
+		LevUpDown("Barb")
+		lblTotalCount2()
+		Sleep($iDelayLvUP)
 	WEnd
+	If $iGUIEnabled = 0 Then
+		LevUpDown("Barb")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevBarb
 
-	While _IsPressed(02)
-		$TempClick = Eval("txtNum" & $SelTroopSpell) - 1
-		GUICtrlSetData(Eval("txtNum" & $SelTroopSpell), GUICtrlRead(Eval("txtNum" & $SelTroopSpell)) - 1)
-		Sleep(150)
+Func LevArch()
+	While _IsPressed(01)
+		LevUpDown("Arch")
+		lblTotalCount2()
+		Sleep($iDelayLvUP)
 	WEnd
-EndFunc   ;==>LevUpDown
+	If $iGUIEnabled = 0 Then
+		LevUpDown("Arch")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevArch
+
+Func LevGiant()
+	While _IsPressed(01)
+		LevUpDown("Giant")
+		lblTotalCount2()
+		Sleep($iDelayLvUP)
+	WEnd
+	If $iGUIEnabled = 0 Then
+		LevUpDown("Giant")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevGiant
+
+Func LevGobl()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Gobl")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Gobl")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevGobl
+
+Func LevWall()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Wall")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Wall")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevWall
+
+Func LevWiza()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Wiza")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Wiza")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevWiza
+
+Func LevBall()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Ball")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Ball")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevBall
+
+Func LevHeal()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Heal")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Heal")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevHeal
+
+Func LevDrag()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Drag")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Drag")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevDrag
+
+Func LevPekk()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Pekk")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Pekk")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevPekk
+
+Func LevBabyD()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("BabyD")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("BabyD")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevBabyD
+
+Func LevMine()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Mine")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Mine")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevMine
+
+Func LevMini()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Mini")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Mini")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevMini
+
+Func LevHogs()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Hogs")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Hogs")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevHogs
+
+Func LevValk()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Valk")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Valk")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevValk
+
+Func LevGole()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Gole")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Gole")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevGole
+
+Func LevWitc()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Witc")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Witc")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevWitc
+
+Func LevLava()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Lava")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Lava")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevLava
+
+Func LevBowl()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("Bowl")
+			lblTotalCount2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("Bowl")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevBowl
+
+Func LevLSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("LSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("LSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevLSpell
+
+Func LevHSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("HSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("HSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevHSpell
+
+Func LevRSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("RSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("RSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevRSpell
+
+Func LevJSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("JSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("JSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevJSpell
+
+Func LevFSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("FSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("FSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevFSpell
+
+Func LevCSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("CSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("CSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevCSpell
+
+Func LevPSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("PSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("PSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevPSpell
+
+Func LevESpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("ESpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("ESpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevESpell
+
+Func LevHaSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("HaSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("HaSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevHaSpell
+
+Func LevSkSpell()
+	If $iGUIEnabled = 1 Then
+		While _IsPressed(01)
+			LevUpDown("SkSpell")
+			lblTotalCountSpell2()
+			Sleep($iDelayLvUP)
+		WEnd
+	Else
+		LevUpDown("SkSpell")
+		lblTotalCount2()
+	EndIf
+EndFunc   ;==>LevSkSpell
+
+Func CalCostCamp()
+	$ElixirCostCamp = 0
+	$DarkCostCamp = 0
+	For $i = 0 To (UBound($TroopName) - 1)
+		If $TroopType[$i] = "e" Then
+			$ElixirCostCamp += Eval($TroopName[$i] & "Comp") * Execute("$Lev" & $TroopName[$i] & "Cost[" & Eval("itxtLev" & $TroopName[$i]) & "]")
+		ElseIf $TroopType[$i] = "d" Then
+			$DarkCostCamp += Eval($TroopName[$i] & "Comp") * Execute("$Lev" & $TroopName[$i] & "Cost[" & Eval("itxtLev" & $TroopName[$i]) & "]")
+		EndIF
+	Next
+	$rlblElixirCostCamp = _NumberFormat($ElixirCostCamp, True)
+	$rlblDarkCostCamp = _NumberFormat($DarkCostCamp, True)
+	If GUICtrlRead($lblElixirCostCamp) <> $rlblElixirCostCamp Then GUICtrlSetData($lblElixirCostCamp, $rlblElixirCostCamp)
+	If GUICtrlRead($lblDarkCostCamp) <> $rlblDarkCostCamp Then GUICtrlSetData($lblDarkCostCamp, $rlblDarkCostCamp)
+EndFunc   ;==>CalCostCamp
+
+Func CalCostSpell()
+	$ElixirCostSpell = 0
+	$DarkCostSpell = 0
+	For $i = 0 To (UBound($SpellName) - 1 - 4) ; - 4 is for Dark Spells Count, Will loop only for Elixir Spells
+		$ElixirCostSpell += Eval($SpellName[$i] & "Comp") * Execute("$Lev" & $SpellName[$i] & "Cost[" & Eval("itxtLev" & $SpellName[$i]) & "]")
+	Next
+	For $i = (UBound($SpellName) - 4) To (UBound($SpellName) - 1) ; - 4 is for Dark Spells Count, Will loop only for Dark Spell
+		$DarkCostSpell += Eval($SpellName[$i] & "Comp") * Execute("$Lev" & $SpellName[$i] & "Cost[" & Eval("itxtLev" & $SpellName[$i]) & "]")
+	Next
+	GUICtrlSetData($lblElixirCostSpell, _NumberFormat($ElixirCostSpell, True))
+	GUICtrlSetData($lblDarkCostSpell, _NumberFormat($DarkCostSpell, True))
+EndFunc   ;==>CalCostSpell
+
+Func CalculTimeTo($TotalTotalTime)
+	Local $HourToTrain = 0
+	Local $MinToTrain = 0
+	Local $SecToTrain = 0
+	Local $TotalTotalTimeTo
+	If $TotalTotalTime >= 3600 Then
+		$HourToTrain = Int($TotalTotalTime / 3600)
+		$MinToTrain = Int(($TotalTotalTime - $HourToTrain * 3600) / 60)
+		$SecToTrain = $TotalTotalTime - $HourToTrain * 3600 - $MinToTrain * 60
+		$TotalTotalTimeTo = " " & $HourToTrain & "h " & $MinToTrain & "m " & $SecToTrain & "s"
+	ElseIf $TotalTotalTime < 3600 And $TotalTotalTime >= 60 Then
+		$MinToTrain = Int(($TotalTotalTime - $HourToTrain * 3600) / 60)
+		$SecToTrain = $TotalTotalTime - $HourToTrain * 3600 - $MinToTrain * 60
+		$TotalTotalTimeTo = " " & $MinToTrain & "m " & $SecToTrain & "s"
+	Else
+		$SecToTrain = $TotalTotalTime
+		$TotalTotalTimeTo = " " & $SecToTrain & "s"
+	EndIf
+	Return $TotalTotalTimeTo
+EndFunc   ;==>CalculTimeTo
 
 Func Removecamp()
 	For $T = 0 To UBound($TroopName) - 1
 		Assign($TroopName[$T] & "Comp", 0)
 		GUICtrlSetData(Eval("txtNum" & $TroopName[$T]), 0)
 	Next
-	For $S = 0 To UBound($TxtNameSpell) - 1
-		Assign($TxtNameSpell[$S] & "Comp", 0)
-		GUICtrlSetData(Eval("txtNum" & $TxtNameSpell[$S]), 0)
+	For $S = 0 To (UBound($SpellName) - 1)
+		Assign($SpellName[$S] & "Comp", 0)
+		GUICtrlSetData(Eval("txtNum" & $SpellName[$S]), Eval($SpellName[$S] & "Comp"))
 	Next
-	For $C = 0 To UBound($SpellName) - 1
-		Assign($SpellName[$C] & "Comp", 0)
-	Next
-	lblTotalCount()
-	lblTotalCountSpell()
+	GUICtrlSetData($lblTotalCountCamp, " 0s")
+	GUICtrlSetData($lblTotalCountSpell, " 0s")
+	GUICtrlSetData($lblElixirCostCamp, "0")
+	GUICtrlSetData($lblDarkCostCamp, "0")
+	GUICtrlSetData($lblElixirCostSpell, "0")
+	GUICtrlSetData($lblDarkCostSpell, "0")
+	GUICtrlSetData($lblCountTotal, 0)
 EndFunc   ;==>Removecamp
 
+Func AssignNumberTroopSpell($SelTroopSpell)
+	Assign($SelTroopSpell & "Comp", GUICtrlRead(Eval("txtNum" & $SelTroopSpell)))
+EndFunc   ;==>AssignNumberTroopSpell
+
+Func lblTotalCountBarb()
+	AssignNumberTroopSpell("Barb")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountBarb
+
+Func lblTotalCountArch()
+	AssignNumberTroopSpell("Arch")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountArch
+
+Func lblTotalCountGiant()
+	AssignNumberTroopSpell("Giant")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountGiant
+
+Func lblTotalCountGobl()
+	AssignNumberTroopSpell("Gobl")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountGobl
+
+Func lblTotalCountWall()
+	AssignNumberTroopSpell("Wall")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountWall
+
+Func lblTotalCountWiza()
+	AssignNumberTroopSpell("Wiza")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountWiza
+
+Func lblTotalCountBall()
+	AssignNumberTroopSpell("Ball")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountBall
+
+Func lblTotalCountHeal()
+	AssignNumberTroopSpell("Heal")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountHeal
+
+Func lblTotalCountDrag()
+	AssignNumberTroopSpell("Drag")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountDrag
+
+Func lblTotalCountPekk()
+	AssignNumberTroopSpell("Pekk")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountPekk
+
+Func lblTotalCountBabyD()
+	AssignNumberTroopSpell("BabyD")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountBabyD
+
+Func lblTotalCountMine()
+	AssignNumberTroopSpell("Mine")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountMine
+
+Func lblTotalCountMini()
+	AssignNumberTroopSpell("Mini")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountMini
+
+Func lblTotalCountHogs()
+	AssignNumberTroopSpell("Hogs")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountHogs
+
+Func lblTotalCountValk()
+	AssignNumberTroopSpell("Valk")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountValk
+
+Func lblTotalCountGole()
+	AssignNumberTroopSpell("Gole")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountGole
+
+Func lblTotalCountWitc()
+	AssignNumberTroopSpell("Witc")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountWitc
+
+Func lblTotalCountLava()
+	AssignNumberTroopSpell("Lava")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountLava
+
+Func lblTotalCountBowl()
+	AssignNumberTroopSpell("Bowl")
+	lblTotalCount()
+EndFunc   ;==>lblTotalCountBowl
+
+Func lblTotalCountLSpell()
+	AssignNumberTroopSpell("LSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountLSpell
+
+Func lblTotalCountHSpell()
+	AssignNumberTroopSpell("HSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountHSpell
+
+Func lblTotalCountRSpell()
+	AssignNumberTroopSpell("RSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountRSpell
+
+Func lblTotalCountJSpell()
+	AssignNumberTroopSpell("JSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountJSpell
+
+Func lblTotalCountFSpell()
+	AssignNumberTroopSpell("FSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountFSpell
+
+Func lblTotalCountCSpell()
+	AssignNumberTroopSpell("CSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountCSpell
+
+Func lblTotalCountPSpell()
+	AssignNumberTroopSpell("PSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountPSpell
+
+Func lblTotalCountESpell()
+	AssignNumberTroopSpell("ESpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountESpell
+
+Func lblTotalCountHaSpell()
+	AssignNumberTroopSpell("HaSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountHaSpell
+
+Func lblTotalCountSkSpell()
+	AssignNumberTroopSpell("SkSpell")
+	lblTotalCountSpell2()
+EndFunc   ;==>lblTotalCountSkSpell
+
+Func chkAddDelayIdlePhaseEnable()
+    If GUICtrlRead($chkAddDelayIdlePhaseEnable) = $GUI_CHECKED Then
+        $iAddIdleTimeEnable = 1
+        For $i = $lbltxtAddDelayIdlePhaseBetween to $lbltxtAddDelayIdlePhaseSec
+            GUICtrlSetState($i, $GUI_ENABLE)
+        Next
+    Else
+        $iAddIdleTimeEnable = 0
+        For $i = $lbltxtAddDelayIdlePhaseBetween to $lbltxtAddDelayIdlePhaseSec
+            GUICtrlSetState($i, $GUI_DISABLE)
+        Next
+    EndIf
+EndFunc   ;==>chkAddDelayIdlePhaseEnable

@@ -16,94 +16,124 @@
 ;GUISwitch($hGUI_BotDebug)
 
 Local $x = 25, $y = 45
-$grpDebug = GUICtrlCreateGroup(GetTranslated(636,34, "Debug"), $x - 20, $y - 20, 440, 360)
-	$chkDebugClick = GUICtrlCreateCheckbox(GetTranslated(636,40, "Click"), $x, $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,35, "Debug: Write the clicked (x,y) coordinates to the log."))
-	$y += 20
-	$chkDebugSetlog = GUICtrlCreateCheckbox(GetTranslated(636,41, "Messages"), $x  , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,36, "Debug: Enables debug SetLog messages in code for Troubleshooting."))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkDebugOcr = GUICtrlCreateCheckbox(GetTranslated(636,42, "OCR"), $x , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,37, "Debug: Enables Saving OCR images for troubleshooting."))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkDebugImageSave = GUICtrlCreateCheckbox(GetTranslated(636,43, "Images"), $x , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,38, "Debug: Enables Saving images for troubleshooting."))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkdebugBuildingPos = GUICtrlCreateCheckbox(GetTranslated(636,44, "Buildings"), $x  , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,39, "Debug: Enables showing positions of buildings in log."))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkdebugTrain = GUICtrlCreateCheckbox(GetTranslated(636,73, "Training"), $x , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,74, "Debug: Enables showing debug during training."))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkdebugOCRDonate = GUICtrlCreateCheckbox(GetTranslated(636,91, "Online debug donations"), $x , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,92, "Debug: make ocr of donations and simulate only donate but no donate any troop"))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
-	$y += 20
-	$chkdebugDeadBaseImage = GUICtrlCreateCheckbox(GetTranslated(636,107, "Dead Bases Images"), $x , $y-5, -1, -1)
-		_GUICtrlSetTip(-1, GetTranslated(636,108, "Debug: Capture the Skipped and detected dead bases"))
-		GUICtrlSetState(-1, $GUI_DISABLE)
-		GUICtrlSetState(-1, $GUI_HIDE)
+$grpDebug = GUICtrlCreateGroup(GetTranslated(636, 34, "Debug"), $x - 20, $y - 20, 440, 360)
+$chkDebugClick = GUICtrlCreateCheckbox(GetTranslated(636, 40, "Click"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 35, "Debug: Write the clicked (x,y) coordinates to the log."))
+$y += 20
+$chkDebugSetlog = GUICtrlCreateCheckbox(GetTranslated(636, 41, "Messages"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 36, "Debug: Enables debug SetLog messages in code for Troubleshooting."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugOcr = GUICtrlCreateCheckbox(GetTranslated(636, 42, "OCR"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 37, "Debug: Enables Saving OCR images for troubleshooting."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugImageSave = GUICtrlCreateCheckbox(GetTranslated(636, 43, "Images"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 38, "Debug: Enables Saving images for troubleshooting."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkdebugBuildingPos = GUICtrlCreateCheckbox(GetTranslated(636, 44, "Buildings"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 39, "Debug: Enables showing positions of buildings in log."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkdebugTrain = GUICtrlCreateCheckbox(GetTranslated(636, 73, "Training"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 74, "Debug: Enables showing debug during training."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkdebugOCRDonate = GUICtrlCreateCheckbox(GetTranslated(636, 91, "Online debug donations"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 92, "Debug: make ocr of donations and simulate only donate but no donate any troop"))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkdebugAttackCSV = GUICtrlCreateCheckbox(GetTranslated(636, 106, "Attack CSV"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 107, "Debug: Generates special CSV parse log files"))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkmakeIMGCSV = GUICtrlCreateCheckbox(GetTranslated(636, 108, "Attack CSV Image"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 109, "Debug: Enables saving clean and location marked up images of bases attacked by CSV scripts"))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugDisableZoomout = GUICtrlCreateCheckbox(GetTranslated(636, 112, "Disable Zoomout"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 113, "Debug: Disables zoomout of village."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugDisableVillageCentering = GUICtrlCreateCheckbox(GetTranslated(636, 114, "Disable Village Centering"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 115, "Debug: Disables centering of village."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugDeadbaseImage = GUICtrlCreateCheckbox(GetTranslated(636, 116, "Deadbase Image save"), $x, $y - 5, -1, -1)
+_GUICtrlSetTip(-1, GetTranslated(636, 117, "Debug: Saves images of skipped deadbase villages."))
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
+$y += 20
+$chkDebugSmartZap = GUICtrlCreateCheckbox(GetTranslated(638, 23,"Debug SmartZap"), $x, $y -5, -1, -1)
+$txtTip = GetTranslated(638, 24, "Use this to debug SmartZap")
+_GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetState(-1, $GUI_HIDE)
 
-	$y += 40
+Local $x = 300
+$y = 52
+Local $yNext = 30
+$btnTestTrain = GUICtrlCreateButton(GetTranslated(636, 88, "Test Army Tab"), $x, $y, 140, 25)
+$y += $yNext
 
-	$btnDBCheck = GUICtrlCreateButton("DeadBase Check", $x  , $y , 140, 25)
+$btnTestDonateCC = GUICtrlCreateButton(GetTranslated(636, 89, "Test Donate Troops"), $x, $y, 140, 25)
+$y += $yNext
 
-	$y += 30
+$btnTestRequestCC = GUICtrlCreateButton(GetTranslated(636, 110, "Test Request"), $x, $y, 140, 25)
+$y += $yNext
 
-	$btnPosCheck = GUICtrlCreateButton("Position Check", $x  , $y , 140, 25)
+$btnTestimglocTroopBar = GUICtrlCreateButton("Test Attack Bar", $x, $y, 140, 25)
+$y += $yNext
 
-	$y += 30
+$btnTestClickDrag = GUICtrlCreateButton(GetTranslated(636, 102, "Test Click Drag (scrolling)"), $x, $y, 140, 25)
+$y += $yNext
 
-Local $x = 295
-$y = 40
-	$btnTestTrain = GUICtrlCreateButton(GetTranslated(636,88, "Test Train"), $x  , $y , 140, 25)
+;$btnTestImage = GUICtrlCreateButton(GetTranslated(636, 103, "Test Image"), $x, $y, 140, 25)
+;$y += $yNext
 
-	$y += 30
+$btnTestVillageSize = GUICtrlCreateButton(GetTranslated(636, 111, "Test Village Size"), $x, $y, 140, 25)
+$y += $yNext
 
-	$btnTestDonateCC = GUICtrlCreateButton(GetTranslated(636,89, "Test Donate"), $x  , $y , 140, 25)
+$btnTestDeadBase = GUICtrlCreateButton(GetTranslated(636, 120, "Test Dead Base"), $x, $y, 140, 25)
+$y += $yNext
 
-	$y += 30
+$btnTestDeadBaseFolder = GUICtrlCreateButton(GetTranslated(636, 116, "Test Dead Base Folder"), $x, $y, 140, 25)
+;$btnTestTrainsimgloc = GUICtrlCreateButton("New Train Test", $x, $y, 140, 25)
+$y += $yNext
 
-	$btnTestAttackBar = GUICtrlCreateButton(GetTranslated(636,90, "Test Attack Bar"), $x  , $y , 140, 25)
+$btnTestTHimgloc = GUICtrlCreateButton("Test TH detection", $x, $y, 140, 25)
+$y += $yNext
 
-	$y += 30
+;$btnTestQuickTrainsimgloc = GUICtrlCreateButton("Quick Train Test", $x, $y, 140, 25)
+$btnTestCleanYard = GUICtrlCreateButton(GetTranslated(636, 119, "Test Clean Yard"), $x, $y, 140, 25)
+$y += $yNext
 
-	$btnTestClickDrag = GUICtrlCreateButton(GetTranslated(636,102, "Test Click Drag (scrolling)"), $x  , $y , 140, 25)
+$txtTestFindButton = GUICtrlCreateInput("BoostOne", $x - 90, $y + 3, 85, 20)
+$btnTestFindButton = GUICtrlCreateButton(GetTranslated(636, 118, "Test Find Button"), $x, $y, 140, 25)
+$y -= $yNext
 
-	$y += 30
+; now go up again
+$x -= 145
 
-	$btnTestImage = GUICtrlCreateButton(GetTranslated(636,103, "Test Image"), $x  , $y , 140, 25)
+$btnTestAttackCSV = GUICtrlCreateButton(GetTranslated(636, 121, "Test Attack CSV"), $x + 20, $y, 120, 25)
+$y -= $yNext
 
-	$y += 30
-
-	$btnEagle = GUICtrlCreateButton(GetTranslated(636,104, "Test Eagle"), $x  , $y , 140, 25)
-
-	$y += 30
-
-	$btnDropS = GUICtrlCreateButton("Test DropS CSV Comm.", $x  , $y , 140, 25)
-
-	$y += 30
-
-	$btnTestAD = GUICtrlCreateButton("Test Air Defense", $x  , $y , 140, 25)
-
-	$y += 30
-
-	$btnImageFolder = GUICtrlCreateButton(GetTranslated(636,105, "Test Folder"), $x  , $y , 140, 25)
-
-	$y += 30
-
-	$btnEQDeploy = GUICtrlCreateButton(GetTranslated(636,106, "Test Attack Bar 2"), $x  , $y , 140, 25)
-
+$btnTestConfigSave = GUICtrlCreateButton("Config Save", $x + 20, $y, 120, 25)
+$y -= $yNext
+$btnTestConfigApply = GUICtrlCreateButton("Config Apply", $x + 20, $y, 120, 25)
+$y -= $yNext
+$btnTestConfigRead = GUICtrlCreateButton("Config Read", $x + 20, $y, 120, 25)
+$y -= $yNext
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -17,7 +19,7 @@ $hGUI_UPGRADE = GUICreate("", $_GUI_MAIN_WIDTH - 28, $_GUI_MAIN_HEIGHT - 255 - 2
 ;GUISetBkColor($COLOR_WHITE, $hGUI_UPGRADE)
 
 $hGUI_UPGRADE_TAB = GUICtrlCreateTab(0, 0, $_GUI_MAIN_WIDTH - 30, $_GUI_MAIN_HEIGHT - 255 - 30, BitOR($TCS_MULTILINE, $TCS_RIGHTJUSTIFY))
-$hGUI_UPGRADE_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,14,"Troops/Heroes"))
+$hGUI_UPGRADE_TAB_ITEM1 = GUICtrlCreateTabItem(GetTranslated(600,14,"Laboratory"))
 
 Global $chkLab, $cmbLaboratory, $chkUpgradeKing, $chkUpgradeQueen, $chkUpgradeWarden, $chkbxUpgrade, $chkbxUpgrade, $txtUpgradeX, $txtUpgradeY,$txtUpgradeValue
 Global $icnLabUpgrade, $btnResetLabUpgradeTime
@@ -49,7 +51,7 @@ $sTxtChkRepeat = GetTranslated(616, 35, "Check box to Enable Upgrade to repeat c
 $sTxtShowEndTime = GetTranslated(616, 36, "This box is updated with estimate end time of upgrade after upgrades are checked")
 
 	Local $x = 25, $y = 45
-	$Laboratory = GUICtrlCreateGroup(GetTranslated(614,1, "Laboratory"), $x - 20, $y - 20, 430, 100)
+	$Laboratory = GUICtrlCreateGroup(GetTranslated(614,1, "Laboratory"), $x - 20, $y - 20, 430, 334)
 		GUICtrlCreateIcon($pIconLib, $eIcnLaboratory, $x, $y, 64, 64)
 		$chkLab = GUICtrlCreateCheckbox(GetTranslated(614,2, "Auto Laboratory Upgrades"), $x + 80, $y + 5, -1, -1)
 			$txtTip = GetTranslated(614,3, "Check box to enable automatically starting Upgrades in laboratory")
@@ -66,7 +68,7 @@ $sTxtShowEndTime = GetTranslated(616, 36, "This box is updated with estimate end
 			GUICtrlSetOnEvent(-1, "cmbLab")
 ; Red button, will show on upgrade in progress. Temp unhide here and in Func ChkLab() if GUI needs editing.
 		$btnResetLabUpgradeTime = GUICtrlCreateButton("", $x + 120 + 172, $y + 36, 18, 18, BitOR($BS_PUSHLIKE,$BS_DEFPUSHBUTTON))
-			GUICtrlSetBkColor(-1, $COLOR_RED)
+			GUICtrlSetBkColor(-1, $COLOR_ERROR)
 			;GUICtrlSetImage(-1, $pIconLib, $eIcnRedLight)
 			$txtTip = GetTranslated(614,8, "Visible Red button means that laboratory upgrade in process") & @CRLF & _
 			GetTranslated(614,9, "This will automatically disappear when near time for upgrade to be completed.") & @CRLF & _
@@ -80,9 +82,11 @@ $sTxtShowEndTime = GetTranslated(616, 36, "This box is updated with estimate end
 		$icnLabUpgrade = GUICtrlCreateIcon($pIconLib, $eIcnBlank, $x + 330, $y, 64, 64)
 			GUICtrlSetState(-1, $GUI_HIDE)
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
+GUICtrlCreateTabItem("")
 
-	Local $x = 25, $y = 155
-	$grpHeroes = GUICtrlCreateGroup(GetTranslated(615,1, "Upgrade Heroes Continuously"), $x - 20, $y - 20, 430, 110)
+$hGUI_UPGRADE_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,15,"Heroes"))
+	Local $x = 25, $y = 45
+	$grpHeroes = GUICtrlCreateGroup(GetTranslated(615,1, "Upgrade Heroes Continuously"), $x - 20, $y - 20, 430, 334)
 		$lblUpgradeHeroes = GUICtrlCreateLabel(GetTranslated(615,2, "Auto upgrading of your Heroes"), $x - 10, $y, -1, -1)
 		$y += 20
 		$chkUpgradeKing = GUICtrlCreateCheckbox("", $x, $y + 25, 17, 17)
@@ -112,7 +116,7 @@ $sTxtShowEndTime = GetTranslated(616, 36, "This box is updated with estimate end
 			GetTranslated(615,5, -1) & @CRLF & GetTranslated(615,13, "Enabled with TownHall 11")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkUpgradeWarden")
-			GUICtrlSetColor ( -1, $COLOR_RED )
+			GUICtrlSetColor ( -1, $COLOR_ERROR )
 			GUICtrlCreateIcon($pIconLib, $eIcnWardenUpgr, $x + 18, $y, 64, 64)
 			_GUICtrlSetTip(-1, $txtTip)
 		$IMGchkWardenSleepWait=GUICtrlCreateIcon($pIconLib, $eIcnSleepingWarden, $x + 18, $y, 64, 64)
@@ -121,7 +125,7 @@ $sTxtShowEndTime = GetTranslated(616, 36, "This box is updated with estimate end
 		GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
-$hGUI_UPGRADE_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,16,"Buildings"))
+$hGUI_UPGRADE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,16,"Buildings"))
 	Local $x = 25, $y = 45
 	$grpUpgrade = GUICtrlCreateGroup(GetTranslated(616,1, "Buildings or Heroes"), $x - 20, $y - 20, 430, 30 + ($iUpgradeSlots * 22))
 	$x -= 7
@@ -206,32 +210,32 @@ $hGUI_UPGRADE_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,16,"Buildings")
 			GUICtrlSetOnEvent(-1, "btnResetUpgrade")
 GUICtrlCreateTabItem("")
 
-$hGUI_UPGRADE_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,17,"Walls"))
+$hGUI_UPGRADE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,17,"Walls"))
 
 Global $chkWalls
-Global $txtWall04ST, $txtWall05ST, $txtWall06ST, $txtWall07ST, $txtWall08ST, $txtWall09ST, $txtWall10ST, $txtWall11ST
-Global $Wall04ST, $Wall05ST, $Wall06ST, $Wall07ST, $Wall08ST, $Wall09ST, $Wall10ST, $Wall11ST
+Global $txtWall04ST, $txtWall05ST, $txtWall06ST, $txtWall07ST, $txtWall08ST, $txtWall09ST, $txtWall10ST, $txtWall11ST, $txtWall12ST
+Global $Wall04ST, $Wall05ST, $Wall06ST, $Wall07ST, $Wall08ST, $Wall09ST, $Wall10ST, $Wall11ST, $Wall12ST
 Global $sldMaxNbWall
 Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMinGold, $txtWallMinElixir
 
 	Local $x = 25, $y = 45
-		$grpWalls = GUICtrlCreateGroup(GetTranslated(617,1, "Walls"), $x - 20, $y - 20, 430, 150)
+		$grpWalls = GUICtrlCreateGroup(GetTranslated(617,1, "Walls"), $x - 20, $y - 20, 430, 120)
 		GUICtrlCreateIcon ($pIconLib, $eIcnWall, $x - 12, $y - 6, 24, 24)
 		$chkWalls = GUICtrlCreateCheckbox(GetTranslated(617,2, "Auto Wall Upgrade"), $x + 18, $y-2, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslated(617,3, "Check this to upgrade Walls if there are enough resources."))
 			GUICtrlSetState(-1, $GUI_ENABLE)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkWalls")
-;			_ArrayConcatenate($G, $B)
-		$sldMaxNbWall = GUICtrlCreateSlider( $x + 135, $y, 85 , 24, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
+			_ArrayConcatenate($G, $B)
+#CS		$sldMaxNbWall = GUICtrlCreateSlider( $x + 135, $y, 85 , 24, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
 			_GUICtrlSetTip(-1, GetTranslated(617,4, "No. of Positions to test and find walls. Higher is better but slower."))
 			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
 			_GUICtrlSlider_SetTicFreq(-1, 1)
-			GUICtrlSetState(-1, $GUI_HIDE)
 			GUICtrlSetLimit(-1, 8, 1)
 			GUICtrlSetData(-1, 4)
-			;GUICtrlSetOnEvent(-1, "SlidemaxNbWall")
-		$btnFindWalls = GUICtrlCreateButton(GetTranslated(617,5, "TEST"), $x + 150, $y , 45, -1)
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
+#CE			;GUICtrlSetOnEvent(-1, "SlidemaxNbWall")
+		$btnFindWalls = GUICtrlCreateButton(GetTranslated(617,5, "TEST"), $x + 150, $y +26 , 45, -1)
 			$txtTip = GetTranslated(617,6, "Click here to test the Wall Detection.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "btnWalls")
@@ -253,20 +257,14 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 			GUICtrlSetState(-1, $GUI_ENABLE)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkSaveWallBldr")
-		$chkUpgradeContinually = GUICtrlCreateCheckbox("Upgrade Continually", $x+18, $y + 92, -1, -1)
-			$TxtTip = "Check this to Upgrade Walls Continually Until Reaching The Minimum Number Of Resources"
-			_GUICtrlSetTip(-1, $TxtTip)
-			GUICtrlSetState(-1, $GUI_ENABLE)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			GUICtrlSetOnEvent(-1, "chkUpgradeContinually")
 		$x += 225
 		$lblWalls = GUICtrlCreateLabel(GetTranslated(617,18, "Search for Walls level") & ":", $x, $y+2, -1, -1)
 		$cmbWalls = GUICtrlCreateCombo("", $x + 110, $y, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
 			_GUICtrlSetTip(-1, GetTranslated(617,19, "Search for Walls of this level and try to upgrade them one by one."))
-			GUICtrlSetData(-1, "4   |5   |6   |7   |8   |9   |10   ", "4   ")
+			GUICtrlSetData(-1, "4   |5   |6   |7   |8   |9   |10   |11   ", "4   ")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "cmbWalls")
-;			_ArrayConcatenate($G, $C)
+			_ArrayConcatenate($G, $C)
 		$lblTxtWallCost = GUICtrlCreateLabel(GetTranslated(617,20, "Next Wall level costs") &":", $x,  $y + 25, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslated(617,21, "Use this value as an indicator.") &@CRLF & GetTranslated(617,22, "The value will update if you select an other wall level."))
 		$lblWallCost = GUICtrlCreateLabel("30 000", $x + 110, $y + 25, 50, -1, $SS_RIGHT)
@@ -285,42 +283,49 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 25, $y = 200
-	$grpUpgrWalls = GUICtrlCreateGroup(Gettranslated(617,29, "Walls counter"), $x - 20, $y - 20, 430, 60)
+	Local $x = 25, $y = 170
+	$grpUpgrWalls = GUICtrlCreateGroup(Gettranslated(617,29, "Walls counter"), $x - 20, $y - 20, 430, 100)
 		; Load PNG image
 		;_GDIPlus_StartUp()
 		$x -= 3
 		$txtWall04ST = GUICtrlCreateInput("0", $x - 10, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 4 "&GetTranslated(617,31, "you have."))
-		$Wall04ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\04.ico",-1, $x + 17, $y-2, 24, 24)
-		$x = 70
+		$Wall04ST = GUICtrlCreateIcon($pIconLib, $eWall04, $x + 17, $y-2, 24, 24)
+		$x += 80
 		$txtWall05ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 5 "&GetTranslated(617,31, "you have."))
-		$Wall05ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\05.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +130
+		$Wall05ST = GUICtrlCreateIcon($pIconLib, $eWall05, $x+27, $y-2, 24, 24)
+		$x += 80
 		$txtWall06ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 6 "&GetTranslated(617,31, "you have."))
-		$Wall06ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\06.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +180
+		$Wall06ST = GUICtrlCreateIcon($pIconLib, $eWall06, $x+27, $y-2, 24, 24)
+		$x += 80
 		$txtWall07ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 7 "&GetTranslated(617,31, "you have."))
-		$Wall07ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\07.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +230
+		$Wall07ST = GUICtrlCreateIcon($pIconLib, $eWall07, $x+27, $y-2, 24, 24)
+		$x += 80
 		$txtWall08ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 8 "&GetTranslated(617,31, "you have."))
-		$Wall08ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\08.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +280
+		$Wall08ST = GUICtrlCreateIcon($pIconLib, $eWall08, $x+27, $y-2, 24, 24)
+		Local $x = 25
+		$x -= 3
+		$x += 10
+		$y += 40
 		$txtWall09ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 9 "&GetTranslated(617,31, "you have."))
-		$Wall09ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\09.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +330
+		$Wall09ST = GUICtrlCreateIcon($pIconLib, $eWall09, $x+27, $y-2, 24, 24)
+		$x += 80
 		$txtWall10ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 10 "&GetTranslated(617,31, "you have."))
-		$Wall10ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\10.ico",-1, $x+27, $y-2, 24, 24)
-		$x = +380
+		$Wall10ST = GUICtrlCreateIcon($pIconLib, $eWall10, $x+27, $y-2, 24, 24)
+		$x += 80
 		$txtWall11ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 11 "&GetTranslated(617,31, "you have."))
-		$Wall11ST = GUICtrlCreateIcon(@ScriptDir & "\Images\Walls\11.ico",-1, $x+27, $y-2, 24, 24)
+		$Wall11ST = GUICtrlCreateIcon($pIconLib, $eWall11, $x+27, $y-2, 24, 24)
+		$x += 80
+		$txtWall12ST = GUICtrlCreateInput("0", $x, $y , 25, 19, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			_GUICtrlSetTip(-1, GetTranslated(617,30, "Input number of Walls level")&" 12 "&GetTranslated(617,31, "you have."))
+		$Wall12ST = GUICtrlCreateIcon($pIconLib, $eWall12, $x+27, $y-2, 24, 24)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 

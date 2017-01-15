@@ -6,7 +6,7 @@
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: MonkeyHunter (05/06-2016)
-; Modified ......: MR.ViPER (16-10-2016), TheRevenor (22-10-2016)
+; Modified ......: MR.ViPER (16-10-2016), TheRevenor (22-10-2016), MR.ViPER (10-12-2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -102,6 +102,7 @@ Func SmartWait4Train()
 
 	; get spell training time remaining if enabled
 	If ($ichkCloseWaitTrain = 1 Or BitAND($iTrainWaitCloseFlag, $TRAINWAIT_SHIELD) = $TRAINWAIT_SHIELD) And IsWaitforSpellsActive() Then
+		$ichkCloseWaitSpell = 1
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$ichkCloseWaitSpell enabled", $COLOR_DEBUG)
 		getArmySpellTime()
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmySpellTime returned: " & $aTimeTrain[1], $COLOR_DEBUG)
@@ -113,10 +114,13 @@ Func SmartWait4Train()
 			$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_SPELL)
 		EndIf
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", spell time = " & StringFormat("%.2f", $aTimeTrain[1]), $COLOR_DEBUG)
+	Else
+		$ichkCloseWaitSpell = 0
 	EndIf
 
 	; get hero regen time remaining if enabled
 	If ($ichkCloseWaitTrain = 1 Or BitAND($iTrainWaitCloseFlag, $TRAINWAIT_SHIELD) = $TRAINWAIT_SHIELD) And IsWaitforHeroesActive() Then
+		$ichkCloseWaitHero = 1
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$ichkCloseWaitHero enabled", $COLOR_DEBUG)
 		For $j = 0 To UBound($aResult) - 1
 			$aHeroResult[$j] = 0 ; reset old values
@@ -124,45 +128,45 @@ Func SmartWait4Train()
 		If _Sleep($iDelayRespond) Then Return
 		$aHeroResult = getArmyHeroTime("all")
 		If @error Then
-			Setlog("getArmyHeroTime return error, exit SmartWait!", $COLOR_ERROR)
+			Setlog("getArmyHeroTime return error: " & @error & ", exit SmartWait!", $COLOR_ERROR)
 			Return ; if error, then quit smartwait
+		EndIf
+		If Not IsArray($aHeroResult) Then
+			Setlog("getArmyHeroTime OCR fail, exit SmartWait!", $COLOR_ERROR)
+			Return ; quit when ocr fai, stop trying to close while training this time
 		EndIf
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then SetLog("getArmyHeroTime returned: " & $aHeroResult[0] & ":" & $aHeroResult[1] & ":" & $aHeroResult[2], $COLOR_DEBUG)
 		If _Sleep($iDelayRespond) Then Return
-		If UBound($aHeroResult) > 2 then
-			If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Then ; check if hero is enabled to use/wait and set wait time
-				For $pTroopType = $eKing To $eWarden ; check all 3 hero
-					For $pMatchMode = $DB To $iModeCount - 1 ; check all attack modes
+		If $aHeroResult[0] > 0 Or $aHeroResult[1] > 0 Or $aHeroResult[2] > 0 Then ; check if hero is enabled to use/wait and set wait time
+			For $pTroopType = $eKing To $eWarden ; check all 3 hero
+				For $pMatchMode = $DB To $iModeCount - 1 ; check all attack modes
+					If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then
+						SetLog("$pTroopType: " & NameOfTroop($pTroopType) & ", $pMatchMode: " & $sModeText[$pMatchMode], $COLOR_DEBUG)
+						Setlog("TroopToBeUsed: " & IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) & ", Hero Wait Status: " & String(IsSearchModeActiveMini($pMatchMode) And IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) And $iHeroUpgrading[$pTroopType - $eKing] <> 1 And $iHeroWaitNoBit[$pMatchMode][$pTroopType - $eKing] = 1), $COLOR_DEBUG)
+						SetLog("$iHeroAttack[" & $pMatchMode & "]= " & $iHeroAttack[$pMatchMode] & ", $iHeroWait[" & $pMatchMode & "]= " & $iHeroWait[$pMatchMode] & ", $iHeroAttack[" & $pMatchMode & "]= " & $iHeroAttack[$pMatchMode] & ", $iHeroUpgradingBit=" & $iHeroUpgradingBit, $COLOR_DEBUG)
+					EndIf
+					$iActiveHero = -1
+					;If IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) And BitAND($iHeroAttack[$pMatchMode], $iHeroWait[$pMatchMode]) = $iHeroAttack[$pMatchMode] Then ; check if Hero enabled to wait
+					If IsSearchModeActiveMini($pMatchMode) And IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) And $iHeroUpgrading[$pTroopType - $eKing] <> 1 And $iHeroWaitNoBit[$pMatchMode][$pTroopType - $eKing] = 1 Then
+						$iActiveHero = $pTroopType - $eKing ; compute array offset to active hero
+					EndIf
+					If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
+						; check exact time & existing time is less than new time
+						If $ibtnCloseWaitRandom = 1 And $aTimeTrain[2] < $aHeroResult[$iActiveHero] Then
+							$aTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent) ; add some random percent
+						ElseIf $ibtnCloseWaitExact = 1 And $aTimeTrain[2] < $aHeroResult[$iActiveHero] Then
+							$aTimeTrain[2] = $aHeroResult[$iActiveHero] ; use exact time
+						EndIf
+						$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_HERO)
 						If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then
-							SetLog("$pTroopType: " & NameOfTroop($pTroopType) & ", $pMatchMode: " & $sModeText[$pMatchMode], $COLOR_DEBUG)
-							Setlog("TroopToBeUsed: " & IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) & ", Hero Wait Status: " & (BitAND($iHeroAttack[$pMatchMode], $iHeroWait[$pMatchMode]) = $iHeroAttack[$pMatchMode]), $COLOR_DEBUG)
+							SetLog("Wait enabled: " & NameOfTroop($pTroopType) & ":" & $sModeText[$pMatchMode] & ", $iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", Hero Time:" & $aHeroResult[$iActiveHero] & ", Wait Time: " & StringFormat("%.2f", $aTimeTrain[2]), $COLOR_DEBUG)
 						EndIf
-						$iActiveHero = -1
-						If IsSpecialTroopToBeUsed($pMatchMode, $pTroopType) And _
-								BitAND($iHeroAttack[$pMatchMode], $iHeroWait[$pMatchMode]) = $iHeroAttack[$pMatchMode] Then ; check if Hero enabled to wait
-							$iActiveHero = $pTroopType - $eKing ; compute array offset to active hero
-						EndIf
-						If $iActiveHero <> -1 And $aHeroResult[$iActiveHero] > 0 Then ; valid time?
-							; check exact time & existing time is less than new time
-							If $ibtnCloseWaitRandom = 1 And $aTimeTrain[2] < $aHeroResult[$iActiveHero] Then
-								$aTimeTrain[2] = $aHeroResult[$iActiveHero] + ($aHeroResult[$iActiveHero] * $RandomAddPercent) ; add some random percent
-							ElseIf $ibtnCloseWaitExact = 1 And $aTimeTrain[2] < $aHeroResult[$iActiveHero] Then
-								$aTimeTrain[2] = $aHeroResult[$iActiveHero] ; use exact time
-							EndIf
-							$iTrainWaitCloseFlag = BitOR($iTrainWaitCloseFlag, $TRAINWAIT_HERO)
-							If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then
-								SetLog("Wait enabled: " & NameOfTroop($pTroopType) & ":" & $sModeText[$pMatchMode] & ", $iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", Hero Time:" & $aHeroResult[$iActiveHero] & ", Wait Time: " & StringFormat("%.2f", $aTimeTrain[2]), $COLOR_DEBUG)
-							EndIf
-						EndIf
-					Next
-					If _Sleep($iDelayRespond) Then Return
+					EndIf
 				Next
-			Else
-				If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("getArmyHeroTime return all zero hero wait times", $COLOR_DEBUG)
-			EndIf
+				If _Sleep($iDelayRespond) Then Return
+			Next
 		Else
-			Setlog("getArmyHeroTime return error, exit SmartWait!", $COLOR_ERROR)
-			$aTimeTrain[2] = 0
+			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("getArmyHeroTime return all zero hero wait times", $COLOR_DEBUG)
 		EndIf
 		If $aTimeTrain[2] > 0 Then
 			If $ibtnCloseWaitRandom = 1 Then
@@ -172,6 +176,7 @@ Func SmartWait4Train()
 		EndIf
 		If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$iTrainWaitCloseFlag:" & $iTrainWaitCloseFlag & ", hero time = " & StringFormat("%.2f", $aTimeTrain[2]), $COLOR_DEBUG)
 	Else
+		$ichkCloseWaitHero = 0
 		$aTimeTrain[2] = 0 ; clear hero remain time if disabled during stop
 	EndIf
 
@@ -272,6 +277,8 @@ Func SmartWait4Train()
 				$aTimeTrain[$i] = 0
 			Next
 		Else
+			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$ichkCloseWaitSpell=" & $ichkCloseWaitSpell & ", $aTimeTrain[1]=" & $aTimeTrain[1], $COLOR_DEBUG)
+			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("$ichkCloseWaitHero=" & $ichkCloseWaitHero & ", $aTimeTrain[2]=" & $aTimeTrain[2], $COLOR_DEBUG)
 			If $debugsetlogTrain = 1 Or $debugSetlog = 1 Then Setlog("Troop training with time remaining not enabled, skip SmartWait game exit", $COLOR_DEBUG)
 		EndIf
 	ElseIf $iTrainWaitTime < $MinimumTimeClose Then

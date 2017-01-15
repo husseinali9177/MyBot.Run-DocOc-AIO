@@ -13,13 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; Multi Finger Attack Style Setting- added rulesss
-Global Enum $directionLeft, $directionRight
-Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
-Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
-Global $iMultiFingerStyle = 1
-Global Enum $eCCSpell = $eHaSpell + 1
-
 ; CSV Speed
 Global $cmbCSVSpeed[2] = [$LB, $DB]
 Global $icmbCSVSpeed[2] = [$LB, $DB]
@@ -50,10 +43,6 @@ Global $UpgradeDuration
 Global $canContinueLoop = 1
 Global $YtoDelete = 100
 
-;Trsorerie
-Global $ichkTrap, $iChkCollect, $ichkTombstones, $ichkCleanYard, $itxtTreasuryGold, $itxtTreasuryElixir, $itxtTreasuryDark, $ichkCollectTresory, $chkCollectTresory
-Global $chkCollectTresoryGold, $ichkCollectTresoryGold, $chkCollectTresoryElixir, $ichkCollectTresoryElixir, $chkCollectTresoryDark, $ichkCollectTresoryDark, $ichkTRFull
-
 Global $ichkAutoHide ; AutoHide mode enabled disabled
 Global $ichkAutoHideDelay
 
@@ -65,23 +54,23 @@ Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkT
 
 ; ================================================== SmartSwitchAccount PART ================================================== ;
 
-Global $chkCanUse[6] = [0, 0, 0, 0, 0, 0]
-Global $chkDonateAccount[6] = [0, 0, 0, 0, 0, 0]
-Global $cmbAccount[6] = [0, 0, 0, 0, 0, 0]
+Global $chkCanUse[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $chkDonateAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $cmbAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-Global $ichkCanUse[6] = [0, 0, 0, 0, 0, 0]
-Global $ichkDonateAccount[6] = [0, 0, 0, 0, 0, 0]
-Global $icmbAccount[6] = [0, 0, 0, 0, 0, 0]
+Global $ichkCanUse[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $ichkDonateAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $icmbAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $icmbAccountsQuantity = 0
 
-Global $AllAccountsWaitTimeDiff[6] = [0, 0, 0, 0, 0, 0]
-Global $AllAccountsWaitTime[6] = [0, 0, 0, 0, 0, 0]
+Global $AllAccountsWaitTimeDiff[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $AllAccountsWaitTime[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $CurrentAccountWaitTime = 0
 
-Global $TimerDiffStart[6] = [0, 0, 0, 0, 0, 0]
-Global $TimerDiffEnd[6] = [0, 0, 0, 0, 0, 0]
+Global $TimerDiffStart[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $TimerDiffEnd[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $Init = False
 Global $TotalAccountsOnEmu = 0
@@ -93,7 +82,48 @@ Global $MustGoToDonateAccount = 0
 Global $yCoord, $HeroesRemainingWait, $TotalAccountsInUse, $TotalDAccountsInUse, $ichkSwitchAccount, $NextAccount, $NextProfile
 Global $cycleCount = 0
 Global $IsDonateAccount = 0
+Global $IsLoadButton = False, $AlreadyConnected = False, $NextStep = 0
 
 Global $SSAConfig = $sProfilePath & "\Profile.ini"
+Global $SSAAtkLog = $sProfilePath & "\SmartSwitchAccount_Attack_Report.txt"
+Global $LastDate = ""
+
+Global $profileString = ""
 
 ; ================================================== SmartSwitchAccount END ================================================== ;
+
+;Forecast Added by rulesss
+Global Const $COLOR_DEEPPINK = 0xFF1493
+Global Const $COLOR_DARKGREEN = 0x006400
+Global $oIE = ObjCreate("Shell.Explorer.2")
+Global $dtStamps[0]
+Global $lootMinutes[0]
+Global $timeOffset = 0
+Global $TimerForecast = 0
+Global $lootIndexScaleMarkers
+Global $currentForecast
+Global $chkForecastBoost, $txtForecastBoost
+Global $iChkForecastBoost, $iTxtForecastBoost
+Global $cmbForecastHopingSwitchMax, $cmbForecastHopingSwitchMin
+Global $ichkForecastHopingSwitchMax, $icmbForecastHopingSwitchMax, $itxtForecastHopingSwitchMax, $ichkForecastHopingSwitchMin, $icmbForecastHopingSwitchMin, $itxtForecastHopingSwitchMin
+;Added Multi Switch Language by rulesss and Kychera
+Global $icmbSwLang
+Global $cmbSwLang
+
+; ChatBot -modification by rulesss
+Global $FoundChatMessage = 0
+Global $ChatbotStartTime
+
+;====================
+; ChatBot -modification by rulesss
+Global $FoundChatMessage = 0
+Global $ChatbotStartTime
+;=====================
+;==========Modified kychera===========
+Global $chkRusLang2
+Global $ichkRusLang2 = 0
+Global $chkRusLang
+Global $ichkRusLang = 0
+Global $cmbLang
+Global $icmbLang
+;======================================

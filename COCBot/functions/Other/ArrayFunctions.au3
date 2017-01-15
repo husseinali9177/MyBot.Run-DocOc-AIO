@@ -93,3 +93,16 @@ Func _ArrayMerge(ByRef $a_base, ByRef $a_add, $i_start = 0)
 		_ArrayAdd($a_base, $a_add[$X])
 	Next
 EndFunc   ;==>_ArrayMerge
+
+Func _ArrayClear(ByRef $aArray)
+    Local $iCols = UBound($aArray, 2)
+    Local $iDim = UBound($aArray, 0)
+    Local $iRows = UBound($aArray, 1)
+    If $iDim = 1 Then
+        Local $aArray1D[$iRows]
+        $aArray = $aArray1D
+    Else
+        Local $aArray2D[$iRows][$iCols]
+        $aArray = $aArray2D
+    EndIf
+EndFunc   ;==>_ArrayClear

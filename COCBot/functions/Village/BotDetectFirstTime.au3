@@ -19,29 +19,29 @@ Func BotDetectFirstTime()
 	ClickP($aAway, 1, 0, "#0166") ; Click away
 	If _Sleep($iDelayBotDetectFirstTime1) Then Return
 
-	SetLog("Detecting your Buildings..", $COLOR_BLUE)
+	SetLog("Detecting your Buildings..", $COLOR_INFO)
 
 	If (isInsideDiamond($TownHallPos) = False) Then
-		Zoomout()
-		Collect()
-		Local $PixelTHHere = GetLocationItem("getLocationTownHall", True)
+		If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) And _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
+			Zoomout()
+			Collect()
+		EndIf
+		_CaptureRegion2()
+		Local $PixelTHHere = GetLocationItem("getLocationTownHall")
 		If UBound($PixelTHHere) > 0 Then
 			$pixel = $PixelTHHere[0]
-			$TownHallPos[0] = $pixel[0] + 5
-			$TownHallPos[1] = $pixel[1] + 5
-			If $debugSetlog = 1 Then SetLog("ImgLoc# Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_DEBUG) ;Debug
+			$TownHallPos[0] = $pixel[0]
+			$TownHallPos[1] = $pixel[1]
+			If $debugSetlog = 1 Then SetLog("DLLc# Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_ERROR)
 		EndIf
 		If $TownHallPos[1] = "" Or $TownHallPos[1] = -1 Then
-			townHallCheck(True)
+			;checkTownhallADV2()
+			imglocTHSearch(True, True) ; search th on myvillage
 			$TownHallPos[0] = $THx
 			$TownHallPos[1] = $THy
-			If $debugSetlog = 1 Then SetLog("OldDDL Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_DEBUG) ;Debug
+			If $debugSetlog = 1 Then SetLog("OldDDL Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_ERROR)
 		EndIf
-		If $TownHallPos[1] = "" Or $TownHallPos[1] = -1 Then
-			LocateTownHall(False)
-		EndIf
-		SetLog("Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_DEBUG) ;Debug
-		SaveConfig()
+		SetLog("Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_DEBUG)
 	EndIf
 
 	If Number($iTownHallLevel) < 2 Then
@@ -49,17 +49,17 @@ Func BotDetectFirstTime()
 		If IsArray($Result) Then $iTownHallLevel = 0 ; Check for error finding TH level, and reset to zero if yes
 	EndIf
 	If Number($iTownHallLevel) > 1 And Number($iTownHallLevel) < 6 Then
-		Setlog("Warning: TownHall level below 6 NOT RECOMMENDED!", $COLOR_RED)
-		Setlog("Proceed with caution as errors may occur.", $COLOR_RED)
+		Setlog("Warning: TownHall level below 6 NOT RECOMMENDED!", $COLOR_ERROR)
+		Setlog("Proceed with caution as errors may occur.", $COLOR_ERROR)
 	EndIf
 
-	If _Sleep($iDelayBotDetectFirstTime1) Then Return
-
+	;If _Sleep($iDelayBotDetectFirstTime1) Then Return
+	;ClanLevel()
 	If _Sleep($iDelayBotDetectFirstTime1) Then Return
 	CheckImageType()
 	If _Sleep($iDelayBotDetectFirstTime1) Then Return
 
-	If GUICtrlRead($chkScreenshotHideName) = $GUI_CHECKED Or $ichkScreenshotHideName = 1 Then
+	If $ichkScreenshotHideName = 1 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $aCCPos[0] = -1 Then
 			LocateClanCastle()
@@ -75,7 +75,7 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	If (GUICtrlRead($cmbBoostBarbarianKing) > 0) Or $ichkUpgradeKing = 1 Then
+	If $icmbBoostBarbarianKing > 0 Or $ichkUpgradeKing = 1 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $KingAltarPos[0] = -1 Then
 			LocateKingAltar()
@@ -83,7 +83,7 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	If (GUICtrlRead($cmbBoostArcherQueen) > 0) Or $ichkUpgradeQueen = 1 Then
+	If $icmbBoostArcherQueen > 0 Or $ichkUpgradeQueen = 1 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $QueenAltarPos[0] = -1 Then
 			LocateQueenAltar()
@@ -91,7 +91,7 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	If Number($iTownHallLevel) > 10 And ((GUICtrlRead($cmbBoostWarden) > 0) Or $ichkUpgradeWarden = 1) Then
+	If Number($iTownHallLevel) > 10 And $icmbBoostWarden > 0 Or $ichkUpgradeWarden = 1 Then
 		If _Sleep($iDelayBotDetectFirstTime3) Then Return
 		If $WardenAltarPos[0] = -1 Then
 			LocateWardenAltar()
@@ -99,37 +99,10 @@ Func BotDetectFirstTime()
 		EndIf
 	EndIf
 
-	;Display Level TH in Stats
 	GUICtrlSetData($lblTHLevels, "")
-
-	;Boju Display TH Level in Stats
 	_GUI_Value_STATE("HIDE", $groupListTHLevels)
-	If $debugSetlog = 1 Then Setlog("Select TH Level:" & Number($iTownHallLevel), $COLOR_DEBUG) ;Debug
-	Switch Number($iTownHallLevel)
-		Case 4
-			GUICtrlSetState($THLevels04, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "4")
-		Case 5
-			GUICtrlSetState($THLevels05, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "5")
-		Case 6
-			GUICtrlSetState($THLevels06, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "6")
-		Case 7
-			GUICtrlSetState($THLevels07, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "7")
-		Case 8
-			GUICtrlSetState($THLevels08, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "8")
-		Case 9
-			GUICtrlSetState($THLevels09, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "9")
-		Case 10
-			GUICtrlSetState($THLevels10, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "10")
-		Case 11
-			GUICtrlSetState($THLevels11, $GUI_SHOW)
-			GUICtrlSetData($lblTHLevels, "11")
-	EndSwitch
-	GUICtrlSetState(Eval("$THLevels" + Number($iTownHallLevel)), $GUI_SHOW)
+	If $debugSetlog = 1 Then Setlog("Select TH Level:" & Number($iTownHallLevel), $COLOR_DEBUG)
+	GUICtrlSetState(Eval("THLevels" & Number($iTownHallLevel)), $GUI_SHOW)
+	GUICtrlSetData($lblTHLevels, Number($iTownHallLevel))
+
 EndFunc   ;==>BotDetectFirstTime

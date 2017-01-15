@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Control Misc
 ; Description ...: This file Includes all functions to current GUI
@@ -164,6 +166,7 @@ Func btnRenameConfirm()
 			SetLog("If you are seeing this log message there is something wrong.", $COLOR_ERROR)
 	EndSwitch
 EndFunc   ;==>btnRenameConfirm
+
 Func cmbBotCond()
 	If _GUICtrlComboBox_GetCurSel($cmbBotCond) = 15 Then
 		If _GUICtrlComboBox_GetCurSel($cmbHoursStop) = 0 Then _GUICtrlComboBox_SetCurSel($cmbHoursStop, 1)
@@ -183,34 +186,6 @@ Func chkBotStop()
 		GUICtrlSetState($cmbBotCond, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkBotStop
-;Func btnLocateBarracks()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateBarrack()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateBarracks") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateBarracks
-
-
-;Func btnLocateDarkBarracks()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateDarkBarrack()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateBarracks") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateDarkBarracks
-
-
-;Func btnLocateArmyCamp()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateBarrack(True)
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateArmyCamp") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateArmyCamp
 
 Func btnLocateClanCastle()
 	Local $wasRunState = $RunState
@@ -221,28 +196,10 @@ Func btnLocateClanCastle()
 	AndroidShield("btnLocateClanCastle") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateClanCastle
 
-;Func btnLocateSpellfactory()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateSpellFactory()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateSpellfactory") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateSpellfactory
-
-;Func btnLocateDarkSpellfactory()
-;	Local $wasRunState = $RunState
-;	$RunState = True
-;	ZoomOut()
-;	LocateDarkSpellFactory()
-;	$RunState = $wasRunState
-;	AndroidShield("btnLocateDarkSpellfactory") ; Update shield status due to manual $RunState
-;EndFunc   ;==>btnLocateDarkSpellfactory
 
 Func btnLocateKingAltar()
 	LocateKingAltar()
 EndFunc   ;==>btnLocateKingAltar
-
 
 Func btnLocateQueenAltar()
 	LocateQueenAltar()
@@ -273,8 +230,6 @@ Func btnLocateTownHall()
 	$RunState = $wasRunState
 	AndroidShield("btnLocateTownHall") ; Update shield status due to manual $RunState
 EndFunc   ;==>btnLocateTownHall
-
-
 
 Func btnResetBuilding()
 	Local $wasRunState = $RunState
@@ -340,13 +295,29 @@ Func chkTrophyRange()
 		GUICtrlSetState($chkTrophyHeroes, $GUI_ENABLE)
 		GUICtrlSetState($chkTrophyAtkDead, $GUI_ENABLE)
 		chkTrophyAtkDead()
+		chkTrophyHeroes()
 	Else
 		GUICtrlSetState($txtdropTrophy, $GUI_DISABLE)
 		GUICtrlSetState($txtMaxTrophy, $GUI_DISABLE)
 		GUICtrlSetState($chkTrophyHeroes, $GUI_DISABLE)
+		GUICtrlSetState($chkTrophyHeroes, $GUI_UNCHECKED)
 		GUICtrlSetState($chkTrophyAtkDead, $GUI_DISABLE)
+		GUICtrlSetState($chkTrophyAtkDead, $GUI_UNCHECKED)
 		GUICtrlSetState($txtDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmyMin, $GUI_DISABLE)
 		GUICtrlSetState($lblDTArmypercent, $GUI_DISABLE)
+	    GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	    GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkTrophyRange
+
+ Func chkTrophyHeroes()
+	If  GUICtrlRead($chkTrophyHeroes) = $GUI_CHECKED  Then
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_ENABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_ENABLE)
+	Else
+	   GUICtrlSetState($lblTrophyHeroesPriority, $GUI_DISABLE)
+	   GUICtrlSetState($cmbTrophyHeroesPriority, $GUI_DISABLE)
+	EndIf
+
+ EndFunc   ;==>chkTrophyHeroes

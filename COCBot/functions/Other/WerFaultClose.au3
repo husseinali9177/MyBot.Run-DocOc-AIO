@@ -14,7 +14,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func WerFaultClose($programFile, $tryCount = 0)
+Func WerFaultClose($programFile, $tryCountMax = 10, $tryCount = 0)
 
 	Local $WinTitleMatchMode = Opt("WinTitleMatchMode", -3) ; Window Title exact match mode (case insensitive)
 	Local $title = $programFile
@@ -52,11 +52,11 @@ Func WerFaultClose($programFile, $tryCount = 0)
 							SetDebugLog("Killed " & $werfault & " Window " & $HWnD)
 							$closed += 1
 						Else
-							SetDebugLog("Cannot close " & $werfault & " Window " & $HWnD, $COLOR_RED)
+							SetDebugLog("Cannot close " & $werfault & " Window " & $HWnD, $COLOR_ERROR)
 						EndIf
 					EndIf
 				Else
-					SetDebugLog("Process " & $pid & " is not WerFault, " & $process.CommandLine, $COLOR_RED)
+					SetDebugLog("Process " & $pid & " is not WerFault, " & $process.CommandLine, $COLOR_ERROR)
 				EndIf
 			ELse
 				SetDebugLog("Wmi Object for process " & $pid & " not found")
@@ -68,16 +68,16 @@ Func WerFaultClose($programFile, $tryCount = 0)
 		Local $pFileVersionInfo
 		If _WinAPI_GetFileVersionInfo($programFile, $pFileVersionInfo) Then
 			Local $FileDescription = _WinAPI_VerQueryValue($pFileVersionInfo, $FV_FILEDESCRIPTION)
-			If $FileDescription <> "" Then Return WerFaultClose($FileDescription, $tryCount)
+			If $FileDescription <> "" Then Return WerFaultClose($FileDescription, $tryCountMax, $tryCount)
 		EndIf
 	EndIf
 
-	If $closed > 0 And $tryCount < 10 Then
+	If $closed > 0 And $tryCount < $tryCountMax Then
 
 		If _Sleep(1000) = False Then
 
 			; recursive call, as more windows might popup
-			$closed += WerFaultClose($programFile, $tryCount + 1)
+			$closed += WerFaultClose($programFile, $tryCountMax, $tryCount + 1)
 
 		EndIF
 

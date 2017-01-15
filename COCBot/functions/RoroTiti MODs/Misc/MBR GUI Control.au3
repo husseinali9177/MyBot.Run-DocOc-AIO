@@ -13,35 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; GUI Control for Classic FourFinger Attack - DEMEN
-Func cmbDeployAB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
-	If _GUICtrlComboBox_GetCurSel($cmbDeployAB) = 4 Or _GUICtrlComboBox_GetCurSel($cmbDeployAB) = 5 Then
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_UNCHECKED)
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_DISABLE)
-	Else
-		GUICtrlSetState($chkSmartAttackRedAreaAB, $GUI_ENABLE)
-	EndIf
-	chkSmartAttackRedAreaAB()
-EndFunc   ;==>cmbDeployAB
-
-Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
-	If _GUICtrlComboBox_GetCurSel($cmbDeployDB) = 4 Or _GUICtrlComboBox_GetCurSel($cmbDeployDB) = 5 Then
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)
-	Else
-		GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
-	EndIf
-	chkSmartAttackRedAreaDB()
-EndFunc   ;==>cmbDeployDB
-; ============= Classic FourFinger Attack ============ - DEMEN
-
-; GUI Control for Multi Finger Attack
-Func Bridge()
-	cmbDeployDB()
-	cmbDBMultiFinger()
-EndFunc   ;==>Bridge
-; GUI Control for Multi Finger Attack
-
 Func cmbCSVSpeed()
 
 	Switch _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$iMatchMode])
@@ -188,3 +159,24 @@ Func chkCoCStats()
 	EndIf
 	IniWrite($config, "Stats", "chkCoCStats", $ichkCoCStats)
 EndFunc   ;==>chkCoCStats
+
+Func cmbSwLang();Added Multi Switch Language by rulesss and kychera
+ Switch GUICtrlRead($cmbSwLang) 
+	Case "EN"
+		setForecast2()
+	Case "RU"
+		setForecast3()
+	Case "FR"
+		setForecast4()
+	Case "DE"
+		setForecast5()
+	Case "ES"
+		setForecast6()
+	Case "IT"
+		setForecast7()
+	Case "PT"
+		setForecast8()
+	Case "IN"
+		setForecast9()
+ EndSwitch
+EndFunc	 

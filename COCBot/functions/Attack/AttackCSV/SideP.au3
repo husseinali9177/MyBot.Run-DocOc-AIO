@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 Global $DebugSideP = 0
-Global Const $dGoldMines = @ScriptDir & "\imgxml\Resources\SideP\GoldMines", $dDarkDrills = @ScriptDir & "\imgxml\Resources\SideP\Drills", $dElixirCollectors = @ScriptDir & "\imgxml\Resources\SideP\Collectors"
+Global $dGoldMines = @ScriptDir & "\imgxml\Storages\SideP\GoldMines", $dDarkDrills = @ScriptDir & "\imgxml\Storages\SideP\Drills", $dElixirCollectors = @ScriptDir & "\imgxml\Storages\SideP\Collectors"
 Global $allMinesFound[7][3], $allCollectorsFound[7][3], $allDrillsFound[3][3]
 
 Func TestSideP()
@@ -402,6 +402,9 @@ EndFunc   ;==>ValidateOldPositions
 
 Func GetSidePPositions($sToFind, $useOldCapture = True)
 	Local $cDiamondImgLoc = "ECD", $rdImgLoc = "ECD"
+	; Change images dir according to the COC Theme, just need to change GoldMines images dir
+	If $iDetectedImageType = 1 Then $dGoldMines = @ScriptDir & "\imgxml\Storages\Mines_Snow"
+
 	Local $rFindMultiple
 	Switch $sToFind
 		Case "Mine"

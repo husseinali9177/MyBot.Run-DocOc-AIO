@@ -20,41 +20,35 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 
 	Switch $bBypass
 		Case False
-			If Not $bSuppressLog Then SetLog("Village Report", $COLOR_BLUE)
+			If Not $bSuppressLog Then SetLog("Village Report", $COLOR_INFO)
 		Case True
-			If Not $bSuppressLog Then SetLog("Updating Village Resource Values", $COLOR_BLUE)
+			If Not $bSuppressLog Then SetLog("Updating Village Resource Values", $COLOR_INFO)
 		Case Else
-			If Not $bSuppressLog Then SetLog("Village Report Error, You have been a BAD programmer!", $COLOR_RED)
+			If Not $bSuppressLog Then SetLog("Village Report Error, You have been a BAD programmer!", $COLOR_ERROR)
 	EndSwitch
-
-	IsWaitingForConnection()
 
 	getBuilderCount($bSuppressLog) ; update builder data
 	If _Sleep($iDelayRespond) Then Return
 
 	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-	If Not $bSuppressLog Then Setlog(" [T]: " & _NumberFormat($iTrophyCurrent), $COLOR_GREEN)
+	If Not $bSuppressLog Then Setlog(" [T]: " & _NumberFormat($iTrophyCurrent), $COLOR_SUCCESS)
 
-	If _ColorCheck(_GetPixelColor(812, 141, True), Hex(0x000000, 6), 10) Then ; check if the village have a Dark Elixir Storage
+	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
 		$iGoldCurrent = getResourcesMainScreen(696, 23)
 		$iElixirCurrent = getResourcesMainScreen(696, 74)
 		$iDarkCurrent =  getResourcesMainScreen(728, 123)
 		$iGemAmount = getResourcesMainScreen(740, 171)
-		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [D]: " & _NumberFormat($iDarkCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_GREEN)
+		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [D]: " & _NumberFormat($iDarkCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
 	Else
 		$iGoldCurrent = getResourcesMainScreen(701, 23)
 		$iElixirCurrent = getResourcesMainScreen(701, 74)
 		$iGemAmount = getResourcesMainScreen(719, 123)
-		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_GREEN)
+		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
 	EndIf
 	If $bBypass = False Then ; update stats
 		UpdateStats()
 	EndIf
 
-	If $RunModeChart = 1 Then ; Add Values to Chart File. After Start Button Push, After Village Report Reads Values
-		ChartAddDataPoint1hr("Total", True)
-		$RunModeChart = 0
-	EndIf
 	Local $i = 0
 	While _ColorCheck(_GetPixelColor(819, 39, True), Hex(0xF8FCFF, 6), 20) = True ; wait for Builder/shop to close
 		$i += 1

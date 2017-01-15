@@ -8,7 +8,7 @@
 ;                  $iRight              - [optional] an integer value. Default is $GAME_WIDTH.
 ;                  $iBottom             - [optional] an integer value. Default is $GAME_HEIGHT.
 ;                  $ReturnBMP           - DEPRECATED! [optional] an boolean value. Default is False.
-;                  $ReturnLocal_hHBitmap- [optional] an boolean value. Default is False, if True no global variables as changed
+;                  $ReturnLocal_hHBitmap- [optional] an boolean value. Default is False, if True no global variables are changed
 ;                                         and Local $_hHBitmap is returned.
 ; Return values .: None
 ; Author ........:
@@ -22,15 +22,14 @@
 Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GAME_HEIGHT, $ReturnBMP = False, $ReturnLocal_hHBitmap = False)
 	Local $SuspendMode
 
-	If $ReturnLocal_hHBitmap = False And $hHBitmap <> $hHBitmapTest Then
+	If $ReturnLocal_hHBitmap = False Then
 		_GDIPlus_BitmapDispose($hBitmap)
-		_WinAPI_DeleteObject($hHBitmap)
+		If $hHBitmap <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then _WinAPI_DeleteObject($hHBitmap)
 	EndIf
-
-	If $RunState Then CheckAndroidRunning() ; Ensure Android is running
 
 	Local $_hHBitmap = $hHBitmapTest
 	If $hHBitmapTest = 0 Then
+		If $RunState Then CheckAndroidRunning() ; Ensure Android is running
 		If $ichkBackground = 1 Then
 			Local $iW = Number($iRight) - Number($iLeft), $iH = Number($iBottom) - Number($iTop)
 
@@ -38,15 +37,20 @@ Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GA
 				$_hHBitmap = AndroidScreencap($iLeft, $iTop, $iW, $iH)
 			Else
 				$SuspendMode = ResumeAndroid(False)
-				Local $hCtrl = ControlGetHandle($HWnD, $AppPaneName, $AppClassInstance)
+				;Local $hCtrl = ControlGetHandle($HWnD, $AppPaneName, $AppClassInstance)
+				Local $hCtrl = ControlGetHandle(GetCurrentAndroidHWnD(), $AppPaneName, $AppClassInstance)
+				If $hCtrl = 0 Then SetLog("AndroidHandle not found, contact support", $COLOR_ERROR)
 				Local $hDC_Capture = _WinAPI_GetDC($hCtrl)
 				Local $hMemDC = _WinAPI_CreateCompatibleDC($hDC_Capture)
 				$_hHBitmap = _WinAPI_CreateCompatibleBitmap($hDC_Capture, $iW, $iH)
 				Local $hObjectOld = _WinAPI_SelectObject($hMemDC, $_hHBitmap)
 
-				DllCall("user32.dll", "int", "PrintWindow", "hwnd", $hCtrl, "handle", $hMemDC, "int", 0)
+				Local $flags = 0
+				; $PW_CLIENTONLY = 1 ; Only the client area of the window is copied to hdcBlt. By default, the entire window is copied.
+				; $PW_RENDERFULLCONTENT = 2 ; New in Windows 8.1, can capture DirectX/OpenGL screens through DWM
+				DllCall("user32.dll", "int", "PrintWindow", "hwnd", $hCtrl, "handle", $hMemDC, "int", $flags)
 				_WinAPI_SelectObject($hMemDC, $_hHBitmap)
-				_WinAPI_BitBlt($hMemDC, 0, 0, $iW, $iH, $hDC_Capture, $iLeft, $iTop, 0x00CC0020)
+				_WinAPI_BitBlt($hMemDC, 0, 0, $iW, $iH, $hDC_Capture, $iLeft, $iTop, $SRCCOPY)
 
 				_WinAPI_DeleteDC($hMemDC)
 				_WinAPI_SelectObject($hMemDC, $hObjectOld)
@@ -59,6 +63,9 @@ Func _CaptureRegion($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GA
 			$_hHBitmap = _ScreenCapture_Capture("", $iLeft + $BSpos[0], $iTop + $BSpos[1], $iRight + $BSpos[0] - 1, $iBottom + $BSpos[1] - 1, False)
 			SuspendAndroid($SuspendMode, False)
 		EndIf
+	ElseIf $iLeft > 0 Or $iTop > 0 Or $iRight < $GAME_WIDTH Or $iBottom < $GAME_HEIGHT Then
+		; resize test image
+		$_hHBitmap = GetHHBitmapArea($hHBitmapTest, $iLeft, $iTop, $iRight, $iBottom)
 	EndIf
 
     $ForceCapture = False
@@ -91,16 +98,71 @@ EndFunc   ;==>_CaptureRegion
 ; ===============================================================================================================================
 Func _CaptureRegion2($iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GAME_HEIGHT)
 
-	If $hHBitmap2 <> $hHBitmapTest Then
+	If $hHBitmap2 <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then
 		_WinAPI_DeleteObject($hHBitmap2) ; delete previous DC object using global handle
 	EndIf
-	If $hHBitmapTest = 0 Then
-		$hHBitmap2 = _CaptureRegion($iLeft, $iTop, $iRight, $iBottom, False, True)
-	Else
-		$hHBitmap2 = $hHBitmapTest
-	EndIf
+	$hHBitmap2 = _CaptureRegion($iLeft, $iTop, $iRight, $iBottom, False, True)
 
 EndFunc   ;==>_CaptureRegion2
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: _CaptureRegion2Sync
+; Description ...: Updates $hHBitmap2 from $hHBitmap
+; Syntax ........: _CaptureRegion2Sync()
+; Parameters ....: None
+; Return values .: None
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func _CaptureRegion2Sync()
+	If $hHBitmap2 <> $hHBitmapTest And $hHBitmap2 <> $hHBitmap Then
+		_WinAPI_DeleteObject($hHBitmap2) ; delete previous DC object using global handle
+	EndIf
+	$hHBitmap2 = $hHBitmap
+EndFunc   ;==>_CaptureRegion2Sync
+
+; #FUNCTION# ====================================================================================================================
+; Name ..........: GetHHBitmapArea
+; Description ...: Creates a new hHBitmap of given $_hHBitmap in requested size
+; Syntax ........: GetHHBitmapArea($_hHBitmap, [$iLeft = 0[, $iTop = 0[, $iRight = $GAME_WIDTH[, $iBottom = $GAME_HEIGHT]]]])
+; Parameters ....: $_hHBitmap           - hHBitmap of source
+;                  $iLeft               - [optional] an integer value. Default is 0.
+;                  $iTop                - [optional] an integer value. Default is 0.
+;                  $iRight              - [optional] an integer value. Default is $GAME_WIDTH.
+;                  $iBottom             - [optional] an integer value. Default is $GAME_HEIGHT.
+; Return values .: new hHBitmap Object of requested size
+; Author ........:
+; Modified ......:
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
+;                  MyBot is distributed under the terms of the GNU GPL
+; Related .......:
+; Link ..........: https://github.com/MyBotRun/MyBot/wiki
+; Example .......: No
+; ===============================================================================================================================
+Func GetHHBitmapArea($_hHBitmap, $iLeft = 0, $iTop = 0, $iRight = $GAME_WIDTH, $iBottom = $GAME_HEIGHT)
+	Local $iW = Number($iRight) - Number($iLeft), $iH = Number($iBottom) - Number($iTop)
+	Local $hDC = _WinAPI_GetDC($frmBot)
+	Local $hMemDC_src = _WinAPI_CreateCompatibleDC($hDC)
+	Local $hMemDC_dst = _WinAPI_CreateCompatibleDC($hDC)
+	Local $_hHBitmapArea = _WinAPI_CreateCompatibleBitmap($hDC, $iW, $iH)
+	Local $hObjectOld_src = _WinAPI_SelectObject($hMemDC_src, $_hHBitmap)
+	Local $hObjectOld_dst = _WinAPI_SelectObject($hMemDC_dst, $_hHBitmapArea)
+
+	_WinAPI_BitBlt($hMemDC_dst, 0, 0, $iW, $iH, $hMemDC_src, $iLeft, $iTop, $SRCCOPY)
+
+	_WinAPI_SelectObject($hMemDC_src, $hObjectOld_src)
+	_WinAPI_SelectObject($hMemDC_dst, $hObjectOld_dst)
+	_WinAPI_ReleaseDC($frmBot, $hDC)
+	_WinAPI_DeleteDC($hMemDC_src)
+	_WinAPI_DeleteDC($hMemDC_dst)
+
+	Return $_hHBitmapArea
+EndFunc   ;==>GetHHBitmapArea
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: FastCaptureRegion
@@ -173,6 +235,7 @@ EndFunc   ;==>ForceCaptureRegion
 ; ===============================================================================================================================
 Func TestCapture($hHBitmap = Default)
 	If $hHBitmap = Default Then Return $hHBitmapTest <> 0
+	If $hHBitmapTest <> 0 Then _WinAPI_DeleteObject($hHBitmapTest)  ; delete previous DC object using global handle
 	$hHBitmapTest = $hHBitmap
 	Return $hHBitmap
 EndFunc   ;==>TestCapture

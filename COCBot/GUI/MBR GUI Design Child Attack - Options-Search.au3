@@ -15,7 +15,7 @@
 
 Global $txtSearchReduceCount, $txtSearchReduceGold,$txtSearchReduceElixir, $txtSearchReduceGoldPlusElixir,  $txtSearchReduceDark, $txtSearchReduceTrophy
 
-Local $x = 25, $y = 45
+Local $x = 25, $y = 70
 
 	$grpSearchReduction = GUICtrlCreateGroup(GetTranslated(630,1, "Search Reduction"), $x - 20, $y - 20, 223, 165)
 	$x -=13
@@ -30,7 +30,7 @@ Local $x = 25, $y = 45
  			$txtTip = GetTranslated(630,5, "Enter the No. of searches to wait before each reduction occurs.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 3)
-	  $lblSearchReduceCount2 = GUICtrlCreateLabel(GetTranslated(603,5, "search(es)."), $x + 160 , $y + 3, -1, -1)
+	  $lblSearchReduceCount2 = GUICtrlCreateLabel(GetTranslated(603,11, "search(es)."), $x + 160 , $y + 3, -1, -1)
 		$y += 21
 		$lblSearchReduceGold = GUICtrlCreateLabel(GetTranslated(630,6,"- Reduce Gold"), $x, $y + 3, -1, 17)
 			$txtTip = GetTranslated(630,7, "Lower value for Gold by this amount on each step.")
@@ -84,10 +84,11 @@ Local $x = 25, $y = 45
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 25
-	$y = 212
+	$y = 237
 	$grpVSDelay = GUICtrlCreateGroup(GetTranslated(636,75, "Village Search Delay"), $x - 20, $y - 20, 223, 72)
+		$x += 20
 		$txtTip = GetTranslated(636,76, "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack.") & @CRLF & GetTranslated(636,77, "This might compensate for Out of Sync errors on some PC's.") & @CRLF & GetTranslated(636,78, "NO GUARANTEES! This will not always have the same results!")
-		$lblVSDelay0 = GUICtrlCreateLabel(GetTranslated(603,9, -1), $x-14, $y-2, 19, 15, $SS_RIGHT)
+		$lblVSDelay0 = GUICtrlCreateLabel(GetTranslated(603,9, "Min"), $x-20, $y-2, 25, 15, $SS_RIGHT)
 			_GUICtrlSetTip(-1, $txtTip)
 		$lblVSDelay = GUICtrlCreateLabel("0", $x+7, $y-2, 12, 15, $SS_RIGHT)
 			_GUICtrlSetTip(-1, $txtTip)
@@ -98,43 +99,45 @@ Local $x = 25, $y = 45
 			_GUICtrlSlider_SetTicFreq(-1, 1)
 			GUICtrlSetLimit(-1, 12, 0) ; change max/min value
 			GUICtrlSetData(-1, 1) ; default value
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 			GUICtrlSetOnEvent(-1, "sldVSDelay")
 		$y += 25
-		$lblMaxVSDelay0 = GUICtrlCreateLabel(GetTranslated(636,80, "Max"), $x-12, $y-2, 19, 15, $SS_RIGHT)
+		$lblMaxVSDelay0 = GUICtrlCreateLabel(GetTranslated(636,80, "Max"), $x-20, $y-2, 25, 15, $SS_RIGHT)
 			$txtTip = GetTranslated(636,81, "Enable random village search delay value by setting") & @CRLF & GetTranslated(636,82, "bottom Max slide value higher than the top minimum slide")
 			_GUICtrlSetTip(-1, $txtTip)
 		$lblMaxVSDelay = GUICtrlCreateLabel("0", $x+7, $y-2, 12, 15, $SS_RIGHT)
 			_GUICtrlSetTip(-1, $txtTip)
 		$lbltxtMaxVSDelay = GUICtrlCreateLabel(GetTranslated(603,8, -1), $x + 23, $y-2, 45, -1)
-		$sldMaxVSDelay = GUICtrlCreateSlider($x + 70, $y - 4, 125, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
+		$sldMaxVSDelay = GUICtrlCreateSlider($x + 70, $y - 4, 105, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
 			_GUICtrlSetTip(-1, $txtTip)
 			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
 			_GUICtrlSlider_SetTicFreq(-1, 1)
 			GUICtrlSetLimit(-1, 15, 0) ; change max/min value
 			GUICtrlSetData(-1, 4) ; default value
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 			GUICtrlSetOnEvent(-1, "sldMaxVSDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 253
-	$y = 45
+	$y = 70
 	$grpAtkOptions = GUICtrlCreateGroup(GetTranslated(630,16, "Search Options"), $x - 20, $y - 20, 189, 165)
 	$x -= 5
-	   $chkAttackNow = GUICtrlCreateCheckbox(GetTranslated(630,17, "Attack Now! option."), $x-5, $y -8, -1, -1)
+	   $chkAttackNow = GUICtrlCreateCheckbox(GetTranslated(630,17, "Attack Now! option."), $x-5, $y -4, -1, -1)
 			$txtTip = GetTranslated(630,18, "Check this if you want the option to have an 'Attack Now!' button next to") & @CRLF & GetTranslated(630,25, "the Start and Pause buttons to bypass the dead base or all base search values.") & @CRLF & GetTranslated(630,26, "The Attack Now! button will only appear when searching for villages to Attack.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkAttackNow")
-		$lblAttackNow = GUICtrlCreateLabel(GetTranslated(630,19, "Add") & ":", $x +10 , $y + 16, 27, -1, $SS_RIGHT)
+		$lblAttackNow = GUICtrlCreateLabel(GetTranslated(630,19, "Add") & ":", $x +10 , $y + 20, 27, -1, $SS_RIGHT)
 			$txtTip = GetTranslated(630,20, "Add this amount of reaction time to slow down the search.")
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$cmbAttackNowDelay = GUICtrlCreateCombo("", $x + 45, $y + 13, 35, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbAttackNowDelay = GUICtrlCreateCombo("", $x + 45, $y + 17, 35, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "0|1|2|3|4|5", "3") ; default value 3
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblAttackNowSec = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 85, $y + 16, -1, -1)
+		$lblAttackNowSec = GUICtrlCreateLabel(GetTranslated(603,6, "sec."), $x + 85, $y + 20, -1, -1)
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-	$y += 45
+	$y += 49
 		$chkRestartSearchLimit = GUICtrlCreateCheckbox( GetTranslated(630,21, "Restart every") & ":", $x-5, $y-8, -1, -1)
 			$txtTip = GetTranslated(630,22, "Return To Base after x searches and restart to search enemy villages.")
 			Global $txtrestartsearchlimit, $chkbtnscheduler, $btnscheduler
@@ -145,7 +148,7 @@ Local $x = 25, $y = 45
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 3)
 ;			GUICtrlSetState(-1, $GUI_DISABLE)  ; Only needed when unchecked at bot start
-		$lblRestartSearchLimit = GUICtrlCreateLabel( GetTranslated(603,5, -1), $x + 47, $y + 17, -1, -1)
+		$lblRestartSearchLimit = GUICtrlCreateLabel( GetTranslated(603,11, -1), $x + 47, $y + 17, -1, -1)
 	$y += 45
 		$chkAlertSearch = GUICtrlCreateCheckbox(GetTranslated(630,23, "Alert me when Village found"), $x-5, $y , -1, -1)
 			_GUICtrlSetTip(-1, GetTranslated(630,24, "Check this if you want an Audio alarm & a Balloon Tip when a Base to attack is found."))

@@ -1,7 +1,7 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BoostBarracks.au3
 ; Description ...:
-; Syntax ........: BoostBarracks(), BoostDarkBarracks(), BoostSpellFactory(), BoostDarkSpellFactory()
+; Syntax ........: BoostBarracks(), BoostSpellFactory()
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: MR.ViPER
@@ -23,6 +23,18 @@ Func BoostBarracks()
 		If $iPlannedBoostBarracksHours[$hour[0]] = 0 Then
 			SetLog("Boost Barracks are not Planned, Skipped..", $COLOR_BLUE)
 			Return ; exit func if no planned Boost Barracks checkmarks
+		EndIf
+	EndIf
+
+	If $iChkForecastBoost = 1 Then
+		If $currentForecast > Number($iTxtForecastBoost, 3) Then
+			Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
+			If $iPlannedBoostBarracksHours[$hour[0]] = 0 Then
+				SetLog("No planned boosting for this hour.", $COLOR_RED)
+				Return ; exit func if no planned Boost Barracks checkmarks
+			EndIf
+		Else
+			Return
 		EndIf
 	EndIf
 

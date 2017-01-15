@@ -17,11 +17,12 @@
 Func ReArm()
 
 	If $ichkTrap = 0 Then Return ; If re-arm is not enable in GUI return and skip this code
-	If $iShouldRearm = False Then Return
-	$iShouldRearm = False
+	;If $iShouldRearm = False Then Return
+	If $NotNeedAllTime[0] = 0 Then Return
+	;$iShouldRearm = False
 	;	Local $y = 562 + $bottomOffsetY ; Add 60 y pixel for 860x780 window
 
-	SetLog("Checking if Village needs Rearming..", $COLOR_BLUE)
+	SetLog("Checking if Village needs Rearming..", $COLOR_INFO)
 
 	;- Variables to use with ImgLoc -
 	; --- ReArm Buttons Detection ---
@@ -37,43 +38,19 @@ Func ReArm()
 	;- Verifying The TH Coordinates -
 	If isInsideDiamond($TownHallPos) = False Then
 		LocateTownHall(True) ; get only new TH location during rearm, due BotFirstDetect now must have TH or there is an error.
+		SaveConfig()
 		If _Sleep($iDelayReArm3) Then Return
 	EndIf
 	; --- End ---
 
 	ClickP($aAway, 1, 0, "#0224") ; Click away
 	If _Sleep($iDelayReArm4) Then Return
-
-	If IsMainPage() Then Click($TownHallPos[0], $TownHallPos[1] + 5, 1, 0, "#0225")
-	Local $TownHallPos2 = $TownHallPos[1] + 5
-	SetLog("TownHall: (" & $TownHallPos[0] & "," & $TownHallPos2 & ")", $COLOR_DEBUG)
+	If IsMainPage() Then BuildingClickP($TownHallPos, "#0225")
 
 	If _Sleep($iDelayReArm2) Then Return
 
 	If Number($iTownHallLevel) > 8 Then $t = 1
 	If Number($iTownHallLevel) > 9 Then $t = 2
-
-	; Check if clicked position is a TownHall
-	Local $Success = GetTownHallLevel(False, False) ; Get/Save the users updated TH level
-	If IsArray($Success) Or $Success = False Then ; If Isn't TH
-		ClickP($aAway, 1, 0, "#0234") ; Click away
-		If _Sleep($iDelayReArm2) Then Return
-		SetLog("Locating TownHall Once Again")
-		Local $PixelTHHere = GetLocationItem("getLocationTownHall", True)
-		If UBound($PixelTHHere) > 0 Then
-			$pixel = $PixelTHHere[0]
-			$TownHallPos[0] = $pixel[0] + 5
-			$TownHallPos[1] = $pixel[1] + 5
-			saveConfig()
-			If $debugSetlog = 1 Then SetLog("ImgLoc# Townhall: (" & $TownHallPos[0] & "," & $TownHallPos[1] & ")", $COLOR_DEBUG) ;Debug
-			ClickP($aAway, 1, 0, "#0224") ; Click away
-			If _Sleep($iDelayReArm4) Then Return
-
-			If IsMainPage() Then Click($TownHallPos[0], $TownHallPos[1] + 5, 1, 0, "#0225")
-
-			If _Sleep($iDelayReArm2) Then Return
-		EndIf
-	EndIf
 
 	For $i = 0 To $t
 		If FileExists($ImagesToUse[$i]) Then
@@ -104,10 +81,13 @@ Func ReArm()
 						Switch $i
 							Case 0
 								SetLog("Rearmed Trap(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
 							Case 1
 								SetLog("Reloaded XBow(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
 							Case 2
 								SetLog("Reloaded Inferno(s)", $COLOR_SUCCESS)
+								$NotNeedAllTime[0] = 0
 						EndSwitch
 						$locate = 1
 						If _Sleep($iDelayReArm1) Then Return
@@ -117,7 +97,10 @@ Func ReArm()
 		EndIf
 	Next
 
-	If $locate = 0 Then SetLog("Rearm not needed!", $COLOR_GREEN)
+	If $locate = 0 Then
+		SetLog("Rearm not needed!", $COLOR_SUCCESS)
+		$NotNeedAllTime[0] = 0
+	EndIf
 	ClickP($aAway, 1, 0, "#0234") ; Click away
 	If _Sleep($iDelayReArm2) Then Return
 	checkMainScreen(False) ; check for screen errors while running function

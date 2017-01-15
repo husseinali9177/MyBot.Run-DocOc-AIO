@@ -20,7 +20,7 @@ Func imglocCheckWall()
 	;name , level , coords
 	Local $FoundWalls[1]
 	$FoundWalls[0] = "" ; empty value to make sure return value filled
-	$FoundWalls = imglocFindWalls($levelWall, "DCD", "DCD", 10) ; lets get 10 points just to make sure we discard false positives
+	$FoundWalls = imglocFindWalls($levelWall, "ECD", "ECD", 10) ; lets get 10 points just to make sure we discard false positives
 
 	ClickP($aAway, 1, 0, "#0505") ; to prevent bot 'Anyone there ?'
 
@@ -65,8 +65,7 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	;name , level , coords
 	Local $FoundWalls[1] = [""] ;
 
-	;Local $directory = @ScriptDir & "\imgxml\walls\"
-	Local $directory = "walls-bundle"
+	Local $directory = @ScriptDir & "\imgxml\Walls"
 	Local $redLines = $redline
 	Local $minLevel = $walllevel
 	Local $maxLevel = $walllevel
@@ -76,7 +75,7 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	_CaptureRegion2()
 
 	; Perform the search
-	Local $result = DllCall($hImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $searcharea, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
+	Local $result = DllCall($pImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $searcharea, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
 	$error = @error ; Store error values as they reset at next function call
 	$extError = @extended
 

@@ -13,28 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; Config for Adding Quicktrain Combo - DEMEN
-If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
-	IniWriteS($config, "troop", "QuickTrain12", 1)
-Else
-	IniWriteS($config, "troop", "QuickTrain12", 0)
-EndIf
-
-If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
-	IniWriteS($config, "troop", "QuickTrain123", 1)
-Else
-	IniWriteS($config, "troop", "QuickTrain123", 0)
-EndIf
-
-If GUICtrlRead($hRadio_ArmyRandom) = $GUI_CHECKED Then
-	IniWriteS($config, "troop", "QuickTrainRandom", 1)
-Else
-	IniWriteS($config, "troop", "QuickTrainRandom", 0)
-EndIf
-
-; Multi Finger (LunaEclipse) added rulesss
-IniWrite($config, "MultiFinger", "Select", $iMultiFingerStyle)
-
 IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
 IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
 IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
@@ -59,43 +37,6 @@ Else
 	IniWrite($config, "Stats", "chkCoCStats", "0")
 EndIf
 IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
-
-;Tresorerie
-If GUICtrlRead($chkCollectTresory) = $GUI_CHECKED Then
-	IniWrite($config, "other", "CollectTresory", 1)
-	IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
-	IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
-	IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
-Else
-	IniWrite($config, "other", "CollectTresory", 0)
-	IniWrite($config, "other", "treasuryGold", GUICtrlRead($txtTreasuryGold))
-	IniWrite($config, "other", "treasuryElixir", GUICtrlRead($txtTreasuryElixir))
-	IniWrite($config, "other", "treasuryDark", GUICtrlRead($txtTreasuryDark))
-EndIf
-
-If GUICtrlRead($chkCollectTresoryGold) = $GUI_CHECKED Then
-	IniWrite($config, "other", "CollectTresoryGold", 1)
-Else
-	IniWrite($config, "other", "CollectTresoryGold", 0)
-EndIf
-
-If GUICtrlRead($chkCollectTresoryElixir) = $GUI_CHECKED Then
-	IniWrite($config, "other", "CollectTresoryElixir", 1)
-Else
-	IniWrite($config, "other", "CollectTresoryElixir", 0)
-EndIf
-
-If GUICtrlRead($chkCollectTresoryDark) = $GUI_CHECKED Then
-	IniWrite($config, "other", "CollectTresoryDark", 1)
-Else
-	IniWrite($config, "other", "CollectTresoryDark", 0)
-EndIf
-
-If GUICtrlRead($chkTRFull) = $GUI_CHECKED Then
-	IniWrite($config, "other", "chkTRFull", 1)
-Else
-	IniWrite($config, "other", "chkTRFull", 0)
-EndIf
 
 IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
@@ -176,6 +117,7 @@ IniWrite($config, "profiles", "cmbTrophyMinProfile", _GUICtrlComboBox_GetCurSel(
 IniWrite($config, "profiles", "txtMinTrophyAmount", GUICtrlRead($txtMinTrophyAmount))
 
 ; SSA
+
 IniWrite($SSAConfig, "SwitchAccount", "chkEnableSwitchAccount", $ichkSwitchAccount)
 IniWrite($SSAConfig, "SwitchAccount", "cmbAccountsQuantity", _GUICtrlComboBox_GetCurSel($cmbAccountsQuantity))
 For $i = 1 To 5
@@ -183,3 +125,50 @@ For $i = 1 To 5
 	IniWrite($SSAConfig, "SwitchAccount", "chkDonateAccount[" & $i & "]", $ichkDonateAccount[$i])
 	IniWrite($SSAConfig, "SwitchAccount", "cmbAccount[" & $i & "]", _GUICtrlComboBox_GetCurSel($cmbAccount[$i]))
 Next
+
+;forecast Added by rulesss
+IniWrite($config, "forecast", "txtForecastBoost", GUICtrlRead($txtForecastBoost))
+
+If GUICtrlRead($chkForecastBoost) = $GUI_CHECKED Then
+	IniWrite($config, "forecast", "chkForecastBoost", 1)
+Else
+	IniWrite($config, "forecast", "chkForecastBoost", 0)
+EndIf
+
+If GUICtrlRead($chkForecastHopingSwitchMax) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkForecastHopingSwitchMax", 1)
+Else
+	IniWrite($config, "profiles", "chkForecastHopingSwitchMax", 0)
+EndIf
+IniWrite($config, "profiles", "cmbForecastHopingSwitchMax", _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMax))
+IniWrite($config, "profiles", "txtForecastHopingSwitchMax", GUICtrlRead($txtForecastHopingSwitchMax))
+
+If GUICtrlRead($chkForecastHopingSwitchMin) = $GUI_CHECKED Then
+	IniWrite($config, "profiles", "chkForecastHopingSwitchMin", 1)
+Else
+	IniWrite($config, "profiles", "chkForecastHopingSwitchMin", 0)
+EndIf
+IniWrite($config, "profiles", "cmbForecastHopingSwitchMin", _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin))
+IniWrite($config, "profiles", "txtForecastHopingSwitchMin", GUICtrlRead($txtForecastHopingSwitchMin))
+;Added Multi Switch Language by rulesss and Kychera
+$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
+IniWriteS($config, "Lang", "cmbSwLang", $icmbSwLang)
+
+;==========;Russian Languages by Kychera==========
+	If GUICtrlRead($chkRusLang) = $GUI_CHECKED Then
+		$ichkRusLang = 1
+	Else
+		$ichkRusLang = 0
+	EndIf
+IniWriteS($config, "Lang", "chkRusLang", $ichkRusLang)
+	If GUICtrlRead($chkRusLang2) = $GUI_CHECKED Then
+		$ichkRusLang2 = 1
+	Else
+		$ichkRusLang2 = 0
+	EndIf
+IniWriteS($config, "Lang", "chkRusLang2", $ichkRusLang2)
+$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+IniWriteS($config, "Lang", "cmbLang", $icmbLang)
+
+;modification Chat by rulesss
+	IniWrite($config, "global", "chdelay", GUICtrlRead($chkchatdelay))

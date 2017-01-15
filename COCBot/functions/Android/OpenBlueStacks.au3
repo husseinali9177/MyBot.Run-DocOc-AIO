@@ -91,7 +91,7 @@ Func OpenBlueStacks2($bRestart = False)
 	  EndIf
 	  If $pid > 0 Then $pid = ProcessExists2($AndroidProgramPath)
 	  If $pid <= 0 Then
-		 CloseAndroid()
+		 CloseAndroid("OpenBlueStacks2")
 		 If _Sleep(1000) Then Return False
 	  EndIf
 
@@ -158,6 +158,7 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 		$__BlueStacks_Path = @ProgramFilesDir & "\BlueStacks\"
 		SetError(0, 0, 0)
 	EndIf
+	$__BlueStacks_Path = StringReplace($__BlueStacks_Path, "\\", "\")
 
     For $i = 0 To UBound($aFiles) - 1
 
@@ -180,6 +181,7 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
     Next
 
     If Not $bCheckOnly Then
+      #cs as of 2017-01-03 disabled for 6.5.3 version as not required anymore and WinAPI/ControlClick does work fine again
 	  $__BlueStacks2Version_2_5_or_later = GetVersionNormalized($__BlueStacks_Version) >= GetVersionNormalized("2.5.00.0000")
 	  If $AndroidAutoAdjustConfig = True And $__BlueStacks2Version_2_5_or_later Then
 		 SetDebugLog($Android & " Version is 2.5 or later found, enable ADB Mouse Click")
@@ -188,6 +190,7 @@ Func InitBlueStacksX($bCheckOnly = False, $bAdjustResolution = False, $bLegacyMo
 		 ; update android config
 		 InitAndroidConfig(True)
 	  EndIF
+	  #ce
 
 	  Local $BootParameter = RegRead($HKLM & "\SOFTWARE\BlueStacks\Guests\Android\", "BootParameters")
 	  Local $OEMFeatures
@@ -250,13 +253,9 @@ EndFunc
 
 Func InitBlueStacks($bCheckOnly = False)
    Local $bInstalled = InitBlueStacksX($bCheckOnly)
-   If $bInstalled And StringInStr($__BlueStacks_Version, "0.8.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.9.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.10.") <> 1 _
-				  And StringInStr($__BlueStacks_Version, "0.11.") <> 1 _ ; user reported that version exists - ha ;)
-   Then
+   If $bInstalled And (GetVersionNormalized($__BlueStacks_Version) < GetVersionNormalized("0.8") Or GetVersionNormalized($__BlueStacks_Version) > GetVersionNormalized("1.x") > 0) Then
 	  If Not $bCheckOnly Then
-		 SetLog("BlueStacks supported version 0.8.x - 0.11.x not found", $COLOR_ERROR)
+		 SetLog("BlueStacks version is " & $__BlueStacks_Version & " but support version 0.8.x - 1.x not found", $COLOR_ERROR)
 		 SetError(1, @extended, False)
 	  EndIf
 	  Return False
@@ -425,7 +424,7 @@ Func RebootBlueStacks2SetScreen($bOpenAndroid = True)
    ConfigBlueStacks2WindowManager()
 
    ; Close Android
-   CloseAndroid()
+   CloseAndroid("RebootBlueStacks2SetScreen")
    If _Sleep(1000) Then Return False
 
    SetScreenAndroid()

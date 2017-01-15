@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -20,14 +22,12 @@ Global $FirstControlToHideMOD = GUICtrlCreateDummy()
 Local $x = 25, $y = 45
 $grpLanguages = GUICtrlCreateGroup(GetTranslated(636,83, "GUI Language"), $x - 20, $y - 20, 210, 47)
 	$y -=2
-	$cmbLanguage = GUICtrlCreateCombo("", $x - 8 , $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$cmbLanguage = _GUICtrlComboBoxEx_Create($hGUI_BOT,"",$x - 8, $y, 185, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	$hcmbLanguage = _GUICtrlComboBoxEx_GetComboControl($cmbLanguage)
 	$txtTip = GetTranslated(636,84, "Use this to switch to a different GUI language")
-	_GUICtrlSetTip(-1, $txtTip)
+	_GUICtrlSetTip($hcmbLanguage,$txtTip,Default,Default,Default, False)
 
 	LoadLanguagesComboBox() ; full combo box languages reading from languages folders
-
-	GUICtrlSetData(-1, "English", "English") ;default set english language
-	GUICtrlSetOnEvent(-1, "cmbLanguage")
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y += 54
@@ -35,7 +35,7 @@ $grpOnLoadBot = GUICtrlCreateGroup(GetTranslated(636,2, "When Bot Loads"), $x - 
 	$y -= 4
     $chkDisableSplash = GUICtrlCreateCheckbox(GetTranslated(636,100, "Disable Splash Screen"), $x, $y, -1, -1)
         $txtTip = GetTranslated(636,101, "Disables the splash screen on startup.")
-        GUICtrlSetTip(-1, $txtTip)
+        _GUICtrlSetTip(-1, $txtTip)
         GUICtrlSetState(-1, $GUI_UNCHECKED)
     $y += 20
 	$chkVersion = GUICtrlCreateCheckbox(GetTranslated(636,3, "Check for Updates"), $x, $y, -1, -1)
@@ -126,9 +126,9 @@ $grpOnStartBot = GUICtrlCreateGroup(GetTranslated(636,12, "When Bot Starts"), $x
 						   GetTranslated(636,27, "SNAP: Bot BottomLeft to Android") & "|" & _
 						   GetTranslated(636,95, "DOCK: Android into Bot"), _
 						   GetTranslated(636,24, "SNAP: Bot TopRight to Android"))
-		$txtTip &= @CRLF & GetTranslated(636,28, "0,0: Reposition Android Emulator screen to position 0,0 on windows desktop and align Bot window right or left to it.") & @CRLF & _
-						   GetTranslated(636,29, "SNAP: Only reorder windows, Align Bot window to Android Emulator window at Top Right, Top Left, Bottom Right or Bottom Left.\r\n" & _
-												 "DOCK: Integrate Android Screen into bot window.")
+		$txtTip = GetTranslated(636,28, "0,0: Reposition Android Emulator screen to position 0,0 on windows desktop and align Bot window right or left to it.") & @CRLF & _
+				  GetTranslated(636,29, "SNAP: Only reorder windows, Align Bot window to Android Emulator window at Top Right, Top Left, Bottom Right or Bottom Left.\r\n" & _
+										"DOCK: Integrate Android Screen into bot window.")
 		_GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
@@ -137,18 +137,21 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 Local $x = 240, $y = 45
 $grpAdvanced = GUICtrlCreateGroup(GetTranslated(636,93, "Advanced"), $x - 20, $y - 20, 225, 82)
 	$chkUpdatingWhenMinimized = GUICtrlCreateCheckbox(GetTranslated(636,96, "Updating when minimized"), $x, $y, -1, -1)
+		GUICtrlSetState(-1, $GUI_DISABLE) ; must be always enabled
 		GUICtrlSetOnEvent(-1, "chkUpdatingWhenMinimized")
 		_GUICtrlSetTip(-1, GetTranslated(636,97, "Enable different minimize routine for bot window.\r\nWhen bot is minimized, screen updates are shown in taskbar preview."))
-		GUICtrlSetState(-1, $GUI_CHECKED)
 	$y += 19
 	$chkHideWhenMinimized = GUICtrlCreateCheckbox(GetTranslated(636,98, "Hide when minimized"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkHideWhenMinimized")
 		_GUICtrlSetTip(-1, GetTranslated(636,99, "Hide bot window in taskbar when minimized.\r\nUse trayicon 'Show bot' to display bot window again."))
-		GUICtrlSetState(-1, $GUI_CHECKED)
 	$y += 19
 	$chkUseRandomClick = GUICtrlCreateCheckbox(GetTranslated(636,94, "Random Click"), $x, $y, -1, -1)
 		GUICtrlSetOnEvent(-1, "chkUseRandomClick")
-		GUICtrlSetState(-1, $GUI_DISABLE)
+;~  useless, allready exist this option, restored original
+;~ 	$y += 19
+;~ 	$chkAddIdleTime = GUICtrlCreateCheckbox(GetTranslated(636,120, "Add random delay"), $x, $y, -1, -1)
+;~ 		_GUICtrlSetTip(-1, GetTranslated(636,121, "Increases the waiting time in the idle phase during training"))
+;~ 		GUICtrlSetOnEvent(-1, "chkAddIdleTime")
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$y += 47
 $grpPhotoExpert = GUICtrlCreateGroup(GetTranslated(636,55, "Photo Screenshot Options"), $x - 20, $y - 17, 225, 60)
@@ -183,7 +186,7 @@ $txtSinglePBTimeForced = GUICtrlCreateInput("18", $x + 130, $y-1, 30, 16, BitOR(
 	GUICtrlSetOnEvent(-1, "txtSinglePBTimeForced")
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-$lblSinglePBTimeForced = GUICtrlCreateLabel( GetTranslated(603,9, "Min"), $x+162, $y+2, 27, 15)
+$lblSinglePBTimeForced = GUICtrlCreateLabel( GetTranslated(603,10, -1), $x+162, $y+2, 27, 15)
 $y += 20
 $lblPBTimeForcedExit = GUICtrlCreateLabel( GetTranslated(636,65, "Subtract time for early PB exit"), $x-10, $y+3)
 	$txtTip = GetTranslated(636,66, "Type in number of minutes to quit CoC early! Setting below 10 minutes may not function!")
@@ -193,14 +196,11 @@ $txtPBTimeForcedExit = GUICtrlCreateInput("16", $x + 130, $y, 30, 16, BitOR($GUI
 	GUICtrlSetOnEvent(-1, "txtSinglePBTimeForced")
 	GUICtrlSetLimit(-1, 3)
 	GUICtrlSetState(-1, $GUI_DISABLE)
-$lblPBTimeForcedExit1 = GUICtrlCreateLabel( GetTranslated(603,9, -1), $x+162, $y+1, 27, 15)
-$y += 20
-	$lblNameMyBot = GUICtrlCreateLabel("Name Your Bot :",$x - 10, $y + 3, 78, 20)
-
-	$NameMyBot = GUICtrlCreateInput("",$x + 80, $y, 80, 20)
-		_GUICtrlSetTip(-1, "Will Update Name Label in Header Image on Next Restart of the Bot.")
-		$btnNameMyBot = GUICtrlCreateButton("Enter",$x + 80+83, $y, 35, 20)
-			GUICtrlSetOnEvent(-1, "NameMyBotUpdate")
+$lblPBTimeForcedExit1 = GUICtrlCreateLabel( GetTranslated(603,10, -1), $x+162, $y+1, 27, 15)
+$y +=30
+$chkFixClanCastle = GUICtrlCreateCheckbox(GetTranslated(636,104, "Force Clan Castle Detection"), $x-5, $y-5, -1, -1)
+	_GUICtrlSetTip(-1, GetTranslated(636,105, "If clan Castle it is undetected and it is NOT placed in the last slot, force bot to consider the undetected slot as Clan Castle"))
+	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

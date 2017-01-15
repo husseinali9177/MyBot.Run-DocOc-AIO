@@ -14,6 +14,7 @@
 ;General Delay Times
 Global Const $iDelaySleep = 100 ; For larger sleep time this is the max. Sleep() call
 Global Const $iDelayWaitForPopup = 1500 ; An action was just clicked and waiting for popup
+Global Const $iDelayCloudsCleared = 1000 ; When Clouds cleared, additional wait
 
 Global Const $iDelayRespond = 5 ; Just to make stop button more Responsive
 Global Const $iDelayRunBot1 = 1000
@@ -143,7 +144,7 @@ Global Const $iDelaycheckMainScreen2 = 20000
 
 ;checkObstacles
 Global Const $iDelaycheckObstacles1 = 1000
-Global Const $iDelaycheckObstacles2 = 2000 + 1700
+Global Const $iDelaycheckObstacles2 = 2000
 Global Const $iDelaycheckObstacles3 = 5000
 Global Const $iDelaycheckObstacles4 = 120000 ; 2 minutes
 Global Const $iDelaycheckObstacles5 = 500 ; click
@@ -454,3 +455,14 @@ Global Const $iDelayWaitAttack = 120000
 Global Const $iDelayWaitAttack1 = 60000
 Global Const $iDelayWaitAttack2 = 300000
 
+;Close Open
+Global Const $iDelayCloseOpen1000 = 1000
+Global Const $iDelayCloseOpen1500 = 1500
+Global Const $iDelayCloseOpen2000 = 2000
+Global Const $iDelayCloseOpen3000 = 3000
+
+;Smart Zap
+Global $DelaySmartZap1 = 1000
+Global $DelaySmartZap2 = 2000
+Global $DelaySmartZap3 = 3000
+Global $DelaySmartZap4 = 4000

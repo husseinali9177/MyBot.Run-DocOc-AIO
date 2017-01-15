@@ -15,11 +15,15 @@
 
 Func BotStart()
 	ResumeAndroid()
+	CalCostCamp()
+	CalCostSpell()
 
-	$RunModeChart = 1
 	$RunState = True
 	$TogglePauseAllowed = True
 	$SkipFirstZoomout = False
+	$Is_SearchLimit = False
+	$Is_ClientSyncError = False
+	$Quickattack = False
 
 	EnableControls($frmBotBottom, False, $frmBotBottomCtrlState)
 	;$FirstAttack = 0
@@ -44,6 +48,9 @@ Func BotStart()
 	readConfig()
 	applyConfig(False) ; bot window redraw stays disabled!
 
+	;Reset Telegram message
+	NotifyGetLastMessageFromTelegram()
+	
 	If BitAND($AndroidSupportFeature, 1 + 2) = 0 And $ichkBackground = 1 Then
 		GUICtrlSetState($chkBackground, $GUI_UNCHECKED)
 		chkBackground() ; Invoke Event manually
@@ -61,13 +68,8 @@ Func BotStart()
 	GUICtrlSetState($chkBackground, $GUI_DISABLE)
 
 	Local $Result = False
-	Local $hWin = $HWnD
-	If $HWnD = 0 Then
-		If $hWin = 0 Then
-			$Result = OpenAndroid(False)
-		Else
-			$Result = RebootAndroid(False)
-		EndIf
+	If WinGetAndroidHandle() = 0 Then
+		$Result = OpenAndroid(False)
 	EndIf
 	SetDebugLog("Android Window Handle: " & WinGetAndroidHandle())
 	If $HWnD <> 0 Then ;Is Android open?
@@ -95,7 +97,6 @@ Func BotStart()
 		EndIf
 		If Not $RunState Then Return
 		If $hWndActive = $HWnD And ($AndroidBackgroundLaunched = True Or AndroidControlAvailable())  Then ; Really?
-			AutoHide()
 			Initiate() ; Initiate and run bot
 		Else
 			SetLog("Cannot use " & $Android & ", please check log", $COLOR_ERROR)
@@ -121,6 +122,7 @@ Func BotStop()
 
 	EnableGuiControls()
 
+	DistributorsBotStopEvent()
 	AndroidBotStopEvent() ; signal android that bot is now stopping
 	AndroidShield("btnStop", Default)
 
@@ -150,11 +152,8 @@ Func BotStop()
 		$Restart = True
 		FileClose($hLogFileHandle)
 		$hLogFileHandle = ""
-		FileClose($hLogFileTrain)
-		$hLogFileTrain = ""
 		FileClose($hAttackLogFileHandle)
 		$hAttackLogFileHandle = ""
-		;FlushDebugFolder()
 	Else
 		$bSearchMode = False
 	EndIf
@@ -170,11 +169,17 @@ Func BotSearchMode()
 	If _Sleep(100) Then Return
 	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
 	If _Sleep(100) Then Return
-;	getArmyCapacity(True, True);REMOVED FUNCTION OCT UPDATE
+	CheckArmySpellCastel()
+	ClickP($aAway, 2, 0, "") ;Click Away
 	If _Sleep(100) Then Return
-	PrepareSearch()
-	If _Sleep(1000) Then Return
-	VillageSearch()
-	If _Sleep(100) Then Return
+	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
+		If _Sleep(100) Then Return
+		PrepareSearch()
+		If _Sleep(1000) Then Return
+		VillageSearch()
+		If _Sleep(100) Then Return
+	Else
+		Setlog("Your Army is not prepared, check the Attack/train options")
+	EndIf
 	btnStop()
 EndFunc   ;==>BotSearchMode

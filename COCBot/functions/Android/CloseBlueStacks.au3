@@ -14,10 +14,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func CloseBS() ; @deprecated, use CloseAndroid()
-	CloseAndroid()
-EndFunc   ;==>CloseBS
-
 Func CloseBlueStacks()
 	Local $iIndex, $bOops = False
 	Local $aServiceList[4] = ["BstHdAndroidSv", "BstHdLogRotatorSvc", "BstHdUpdaterSvc", "bthserv"]
@@ -48,11 +44,11 @@ Func CloseBlueStacks()
 			ServiceStop($aServiceList[$iIndex])
 			If @error Then
 				$bOops = True
-				If $debugsetlog = 1 Then Setlog($aServiceList[$iIndex] & "errored trying to stop", $COLOR_DEBUG) ;Debug
+				If $debugsetlog = 1 Then Setlog($aServiceList[$iIndex] & "errored trying to stop", $COLOR_WARNING)
 			EndIf
 		Next
 		If $bOops Then
-			If $debugsetlog = 1 Then Setlog("Service Stop issues, Stopping BS 2nd time", $COLOR_DEBUG) ;Debug
+			If $debugsetlog = 1 Then Setlog("Service Stop issues, Stopping BS 2nd time", $COLOR_WARNING)
 			KillBSProcess()
 			If _SleepStatus(5000) Then Return
 		EndIf
@@ -60,7 +56,7 @@ Func CloseBlueStacks()
 
 
 	If $debugsetlog = 1 And $bOops Then
-		SetLog("BS Kill Failed to stop service", $COLOR_DEBUG) ;Debug
+		SetLog("BS Kill Failed to stop service", $COLOR_ERROR)
 	EndIf
 
 	If $bOops Then
@@ -153,9 +149,9 @@ Func ServiceStop($sServiceName)
 		If _Sleep(1000) Then Return ; Loop delay check for close every 1 second
 	WEnd
 	If $debugsetlog = 1 And $svcWaitIterations > 15 Then
-		SetLog("Failed to stop service " & $sServiceName, $COLOR_DEBUG) ;Debug
+		SetLog("Failed to stop service " & $sServiceName, $COLOR_ERROR)
 	Else
-		If $debugsetlog = 1 Then SetLog($sServiceName & "Service stopped successfully", $COLOR_DEBUG) ;Debug
+		If $debugsetlog = 1 Then SetLog($sServiceName & "Service stopped successfully", $COLOR_SUCCESS)
 	EndIf
 EndFunc   ;==>ServiceStop
 

@@ -36,6 +36,15 @@ Global $sTxtHasteSpells = GetTranslated(605,11, "Haste")
 Global $sTxtClSpell = GetTranslated(605,12, "Clone Spell")
 Global $sTxtSkSpell = GetTranslated(605,13, "Skeleton Spell")
 Global $sTxtSkeletonSpells = GetTranslated(605,14, "Skeleton")
+Global $sTxtLightningSpells = GetTranslated(605,15, "Lightning")
+Global $sTxtHealSpells = GetTranslated(605,16, "Heal")
+Global $sTxtRageSpells = GetTranslated(605,17, "Rage")
+Global $sTxtJumpSpells = GetTranslated(605,18, "Jump")
+Global $sTxtFreezeSpells = GetTranslated(605, 19, "Freeze")
+
+Global $sTxtHeroKing = GetTranslated(644,1, "King")
+Global $sTxtHeroQueen = GetTranslated(644,2, "Queen")
+Global $sTxtHeroWarden = GetTranslated(644,3, "G.Warden")
 
 Global $sTxtElixirTroops =  $sTxtBarbarians & "|" & $sTxtArchers & "|" & $sTxtGiants & "|" & $sTxtGoblins & "|" & $sTxtWallBreakers & "|" & $sTxtBalloons & "|" & $sTxtWizards & "|" & $sTxtHealers &"|" & $sTxtDragons & "|" & $sTxtPekkas & "|" & $sTxtBabyDragons & "|" & $sTxtMiners
 
@@ -71,3 +80,5 @@ Global Const $aLabTroops[30][5] = [ _
 		[536, 320 + $midOffsetY, 2, $sTxtWitches, $eIcnWitch], _
 		[536, 427 + $midOffsetY, 2, $sTxtLavaHounds, $eIcnLavaHound], _
 		[642, 320 + $midOffsetY, 2, $sTxtBowlers, $eIcnBowler]]
+
+    Local $tDelayBtn = 1000

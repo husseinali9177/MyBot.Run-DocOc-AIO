@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Sardo (2015-06)
-; Modified ......: TheRevenor (26-10-2016)
+; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -16,25 +16,6 @@
 Func CheckVersion()
 	If $ichkVersion = 1 Then
 		CheckVersionHTML()
-#Cs
-		If $lastversion = "" Then
-			SetLog("WE CANNOT OBTAIN PRODUCT VERSION AT THIS TIME", $COLOR_ORANGE)
-		ElseIf VersionNumFromVersionTXT($sBotVersion) < VersionNumFromVersionTXT($lastversion) Then
-			SetLog("WARNING, YOUR BOT VERSION (" & $sBotVersion & ") IS OUT OF DATE.", $COLOR_RED)
-			SetLog("PLEASE DOWNLOAD THE LATEST (" & $lastversion & ") FROM https://MyBot.run               ", $COLOR_RED)
-			SetLog(" ")
-			_PrintLogVersion($oldversmessage)
-		ElseIf VersionNumFromVersionTXT($sBotVersion) > VersionNumFromVersionTXT($lastversion) Then
-			SetLog("YOU ARE USING A FUTURE VERSION OF MYBOT CHIEF!", $COLOR_GREEN)
-			SetLog("YOUR VERSION: " & $sBotVersion, $COLOR_GREEN)
-			SetLog("OFFICIAL VERSION: " & $lastversion, $COLOR_GREEN)
-			SetLog(" ")
-		Else
-			SetLog("WELCOME CHIEF, YOU HAVE THE LATEST VERSION OF THE BOT", $COLOR_GREEN)
-			SetLog(" ")
-			_PrintLogVersion($lastmessage)
-		EndIf
-#Ce
 		If $lastModversion = "" Then
 			SetLog("WE CANNOT OBTAIN MOD VERSION AT THIS TIME", $COLOR_ORANGE)
 			CheckModVersion()
@@ -60,32 +41,6 @@ Func CheckVersion()
 		EndIf
 	EndIf
 EndFunc   ;==>CheckVersion
-
-;~ Func CheckVersionTXT()
-;~ 	;download page from site contains last bot version
-;~ 	$hLastVersion = InetGet("https://mybot.run/lastversion.txt", @ScriptDir & "\LastVersion.txt")
-;~ 	InetClose($hLastVersion)
-
-;~ 	;search version into downloaded page
-;~ 	Local $f, $line, $Casesense = 0
-;~ 	$lastversion = ""
-;~ 	If FileExists(@ScriptDir & "\LastVersion.txt") Then
-;~ 		$f = FileOpen(@ScriptDir & "\LastVersion.txt", 0)
-;~ 		; Read in lines of text until the EOF is reached
-;~ 		While 1
-;~ 			$line = FileReadLine($f)
-;~ 			If @error = -1 Then ExitLoop
-;~ 			If StringInStr($line, "version=", $Casesense) Then
-;~ 				$lastversion = StringMid($line, 9, -1)
-;~ 			EndIf
-;~ 			If StringInStr($line, "message=", $Casesense) Then
-;~ 				$lastmessage = StringMid($line, 9, -1)
-;~ 			EndIf
-;~ 		WEnd
-;~ 		FileClose($f)
-;~ 		FileDelete(@ScriptDir & "\LastVersion.txt")
-;~ 	EndIf
-;~ EndFunc   ;==>CheckVersionTXT
 
 
 Func CheckVersionHTML()
@@ -218,7 +173,7 @@ EndFunc   ;==>GetVersionNormalized
 
 Func CheckModVersion()
 	If $lastModversion = "" Then
-		MsgBox($MB_ICONWARNING, "", "WE CANNOT OBTAIN MOD VERSION AT THIS TIME" &  @CRLF & _ 
+		MsgBox($MB_ICONWARNING, "", "WE CANNOT OBTAIN MOD VERSION AT THIS TIME" &  @CRLF & _
 				"BAD CONNECTION", 10) ;10s timeout
 	ElseIf VersionNumFromVersionTXT($sModversion) < VersionNumFromVersionTXT($lastModversion) Then
 		PushMsg("Update")
@@ -232,3 +187,4 @@ Func CheckModVersion()
 				"Thanks..", 15) ;15s timeout
 	EndIf
 EndFunc   ;==>CheckModVersion
+

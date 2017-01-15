@@ -52,11 +52,8 @@ Func captureDebugImage($aResult, $subDirectory)
 		; Create the directory in case it doesn't exist
 		DirCreate($dirTempDebug & $subDirectory)
 
-		; Capture the screen for comparison
-		_CaptureRegion()
-
 		; Store a copy of the image handle
-		Local $editedImage = $hBitmap
+		Local $editedImage = _GDIPlus_BitmapCreateFromHBITMAP($hHBitmap2)
 
 		; Create the timestamp and filename
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
@@ -90,6 +87,7 @@ Func captureDebugImage($aResult, $subDirectory)
 		_GDIPlus_ImageSaveToFile($editedImage, $dirTempDebug & $subDirectory & "\" & $fileName)
 		_GDIPlus_PenDispose($hPen)
 		_GDIPlus_GraphicsDispose($hGraphic)
+		_GDIPlus_BitmapDispose($editedImage)
 	EndIf
 EndFunc   ;==>captureDebugImage
 
@@ -98,7 +96,7 @@ Func returnPropertyValue($key, $property)
 	Local $aValue = DllCall($hImgLib, "str", "GetProperty", "str", $key, "str", $property)
 	If @error Then _logErrorDLLCall($pImgLib, @error)
 	Return $aValue[0]
-EndFunc   ;==>returnPropertyValue
+EndFunc   ;==>getProperty
 
 Func updateResultsRow(ByRef $aResult, $redLines = "")
 	; Create the local variable to do the counting
@@ -108,7 +106,7 @@ Func updateResultsRow(ByRef $aResult, $redLines = "")
 		; Loop through the results to get the total number of objects found
 		If UBound($aResult) > 1 Then
 			For $j = 1 To UBound($aResult) - 1
-				$numberFound += Number($aResult[$j][4])
+				$numberFound +=	Number($aResult[$j][4])
 			Next
 		EndIf
 
@@ -120,14 +118,12 @@ Func updateResultsRow(ByRef $aResult, $redLines = "")
 	EndIf
 EndFunc   ;==>updateResultsRow
 
-Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = "DCD", $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup arrays, including default return values for $return
 	Local $aResult[1][6] = [["", 0, 0, "Seconds", "", ""]], $aCoordArray[0][0], $aCoords, $aCoordsSplit, $aValue
 
 	; Capture the screen for comparison
-	_CaptureRegion2()
-
-	Local $hTimer = TimerInit()
+	If $forceCaptureRegion = True Then _CaptureRegion2()
 
 	; Perform the search
 	$res = DllCall($hImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $fullCocAreas, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
@@ -137,7 +133,6 @@ Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLi
 	$aValue = DllCall($hImgLib, "str", "GetProperty", "str", "redline", "str", "")
 	If @error Then _logErrorDLLCall($pImgLib, @error)
 	$redLines = $aValue[0]
-
 
 	If $res[0] <> "" Then
 		; Get the keys for the dictionary item.
@@ -152,7 +147,7 @@ Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLi
 			$aResult[$i + 1][0] = returnPropertyValue($aKeys[$i], "filename")
 			$aResult[$i + 1][1] = returnPropertyValue($aKeys[$i], "objectname")
 			$aResult[$i + 1][2] = returnPropertyValue($aKeys[$i], "objectlevel")
-			$aResult[$i + 1][3] = returnPropertyValue($aKeys[$i], "filllevel")
+			$aResult[$i + 1][3] = returnPropertyValue($aKeys[$i], "fillLevel")
 			$aResult[$i + 1][4] = returnPropertyValue($aKeys[$i], "totalobjects")
 
 			; Get the coords property
@@ -176,9 +171,6 @@ Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLi
 		Next
 	EndIf
 
-	Local $timertemp = Round(TimerDiff($hTimer) / 1000, 2)
-	$aResult[0][2] = $timertemp
-
 	; Updated the results row of the array, no need to assign to a variable, because the array is passed ByRef,
 	; so the function updates the array that is passed as a parameter.
 	updateResultsRow($aResult, $redLines)
@@ -186,33 +178,6 @@ Func multiMatches($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLi
 
 	Return $aResult
 EndFunc   ;==>multiMatches
-
-Func multiMatches2($directory, $maxReturnPoints = 0, $fullCocAreas = $DCD, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
-	; Setup arrays, including default return values for $return
-	Local $aResult[1][6] = [["", 0, 0, "Seconds", "", ""]], $aCoordArray[0][0], $aCoords, $aCoordsSplit, $aValue
-
-	; Capture the screen for comparison
-	_CaptureRegion2()
-	; Perform the search
-
-	$res = DllCall($hImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $fullCocAreas, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
-	If @error Then _logErrorDLLCall($pImgLib, @error)
-
-	Local $strPositions = ""
-	If $res[0] <> "" Then
-		; Get the keys for the dictionary item.
-		Local $aKeys = StringSplit($res[0], "|", $STR_NOCOUNT)
-		; Loop through the array
-		For $i = 0 To UBound($aKeys) - 1
-			; Get the coords property
-			$aValue = returnPropertyValue($aKeys[$i], "objectpoints")
-			$strPositions &= $aValue & "|"
-		Next
-	EndIf
-
-	If StringRight($strPositions, 1) = "|" Then $strPositions = StringLeft($strPositions, StringLen($strPositions) - 1)
-	Return $strPositions
-EndFunc   ;==>multiMatches2
 
 Func multiMatchesPixelOnly($directory, $maxReturnPoints = 0, $fullCocAreas = $ECD, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000, $x1 = 0, $y1 = 0, $x2 = $GAME_WIDTH, $y2 = $GAME_HEIGHT, $bCaptureNew = True, $xDiff = Default, $yDiff = Default, $forceReturnString = False, $saveSourceImg = False)
 	; Setup arrays, including default return values for $return
@@ -439,69 +404,25 @@ Func GetHighestImageSize($directory, $addX = 0, $addY = 0)
 	Return $ToReturn
 EndFunc   ;==>GetHighestImageSize
 
-Func SearchWalls($directory, $minLevel = 0, $maxLevel = 11, $maxReturnPoints = 0, $fullCocAreas = $ECD, $redLines = $ECD, $statFile = "")
-	Local $DebugIt = False
-	; Setup arrays, including default return values for $return
-	Local $aResult[1][4]
-	Local $i
-	; Capture the screen for comparison
-	_CaptureRegion2()
-
-	; Perform the search
-	$res = DllCall($hImgLib, "str", "SearchMultipleTilesBetweenLevels", "handle", $hHBitmap2, "str", $directory, "str", $fullCocAreas, "Int", $maxReturnPoints, "str", $redLines, "Int", $minLevel, "Int", $maxLevel)
-	If @error Then _logErrorDLLCall($pImgLib, @error)
-
-	If $res[0] <> "" Then
-		; Get the keys for the dictionary item.
-		Local $aKeys = StringSplit($res[0], "|", $STR_NOCOUNT)
-
-		; Redimension the result array to allow for the new entries
-		ReDim $aResult[UBound($aKeys) + 1][6]
-
-		; Loop through the array
-		For $i = 0 To UBound($aKeys) - 1
-			; Get the property values
-			$aResult[$i][1] = returnPropertyValue($aKeys[$i], "objectlevel")
-			$aResult[$i][2] = returnPropertyValue($aKeys[$i], "totalobjects")
-			$aResult[$i][3] = returnPropertyValue($aKeys[$i], "filename")
-			If $DebugIt = True Then
-				SetLog("Found x" & $aResult[$i][2] & " Level #" & $aResult[$i][1] & " Walls By '" & $aResult[$i][3] & "' Image")
-			EndIf
-
-			; Get the coords property
-			$aValue = returnPropertyValue($aKeys[$i], "objectpoints")
-			$aValue = StringReplace($aValue, ",", "-")
-
-			$aResult[$i][0] = $aValue
-		Next
-	EndIf
-
-	; Updated the results row of the array, no need to assign to a variable, because the array is passed ByRef,
-	; so the function updates the array that is passed as a parameter.
-	updateMultiSearchStats($aResult, $statFile)
-	If $i = 1 Then _ArrayDelete($aResult, 1)
-	Return $aResult
-EndFunc   ;==>SearchWalls
-
-Func returnMultipleMatchesOwnVillage($directory, $maxReturnPoints = 0, $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnMultipleMatchesOwnVillage($directory, $maxReturnPoints = 0, $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatch search, but pass "ECD" for the redlines and full coc area
 	; so whole village is checked because obstacles can appear on the outer grass area
-	Local $aResult = multiMatches($directory, $maxReturnPoints, $ECD, $ECD, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, $maxReturnPoints, "ECD", "ECD", $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnMultipleMatchesOwnVillage
 
-Func returnSingleMatchOwnVillage($directory, $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnSingleMatchOwnVillage($directory, $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatch search, with 1 return point but pass "ECD" for the redlines
 	; and full coc area so whole village is checked because obstacles can appear on the outer grass area
-	Local $aResult = multiMatches($directory, 1, $ECD, $ECD, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "ECD", "ECD", $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnSingleMatchOwnVillage
 
-Func returnAllMatches($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnAllMatches($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search with 0 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 0, $DCD, $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 0, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnAllMatches
@@ -515,14 +436,14 @@ Func returnAllMatchesDefense($directory, $statFile = "", $minLevel = 0, $maxLeve
 	Return $aResult
 EndFunc   ;==>returnAllMatchesDefense
 
-Func returnHighestLevelSingleMatch($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnHighestLevelSingleMatch($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup default return coords of 0,0
 	Local $defaultCoords[1][2] = [[0, 0]]
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", 0, 0, 0, $defaultCoords, ""]
 
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, $ECD, $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	If UBound($aResult) > 1 Then
 		; Now loop through the array to modify values, select the highest entry to return
@@ -545,14 +466,14 @@ Func returnHighestLevelSingleMatch($directory, $redLines = "", $statFile = "", $
 	Return $return
 EndFunc   ;==>returnHighestLevelSingleMatch
 
-Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; Setup default return coords of 0,0
 	Local $defaultCoords[1][2] = [[0, 0]]
 	; Setup arrays, including default return values for $return
 	Local $return[7] = ["None", "None", $returnMax + 1, 0, 0, $defaultCoords, ""]
 
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, $DCD, $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	If UBound($aResult) > 1 Then
 		; Now loop through the array to modify values, select the lowest entry to return
@@ -575,16 +496,16 @@ Func returnLowestLevelSingleMatch($directory, $returnMax = 100, $redLines = "", 
 	Return $return
 EndFunc   ;==>returnLowestLevelSingleMatch
 
-Func returnMultipleMatches($directory, $maxReturnPoints = 0, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnMultipleMatches($directory, $maxReturnPoints = 0, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search specifying the Max return points parameter
-	Local $aResult = multiMatches($directory, $maxReturnPoints, $DCD, $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, $maxReturnPoints, "DCD", $redLines, $statFile, $minLevel, $maxLevel)
 
 	Return $aResult
 EndFunc   ;==>returnMultipleMatches
 
-Func returnSingleMatch($directory, $redLines = "", $statFile = "", $minLevel = 0, $maxLevel = 1000)
+Func returnSingleMatch($directory, $redLines = "DCD", $statFile = "", $minLevel = 0, $maxLevel = 1000, $forceCaptureRegion = True)
 	; This is simple, just do a multiMatches search with 1 for the Max return points parameter
-	Local $aResult = multiMatches($directory, 1, $DCD, $redLines, $statFile, $minLevel, $maxLevel)
+	Local $aResult = multiMatches($directory, 1, "DCD", $redLines, $statFile, $minLevel, $maxLevel, $forceCaptureRegion)
 
 	Return $aResult
 EndFunc   ;==>returnSingleMatch

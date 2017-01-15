@@ -84,7 +84,7 @@ Func GetKOPLAYERPath()
    Else
 	  If StringRight($KOPLAYER_Path, 1) <> "\" Then $KOPLAYER_Path &= "\"
    EndIf
-   Return $KOPLAYER_Path
+   Return StringReplace($KOPLAYER_Path, "\\", "\")
 EndFunc
 
 Func GetKOPLAYERAdbPath()
@@ -150,7 +150,7 @@ Func InitKOPLAYER($bCheckOnly = False)
 	  If Not @error Then
 		 $AndroidAdbDeviceHost = $aRegExResult[0]
 		 If $AndroidAdbDeviceHost = "" Then $AndroidAdbDeviceHost = "127.0.0.1"
-		 If $debugSetlog = 1 Then Setlog("Func LaunchConsole: Read $AndroidAdbDeviceHost = " & $AndroidAdbDeviceHost, $COLOR_DEBUG) ;Debug
+		 If $debugSetlog = 1 Then Setlog("Func LaunchConsole: Read $AndroidAdbDeviceHost = " & $AndroidAdbDeviceHost, $COLOR_PURPLE)
 	  Else
 		 $oops = 1
 		 SetLog("Cannot read " & $Android & "(" & $AndroidInstance & ") ADB Device Host", $COLOR_RED)
@@ -159,7 +159,7 @@ Func InitKOPLAYER($bCheckOnly = False)
 	  $aRegExResult = StringRegExp($__VBoxVMinfo, "name = .*host port = (\d{3,5}),.*guest port = 5555", $STR_REGEXPARRAYMATCH)
 	  If Not @error Then
 		 $AndroidAdbDevicePort = $aRegExResult[0]
-		 If $debugSetlog = 1 Then Setlog("Func LaunchConsole: Read $AndroidAdbDevicePort = " & $AndroidAdbDevicePort, $COLOR_DEBUG) ;Debug
+		 If $debugSetlog = 1 Then Setlog("Func LaunchConsole: Read $AndroidAdbDevicePort = " & $AndroidAdbDevicePort, $COLOR_PURPLE)
 	  Else
 		 $oops = 1
 		 SetLog("Cannot read " & $Android & "(" & $AndroidInstance & ") ADB Device Port", $COLOR_RED)

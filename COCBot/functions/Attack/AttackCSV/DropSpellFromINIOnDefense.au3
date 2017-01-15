@@ -16,7 +16,7 @@
 ;                  $sleepAfterMax       -
 ;                  $debug               - [optional] Default is False.
 ; Return values .: None
-; Author ........: Just changed DropTroopFromINI() Function from Sardo
+; Author ........: MR.ViPER
 ; Modified ......: MR.ViPER (19-9-2016), MR.ViPER (2-12-2016)
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL

@@ -13,14 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; Config for Adding Quicktrain Combo - DEMEN
-IniReadS($iRadio_Army12, $config, "troop", "QuickTrain12", "0")
-IniReadS($iRadio_Army123, $config, "troop", "QuickTrain123", "0")
-IniReadS($iRadio_ArmyRandom, $config, "troop", "QuickTrainRandom", "0")
-
-; Multi Finger (LunaEclipse) added rulesss
-$iMultiFingerStyle = IniRead($config, "MultiFinger", "Select", "2")
-
 $ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
 $ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
 $ichkIgnoreKing = IniRead($config, "upgrade", "chkIgnoreKing", "0")
@@ -38,16 +30,6 @@ $ichkIgnoreDColl = IniRead($config, "upgrade", "chkIgnoreDColl", "0")
 $iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
 $iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
 $iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
-
-;Tresorerie
-$ichkCollectTresory = IniRead($config, "other", "CollectTresory", "0")
-$itxtTreasuryGold = IniRead($config, "other", "treasuryGold", "0")
-$itxtTreasuryElixir = IniRead($config, "other", "treasuryElixir", "0")
-$itxtTreasuryDark = IniRead($config, "other", "treasuryDark", "0")
-$ichkCollectTresoryGold = IniRead($config, "other", "CollectTresoryGold", "0")
-$ichkCollectTresoryElixir = IniRead($config, "other", "CollectTresoryElixir", "0")
-$ichkCollectTresoryDark = IniRead($config, "other", "CollectTresoryDark", "0")
-$ichkTRFull = IniRead($config, "other", "chkTRFull", "0")
 
 $ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
 $MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
@@ -88,6 +70,7 @@ $icmbTrophyMinProfile = IniRead($config, "profiles", "cmbTrophyMinProfile", "0")
 $itxtMinTrophyAmount = IniRead($config, "profiles", "txtMinTrophyAmount", "1000")
 
 ; SSA
+
 IniReadS($ichkSwitchAccount, $SSAConfig, "SwitchAccount", "chkEnableSwitchAccount", "0")
 IniReadS($icmbAccountsQuantity, $SSAConfig, "SwitchAccount", "cmbAccountsQuantity", "0")
 For $i = 1 To 5
@@ -95,3 +78,24 @@ For $i = 1 To 5
 	IniReadS($ichkDonateAccount[$i], $SSAConfig, "SwitchAccount", "chkDonateAccount[" & $i & "]", "0")
 	IniReadS($icmbAccount[$i], $SSAConfig, "SwitchAccount", "cmbAccount[" & $i & "]", "0")
 Next
+
+;Forecast Added by rulesss
+$iChkForecastBoost = IniRead($config, "forecast", "chkForecastBoost", "0")
+$iTxtForecastBoost = IniRead($config, "forecast", "txtForecastBoost", "6.0")
+$ichkForecastHopingSwitchMax = IniRead($config, "profiles", "chkForecastHopingSwitchMax", "0")
+$icmbForecastHopingSwitchMax = IniRead($config, "profiles", "cmbForecastHopingSwitchMax", "0")
+$itxtForecastHopingSwitchMax = IniRead($config, "profiles", "txtForecastHopingSwitchMax", "2.5")
+$ichkForecastHopingSwitchMin = IniRead($config, "profiles", "chkForecastHopingSwitchMin", "0")
+$icmbForecastHopingSwitchMin = IniRead($config, "profiles", "cmbForecastHopingSwitchMin", "0")
+$itxtForecastHopingSwitchMin = IniRead($config, "profiles", "txtForecastHopingSwitchMin", "2.5")
+;Added Multi Switch Language by rulesss and Kychera
+$icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")
+
+;==========;Russian Languages by Kychera==========
+	   $ichkRusLang = IniRead($config, "Lang", "chkRusLang", "0")
+       $ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")	   
+	   ;sw langs
+        $icmbLang = IniRead($config, "Lang", "cmbLang", "8")
+	  ;==========;Russian Languages by Kychera==========
+	;modification Chat by rulesss
+	  $ichkchatdelay = IniRead($config, "global", "chdelay", "0")  

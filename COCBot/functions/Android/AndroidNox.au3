@@ -94,12 +94,16 @@ EndFunc
 Func GetNoxRtPath()
    Local $path = RegRead($HKLM & "\SOFTWARE\BigNox\VirtualBox\", "InstallDir")
    If @error = 0 Then
-	  If StringRight($path, 1) <> "\" Then $path &= "\"
-   Else
-	  $path = @ProgramFilesDir & "\Bignox\BigNoxVM\RT\"
-	  SetError(0, 0, 0)
+	   If StringRight($path, 1) <> "\" Then $path &= "\"
    EndIf
-   Return $path
+   If FileExists($path) = 0 Then
+	  $path = @ProgramFilesDir & "\Bignox\BigNoxVM\RT\"
+   EndIf
+   If FileExists($path) = 0 Then
+	  $path = EnvGet("ProgramFiles(x86)") & "\Bignox\BigNoxVM\RT\"
+   EndIf
+   SetError(0, 0, 0)
+   Return StringReplace($path, "\\", "\")
 EndFunc
 
 Func GetNoxPath()
@@ -111,7 +115,7 @@ Func GetNoxPath()
 	  $path = ""
 	  SetError(0, 0, 0)
    EndIf
-   Return $path
+   Return StringReplace($path, "\\", "\")
 EndFunc
 
 Func GetNoxAdbPath()
@@ -189,11 +193,14 @@ Func InitNox($bCheckOnly = False)
 	  EndIf
 
 	  ;$AndroidPicturesPath = "/mnt/shell/emulated/0/Download/other/"
-	  $AndroidPicturesPath = "/mnt/shared/Other/"
+	  ;$AndroidPicturesPath = "/mnt/shared/Other/"
+	  $AndroidPicturesPath = "(/mnt/shared/Other|/mnt/shell/emulated/0/Download/other)"
 	  $aRegExResult = StringRegExp($__VBoxVMinfo, "Name: 'Other', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
 	  If Not @error Then
+		$AndroidSharedFolderAvailable = True
 		 $AndroidPicturesHostPath = $aRegExResult[UBound($aRegExResult) - 1] & "\"
 	  Else
+		$AndroidSharedFolderAvailable = False
 		 $AndroidAdbScreencap = False
 		 $AndroidPicturesHostPath = ""
 		 SetLog($Android & " Background Mode is not available", $COLOR_ERROR)
@@ -221,8 +228,12 @@ Func SetScreenNox()
    ; Set dpi
    ;$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $AndroidInstance & " vbox_dpi 160", $process_killed)
 
-   If $AndroidPicturesPathAutoConfig = True and FileExists($AndroidPicturesHostPath) = 1 Then
-	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name Other --hostpath """ & $AndroidPicturesHostPath & """  --automount", $process_killed)
+   AndroidPicturePathAutoConfig(@MyDocumentsDir, "\Nox_share\Other") ; ensure $AndroidPicturesHostPath is set and exists
+   If $AndroidSharedFolderAvailable = False And $AndroidPicturesPathAutoConfig = True And FileExists($AndroidPicturesHostPath) = 1 Then
+      ; remove tailing backslash
+	  Local $path = $AndroidPicturesHostPath
+	  If StringRight($path, 1) = "\" Then $path = StringLeft($path, StringLen($path) - 1)
+	  $cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $AndroidInstance & " --name Other --hostpath """ & $path & """  --automount", $process_killed)
    EndIf
 
    Return True
@@ -272,45 +283,7 @@ Func CheckScreenNox($bSetLog = True)
    Next
 
    ; check if shared folder exists
-   If $AndroidPicturesPathAutoConfig = True Then
-	  If $AndroidPicturesHostPath = "" Then
-		 Local $path = @MyDocumentsDir
-		 If FileExists($path) = 1 Then
-			$AndroidPicturesHostPath = $path & "\Nox_share\Other"
-			If FileExists($AndroidPicturesHostPath) = 1 Then
-			   SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			   SetLog("Folder exists: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			   SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			   Return False
-			EndIf
-			If DirCreate($AndroidPicturesHostPath) = 1 Then
-			   SetLog("Configure " & $Android & " to support Background Mode", $COLOR_SUCCESS)
-			   SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			   SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			   Return False
-			Else
-			   SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			   SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			   $AndroidPicturesPathAutoConfig = False
-			EndIf
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot find current user 'Documents' folder", $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  ElseIf FileExists($AndroidPicturesHostPath) = 0 Then
-		 If DirCreate($AndroidPicturesHostPath) = 1 Then
-			SetLog("Configure " & $Android & " to support ADB", $COLOR_SUCCESS)
-			SetLog("Folder created: " & $AndroidPicturesHostPath, $COLOR_SUCCESS)
-			SetLog("This shared folder will be added to " & $Android, $COLOR_SUCCESS)
-			Return False
-		 Else
-			SetLog("Cannot configure " & $Android & " Background Mode", $COLOR_SUCCESS)
-			SetLog("Cannot create folder: " & $AndroidPicturesHostPath, $COLOR_ERROR)
-			$AndroidPicturesPathAutoConfig = False
-		 EndIf
-	  EndIf
-   EndIf
+   If AndroidPicturePathAutoConfig(@MyDocumentsDir, "\Nox_share\Other", $bSetLog) Then $iErrCnt += 1
 
    If $iErrCnt > 0 Then Return False
    Return True
@@ -362,3 +335,43 @@ Func RedrawNoxWindow()
 	ControlClick($HWnD, "", "", "left", 1, $aPos[2] - 46, 18)
 	;If _Sleep(500) Then Return False
 EndFunc
+
+Func HideNoxWindow($bHide = True)
+	Return EmbedNox($bHide)
+EndFunc   ;==>HideNoxWindow
+
+Func EmbedNox($bEmbed = Default)
+
+	If $bEmbed = Default Then $bEmbed = $AndroidEmbedded
+
+	; Find QTool Parent Window
+	Local $aWin = _WinAPI_EnumProcessWindows(GetAndroidPid(), False)
+	Local $i
+	Local $hToolbar = 0
+
+	For $i = 1 To UBound($aWin) - 1
+		Local $h = $aWin[$i][0]
+		Local $c = $aWin[$i][1]
+		If $c = "Qt5QWindowToolSaveBits" Then
+			Local $aPos = WinGetPos($h)
+			If UBound($aPos) > 2 Then
+				; found toolbar
+				$hToolbar = $h
+			EndIF
+		EndIf
+	Next
+
+	If $hToolbar = 0 Then
+		SetDebugLog("EmbedNox(" & $bEmbed & "): toolbar Window not found, list of windows:" & $c, Default, True)
+		For $i = 1 To UBound($aWin) - 1
+			Local $h = $aWin[$i][0]
+			Local $c = $aWin[$i][1]
+			SetDebugLog("EmbedNox(" & $bEmbed & "): Handle = " & $h & ", Class = " & $c, Default, True)
+		Next
+	Else
+		SetDebugLog("EmbedNox(" & $bEmbed & "): $hToolbar=" & $hToolbar, Default, True)
+		WinMove2($hToolbar, "", -1, -1, -1, -1, $HWND_NOTOPMOST, 0, False)
+		_WinAPI_ShowWindow($hToolbar, ($bEmbed ? @SW_HIDE : @SW_SHOWNOACTIVATE))
+	EndIf
+
+EndFunc   ;==>EmbedNox

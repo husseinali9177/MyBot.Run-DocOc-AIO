@@ -36,38 +36,33 @@ Func GoldElixirChangeEBO()
 	EndIf
 
 	;CALCULATE WHICH TIMER TO USE
-	If $ichkSmartZap = 0 Then
-		Local $iBegin = TimerInit(), $x = $sTimeStopAtk[$iMatchMode] * 1000, $y = $sTimeStopAtk2[$iMatchMode] * 1000, $z
-	Else
-		Local $iBegin = TimerInit(), $x = $sMinTimeCloseATK * 1000, $y = $sTimeStopAtk2[$iMatchMode] * 1000, $z
-	EndIf
-
+	Local $iBegin = TimerInit(), $x = $sTimeStopAtk[$iMatchMode] * 1000, $y = $sTimeStopAtk2[$iMatchMode] * 1000, $z
 	If Number($Gold1) < Number($stxtMinGoldStopAtk2[$iMatchMode]) And Number($Elixir1) < Number($stxtMinElixirStopAtk2[$iMatchMode]) And Number($DarkElixir1) < Number($stxtMinDarkElixirStopAtk2[$iMatchMode]) And $iChkTimeStopAtk2[$iMatchMode] = 1 Then
 		$z = $y
 	Else
-		If $ichkTimeStopAtk[$iMatchMode] = 1 Or $ichkSmartZap = 1 Then
+		If $ichkTimeStopAtk[$iMatchMode] = 1 Then
 			$z = $x
 		Else
 			$z = 60 * 3 * 1000
 		EndIf
 	EndIf
 
-
 	;CALCULATE TWO STARS REACH
 	If $ichkEndTwoStars[$iMatchMode] = 1 And _CheckPixel($aWonTwoStar, True) Then
-		SetLog("Two Star Reach, exit", $COLOR_GREEN)
+		SetLog("Two Star Reach, exit", $COLOR_SUCCESS)
 		$exitTwoStars = 1
 		$z = 0
 	EndIf
 
 	;CALCULATE ONE STARS REACH
 	If $ichkEndOneStar[$iMatchMode] = 1 And _CheckPixel($aWonOneStar, True) Then
-		SetLog("One Star Reach, exit", $COLOR_GREEN)
+		SetLog("One Star Reach, exit", $COLOR_SUCCESS)
 		$exitOneStar = 1
 		$z = 0
 	EndIf
 
-
+	Local $NoResourceOCR = False
+	Local $ExitNoLootChange = BitOR($ichkTimeStopAtk[$iMatchMode], $ichkTimeStopAtk2[$iMatchMode], $ichkEndNoResources[$iMatchMode]) = 1
 
 	;MAIN LOOP
 	While TimerDiff($iBegin) < $z
@@ -91,8 +86,10 @@ Func GoldElixirChangeEBO()
 			If _Sleep($iDelayGoldElixirChangeEBO1) Then Return
 			$Gold2 = getGoldVillageSearch(48, 69)
 		EndIf
+		CheckHeroesHealth()
 		$Elixir2 = getElixirVillageSearch(48, 69 + 29)
 		$Trophies = getTrophyVillageSearch(48, 69 + 99)
+		CheckHeroesHealth()
 		If $Trophies <> "" Then ; If trophy value found, then base has Dark Elixir
 			If _Sleep($iDelayGoldElixirChangeEBO1) Then Return
 			$DarkElixir2 = getDarkElixirVillageSearch(48, 69 + 57)
@@ -100,15 +97,15 @@ Func GoldElixirChangeEBO()
 			$DarkElixir2 = ""
 			$Trophies = getTrophyVillageSearch(48, 69 + 69)
 		EndIf
-
+		CheckHeroesHealth()
 		;WRITE LOG
 		$txtDiff = Round(($z - TimerDiff($iBegin)) / 1000, 1)
 		If Number($txtDiff) < 0 Then $txtDiff = 0
-		If $Gold2 = "" And $Elixir2 = "" And $DarkElixir2 = "" Then
-			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit now ", $COLOR_BLUE)
+		$NoResourceOCR = StringLen($Gold2) = 0 And StringLen($Elixir2) = 0 And StringLen($DarkElixir2) = 0
+		If $NoResourceOCR Then
+			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit now ", $COLOR_INFO)
 		Else
-			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit in " & StringReplace(StringFormat("%2i", $txtDiff), "-", "") & " sec.", $COLOR_BLUE)
-			OverallDamage(50,True)
+			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit in " & StringReplace(StringFormat("%2i", $txtDiff), "-", "") & " sec.", $COLOR_INFO)
 		EndIf
 
 		;CALCULATE RESOURCE CHANGES
@@ -120,21 +117,21 @@ Func GoldElixirChangeEBO()
 
 		;EXIT IF RESOURCES = 0
 		If $ichkEndNoResources[$iMatchMode] = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
-			SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_GREEN)
+			SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_SUCCESS)
 			If _Sleep($iDelayGoldElixirChangeEBO2) Then Return
 			ExitLoop
 		EndIf
 
 		;EXIT IF TWO STARS REACH
 		If $ichkEndTwoStars[$iMatchMode] = 1 And _CheckPixel($aWonTwoStar, True) Then
-			SetLog("Two Star Reach, exit", $COLOR_GREEN)
+			SetLog("Two Star Reach, exit", $COLOR_SUCCESS)
 			$exitTwoStars = 1
 			ExitLoop
 		EndIf
 
 		;EXIT IF ONE STARS REACH
 		If $ichkEndOneStar[$iMatchMode] = 1 And _CheckPixel($aWonOneStar, True) Then
-			SetLog("One Star Reach, exit", $COLOR_GREEN)
+			SetLog("One Star Reach, exit", $COLOR_SUCCESS)
 			$exitOneStar = 1
 			ExitLoop
 		EndIf
@@ -146,7 +143,7 @@ Func GoldElixirChangeEBO()
 
 		;EXIT IF RESOURCES CHANGE DETECTEC
 		If ($Gold1 <> $Gold2 Or $Elixir1 <> $Elixir2 Or $DarkElixir1 <> $DarkElixir2) Then
-			;SetLog("Gold & Elixir & DE change detected, waiting... .", $COLOR_GREEN)
+			;SetLog("Gold & Elixir & DE change detected, waiting... .", $COLOR_SUCCESS)
 			ExitLoop
 		EndIf
 
@@ -154,7 +151,7 @@ Func GoldElixirChangeEBO()
 
 	;Priority Check... Exit To protect Hero Health
 	If $iMatchMode = $LB And $iChkDeploySettings[$LB] = 4 And $DESideEB And $DarkLow = 1 Then
-		SetLog("Returning Now -DE-", $COLOR_GREEN)
+		SetLog("Returning Now -DE-", $COLOR_SUCCESS)
 		Return False
 	EndIf
 
@@ -171,31 +168,36 @@ Func GoldElixirChangeEBO()
 	EndIf
 
 	;THIRD CHECK... IF VALUES= "" REREAD AND RETURN FALSE IF = ""
-	If ($Gold2 = "" And $Elixir2 = "" And $DarkElixir2 = "") Then
-		SetLog("Battle has finished", $COLOR_GREEN)
+	If ($NoResourceOCR = True) Then
+		SetLog("Battle has finished", $COLOR_SUCCESS)
 		Return False ;end battle
 	EndIf
 
 	;FOURTH CHECK... IF RESOURCES = 0 THEN EXIT
-	If $ichkEndNoResources[$iMatchMode] = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
-		SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_GREEN)
+	If $ichkEndNoResources[$iMatchMode] = 1 And $NoResourceOCR = False And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
+		SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_SUCCESS)
 		If _Sleep($iDelayGoldElixirChangeEBO2) Then Return
 		Return False
 	EndIf
 
 	;FIFTH CHECK... IF VALUES NOT CHANGED  RETURN FALSE ELSE RETURN TRUE
 	If (Number($Gold1) = Number($Gold2) And Number($Elixir1) = Number($Elixir2) And Number($DarkElixir1) = Number($DarkElixir2)) Then
-		SetLog("Gold & Elixir & DE no change detected, exit", $COLOR_GREEN)
-		Return False
+		If BitOR($ichkTimeStopAtk[$iMatchMode], $ichkTimeStopAtk2[$iMatchMode]) = 1 Then
+			SetLog("Gold & Elixir & DE no change detected, exit", $COLOR_SUCCESS)
+			Return False
+		Else
+			SetLog("Gold & Elixir & DE no change detected, waiting...", $COLOR_SUCCESS)
+		EndIf
 	Else
 		If $debugsetlog = 1 Then
-			Setlog("Gold1: " & Number($Gold1) & "  Gold2: " & Number($Gold2), $COLOR_DEBUG) ;Debug
-			Setlog("Elixir1: " & Number($Elixir1) & "  Elixir2: " & Number($Elixir2), $COLOR_DEBUG) ;Debug
-			Setlog("Dark Elixir1: " & Number($DarkElixir1) & "  Dark Elixir2: " & Number($DarkElixir2), $COLOR_DEBUG) ;Debug
+			Setlog("Gold1: " & Number($Gold1) & "  Gold2: " & Number($Gold2), $COLOR_DEBUG)
+			Setlog("Elixir1: " & Number($Elixir1) & "  Elixir2: " & Number($Elixir2), $COLOR_DEBUG)
+			Setlog("Dark Elixir1: " & Number($DarkElixir1) & "  Dark Elixir2: " & Number($DarkElixir2), $COLOR_DEBUG)
 		EndIf
-		SetLog("Gold & Elixir & DE change detected, waiting...", $COLOR_GREEN)
-		Return True
+		SetLog("Gold & Elixir & DE change detected, waiting...", $COLOR_SUCCESS)
 	EndIf
+
+	Return True
 
 EndFunc   ;==>GoldElixirChangeEBO
 

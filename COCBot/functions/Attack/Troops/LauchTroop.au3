@@ -41,14 +41,14 @@ Func LauchTroop($troopKind, $nbSides, $waveNb, $maxWaveNb, $slotsPerEdge = 0)
 	If $waveNb = 3 Then $waveName = "third"
 	If $maxWaveNb = 1 Then $waveName = "only"
 	If $waveNb = 0 Then $waveName = "last"
-	SetLog("Dropping " & $waveName & " wave of " & $troopNb & " " & $name, $COLOR_GREEN)
+	SetLog("Dropping " & $waveName & " wave of " & $troopNb & " " & $name, $COLOR_SUCCESS)
 	DropTroop($troop, $nbSides, $troopNb, $slotsPerEdge)
 
 	Return True
 EndFunc   ;==>LauchTroop
 
 Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
-	If $debugSetlog = 1 Then SetLog("LaunchTroop2 with CC " & $CC & ", K " & $King & ", Q " & $Queen & ", W " & $Warden, $COLOR_DEBUG) ;Debug
+	If $debugSetlog = 1 Then SetLog("LaunchTroop2 with CC " & $CC & ", K " & $King & ", Q " & $Queen & ", W " & $Warden, $COLOR_DEBUG)
 	Local $listListInfoDeployTroopPixel[0]
 	Local $pixelRandomDrop[2]
 	Local $pixelRandomDropcc[2]
@@ -63,7 +63,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 			$waveNb = $listInfoDeploy[$i][2]
 			$maxWaveNb = $listInfoDeploy[$i][3]
 			$slotsPerEdge = $listInfoDeploy[$i][4]
-			If $debugSetlog = 1 Then SetLog("**ListInfoDeploy row " & $i & ": USE " & $troopKind & " SIDES " & $nbSides & " WAVE " & $waveNb & " XWAVE " & $maxWaveNb & " SLOTXEDGE " & $slotsPerEdge, $COLOR_DEBUG) ;Debug
+			If $debugSetlog = 1 Then SetLog("**ListInfoDeploy row " & $i & ": USE " & $troopKind & " SIDES " & $nbSides & " WAVE " & $waveNb & " XWAVE " & $maxWaveNb & " SLOTXEDGE " & $slotsPerEdge, $COLOR_DEBUG)
 			If (IsNumber($troopKind)) Then
 				For $j = 0 To UBound($atkTroops) - 1 ; identify the position of this kind of troop
 					If $atkTroops[$j][0] = $troopKind Then
@@ -109,20 +109,20 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 						If $DeployHeroesPosition[0] <> -1 Then
 							$pixelRandomDrop[0] = $DeployHeroesPosition[0]
 							$pixelRandomDrop[1] = $DeployHeroesPosition[1]
-							If $debugSetlog = 1 Then SetLog("Deploy Heroes $DeployHeroesPosition", $COLOR_DEBUG) ;Debug
+							If $debugSetlog = 1 Then SetLog("Deploy Heroes $DeployHeroesPosition")
 						Else
 							$pixelRandomDrop[0] = $BottomRight[2][0]
 							$pixelRandomDrop[1] = $BottomRight[2][1] ;
-							If $debugSetlog = 1 Then SetLog("Deploy Heroes $BottomRight", $COLOR_DEBUG) ;Debug
+							If $debugSetlog = 1 Then SetLog("Deploy Heroes $BottomRight")
 						EndIf
 						If $DeployCCPosition[0] <> -1 Then
 							$pixelRandomDropcc[0] = $DeployCCPosition[0]
 							$pixelRandomDropcc[1] = $DeployCCPosition[1]
-							If $debugSetlog = 1 Then SetLog("Deploy CC $DeployHeroesPosition", $COLOR_DEBUG) ;Debug
+							If $debugSetlog = 1 Then SetLog("Deploy CC $DeployHeroesPosition")
 						Else
 							$pixelRandomDropcc[0] = $BottomRight[2][0]
 							$pixelRandomDropcc[1] = $BottomRight[2][1] ;
-							If $debugSetlog = 1 Then SetLog("Deploy CC $BottomRight", $COLOR_DEBUG) ;Debug
+							If $debugSetlog = 1 Then SetLog("Deploy CC $BottomRight")
 						EndIf
 
 						If ($infoPixelDropTroop[0] = "CC") Then
@@ -140,7 +140,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 						If $numWave + 1 = 2 Then $waveName = "second"
 						If $numWave + 1 = 3 Then $waveName = "third"
 						If $numWave + 1 = 0 Then $waveName = "last"
-						SetLog("Dropping " & $waveName & " wave of " & $infoPixelDropTroop[5] & " " & $infoPixelDropTroop[4], $COLOR_GREEN)
+						SetLog("Dropping " & $waveName & " wave of " & $infoPixelDropTroop[5] & " " & $infoPixelDropTroop[4], $COLOR_SUCCESS)
 						DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], $infoPixelDropTroop[2], $infoPixelDropTroop[3])
 					EndIf
 					If ($isHeroesDropped) Then
@@ -175,20 +175,20 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 									If $DeployHeroesPosition[0] <> -1 Then
 										$pixelRandomDrop[0] = $DeployHeroesPosition[0]
 										$pixelRandomDrop[1] = $DeployHeroesPosition[1]
-										If $debugSetlog = 1 Then SetLog("Deploy Heroes $DeployHeroesPosition", $COLOR_DEBUG) ;Debug
+										If $debugSetlog = 1 Then SetLog("Deploy Heroes $DeployHeroesPosition")
 									Else
 										$pixelRandomDrop[0] = $BottomRight[2][0]
 										$pixelRandomDrop[1] = $BottomRight[2][1] ;
-										If $debugSetlog = 1 Then SetLog("Deploy Heroes $BottomRight", $COLOR_DEBUG) ;Debug
+										If $debugSetlog = 1 Then SetLog("Deploy Heroes $BottomRight")
 									EndIf
 									If $DeployCCPosition[0] <> -1 Then
 										$pixelRandomDropcc[0] = $DeployCCPosition[0]
 										$pixelRandomDropcc[1] = $DeployCCPosition[1]
-										If $debugSetlog = 1 Then SetLog("Deploy CC $DeployHeroesPosition", $COLOR_DEBUG) ;Debug
+										If $debugSetlog = 1 Then SetLog("Deploy CC $DeployHeroesPosition")
 									Else
 										$pixelRandomDropcc[0] = $BottomRight[2][0]
 										$pixelRandomDropcc[1] = $BottomRight[2][1] ;
-										If $debugSetlog = 1 Then SetLog("Deploy CC $BottomRight", $COLOR_DEBUG) ;Debug
+										If $debugSetlog = 1 Then SetLog("Deploy CC $BottomRight")
 									EndIf
 
 									If ($isCCDropped = False And $infoTroopListArrPixel[0] = "CC") Then
@@ -205,7 +205,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 									If _Sleep($iDelayLaunchTroop21) Then Return
 									SelectDropTroop($infoTroopListArrPixel[0]) ;Select Troop
 									If _Sleep($iDelayLaunchTroop23) Then Return
-									SetLog("Dropping " & $infoTroopListArrPixel[2] & "  of " & $infoTroopListArrPixel[5] & " => on each side (side : " & $i + 1 & ")", $COLOR_GREEN)
+									SetLog("Dropping " & $infoTroopListArrPixel[2] & "  of " & $infoTroopListArrPixel[5] & " => on each side (side : " & $i + 1 & ")", $COLOR_SUCCESS)
 									Local $pixelDropTroop[1] = [$listPixel]
 									DropOnPixel($infoTroopListArrPixel[0], $pixelDropTroop, $infoTroopListArrPixel[2], $infoTroopListArrPixel[3])
 								EndIf
@@ -231,7 +231,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen, $Warden)
 						If _Sleep($iDelayLaunchTroop21) Then Return
 						SelectDropTroop($infoPixelDropTroop[0]) ;Select Troop
 						If _Sleep($iDelayLaunchTroop23) Then Return
-						SetLog("Dropping last " & $numberLeft & "  of " & $infoPixelDropTroop[5], $COLOR_GREEN)
+						SetLog("Dropping last " & $numberLeft & "  of " & $infoPixelDropTroop[5], $COLOR_SUCCESS)
 						DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], Ceiling($numberLeft / UBound($infoPixelDropTroop[1])), $infoPixelDropTroop[3])
 					EndIf
 				EndIf

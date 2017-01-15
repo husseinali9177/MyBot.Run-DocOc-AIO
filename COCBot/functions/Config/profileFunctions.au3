@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: profileFunctions.au3
 ; Description ...: Functions for the new profile system
@@ -27,8 +29,12 @@ Func setupProfileComboBox()
 
 	; Clear the combo box current data in case profiles were deleted
 	GUICtrlSetData($cmbProfile, "", "")
+	GUICtrlSetData($cmbForecastHopingSwitchMin, "", "")
+	GUICtrlSetData($cmbForecastHopingSwitchMax, "", "")
 	; Set the new data of available profiles
 	GUICtrlSetData($cmbProfile, $profileString, "<No Profiles>")
+	GUICtrlSetData($cmbForecastHopingSwitchMax, $profileString, "<No Profiles>")
+	GUICtrlSetData($cmbForecastHopingSwitchMin, $profileString, "<No Profiles>")
 EndFunc   ;==>setupProfileComboBox
 
 Func renameProfile()
@@ -42,7 +48,6 @@ Func renameProfile()
 		; Remove the directory and all files and sub folders.
 		DirMove($originalPath, $newPath, $FC_NOOVERWRITE)
 	EndIf
-	IniWrite($sProfilePath & "\profile.ini", "general", "defaultprofile", GUICtrlRead($txtVillageName))
 EndFunc   ;==>renameProfile
 
 Func deleteProfile()
@@ -66,6 +71,7 @@ Func createProfile($bCreateNew = False)
 		setupProfileComboBox()
 		setupProfile()
 		saveConfig()
+		; applyConfig()
 		setupProfileComboBox()
 		selectProfile()
 		Return
@@ -89,7 +95,9 @@ Func createProfile($bCreateNew = False)
 	DirCreate($dirLoots)
 	DirCreate($dirTemp)
 	DirCreate($dirTempDebug)
-	;DirCreate($dirDebug)
+	DirCreate($donateimagefoldercapture)
+	DirCreate($donateimagefoldercaptureWhiteList)
+	DirCreate($donateimagefoldercaptureBlackList)
 
 	If FileExists($config) = 0 Then SetLog("New Profile '" & $sCurrProfile & "' created")
 EndFunc   ;==>createProfile
