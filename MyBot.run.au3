@@ -493,7 +493,6 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
-		SwitchAccount()
 		AddIdleTime()
 		checkMainScreen(False) ; required here due to many possible exits
 		If $CommandStop = -1 Then
@@ -555,6 +554,8 @@ Func Idle() ;Sequence that runs until Full Army
 		If $canRequestCC = True Then RequestCC()
 
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))))
+
+		SwitchAccount()
 
 		If $OutOfGold = 1 Or $OutOfElixir = 1 Then Return ; Halt mode due low resources, only 1 idle loop
 		If ($CommandStop = 3 Or $CommandStop = 0) And $bTrainEnabled = False Then ExitLoop ; If training is not enabled, run only 1 idle loop
