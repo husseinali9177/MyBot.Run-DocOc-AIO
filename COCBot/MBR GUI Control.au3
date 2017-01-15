@@ -1592,7 +1592,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_MOD_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[2] = [$eIcnSettings, $eIcnSwitch]
+			Local $aIconIndex[4] = [$eIcnSettings, $eIcnSwitch, $eIcnCloud, $eIcnChatBot]
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab
