@@ -137,3 +137,6 @@ Global Const $THEllipseWidth = 200, $THEllipseHeigth = 150, $CollectorsEllipseWi
 Global Const $centerX = 430, $centerY = 335 ; check later if $THEllipseWidth, $THEllipseHeigth obsolete
 Global $hBitmapFirst
 #endregion
+
+; Clan Hop Setting - Added by NguyenAnhHD
+Global $ichkClanHop

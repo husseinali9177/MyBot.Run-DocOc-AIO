@@ -225,3 +225,10 @@ IniWriteS($config, "Lang", "cmbLang", $icmbLang)
 		IniWriteS($config, "search", "DBMeetCollOutside", 0)
 	EndIf
 	IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
+
+	; Clan Hop Setting - Added By NguyenAnhHD
+	If GUICtrlRead($chkClanHop) = $GUI_CHECKED Then
+		IniWrite($config, "Others", "ClanHop", 1)
+	Else
+		IniWrite($config, "Others", "ClanHop", 0)
+	EndIf

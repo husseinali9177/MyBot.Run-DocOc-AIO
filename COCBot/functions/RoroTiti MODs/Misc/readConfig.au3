@@ -114,3 +114,6 @@ $icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")
 		; Check Collectors Outside - Added By NguyenAnhHD
 		$ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
 		$iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")
+
+		; Clan Hop Setting - Added By NguyenAnhHD
+		$ichkClanHop = IniRead($config, "Others", "ClanHop", "0")

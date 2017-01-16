@@ -301,6 +301,7 @@
 #include "functions\RoroTiti MODs\SmartSwitchAcc.au3"
 #include "functions\RoroTiti MODs\AreCollectorsOutside.au3"
 #include "functions\RoroTiti MODs\SimpleQuickTrain.au3"
+#include "functions\RoroTiti MODs\ClanHop.au3"
 
 ;OLD CODE
 

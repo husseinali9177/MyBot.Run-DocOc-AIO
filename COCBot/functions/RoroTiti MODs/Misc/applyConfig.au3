@@ -310,3 +310,10 @@ GUICtrlSetData($chkchatdelay, $ichkchatdelay)
 	EndIf
 	chkDBMeetCollOutside()
 	GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
+
+	; Clan Hop Setting - Added By NguyenAnhHD
+	If $ichkClanHop = 1 Then
+		GUICtrlSetState($chkClanHop, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkClanHop, $GUI_UNCHECKED)
+	EndIf
