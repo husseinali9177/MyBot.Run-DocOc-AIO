@@ -58,9 +58,9 @@ Global $aTabControlsTHSnipe = [$hGUI_THSNIPE_TAB, $hGUI_THSNIPE_TAB_ITEM1, $hGUI
 Global $aTabControlsAttackOptions = [$hGUI_AttackOption_TAB, $hGUI_AttackOption_TAB_ITEM1, $hGUI_AttackOption_TAB_ITEM2, $hGUI_AttackOption_TAB_ITEM3, $hGUI_AttackOption_TAB_ITEM4, $hGUI_AttackOption_TAB_ITEM5, $hGUI_AttackOption_TAB_ITEM6]
 Global $aTabControlsStrategies = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITEM1, $hGUI_STRATEGIES_TAB_ITEM2]
 
-Global $aTabControlsMod[5] = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4]
+Global $aTabControlsMod = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4, $hGUI_MOD_TAB_ITEM5]
 
-Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5, $hGUI_BOT_TAB_ITEM5]
+Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4]
 Global $aTabControlsStats = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
 Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugDeadbaseImage, $chkDebugOcr, $chkDebugImageSave, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate, $btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestClickDrag, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestimglocTroopBar, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton, $btnTestCleanYard, $lblLightningUsed, $lblSmartZap, $lblEarthQuakeUsed, $btnTestConfigSave, $btnTestConfigRead, $btnTestConfigApply]
@@ -620,7 +620,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 		Case $tabMain
 			; Handle RichText controls
 			tabMain()
-			If GUICtrlRead($tabMain, 1) = $tabMod And GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM3 Then
+			If GUICtrlRead($tabMain, 1) = $tabMod And GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -628,7 +628,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM3, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						cmbSwLang() ;Added Multi Switch Language by rulesss and kychera
@@ -651,7 +651,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 		Case $hGUI_BOT_TAB
 			tabBot()
 		Case $hGUI_MOD_TAB
-			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM3 Then
+			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -659,7 +659,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM3, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						setForecast()
@@ -669,7 +669,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 
 			tabMain()
 
-			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM3 Then
+			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -677,7 +677,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM3, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						Switch GUICtrlRead($cmbSwLang) ;Added Multi Switch Language by rulesss and Kychera
@@ -1278,10 +1278,10 @@ Func tabBot()
 		Case $tabidx = 3 ; Android tab
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
-		Case $tabidx = 4 ; Android tab
-			GUISetState(@SW_HIDE, $hGUI_STATS)
-			ControlHide("", "", $cmbLanguage)
-		Case $tabidx = 5 ; Stats tab
+;~		Case $tabidx = 4 ; Android tab
+;~			GUISetState(@SW_HIDE, $hGUI_STATS)
+;~			ControlHide("", "", $cmbLanguage)
+		Case $tabidx = 4 ; Stats tab
 			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
 	EndSelect
@@ -1568,7 +1568,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_BOT_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain, $eIcnAndroid, $eIcnProfile, $eIcnProfile, $eIcnGold]
+			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain, $eIcnAndroid, $eIcnProfile, $eIcnGold]
 			; The Android Robot is a Google Trademark and follows Creative Common Attribution 3.0
 
 		Case $hGUI_STRATEGIES_TAB
@@ -1577,7 +1577,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_MOD_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[4] = [$eIcnSettings, $eIcnSwitch, $eIcnCloud, $eIcnChatBot]
+			Local $aIconIndex[5] = [$eIcnSettings, $eIcnSwitch, $eIcnProfile2, $eIcnChatBot, $eIcnCloud]
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab

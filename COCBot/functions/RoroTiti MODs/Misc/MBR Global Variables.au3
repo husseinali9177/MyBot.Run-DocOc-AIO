@@ -137,7 +137,7 @@ Global $cmbLang
 Global $icmbLang
 
 ; QuickTrainCombo (Demen) - Added by NguyenAnhHD
-Global 	$iRadio_Army12, $iRadio_Army123
+Global $iRadio_Army12, $iRadio_Army123
 
 ; Simple QuickTrain (Demen) - Added by NguyenAnhHD
 Global $ichkSimpleQuickTrain, $ichkFillArcher, $iFillArcher, $ichkFillEQ, $ichkTrainDonated

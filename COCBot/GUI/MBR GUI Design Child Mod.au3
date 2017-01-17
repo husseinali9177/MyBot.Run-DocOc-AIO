@@ -24,7 +24,7 @@ $hGUI_MOD_TAB = GUICtrlCreateTab(0, 0, $_GUI_MAIN_WIDTH - 20, $_GUI_MAIN_HEIGHT 
 
 Global $FirstControlToHideMOD = GUICtrlCreateDummy()
 
-$hGUI_MOD_TAB_ITEM1 = GUICtrlCreateTabItem("Miscellaneous")
+$hGUI_MOD_TAB_ITEM1 = GUICtrlCreateTabItem("Mod Options")
 
 Local $xStart = 0, $yStart = 0
 
@@ -47,7 +47,114 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 GUICtrlCreateTabItem("")
 
-$hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(655, 13, "Switch Profiles"))
+$hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem("Switch Account")
+Global $txtPresetSaveFilename, $txtSavePresetMessage, $lblLoadPresetMessage,$btnGUIPresetDeleteConf, $chkCheckDeleteConf
+Global $cmbPresetList, $txtPresetMessage,$btnGUIPresetLoadConf,  $lblLoadPresetMessage,$btnGUIPresetDeleteConf, $chkCheckDeleteConf
+
+Local $x = 25, $y = 45
+$grpProfiles = GUICtrlCreateGroup(GetTranslated(637,1, "Switch Profiles"), $x - 20, $y - 20, 440, 360)
+$x -= 5
+$cmbProfile = GUICtrlCreateCombo("", $x - 3, $y + 1, 130, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+$txtTip = GetTranslated(637,2, "Use this to switch to a different profile")& @CRLF & GetTranslated(637,3, "Your profiles can be found in") & ": " & @CRLF & $sProfilePath
+_GUICtrlSetTip(-1, $txtTip)
+setupProfileComboBox()
+PopulatePresetComboBox()
+GUICtrlSetState(-1, $GUI_SHOW)
+GUICtrlSetOnEvent(-1, "cmbProfile")
+$txtVillageName = GUICtrlCreateInput(GetTranslated(637,4, "MyVillage"), $x - 3, $y, 130, 22, $ES_AUTOHSCROLL)
+GUICtrlSetLimit (-1, 100, 0)
+GUICtrlSetFont(-1, 9, 400, 1)
+_GUICtrlSetTip(-1, GetTranslated(637,5, "Your village/profile's name"))
+GUICtrlSetState(-1, $GUI_HIDE)
+; GUICtrlSetOnEvent(-1, "txtVillageName") - No longer needed
+
+$bIconAdd = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconAdd, @ScriptDir & "\images\Button\iconAdd.bmp")
+_GUIImageList_AddBitmap($bIconAdd, @ScriptDir & "\images\Button\iconAdd_2.bmp")
+_GUIImageList_AddBitmap($bIconAdd, @ScriptDir & "\images\Button\iconAdd_2.bmp")
+_GUIImageList_AddBitmap($bIconAdd, @ScriptDir & "\images\Button\iconAdd_4.bmp")
+_GUIImageList_AddBitmap($bIconAdd, @ScriptDir & "\images\Button\iconAdd.bmp")
+$bIconConfirm = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconConfirm, @ScriptDir & "\images\Button\iconConfirm.bmp")
+_GUIImageList_AddBitmap($bIconConfirm, @ScriptDir & "\images\Button\iconConfirm_2.bmp")
+_GUIImageList_AddBitmap($bIconConfirm, @ScriptDir & "\images\Button\iconConfirm_2.bmp")
+_GUIImageList_AddBitmap($bIconConfirm, @ScriptDir & "\images\Button\iconConfirm_4.bmp")
+_GUIImageList_AddBitmap($bIconConfirm, @ScriptDir & "\images\Button\iconConfirm.bmp")
+$bIconDelete = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconDelete, @ScriptDir & "\images\Button\iconDelete.bmp")
+_GUIImageList_AddBitmap($bIconDelete, @ScriptDir & "\images\Button\iconDelete_2.bmp")
+_GUIImageList_AddBitmap($bIconDelete, @ScriptDir & "\images\Button\iconDelete_2.bmp")
+_GUIImageList_AddBitmap($bIconDelete, @ScriptDir & "\images\Button\iconDelete_4.bmp")
+_GUIImageList_AddBitmap($bIconDelete, @ScriptDir & "\images\Button\iconDelete.bmp")
+$bIconCancel = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconCancel, @ScriptDir & "\images\Button\iconCancel.bmp")
+_GUIImageList_AddBitmap($bIconCancel, @ScriptDir & "\images\Button\iconCancel_2.bmp")
+_GUIImageList_AddBitmap($bIconCancel, @ScriptDir & "\images\Button\iconCancel_2.bmp")
+_GUIImageList_AddBitmap($bIconCancel, @ScriptDir & "\images\Button\iconCancel_4.bmp")
+_GUIImageList_AddBitmap($bIconCancel, @ScriptDir & "\images\Button\iconCancel.bmp")
+$bIconEdit = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconEdit, @ScriptDir & "\images\Button\iconEdit.bmp")
+_GUIImageList_AddBitmap($bIconEdit, @ScriptDir & "\images\Button\iconEdit_2.bmp")
+_GUIImageList_AddBitmap($bIconEdit, @ScriptDir & "\images\Button\iconEdit_2.bmp")
+_GUIImageList_AddBitmap($bIconEdit, @ScriptDir & "\images\Button\iconEdit_4.bmp")
+_GUIImageList_AddBitmap($bIconEdit, @ScriptDir & "\images\Button\iconEdit.bmp")
+; IceCube (Misc v1.0)
+$bIconRecycle = _GUIImageList_Create(24, 24, 4)
+_GUIImageList_AddBitmap($bIconRecycle, @ScriptDir & "\images\Button\iconRecycle.bmp")
+_GUIImageList_AddBitmap($bIconRecycle, @ScriptDir & "\images\Button\iconRecycle_2.bmp")
+_GUIImageList_AddBitmap($bIconRecycle, @ScriptDir & "\images\Button\iconRecycle_2.bmp")
+_GUIImageList_AddBitmap($bIconRecycle, @ScriptDir & "\images\Button\iconRecycle_4.bmp")
+_GUIImageList_AddBitmap($bIconRecycle, @ScriptDir & "\images\Button\iconRecycle.bmp")
+; IceCube (Misc v1.0)
+
+$btnAdd = GUICtrlCreateButton("", $x + 135, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnAdd, $bIconAdd, 4)
+GUICtrlSetOnEvent(-1, "btnAddConfirm")
+GUICtrlSetState(-1, $GUI_SHOW)
+_GUICtrlSetTip(-1, GetTranslated(637,6, "Add New Profile"))
+$btnConfirmAdd = GUICtrlCreateButton("", $x + 135, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnConfirmAdd, $bIconConfirm, 4)
+GUICtrlSetOnEvent(-1, "btnAddConfirm")
+GUICtrlSetState(-1, $GUI_HIDE)
+_GUICtrlSetTip(-1, GetTranslated(637,7, "Confirm"))
+$btnConfirmRename = GUICtrlCreateButton("", $x + 135, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnConfirmRename, $bIconConfirm, 4)
+GUICtrlSetOnEvent(-1, "btnRenameConfirm")
+GUICtrlSetState(-1, $GUI_HIDE)
+_GUICtrlSetTip(-1, GetTranslated(637,7, -1))
+$btnDelete = GUICtrlCreateButton("", $x + 164, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnDelete, $bIconDelete, 4)
+GUICtrlSetOnEvent(-1, "btnDeleteCancel")
+GUICtrlSetState(-1, $GUI_SHOW)
+_GUICtrlSetTip(-1, GetTranslated(637,8, "Delete Profile"))
+$btnCancel = GUICtrlCreateButton("", $x + 164, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnCancel, $bIconCancel, 4)
+GUICtrlSetOnEvent(-1, "btnDeleteCancel")
+GUICtrlSetState(-1, $GUI_HIDE)
+_GUICtrlSetTip(-1, GetTranslated(637,9, "Cancel"))
+$btnRename = GUICtrlCreateButton("", $x + 194, $y, 24, 24)
+_GUICtrlButton_SetImageList($btnRename, $bIconEdit, 4)
+GUICtrlSetOnEvent(-1, "btnRenameConfirm")
+_GUICtrlSetTip(-1, GetTranslated(637,10, "Rename Profile"))
+; IceCube (Misc v1.0)
+$btnRecycle = GUICtrlCreateButton("", $x + 223, $y + 2, 22, 22)
+_GUICtrlButton_SetImageList($btnRecycle, $bIconRecycle, 4)
+GUICtrlSetOnEvent(-1, "btnRecycle")
+GUICtrlSetState(-1, $GUI_SHOW)
+_GUICtrlSetTip(-1, GetTranslated(655,12, "Recycle Profile by removing all settings no longer suported that could lead to bad behaviour"))
+If GUICtrlRead($cmbProfile) = "<No Profiles>" Then
+GUICtrlSetState(-1, $GUI_DISABLE)
+Else
+GUICtrlSetState(-1, $GUI_ENABLE)
+EndIf
+; IceCube (Misc v1.0)
+
+GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+#include "..\functions\RoroTiti MODs\Misc\MBR GUI Design - SmartSwitchAccount.au3"
+GUICtrlCreateTabItem("")
+
+$hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(655, 13, "Switch Profiles"))
 
 Local $x = 25, $y = 45
 
@@ -164,61 +271,6 @@ setupProfileComboBoxswitch()
 
 GUICtrlCreateTabItem("")
 
-$hGUI_MOD_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(107, 1, "Forecast"))
-
-Global $grpForecast
-Global $ieForecast
-
-Local $xStart = 0, $yStart = 0
-Local $x = $xStart + 10, $y = $yStart + 25
-$ieForecast = GUICtrlCreateObj($oIE, $x, $y, 430, 310)
-$y += +318
-$chkForecastBoost = GUICtrlCreateCheckbox(GetTranslated(107, 2, "Boost When >"), $x, $y, -1, -1)
-$txtTip = GetTranslated(107, 3, "Boost Barracks,Heroes, when the loot index.")
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetOnEvent(-1, "chkForecastBoost")
-$txtForecastBoost = GUICtrlCreateInput("6.0", $x + 90, $y + 2, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-$txtTip = GetTranslated(107, 4, "Minimum loot index for boosting.")
-GUICtrlSetLimit(-1, 3)
-GUICtrlSetTip(-1, $txtTip)
-_GUICtrlEdit_SetReadOnly(-1, True)
-GUICtrlSetState(-1, $GUI_DISABLE)
-
-$y += -27
-$chkForecastHopingSwitchMax = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 27, -1, -1)
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMax")
-$cmbForecastHopingSwitchMax = GUICtrlCreateCombo("", $x + 225, $y + 25, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetState(-1, $GUI_DISABLE)
-$lblForecastHopingSwitchMax = GUICtrlCreateLabel(GetTranslated(107, 17, "When Index <"), $x + 325, $y + 28, -1, -1)
-$txtForecastHopingSwitchMax = GUICtrlCreateInput("2.5", $x + 400, $y + 26, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetLimit(-1, 3)
-GUICtrlSetData(-1, 2.5)
-GUICtrlSetTip(-1, $txtTip)
-_GUICtrlEdit_SetReadOnly(-1, True)
-$chkForecastHopingSwitchMin = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 55, -1, -1)
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMin")
-$cmbForecastHopingSwitchMin = GUICtrlCreateCombo("", $x + 225, $y + 53, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetState(-1, $GUI_DISABLE)
-$lblForecastHopingSwitchMin = GUICtrlCreateLabel(GetTranslated(107, 19, "When Index >"), $x + 325, $y + 58, -1, -1)
-$txtForecastHopingSwitchMin = GUICtrlCreateInput("2.5", $x + 400, $y + 54, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetLimit(-1, 3)
-GUICtrlSetData(-1, 2.5)
-GUICtrlSetTip(-1, $txtTip)
-_GUICtrlEdit_SetReadOnly(-1, True)
-setupProfileComboBox()
-$cmbSwLang = GUICtrlCreateCombo("", $x, $y + 50, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-GUICtrlSetData(-1, "EN|RU|FR|DE|ES|IT|PT|IN", "EN")
-GUICtrlSetOnEvent(-1, "cmbSwLang")
-GUICtrlCreateTabItem("")
-
 $hGUI_MOD_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(106, 1, "Chat"))
 
 ChatbotReadSettings()
@@ -320,3 +372,58 @@ GUICtrlCreateTabItem("")
 Global $LastControlToHideMOD = GUICtrlCreateDummy()
 Global $iPrevState[$LastControlToHideMOD + 1]
 ;~ -------------------------------------------------------------
+
+$hGUI_MOD_TAB_ITEM5 = GUICtrlCreateTabItem(GetTranslated(107, 1, "Forecast"))
+
+Global $grpForecast
+Global $ieForecast
+
+Local $xStart = 0, $yStart = 0
+Local $x = $xStart + 10, $y = $yStart + 25
+$ieForecast = GUICtrlCreateObj($oIE, $x, $y, 430, 310)
+$y += +318
+$chkForecastBoost = GUICtrlCreateCheckbox(GetTranslated(107, 2, "Boost When >"), $x, $y, -1, -1)
+$txtTip = GetTranslated(107, 3, "Boost Barracks,Heroes, when the loot index.")
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetOnEvent(-1, "chkForecastBoost")
+$txtForecastBoost = GUICtrlCreateInput("6.0", $x + 90, $y + 2, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+$txtTip = GetTranslated(107, 4, "Minimum loot index for boosting.")
+GUICtrlSetLimit(-1, 3)
+GUICtrlSetTip(-1, $txtTip)
+_GUICtrlEdit_SetReadOnly(-1, True)
+GUICtrlSetState(-1, $GUI_DISABLE)
+
+$y += -27
+$chkForecastHopingSwitchMax = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 27, -1, -1)
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMax")
+$cmbForecastHopingSwitchMax = GUICtrlCreateCombo("", $x + 225, $y + 25, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_DISABLE)
+$lblForecastHopingSwitchMax = GUICtrlCreateLabel(GetTranslated(107, 17, "When Index <"), $x + 325, $y + 28, -1, -1)
+$txtForecastHopingSwitchMax = GUICtrlCreateInput("2.5", $x + 400, $y + 26, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetLimit(-1, 3)
+GUICtrlSetData(-1, 2.5)
+GUICtrlSetTip(-1, $txtTip)
+_GUICtrlEdit_SetReadOnly(-1, True)
+$chkForecastHopingSwitchMin = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 55, -1, -1)
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMin")
+$cmbForecastHopingSwitchMin = GUICtrlCreateCombo("", $x + 225, $y + 53, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_DISABLE)
+$lblForecastHopingSwitchMin = GUICtrlCreateLabel(GetTranslated(107, 19, "When Index >"), $x + 325, $y + 58, -1, -1)
+$txtForecastHopingSwitchMin = GUICtrlCreateInput("2.5", $x + 400, $y + 54, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+GUICtrlSetTip(-1, $txtTip)
+GUICtrlSetState(-1, $GUI_DISABLE)
+GUICtrlSetLimit(-1, 3)
+GUICtrlSetData(-1, 2.5)
+GUICtrlSetTip(-1, $txtTip)
+_GUICtrlEdit_SetReadOnly(-1, True)
+setupProfileComboBox()
+$cmbSwLang = GUICtrlCreateCombo("", $x, $y + 50, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+GUICtrlSetData(-1, "EN|RU|FR|DE|ES|IT|PT|IN", "EN")
+GUICtrlSetOnEvent(-1, "cmbSwLang")
+GUICtrlCreateTabItem("")
