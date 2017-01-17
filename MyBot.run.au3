@@ -218,7 +218,7 @@ DisableProcessWindowsGhosting()
 ProcessSetPriority(@AutoItPID, $iBotProcessPriority)
 
 ; ensure watchdog is launched
-; LaunchWatchdog()
+LaunchWatchdog()
 
 ;~ Remember time in Milliseconds bot launched
 $iBotLaunchTime = TimerDiff($hBotLaunchTime)

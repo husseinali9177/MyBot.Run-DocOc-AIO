@@ -747,6 +747,11 @@ If GUICtrlRead($chkNotifyBOTSleep) = $GUI_CHECKED Then
 		Else
 			$DebugSmartZap = 0
 		EndIf
+		If GUICtrlRead($chkDebugSX) = $GUI_CHECKED Then
+			$DebugSX = 1
+		Else
+			$DebugSX = 0
+		EndIf
 		If GUICtrlRead($chkDebugOcr) = $GUI_CHECKED Then
 			$debugOcr = 1
 		Else

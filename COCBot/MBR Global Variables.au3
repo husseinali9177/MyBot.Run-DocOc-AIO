@@ -99,6 +99,7 @@ Global $debugAndroidEmbedded = 0
 Global $debugWindowMessages = 0 ; 0=off, 1=most Window Messages, 2=all Window Messages
 Global $DebugSmartZap = 0
 Global $DebugGdiCount = 0 ; monitor bot GDI Handle count, 0 = Disabled, <> 0 = Enabled
+Global $DebugSX = 0 ; Debug SuperXP
 
 Global Const $COLOR_ORANGE = 0xFF7700  ; Used for donate GUI buttons
 Global Const $COLOR_ERROR = $COLOR_RED   ; Error messages
