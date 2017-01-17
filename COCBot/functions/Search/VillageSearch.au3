@@ -1,4 +1,4 @@
-;MODded by DocOc++ Team
+;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: VillageSearch
@@ -239,7 +239,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				EndIf
 			Else
 				$iMatchMode = $DB
-				cmbCSVSpeed()
 				ExitLoop
 			EndIf
 		ElseIf $match[$LB] And Not $dbBase Then
@@ -247,7 +246,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SetLog("      " & "Live Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
 			$iMatchMode = $LB
-			cmbCSVSpeed()
 			ExitLoop
 		ElseIf $match[$LB] And $iDeadBaseDisableCollectorsFilter = 1 Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
@@ -286,7 +284,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		If $noMatchTxt <> "" Then
 			;SetLog(_PadStringCenter(" " & StringMid($noMatchTxt, 3) & " ", 50, "~"), $COLOR_DEBUG)
 			SetLog($GetResourcesTXT, $COLOR_BLACK, "Lucida Console", 7.5)
-			SetLog("      " & StringMid($noMatchTxt, 3), $COLOR_BLACK, "Lucida Console", 7.5)
+			SetLog("      " & StringMid($noMatchTxt, 3), $COLOR_ORANGE, "Lucida Console", 7.5)
 			$logwrited = True
 		EndIf
 

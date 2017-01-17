@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team AIO
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -171,19 +173,19 @@ Local $xStart = 0, $yStart = 0
 Local $x = $xStart + 10, $y = $yStart + 25
 $ieForecast = GUICtrlCreateObj($oIE, $x, $y, 430, 310)
 $y += +318
-$chkForecastBoost = GUICtrlCreateCheckbox("Boost When >", $x, $y, -1, -1)
-$txtTip = "Boost Barracks,Heroes, when the loot index."
+$chkForecastBoost = GUICtrlCreateCheckbox(GetTranslated(107, 2, "Boost When >"), $x, $y, -1, -1)
+$txtTip = GetTranslated(107, 3, "Boost Barracks,Heroes, when the loot index.")
 GUICtrlSetTip(-1, $txtTip)
 GUICtrlSetOnEvent(-1, "chkForecastBoost")
 $txtForecastBoost = GUICtrlCreateInput("6.0", $x + 90, $y + 2, 30, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-$txtTip = "Minimum loot index for boosting."
+$txtTip = GetTranslated(107, 4, "Minimum loot index for boosting.")
 GUICtrlSetLimit(-1, 3)
 GUICtrlSetTip(-1, $txtTip)
 _GUICtrlEdit_SetReadOnly(-1, True)
 GUICtrlSetState(-1, $GUI_DISABLE)
 
 $y += -27
-$chkForecastHopingSwitchMax = GUICtrlCreateCheckbox("Switch to", $x + 158, $y + 27, -1, -1)
+$chkForecastHopingSwitchMax = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 27, -1, -1)
 GUICtrlSetTip(-1, $txtTip)
 GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMax")
 $cmbForecastHopingSwitchMax = GUICtrlCreateCombo("", $x + 225, $y + 25, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -197,7 +199,7 @@ GUICtrlSetLimit(-1, 3)
 GUICtrlSetData(-1, 2.5)
 GUICtrlSetTip(-1, $txtTip)
 _GUICtrlEdit_SetReadOnly(-1, True)
-$chkForecastHopingSwitchMin = GUICtrlCreateCheckbox("Switch to", $x + 158, $y + 55, -1, -1)
+$chkForecastHopingSwitchMin = GUICtrlCreateCheckbox(GetTranslated(19, 8, "Switch To"), $x + 158, $y + 55, -1, -1)
 GUICtrlSetTip(-1, $txtTip)
 GUICtrlSetOnEvent(-1, "chkForecastHopingSwitchMin")
 $cmbForecastHopingSwitchMin = GUICtrlCreateCombo("", $x + 225, $y + 53, 95, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -225,17 +227,17 @@ Local $x = 22, $y = 47
 
 GUICtrlCreateGroup(GetTranslated(106, 2, "Global Chat"), $x - 20, $y - 20, 215, 360)
 $y -= 5
-$chkGlobalChat = GUICtrlCreateCheckbox("Advertise in global", $x - 10, $y, -1, -1)
+$chkGlobalChat = GUICtrlCreateCheckbox(GetTranslated(106, 3, "Advertise in global"), $x - 10, $y, -1, -1)
 _GUICtrlSetTip($chkGlobalChat, GetTranslated(106, 4, "Use global chat to send messages"))
 GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 $y += 22
-$chkGlobalScramble = GUICtrlCreateCheckbox("Scramble global chats", $x - 10, $y, -1, -1)
+$chkGlobalScramble = GUICtrlCreateCheckbox(GetTranslated(106, 5, "Scramble global chats"), $x - 10, $y, -1, -1)
 _GUICtrlSetTip($chkGlobalScramble, GetTranslated(106, 6, "Scramble the message pieces defined in the textboxes below to be in a random order"))
 GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 $y += 22
-$chkSwitchLang = GUICtrlCreateCheckbox("Switch languages", $x - 10, $y, -1, -1)
+$chkSwitchLang = GUICtrlCreateCheckbox(GetTranslated(106, 7, "Switch languages"), $x - 10, $y, -1, -1)
 _GUICtrlSetTip($chkSwitchLang, GetTranslated(106, 8, "Switch languages after spamming for a new global chatroom"))
 GUICtrlSetState($chkSwitchLang, $ChatbotSwitchLang)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
@@ -271,7 +273,7 @@ Local $x = 240, $y = 47
 
 GUICtrlCreateGroup(GetTranslated(106, 15, "Clan Chat"), $x - 20, $y - 20, 218, 360)
 $y -= 5
-$chkClanChat = GUICtrlCreateCheckbox("Chat in clan chat:", $x - 10, $y, -1, -1)
+$chkClanChat = GUICtrlCreateCheckbox(GetTranslated(106, 16, "Chat in clan chat:"), $x - 10, $y, -1, -1)
 _GUICtrlSetTip($chkClanChat, GetTranslated(106, 17, "Use clan chat to send messages"))
 GUICtrlSetState($chkClanChat, $ChatbotChatClan)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
@@ -280,22 +282,22 @@ GUICtrlSetState(-1, $GUI_UNCHECKED)
 _GUICtrlSetTip(-1, GetTranslated(106, 51, "On. Russian send text. Note: The input language in the Android emulator must be RUSSIAN."))
 ;GUICtrlSetOnEvent(-1, "chkRusLang")
 $y += 22
-$chkUseResponses = GUICtrlCreateCheckbox("Use custom responses", $x - 10, $y, -1, -1) ;GUICtrlCreateCheckbox(GetTranslated(106,18,"Use custom responses"), $x - 10, $y)
+$chkUseResponses = GUICtrlCreateCheckbox(GetTranslated(106, 18, "Use custom responses"), $x - 10, $y, -1, -1) ;GUICtrlCreateCheckbox(GetTranslated(106,18,"Use custom responses"), $x - 10, $y)
 GUICtrlSetTip($chkUseResponses, GetTranslated(106, 19, "Use the keywords and responses defined below"))
 GUICtrlSetState($chkUseResponses, $ChatbotClanUseResponses)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 $y += 22
-$chkUseGeneric = GUICtrlCreateCheckbox("Use generic chats", $x - 10, $y, -1, -1)
+$chkUseGeneric = GUICtrlCreateCheckbox(GetTranslated(106, 20, "Use generic chats"), $x - 10, $y, -1, -1)
 GUICtrlSetTip($chkUseGeneric, GetTranslated(106, 25, "Use generic chats if reading the latest chat failed or there are no new chats"))
 GUICtrlSetState($chkUseGeneric, $ChatbotClanAlwaysMsg)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 $y += 22
-$chkChatPushbullet = GUICtrlCreateCheckbox("Use remote for chatting", $x - 10, $y, -1, -1)
+$chkChatPushbullet = GUICtrlCreateCheckbox(GetTranslated(106, 26, "Use remote for chatting"), $x - 10, $y, -1, -1)
 GUICtrlSetTip($chkChatPushbullet, GetTranslated(106, 27, "Send and recieve chats via pushbullet or telegram. Use BOT <myvillage> GETCHATS <interval|NOW|STOP> to get the latest clan chat as an image, and BOT <myvillage> SENDCHAT <chat message> to send a chat to your clan"))
 GUICtrlSetState($chkChatPushbullet, $ChatbotUsePushbullet)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 $y += 22
-$chkPbSendNewChats = GUICtrlCreateCheckbox("Notify me new clan chat", $x - 10, $y, -1, -1)
+$chkPbSendNewChats = GUICtrlCreateCheckbox(GetTranslated(106, 28, "Notify me new clan chat"), $x - 10, $y, -1, -1)
 GUICtrlSetTip($chkPbSendNewChats, GetTranslated(106, 29, "Will send an image of your clan chat via pushbullet & telegram when a new chat is detected. Not guaranteed to be 100% accurate."))
 GUICtrlSetState($chkPbSendNewChats, $ChatbotPbSendNew)
 GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")

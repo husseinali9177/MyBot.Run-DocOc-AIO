@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team AIO
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
 ; Description ...: This file Includes GUI Design
@@ -115,7 +117,7 @@ Local $x = 15, $y = 150
 
 Local $x = 5, $y = 258
 
-$Group1 = GUICtrlCreateGroup("Treasury Collect", $x, $y, 440, 105)
+$Group1 = GUICtrlCreateGroup(GetTranslated(800, 0, "Treasury Collect"), $x, $y, 440, 105)
 
 	$x -= 2
 
@@ -125,8 +127,8 @@ $Group1 = GUICtrlCreateGroup("Treasury Collect", $x, $y, 440, 105)
 	_GUICtrlSetTip(-1, GetTranslated(800, 50, "Check to enable automatic Treasury collecion"))
 	$chkForceTrCollect = GUICtrlCreateCheckbox(GetTranslated(800, 2, "Always collect Treasury"), $x + 15, $y + 75, 127, 17)
 	GUICtrlSetOnEvent(-1, "chkForceTrCollect")
-	_GUICtrlSetTip(-1, GetTranslated(800, 51, "Check to force Treasury collection" & _
-	@CRLF & "Treasury will be collected all the time, ignoring any criteria"))
+	_GUICtrlSetTip(-1, GetTranslated(800, 51, "Check to force Treasury collection") & _
+	@CRLF & GetTranslated(800, 58, "Treasury will be collected all the time, ignoring any criteria"))
 
 	GUICtrlCreateIcon($pIconLib, $eIcnGold, $x + 160, $y + 15, 24, 24)
 	GUICtrlCreateIcon($pIconLib, $eIcnElixir, $x + 160, $y + 45, 24, 24)

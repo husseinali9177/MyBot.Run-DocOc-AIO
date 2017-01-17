@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team AIO
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: OpenMEmu
 ; Description ...: Opens new MEmu instance

@@ -13,9 +13,17 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
-_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
+; Classic Four Finger
+cmbDeployAB()
+cmbDeployDB()
 
+; CSV Deploy Speed
+GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
+GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
+sldSelectedSpeedDB()
+sldSelectedSpeedAB()
+
+; Smart Upgarde
 If $ichkSmartUpgrade = 1 Then
 	GUICtrlSetState($chkSmartUpgrade, $GUI_CHECKED)
 Else
@@ -104,9 +112,9 @@ If $ichkIgnoreDColl = 1 Then
 Else
 	GUICtrlSetState($chkIgnoreDColl, $GUI_UNCHECKED)
 EndIf
-
 chkSmartUpgrade()
 
+; CoC Stats
 If $ichkCoCStats = 1 Then
 	GUICtrlSetState($chkCoCStats, $GUI_CHECKED)
 Else
@@ -176,9 +184,11 @@ EndIf
 _GUICtrlComboBox_SetCurSel($cmbTrophyMinProfile, $icmbTrophyMinProfile)
 GUICtrlSetData($txtMinTrophyAmount, $itxtMinTrophyAmount)
 
+; Color Android Shield
 _GUICtrlSlider_SetPos($sldrTransparancyShield, $AndroidShieldTransparency)
 _GUICtrlSlider_SetPos($sldrTransparancyIdleShield, $AndroidInactiveTransparency)
 
+; Auto Hide
 If $ichkAutoHide = 1 Then
 	GUICtrlSetState($chkAutoHide, $GUI_CHECKED)
 Else
@@ -187,8 +197,7 @@ EndIf
 GUICtrlSetData($txtAutoHideDelay, $ichkAutoHideDelay)
 chkAutoHide()
 
-; SSA
-
+; Smart Switch Account
 If $ichkSwitchAccount = 1 Then
 	GUICtrlSetState($chkEnableSwitchAccount, $GUI_CHECKED)
 Else
@@ -238,82 +247,81 @@ EndIf
 _GUICtrlComboBox_SetCurSel($cmbForecastHopingSwitchMin, $icmbForecastHopingSwitchMin)
 GUICtrlSetData($txtForecastHopingSwitchMin, $itxtForecastHopingSwitchMin)
 chkForecastHopingSwitchMin()
+
 ;Added Multi Switch Language by rulesss and Kychera
 _GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
 $icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 
 ;==========Russian Languages by Kychera==========
-	If $ichkRusLang = 1 Then
-		GUICtrlSetState($chkRusLang, $GUI_CHECKED)
+If $ichkRusLang = 1 Then
+	GUICtrlSetState($chkRusLang, $GUI_CHECKED)
+ElseIf $ichkRusLang = 0 Then
+	GUICtrlSetState($chkRusLang, $GUI_UNCHECKED)
+EndIf
 
-	ElseIf $ichkRusLang = 0 Then
-		GUICtrlSetState($chkRusLang, $GUI_UNCHECKED)
+If $ichkRusLang2 = 1 Then
+	GUICtrlSetState($chkRusLang2, $GUI_CHECKED)
+ElseIf $ichkRusLang2 = 0 Then
+	GUICtrlSetState($chkRusLang2, $GUI_UNCHECKED)
+EndIf
 
-	EndIf
-	If $ichkRusLang2 = 1 Then
-		GUICtrlSetState($chkRusLang2, $GUI_CHECKED)
-
-	ElseIf $ichkRusLang2 = 0 Then
-		GUICtrlSetState($chkRusLang2, $GUI_UNCHECKED)
-
-	EndIf
-	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
-	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
 
 ;modification Chat by rulesss
 GUICtrlSetData($chkchatdelay, $ichkchatdelay)
 
-	; QuicktrainCombo (Demen) - Added By NguyenAnhHD
-	If $iRadio_Army12 = 1 Then
-		GUICtrlSetState($hRadio_Army12, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($hRadio_Army12, $GUI_UNCHECKED)
-	EndIf
+; QuicktrainCombo (Demen) - Added By NguyenAnhHD
+If $iRadio_Army12 = 1 Then
+	GUICtrlSetState($hRadio_Army12, $GUI_CHECKED)
+Else
+	GUICtrlSetState($hRadio_Army12, $GUI_UNCHECKED)
+EndIf
 
-	If $iRadio_Army123 = 1 Then
-		GUICtrlSetState($hRadio_Army123, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($hRadio_Army123, $GUI_UNCHECKED)
-	EndIf
+If $iRadio_Army123 = 1 Then
+	GUICtrlSetState($hRadio_Army123, $GUI_CHECKED)
+Else
+	GUICtrlSetState($hRadio_Army123, $GUI_UNCHECKED)
+EndIf
 
-	; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
-	If $ichkSimpleQuickTrain = 1 Then
-		GUICtrlSetState($chkSimpleQuickTrain, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkSimpleQuickTrain, $GUI_UNCHECKED)
-	EndIf
+; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+If $ichkSimpleQuickTrain = 1 Then
+	GUICtrlSetState($chkSimpleQuickTrain, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkSimpleQuickTrain, $GUI_UNCHECKED)
+EndIf
 
-	If $ichkFillArcher = 1 Then
-		GUICtrlSetState($chkFillArcher, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkFillArcher, $GUI_UNCHECKED)
-	EndIf
-	GUICtrlSetData($txtFillArcher, $iFillArcher)
+If $ichkFillArcher = 1 Then
+	GUICtrlSetState($chkFillArcher, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkFillArcher, $GUI_UNCHECKED)
+EndIf
+GUICtrlSetData($txtFillArcher, $iFillArcher)
 
-	If $ichkFillEQ = 1 Then
-		GUICtrlSetState($chkFillEQ, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkFillEQ, $GUI_UNCHECKED)
-	EndIf
+If $ichkFillEQ = 1 Then
+	GUICtrlSetState($chkFillEQ, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkFillEQ, $GUI_UNCHECKED)
+EndIf
 
-	If $ichkTrainDonated = 1 Then
-		GUICtrlSetState($chkTrainDonated, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkTrainDonated, $GUI_UNCHECKED)
-	EndIf
+If $ichkTrainDonated = 1 Then
+	GUICtrlSetState($chkTrainDonated, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkTrainDonated, $GUI_UNCHECKED)
+EndIf
 
-	; Check Collectors Outside - Added By NguyenAnhHD
-	If $ichkDBMeetCollOutside = 1 Then
-		GUICtrlSetState($chkDBMeetCollOutside, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkDBMeetCollOutside, $GUI_UNCHECKED)
-	EndIf
-	chkDBMeetCollOutside()
-	GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
+; Check Collectors Outside - Added By NguyenAnhHD
+If $ichkDBMeetCollOutside = 1 Then
+	GUICtrlSetState($chkDBMeetCollOutside, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkDBMeetCollOutside, $GUI_UNCHECKED)
+EndIf
+chkDBMeetCollOutside()
+GUICtrlSetData($txtDBMinCollOutsidePercent, $iDBMinCollOutsidePercent)
 
-	; Clan Hop Setting - Added By NguyenAnhHD
-	If $ichkClanHop = 1 Then
-		GUICtrlSetState($chkClanHop, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkClanHop, $GUI_UNCHECKED)
-	EndIf
+; Clan Hop Setting - Added By NguyenAnhHD
+If $ichkClanHop = 1 Then
+	GUICtrlSetState($chkClanHop, $GUI_CHECKED)
+Else
+	GUICtrlSetState($chkClanHop, $GUI_UNCHECKED)
+EndIf

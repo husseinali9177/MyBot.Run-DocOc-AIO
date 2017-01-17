@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team AIO
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: algorith_AllTroops
 ; Description ...: This file contens all functions to attack algorithm will all Troops , using Barbarians, Archers, Goblins, Giants and Wallbreakers as they are available
@@ -63,26 +65,26 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	;########################################################################################################################
 	Local $nbSides = 0
 	Switch $iChkDeploySettings[$iMatchMode]
-		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_INFO)
 			$nbSides = 1
 		Case 1 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on two sides", $COLOR_INFO)
 			$nbSides = 2
-		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on three sides", $COLOR_INFO)
 			$nbSides = 3
 		Case 3 ;All sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on all sides", $COLOR_INFO)
 			$nbSides = 4
 		Case 4 ;Classic Four Finger ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			SetLog("Attacking four finger fight style", $COLOR_BLUE)
+			SetLog("Attacking four finger fight style", $COLOR_INFO)
 			$nbSides = 5
-		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 5 ;DE Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Dark Elixir Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($iChkRedArea[$iMatchMode]) Then GetBuildingEdge($eSideBuildingDES) ; Get DE Storage side when Redline is not used.
-		Case 6 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 6 ;TH Side - Live Base only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on Town Hall Side.", $COLOR_INFO)
 			$nbSides = 1
 			If Not ($iChkRedArea[$iMatchMode]) Then GetBuildingEdge($eSideBuildingTH) ; Get Townhall side when Redline is not used.
@@ -140,28 +142,29 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 						, [$eGobl, $nbSides, 1, 1, 1] _
 						]
 		EndSwitch
-		; Classic Four Fingers
+	; Classic Four Fingers
 	ElseIf $nbSides = 5 Then
 		Local $listInfoDeploy[21][5] = [[$eGiant, $nbSides, 1, 1, 2], _
-				[$eGole, $nbSides, 1, 1, 2], _
-				[$eLava, $nbSides, 1, 1, 2], _
-				[$eBarb, $nbSides, 1, 1, 0], _
-				[$eWall, $nbSides, 1, 1, 2], _
-				[$eHogs, $nbSides, 1, 1, 2], _
-				[$eValk, $nbSides, 1, 1, 2], _
-				[$eBowl, $nbSides, 1, 1, 0], _
-				[$eArch, $nbSides, 1, 1, 0], _
-				[$eGobl, $nbSides, 1, 1, 0], _
-				[$eMine, $nbSides, 1, 1, 0], _
-				[$ePekk, $nbSides, 1, 1, 2], _
-				[$eDrag, $nbSides, 1, 1, 2], _
-				[$eBall, $nbSides, 1, 1, 2], _
-				[$eBabyD, $nbSides, 1, 1, 1], _
-				[$eWiza, $nbSides, 1, 1, 2], _
-				[$eWitc, $nbSides, 1, 1, 2], _
-				[$eMini, $nbSides, 1, 1, 0], _
-				["CC", 1, 1, 1, 1], _
-				["HEROES", 1, 2, 1, 1]]
+						[$eGole, $nbSides, 1, 1, 2], _
+						[$eLava, $nbSides, 1, 1, 2], _
+						[$eBarb, $nbSides, 1, 1, 0], _
+						["CC", 1, 1, 1, 1], _
+						[$eWall, $nbSides, 1, 1, 2], _
+						[$eHogs, $nbSides, 1, 1, 2], _
+						[$eValk, $nbSides, 1, 1, 2], _
+						[$eBowl, $nbSides, 1, 1, 0], _
+						[$eArch, $nbSides, 1, 1, 0], _
+						[$eGobl, $nbSides, 1, 1, 0], _
+						[$eMine, $nbSides, 1, 1, 0], _
+						[$ePekk, $nbSides, 1, 1, 2], _
+						[$eDrag, $nbSides, 1, 1, 2], _
+						[$eBall, $nbSides, 1, 1, 2], _
+						[$eBabyD, $nbSides, 1, 1, 1], _
+						[$eWiza, $nbSides, 1, 1, 2], _
+						[$eWitc, $nbSides, 1, 1, 2], _
+						[$eMini, $nbSides, 1, 1, 0], _
+						["HEROES", 1, 2, 1, 1]]
+
 	Else
 		If $debugSetlog = 1 Then SetLog("listdeploy standard for attack", $COLOR_DEBUG)
 		Switch $icmbStandardAlgorithm[$iMatchMode]

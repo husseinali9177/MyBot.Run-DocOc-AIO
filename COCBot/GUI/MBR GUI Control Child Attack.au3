@@ -643,17 +643,7 @@ Func sldVSDelay()
 	Else
 		GUICtrlSetData($lbltxtMaxVSDelay, GetTranslated(603, 8, "seconds"))
 	EndIf
- EndFunc   ;==>sldVSDelay
-
-; DOC OC ADD - CLASSIC FFF
-Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack
-   If _GUICtrlCombobox_GetCurSel($cmbDeployDB) = 4 Then
-	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_UNCHECKED)
-	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_DISABLE)
-   Else
-	  GUICtrlSetState($chkSmartAttackRedAreaDB, $GUI_ENABLE)
-   EndIf
-EndFunc
+EndFunc   ;==>sldVSDelay
 
 Func CheckWardenTimer()
 

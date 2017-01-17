@@ -1,4 +1,4 @@
-;MODded by DocOc++ Team
+;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
@@ -205,28 +205,28 @@ $chkFixClanCastle = GUICtrlCreateCheckbox(GetTranslated(636,104, "Force Clan Cas
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 $y += 50
-$grpShieldOpt = GUICtrlCreateGroup("Android Shield Color", $x - 20, $y - 18, 225, 70)
+$grpShieldOpt = GUICtrlCreateGroup(GetTranslated(636,204, "Android Shield Color"), $x - 20, $y - 18, 225, 70)
 
 $x -= 10
 $y -= 3
-$btnColorShield = GUICtrlCreateButton("Shield", $x, $y, 70, -1)
+$btnColorShield = GUICtrlCreateButton(GetTranslated(636,205, "Shield"), $x, $y, 70, -1)
 	GUICtrlSetOnEvent(-1, "btnColorShield")
-	_GUICtrlSetTip(-1, "Set the Android Shield's Color")
+	_GUICtrlSetTip(-1, GetTranslated(636,206, "Set the Android Shield's Color"))
 $btnColorIdleShield = GUICtrlCreateButton("Idle Shield", $x, $y + 25, 70, -1)
 	GUICtrlSetOnEvent(-1, "btnColorIdleShield")
-	_GUICtrlSetTip(-1, "Set the Inactive Android Shield's Color")
+	_GUICtrlSetTip(-1, GetTranslated(636,207, "Set the Inactive Android Shield's Color"))
 $x += 70
 $y += 1
 $sldrTransparancyShield = GUICtrlCreateSlider($x, $y, 140, -1, BitOR($TBS_TOOLTIPS, $TBS_NOTICKS))
 	GUICtrlSetLimit(-1, 255, 1)
 	GUICtrlSetBkColor(-1, 0xFFFFFF)
 	GUICtrlSetOnEvent(-1, "sldrTransparancyShield")
-	_GUICtrlSetTip(-1, "Set the Android Shield's Transparancy")
+	_GUICtrlSetTip(-1, GetTranslated(636,208, "Set the Android Shield's Transparancy"))
 $sldrTransparancyIdleShield = GUICtrlCreateSlider($x, $y + 25, 140, -1, BitOR($TBS_TOOLTIPS, $TBS_NOTICKS))
 	GUICtrlSetLimit(-1, 255, 1)
 	GUICtrlSetBkColor(-1, 0xFFFFFF)
 	GUICtrlSetOnEvent(-1, "sldrTransparancyIdleShield")
-	_GUICtrlSetTip(-1, "Set the Inactive Android Shield's Transparancy")
+	_GUICtrlSetTip(-1, GetTranslated(636,209, "Set the Inactive Android Shield's Transparancy"))
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

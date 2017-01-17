@@ -1,4 +1,4 @@
-;MODded by DocOc++ Team
+;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Design
@@ -97,8 +97,7 @@ SplashStep(GetTranslated(500, 27, "Loading Attack tab..."))
 #include "GUI\MBR GUI Design Child Attack.au3"
 SplashStep(GetTranslated(500, 28, "Loading Bot tab..."))
 #include "GUI\MBR GUI Design Child Bot.au3"
-
-SplashStep("Loading MOD tab...")
+SplashStep(GetTranslated(500, 40, "Loading MOD tab..."))
 #include "GUI\MBR GUI Design Child Mod.au3"
 
 ;GUISetState()
@@ -109,7 +108,7 @@ $tabGeneral = GUICtrlCreateTabItem(GetTranslated(600,1, "Log"))
 $tabVillage = GUICtrlCreateTabItem(GetTranslated(600,2, "Village")) ; Village
 $tabAttack = GUICtrlCreateTabItem(GetTranslated(600,3,"Attack Plan"))
 $tabBot = GUICtrlCreateTabItem(GetTranslated(600,4,"Bot"))
-$tabMod = GUICtrlCreateTabItem("Mod")
+$tabMod = GUICtrlCreateTabItem(GetTranslated(600,60,"Mods"))
 
 ;~ -------------------------------------------------------------
 ;~ About Us Tab

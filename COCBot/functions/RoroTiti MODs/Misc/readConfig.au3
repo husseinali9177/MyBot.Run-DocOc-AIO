@@ -13,6 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+; Smart Upgrade
 $ichkSmartUpgrade = IniRead($config, "upgrade", "chkSmartUpgrade", "0")
 $ichkIgnoreTH = IniRead($config, "upgrade", "chkIgnoreTH", "0")
 $ichkIgnoreKing = IniRead($config, "upgrade", "chkIgnoreKing", "0")
@@ -31,12 +32,15 @@ $iSmartMinGold = IniRead($config, "upgrade", "SmartMinGold", "0")
 $iSmartMinElixir = IniRead($config, "upgrade", "SmartMinElixir", "0")
 $iSmartMinDark = IniRead($config, "upgrade", "SmartMinDark", "0")
 
+; CoC Stats
 $ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
 $MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
 
-$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
-$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
+; CSV Deploy Speed
+IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
+IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
 
+; Auto Hide
 IniReadS($ichkAutoHide, $config, "general", "AutoHide", "0")
 IniReadS($ichkAutoHideDelay, $config, "general", "AutoHideDelay", "10")
 
@@ -69,8 +73,7 @@ $ichkTrophySwitchMin = IniRead($config, "profiles", "chkTrophySwitchMin", "0")
 $icmbTrophyMinProfile = IniRead($config, "profiles", "cmbTrophyMinProfile", "0")
 $itxtMinTrophyAmount = IniRead($config, "profiles", "txtMinTrophyAmount", "1000")
 
-; SSA
-
+; Smart Switch Account
 IniReadS($ichkSwitchAccount, $SSAConfig, "SwitchAccount", "chkEnableSwitchAccount", "0")
 IniReadS($icmbAccountsQuantity, $SSAConfig, "SwitchAccount", "cmbAccountsQuantity", "0")
 For $i = 1 To 5
@@ -92,28 +95,28 @@ $itxtForecastHopingSwitchMin = IniRead($config, "profiles", "txtForecastHopingSw
 $icmbSwLang = IniRead($config, "Lang", "cmbSwLang", "0")
 
 ;==========;Russian Languages by Kychera==========
-	   $ichkRusLang = IniRead($config, "Lang", "chkRusLang", "0")
-       $ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")
-	   ;sw langs
-        $icmbLang = IniRead($config, "Lang", "cmbLang", "8")
-	  ;==========;Russian Languages by Kychera==========
-	;modification Chat by rulesss
-	  $ichkchatdelay = IniRead($config, "global", "chdelay", "0")
+$ichkRusLang = IniRead($config, "Lang", "chkRusLang", "0")
+$ichkRusLang2 = IniRead($config, "Lang", "chkRusLang2", "0")
+;sw langs
+$icmbLang = IniRead($config, "Lang", "cmbLang", "8")
+;==========;Russian Languages by Kychera==========
+;modification Chat by rulesss
+$ichkchatdelay = IniRead($config, "global", "chdelay", "0")
 
-		; QuicktrainCombo (Demen) - Added By NguyenAnhHD
-		IniReadS($iRadio_Army12, $config, "troop", "QuickTrain12", "0")
-		IniReadS($iRadio_Army123, $config, "troop", "QuickTrain123", "0")
+; QuicktrainCombo (Demen) - Added By NguyenAnhHD
+IniReadS($iRadio_Army12, $config, "troop", "QuickTrain12", "0")
+IniReadS($iRadio_Army123, $config, "troop", "QuickTrain123", "0")
 
-		; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
-		IniReadS($ichkSimpleQuickTrain, $config, "troop", "SimpleQuickTrain", "0")
-		IniReadS($ichkFillArcher, $config, "troop", "ChkFillArcher", "0")
-		IniReadS($iFillArcher, $config, "troop", "FillArcher", "0")
-		IniReadS($ichkFillEQ, $config, "troop", "FillEQ", "0")
-		IniReadS($ichkTrainDonated, $config, "troop", "TrainDonated", "0")
+; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+IniReadS($ichkSimpleQuickTrain, $config, "troop", "SimpleQuickTrain", "0")
+IniReadS($ichkFillArcher, $config, "troop", "ChkFillArcher", "0")
+IniReadS($iFillArcher, $config, "troop", "FillArcher", "0")
+IniReadS($ichkFillEQ, $config, "troop", "FillEQ", "0")
+IniReadS($ichkTrainDonated, $config, "troop", "TrainDonated", "0")
 
-		; Check Collectors Outside - Added By NguyenAnhHD
-		$ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
-		$iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")
+; Check Collectors Outside - Added By NguyenAnhHD
+$ichkDBMeetCollOutside = IniRead($config, "search", "DBMeetCollOutside", "0")
+$iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent", "50")
 
-		; Clan Hop Setting - Added By NguyenAnhHD
-		$ichkClanHop = IniRead($config, "Others", "ClanHop", "0")
+; Clan Hop Setting - Added By NguyenAnhHD
+$ichkClanHop = IniRead($config, "Others", "ClanHop", "0")

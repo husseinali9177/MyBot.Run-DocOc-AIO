@@ -1,3 +1,5 @@
+;MODded by DocOc++ Team AIO
+
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........:
 ; Description ...: This function will notify events and allow remote control of your bot on your mobile phone
@@ -478,8 +480,8 @@ Func NotifyRemoteControlProc($OnlyPB)
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,23,"LASTRAIDTXT") & GetTranslated(620,24, " - send the last raid loot values of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,25,"SCREENSHOT") & GetTranslated(620,26, " - send a screenshot of") & " <" & $NotifyOrigin & ">"
 							;======addied kychera====== sendchat
-							$txtHelp &= '\n' & GetTranslated(620, 1, -1) & " <" & $NotifyOrigin & "> SENDCHAT <TEXT> - send TEXT in clan chat of <Village Name>"							
-							$txtHelp &= '\n' & GetTranslated(620, 1, -1) & " <" & $NotifyOrigin & "> GETCHATS <STOP|NOW|INTERVAL> - select any of this three option to do")
+							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(18, 208,"SENDCHAT <TEXT>") & GetTranslated(18, 209," - send TEXT in clan chat of <Village Name>") & " <" & $NotifyOrigin & ">"
+							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(18, 210,"GETCHATS <STOP|NOW|INTERVAL>") & GetTranslated(18, 211," - select any of this three option to do") & " <" & $NotifyOrigin & ">"
 							;======>
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,27,"SCREENSHOTHD") & GetTranslated(620,28, " - send a screenshot in high resolution of") & " <" & $NotifyOrigin & ">"
 							$txtHelp &= '\n' & GetTranslated(620,1, -1) & " <" & $NotifyOrigin & "> " & GetTranslated(620,29,"BUILDER") & GetTranslated(620,30, " - send a screenshot of builder status of") & " <" & $NotifyOrigin & ">"
@@ -649,24 +651,24 @@ Func NotifyRemoteControlProc($OnlyPB)
 								$chatMessage = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($NotifyOrigin) & " SENDCHAT "))
 								$chatMessage = StringLower($chatMessage)
 								ChatbotPushbulletQueueChat($chatMessage)
-								NotifyPushToPushBullet($NotifyOrigin & " | Chat queued, will send on next idle")
+								NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(18, 200,"Chat queued, will send on next idle"))
 								NotifyDeleteMessageFromPushBullet($iden[$x])
 							ElseIf StringInStr($body[$x], StringUpper($NotifyOrigin) & " GETCHATS ") Then
 								$FoundChatMessage = 1
 								$Interval = StringRight($body[$x], StringLen($body[$x]) - StringLen("BOT " & StringUpper($NotifyOrigin) & " GETCHATS "))
 								If $Interval = "STOP" Then
 									ChatbotPushbulletStopChatRead()
-									NotifyPushToPushBullet($NotifyOrigin & " | Stopping interval sending")
+									NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(18, 201,"Stopping interval sending"))
 								ElseIf $Interval = "NOW" Then
 									ChatbotPushbulletQueueChatRead()
-									NotifyPushToPushBullet($NotifyOrigin & " | Command queued, will send clan chat image on next idle")
+									NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(18, 202,"Command queued, will send clan chat image on next idle"))
 								Else
 									If Number($Interval) <> 0 Then
 										ChatbotPushbulletIntervalChatRead(Number($Interval))
-										NotifyPushToPushBullet($NotifyOrigin & " | Command queued, will send clan chat image on interval")
+										NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(18, 203,"Command queued, will send clan chat image on interval"))
 									Else
-										SetLog("Chatbot: incorrect command syntax, Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL", $COLOR_RED)
-										NotifyPushToPushBullet($NotifyOrigint & " | Command not recognized" & "\n" & "Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL")
+										SetLog(GetTranslated(18, 204,"Chatbot: incorrect command syntax, Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL"), $COLOR_RED)
+										NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(18, 205,"Command not recognized") & "\n" & GetTranslated(18, 206,"Example: BOT <VillageName> GETCHATS NOW|STOP|INTERVAL"))
 									EndIf
 								EndIf
 									NotifyDeleteMessageFromPushBullet($iden[$x])
@@ -674,7 +676,7 @@ Func NotifyRemoteControlProc($OnlyPB)
 								Local $lenstr = StringLen(GetTranslated(620, 1, -1) & " " & StringUpper($NotifyOrigin) & " " & "")
 								Local $teststr = StringLeft($body[$x], $lenstr)
 								If $teststr = (GetTranslated(620, 1, -1) & " " & StringUpper($NotifyOrigin) & " " & "") Then
-								SetLog("Pushbullet: received command syntax wrong, command ignored.", $COLOR_RED)
+								SetLog(GetTranslated(18, 207,"Notify Pushbullet: received command syntax wrong, command ignored."), $COLOR_RED)
 									NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620, 51, "Command not recognized") & "\n" & GetTranslated(620, 52, "Please push BOT HELP to obtain a complete command list."))
 									NotifyDeleteMessageFromPushBullet($iden[$x])
 								EndIf
@@ -725,7 +727,7 @@ Func NotifyRemoteControlProc($OnlyPB)
 						$txtHelp &= "\n" & GetTranslated(620,43,"HIBERNATE") & GetTranslated(620,44, " - Hibernate host PC")
 						$txtHelp &= "\n" & GetTranslated(620,46,"SHUTDOWN") & GetTranslated(620,48, " - Shut down host PC")
 						$txtHelp &= "\n" & GetTranslated(620,50,"STANDBY") & GetTranslated(620,51, " - Standby host PC")
-                        ;==========addied kychera=====						
+                        ;==========addied kychera=====
 						$txtHelp &= "\n" & GetTranslated(18, 111, "GETCHATS <INTERVAL|NOW|STOP> - to get the latest clan chat as an image")
 						$txtHelp &= "\n" & GetTranslated(18, 112, "SENDCHAT <chat message> - to send a chat to your clan")
 						;=============================>
@@ -893,9 +895,9 @@ Func NotifyRemoteControlProc($OnlyPB)
 							Else
 								If Number($Interval) <> 0 Then
 									ChatbotPushbulletIntervalChatRead(Number($Interval))
-									NotifyPushToTelegram($NotifyOrigint & " | " & GetTranslated(18, 119, "Command queued, will send clan chat image on interval"))
+									NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 119, "Command queued, will send clan chat image on interval"))
 								Else
-									SetLog("Telegram: received command syntax wrong, command ignored.", $COLOR_RED)
+									SetLog(GetTranslated(18, 220, "Telegram: received command syntax wrong, command ignored."), $COLOR_RED)
 									NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(18, 46, "Command not recognized") & "\n" & GetTranslated(18, 47, "Please push BOT HELP to obtain a complete command list."))
 								EndIf
 							EndIf
@@ -988,7 +990,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				If $NotifyTGEnabled = 1 Then SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,727,"Last Raid Text has been sent!"), $COLOR_GREEN)
 			EndIf
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1)  And $NotifyAlerLastRaidIMG = 1 Then
-				
+
 				;create a temporary file to send with pushbullet...
 				Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 				Local $Time = @HOUR & "." & @MIN
@@ -1011,7 +1013,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 				If Not $iDelete Then
 					If $NotifyPBEnabled = 1 Then SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,729,"An error occurred deleting temporary screenshot file."), $COLOR_RED)
 					If $NotifyTGEnabled = 1 Then SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,729,"An error occurred deleting temporary screenshot file."), $COLOR_RED)
-				EndIf	
+				EndIf
 			EndIf
 		Case "FoundWalls"
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertUpgradeWalls = 1 Then NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,173, "Found Wall level") & " " & $icmbWalls + 4 & "\n" & " " & GetTranslated(620,177, "Wall segment has been located") & "...\n" & GetTranslated(620,153, "Upgrading") & "...")
@@ -1071,11 +1073,11 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirTemp & $Screnshotfilename)
 			_GDIPlus_ImageDispose($hBitmap_Scaled)
 			If $PBRequestScreenshot = 1 Or $TGRequestScreenshot = 1 Then
-				If $PBRequestScreenshot = 1 And $NotifyPBEnabled = 1 Then 
+				If $PBRequestScreenshot = 1 And $NotifyPBEnabled = 1 Then
 					NotifyPushFileToPushBullet($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " & GetTranslated(620,162, "Screenshot of your village") & " " & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,730,"Screenshot sent!"), $COLOR_GREEN)
 				EndIf
-				If $TGRequestScreenshot = 1 And $NotifyTGEnabled = 1 Then 
+				If $TGRequestScreenshot = 1 And $NotifyTGEnabled = 1 Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " & GetTranslated(620,162, "Screenshot of your village") & " " & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,730,"Screenshot sent!"), $COLOR_GREEN)
 				EndIf
@@ -1105,7 +1107,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 					NotifyPushFileToPushBullet($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " &  "Builder Information" & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,731,"Builder Information sent!"), $COLOR_GREEN)
 				EndIf
-				If $TGRequestBuilderInfo = 1 And $NotifyTGEnabled = 1 Then 
+				If $TGRequestBuilderInfo = 1 And $NotifyTGEnabled = 1 Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " &  "Builder Information" & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,731,"Builder Information sent!"), $COLOR_GREEN)
 				EndIf
@@ -1134,7 +1136,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 					NotifyPushFileToPushBullet($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " &  "Shield Information" & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,732,"Shield Information sent!"), $COLOR_GREEN)
 				EndIf
-				If $TGRequestShieldInfo = 1 And $NotifyTGEnabled = 1 Then 
+				If $TGRequestShieldInfo = 1 And $NotifyTGEnabled = 1 Then
 					NotifyPushFileToTelegram($Screnshotfilename, "Temp", "image/jpeg", $NotifyOrigin & " | " &  "Shield Information" & "\n" & $Screnshotfilename)
 					SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,732,"Shield Information sent!"), $COLOR_GREEN)
 				EndIf

@@ -13,6 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+; Smart Upgrade
 IniWrite($config, "upgrade", "chkSmartUpgrade", $ichkSmartUpgrade)
 IniWrite($config, "upgrade", "chkIgnoreTH", $ichkIgnoreTH)
 IniWrite($config, "upgrade", "chkIgnoreKing", $ichkIgnoreKing)
@@ -31,6 +32,7 @@ IniWrite($config, "upgrade", "SmartMinGold", GUICtrlRead($SmartMinGold))
 IniWrite($config, "upgrade", "SmartMinElixir", GUICtrlRead($SmartMinElixir))
 IniWrite($config, "upgrade", "SmartMinDark", GUICtrlRead($SmartMinDark))
 
+; CoC Stats
 If GUICtrlRead($chkCoCStats) = $GUI_CHECKED Then
 	IniWrite($config, "Stats", "chkCoCStats", "1")
 Else
@@ -38,9 +40,11 @@ Else
 EndIf
 IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
 
-IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
-IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
+; CSV Deploy Speed
+IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
+IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
 
+; Auto Hide
 If GUICtrlRead($chkAutoHide) = $GUI_CHECKED Then
 	$ichkAutoHide = 1
 Else
@@ -116,8 +120,7 @@ EndIf
 IniWrite($config, "profiles", "cmbTrophyMinProfile", _GUICtrlComboBox_GetCurSel($cmbTrophyMinProfile))
 IniWrite($config, "profiles", "txtMinTrophyAmount", GUICtrlRead($txtMinTrophyAmount))
 
-; SSA
-
+; Smart Switch Account
 IniWrite($SSAConfig, "SwitchAccount", "chkEnableSwitchAccount", $ichkSwitchAccount)
 IniWrite($SSAConfig, "SwitchAccount", "cmbAccountsQuantity", _GUICtrlComboBox_GetCurSel($cmbAccountsQuantity))
 For $i = 1 To 5
@@ -126,7 +129,7 @@ For $i = 1 To 5
 	IniWrite($SSAConfig, "SwitchAccount", "cmbAccount[" & $i & "]", _GUICtrlComboBox_GetCurSel($cmbAccount[$i]))
 Next
 
-;forecast Added by rulesss
+; Forecast Added by rulesss
 IniWrite($config, "forecast", "txtForecastBoost", GUICtrlRead($txtForecastBoost))
 
 If GUICtrlRead($chkForecastBoost) = $GUI_CHECKED Then
@@ -155,80 +158,80 @@ $icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 IniWriteS($config, "Lang", "cmbSwLang", $icmbSwLang)
 
 ;==========;Russian Languages by Kychera==========
-	If GUICtrlRead($chkRusLang) = $GUI_CHECKED Then
-		$ichkRusLang = 1
-	Else
-		$ichkRusLang = 0
-	EndIf
+If GUICtrlRead($chkRusLang) = $GUI_CHECKED Then
+	$ichkRusLang = 1
+Else
+	$ichkRusLang = 0
+EndIf
 IniWriteS($config, "Lang", "chkRusLang", $ichkRusLang)
-	If GUICtrlRead($chkRusLang2) = $GUI_CHECKED Then
-		$ichkRusLang2 = 1
-	Else
-		$ichkRusLang2 = 0
-	EndIf
+If GUICtrlRead($chkRusLang2) = $GUI_CHECKED Then
+	$ichkRusLang2 = 1
+Else
+	$ichkRusLang2 = 0
+EndIf
 IniWriteS($config, "Lang", "chkRusLang2", $ichkRusLang2)
 $icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
 IniWriteS($config, "Lang", "cmbLang", $icmbLang)
 
 ;modification Chat by rulesss
-	IniWrite($config, "global", "chdelay", GUICtrlRead($chkchatdelay))
+IniWrite($config, "global", "chdelay", GUICtrlRead($chkchatdelay))
 
-	; Quicktrain Combo (Demen) - Added By NguyenAnhHD
-	If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "QuickTrain12", 1)
-	Else
-		IniWriteS($config, "troop", "QuickTrain12", 0)
-	EndIf
+; Quicktrain Combo (Demen) - Added By NguyenAnhHD
+If GUICtrlRead($hRadio_Army12) = $GUI_CHECKED Then
+	IniWriteS($config, "troop", "QuickTrain12", 1)
+Else
+	IniWriteS($config, "troop", "QuickTrain12", 0)
+EndIf
 
-	If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
-		IniWriteS($config, "troop", "QuickTrain123", 1)
-	Else
-		IniWriteS($config, "troop", "QuickTrain123", 0)
-	EndIf
+If GUICtrlRead($hRadio_Army123) = $GUI_CHECKED Then
+	IniWriteS($config, "troop", "QuickTrain123", 1)
+Else
+	IniWriteS($config, "troop", "QuickTrain123", 0)
+EndIf
 
-	; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
-	If GUICtrlRead($chkSimpleQuickTrain) = $GUI_CHECKED Then
-		$ichkSimpleQuickTrain = 1
-	Else
-		$ichkSimpleQuickTrain = 0
-	EndIf
-	IniWriteS($config, "troop", "SimpleQuickTrain", $ichkSimpleQuickTrain)
+; SimpleQuicktrain (Demen) - Added By NguyenAnhHD
+If GUICtrlRead($chkSimpleQuickTrain) = $GUI_CHECKED Then
+	$ichkSimpleQuickTrain = 1
+Else
+	$ichkSimpleQuickTrain = 0
+EndIf
+IniWriteS($config, "troop", "SimpleQuickTrain", $ichkSimpleQuickTrain)
 
-	If GUICtrlRead($chkFillArcher) = $GUI_CHECKED Then
-		$ichkFillArcher = 1
-	Else
-		$ichkFillArcher = 0
-	EndIf
-	IniWriteS($config, "troop", "ChkFillArcher", $ichkFillArcher)
+If GUICtrlRead($chkFillArcher) = $GUI_CHECKED Then
+	$ichkFillArcher = 1
+Else
+	$ichkFillArcher = 0
+EndIf
+IniWriteS($config, "troop", "ChkFillArcher", $ichkFillArcher)
 
-	$iFillArcher = GUICtrlRead($txtFillArcher)
-	IniWriteS($config, "troop", "FillArcher", GUICtrlRead($txtFillArcher))
+$iFillArcher = GUICtrlRead($txtFillArcher)
+IniWriteS($config, "troop", "FillArcher", GUICtrlRead($txtFillArcher))
 
-	If GUICtrlRead($chkFillEQ) = $GUI_CHECKED Then
-		$ichkFillEQ = 1
-	Else
-		$ichkFillEQ = 0
-	EndIf
-	IniWriteS($config, "troop", "FillEQ", $ichkFillEQ)
+If GUICtrlRead($chkFillEQ) = $GUI_CHECKED Then
+	$ichkFillEQ = 1
+Else
+	$ichkFillEQ = 0
+EndIf
+IniWriteS($config, "troop", "FillEQ", $ichkFillEQ)
 
-	If GUICtrlRead($chkTrainDonated) = $GUI_CHECKED Then
-		$ichkTrainDonated = 1
-	Else
-		$ichkTrainDonated = 0
-	EndIf
-	IniWriteS($config, "troop", "TrainDonated", $ichkTrainDonated)
+If GUICtrlRead($chkTrainDonated) = $GUI_CHECKED Then
+	$ichkTrainDonated = 1
+Else
+	$ichkTrainDonated = 0
+EndIf
+IniWriteS($config, "troop", "TrainDonated", $ichkTrainDonated)
 
-	; Check Collectors Outside - Added By NguyenAnhHD
-	If GUICtrlRead($chkDBMeetCollOutside) = $GUI_CHECKED Then
-		IniWriteS($config, "search", "DBMeetCollOutside", 1)
-	Else
-		IniWriteS($config, "search", "DBMeetCollOutside", 0)
-	EndIf
-	IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
+; Check Collectors Outside - Added By NguyenAnhHD
+If GUICtrlRead($chkDBMeetCollOutside) = $GUI_CHECKED Then
+	IniWriteS($config, "search", "DBMeetCollOutside", 1)
+Else
+	IniWriteS($config, "search", "DBMeetCollOutside", 0)
+EndIf
+IniWriteS($config, "search", "DBMinCollOutsidePercent", GUICtrlRead($txtDBMinCollOutsidePercent))
 
-	; Clan Hop Setting - Added By NguyenAnhHD
-	If GUICtrlRead($chkClanHop) = $GUI_CHECKED Then
-		IniWrite($config, "Others", "ClanHop", 1)
-	Else
-		IniWrite($config, "Others", "ClanHop", 0)
-	EndIf
+; Clan Hop Setting - Added By NguyenAnhHD
+If GUICtrlRead($chkClanHop) = $GUI_CHECKED Then
+	IniWrite($config, "Others", "ClanHop", 1)
+Else
+	IniWrite($config, "Others", "ClanHop", 0)
+EndIf

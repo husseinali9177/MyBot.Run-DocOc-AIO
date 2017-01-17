@@ -27,17 +27,17 @@ Func CheckVersion()
 			_PrintLogVersion($oldModversmessage)
 			CheckModVersion()
 		ElseIf VersionNumFromVersionTXT($sModversion) > VersionNumFromVersionTXT($lastModversion) Then
-			SetLog("YOU ARE USING A FUTURE MOD BY DOC.OC VERSION CHIEF!", $COLOR_GREEN)
+			SetLog("YOU ARE USING A FUTURE MOD BY DOC.OC TEAM AIO VERSION CHIEF!", $COLOR_GREEN)
 			SetLog("YOUR MOD VERSION: " & $sModversion, $COLOR_GREEN)
 			SetLog("OFFICIAL MOD VERSION: " & $lastModversion, $COLOR_GREEN)
 			SetLog(" ")
 		Else
 			SetLog("WELCOME CHIEF, YOU HAVE THE LATEST MOD VERSION", $COLOR_GREEN)
 			SetLog(" ")
-			SetLog("BY DOC.OC TEAM", $COLOR_BLUE)
+			SetLog("BY DOC.OC TEAM AIO", $COLOR_BLUE)
 			SetLog("CHEEERS..")
 			SetLog(" ")
-			_PrintLogVersion($lastmessage)
+			_PrintLogVersion($lastModmessage)
 		EndIf
 	EndIf
 EndFunc   ;==>CheckVersion
@@ -49,7 +49,7 @@ Func CheckVersionHTML()
 		FileCopy(@ScriptDir & "\TestVersion.txt", $versionfile, 1)
 	Else
 		;download page from site contains last bot version
-		$hDownload = InetGet("https://raw.githubusercontent.com/TheRevenor/MyBotRun_DocOC_Server/master/Version/LastVersions.txt", $versionfile, 0, 1)
+		$hDownload = InetGet("https://raw.githubusercontent.com/NguyenAnhHD/MyBotRun_MOD_AIO/master/LastVersion.txt", $versionfile, 0, 1)
 
 		; Wait for the download to complete by monitoring when the 2nd index value of InetGetInfo returns True.
 		Local $i = 0
@@ -75,7 +75,7 @@ Func CheckVersionHTML()
 			FileCopy(@ScriptDir & "\TestVersion_" & $sLanguage & ".txt", $versionfilelocalized, 1)
 		Else
 			;download page from site contains last bot version localized messages
-			$hDownload = InetGet("https://raw.githubusercontent.com/TheRevenor/MyBotRun_DocOC_Server/master/Version/LastVersions_" & $sLanguage & ".txt", $versionfilelocalized, 0, 1)
+			$hDownload = InetGet("https://raw.githubusercontent.com/NguyenAnhHD/MyBotRun_MOD_AIO/master/LastVersion_" & $sLanguage & ".txt", $versionfilelocalized, 0, 1)
 
 			; Wait for the download to complete by monitoring when the 2nd index value of InetGetInfo returns True.
 			Local $i = 0
@@ -90,15 +90,15 @@ Func CheckVersionHTML()
 			$f2 = FileOpen($versionfilelocalized, 0)
 			;$lastmessage = IniRead($versionfilelocalized, "general", "messagenew", "")
 			;$oldversmessage = IniRead($versionfilelocalized, "general", "messageold", "")
-			$lastModmessage = IniRead($versionfilelocalized,"mod","messagenew","")
-			$oldModversmessage = IniRead($versionfilelocalized,"mod","messageold","")
+			$lastModmessage = IniRead($versionfilelocalized, "mod", "messagenew", "")
+			$oldModversmessage = IniRead($versionfilelocalized, "mod", "messageold", "")
 			FileClose($f2)
 			FileDelete($versionfilelocalized)
 		Else
 			;$lastmessage = IniRead($versionfile, "general", "messagenew", "")
 			;$oldversmessage = IniRead($versionfile, "general", "messageold", "")
-			$lastModmessage = IniRead($versionfilelocalized,"mod","messagenew","")
-			$oldModversmessage = IniRead($versionfilelocalized,"mod","messageold","")
+			$lastModmessage = IniRead($versionfilelocalized, "mod", "messagenew", "")
+			$oldModversmessage = IniRead($versionfilelocalized, "mod", "messageold", "")
 		EndIf
 		FileClose($f)
 		FileDelete($versionfile)
@@ -179,11 +179,11 @@ Func CheckModVersion()
 		PushMsg("Update")
 		If MsgBox(BitOr($MB_ICONWARNING, $MB_YESNO), "BOT Update Detected", "Chief, there is a new version of the bot available (" & $lastModversion & ")" & @CRLF &  @CRLF & _
 			"Do you want to download the latest version ?", 30) = $IDYES Then ;30s timeout
-			ShellExecute($sModSupportUrl)
+			ShellExecute($sModDownloadUrl)
 			Return False
 		EndIf
 	Else
-		MsgBox($MB_ICONINFORMATION, "Notify", "You Are Using The Latest Version Of Mod By DocOc Team" &  @CRLF & _
+		MsgBox($MB_ICONINFORMATION, "Notify", "You Are Using The Latest Version Of Mod By DocOc Team AIO" &  @CRLF & _
 				"Thanks..", 15) ;15s timeout
 	EndIf
 EndFunc   ;==>CheckModVersion

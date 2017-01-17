@@ -1,4 +1,4 @@
-;MODded by DocOc++ Team
+;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR GUI Control
@@ -433,6 +433,8 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 			btnAttackNowLB()
 		Case $btnAttackNowTS
 			btnAttackNowTS()
+		Case $ModSupportConfig
+			ShellExecute($sModSupportUrl)
 			;Case $idMENU_DONATE_SUPPORT
 			;	ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
 		Case $btnNotifyDeleteMessages

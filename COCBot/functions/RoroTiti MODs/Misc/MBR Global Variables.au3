@@ -13,10 +13,29 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; CSV Speed
-Global $cmbCSVSpeed[2] = [$LB, $DB]
-Global $icmbCSVSpeed[2] = [$LB, $DB]
-Global $Divider
+; CSV Deploy Speed
+Global $isldSelectedCSVSpeed[$iModeCount], $iCSVSpeeds[19]
+$isldSelectedCSVSpeed[$DB] = 4
+$isldSelectedCSVSpeed[$LB] = 4
+$iCSVSpeeds[0] = .1
+$iCSVSpeeds[1] = .25
+$iCSVSpeeds[2] = .5
+$iCSVSpeeds[3] = .75
+$iCSVSpeeds[4] = 1
+$iCSVSpeeds[5] = 1.25
+$iCSVSpeeds[6] = 1.5
+$iCSVSpeeds[7] = 1.75
+$iCSVSpeeds[8] = 2
+$iCSVSpeeds[9] = 2.25
+$iCSVSpeeds[10] = 2.5
+$iCSVSpeeds[11] = 2.75
+$iCSVSpeeds[12] = 3
+$iCSVSpeeds[13] = 5
+$iCSVSpeeds[14] = 8
+$iCSVSpeeds[15] = 10
+$iCSVSpeeds[16] = 20
+$iCSVSpeeds[17] = 50
+$iCSVSpeeds[18] = 99
 
 ; CoCStats
 Global $ichkCoCStats = 0
@@ -36,17 +55,18 @@ Global $SmartMinGold, $SmartMinElixir, $SmartMinDark
 Global $UpgradeDuration
 Global $canContinueLoop = True
 
+; Auto Hide
 Global $ichkAutoHide ; AutoHide mode enabled disabled
 Global $ichkAutoHideDelay
 
 ; Profile Switch
+Global $profileString = ""
 Global $ichkGoldSwitchMax, $itxtMaxGoldAmount, $icmbGoldMaxProfile, $ichkGoldSwitchMin, $itxtMinGoldAmount, $icmbGoldMinProfile
 Global $ichkElixirSwitchMax, $itxtMaxElixirAmount, $icmbElixirMaxProfile, $ichkElixirSwitchMin, $itxtMinElixirAmount, $icmbElixirMinProfile
 Global $ichkDESwitchMax, $itxtMaxDEAmount, $icmbDEMaxProfile, $ichkDESwitchMin, $itxtMinDEAmount, $icmbDEMinProfile
 Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkTrophySwitchMin, $itxtMinTrophyAmount, $icmbTrophyMinProfile
 
-; ================================================== SmartSwitchAccount PART ================================================== ;
-
+; SmartSwitchAccount
 Global $chkCanUse[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $chkDonateAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $cmbAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -81,10 +101,6 @@ Global $SSAConfig = $sProfilePath & "\Profile.ini"
 Global $SSAAtkLog = $sProfilePath & "\SmartSwitchAccount_Attack_Report.txt"
 Global $LastDate = ""
 
-Global $profileString = ""
-
-; ================================================== SmartSwitchAccount END ================================================== ;
-
 ;Forecast Added by rulesss
 Global Const $COLOR_DEEPPINK = 0xFF1493
 Global Const $COLOR_DARKGREEN = 0x006400
@@ -99,27 +115,26 @@ Global $chkForecastBoost, $txtForecastBoost
 Global $iChkForecastBoost, $iTxtForecastBoost
 Global $cmbForecastHopingSwitchMax, $cmbForecastHopingSwitchMin
 Global $ichkForecastHopingSwitchMax, $icmbForecastHopingSwitchMax, $itxtForecastHopingSwitchMax, $ichkForecastHopingSwitchMin, $icmbForecastHopingSwitchMin, $itxtForecastHopingSwitchMin
+
 ;Added Multi Switch Language by rulesss and Kychera
 Global $icmbSwLang
 Global $cmbSwLang
 
-; ChatBot -modification by rulesss
+; ChatBot - modification by rulesss
 Global $FoundChatMessage = 0
 Global $ChatbotStartTime
 
-;====================
-; ChatBot -modification by rulesss
+; ChatBot - modification by rulesss
 Global $FoundChatMessage = 0
 Global $ChatbotStartTime
-;=====================
-;==========Modified kychera===========
+
+; Modified kychera
 Global $chkRusLang2
 Global $ichkRusLang2 = 0
 Global $chkRusLang
 Global $ichkRusLang = 0
 Global $cmbLang
 Global $icmbLang
-;======================================
 
 ; QuickTrainCombo (Demen) - Added by NguyenAnhHD
 Global 	$iRadio_Army12, $iRadio_Army123

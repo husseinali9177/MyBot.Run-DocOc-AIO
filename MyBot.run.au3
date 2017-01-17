@@ -1,4 +1,4 @@
-;MODded by DocOc++ Team
+;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
@@ -38,11 +38,11 @@ Global $iBotLaunchTime = 0
 Global $hBotLaunchTime = TimerInit()
 
 Global $sBotVersion = "v6.5.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
-Global $sModversion = "v3.5.3" ;<== Just Change This to Version Number
-Global $sAIOVersion = "DocOc++ v0.8" ;<== Just Change This to Version Number
-Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/27601-mybotrun-dococ-v352/&" ;<== Our Website Link Or Link Download
+Global $sModversion = "v0.8" ;<== Just Change This to Version Number
+Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/25555-mybotrun-v622-dococ-v33-%C2%A4-official-dococ-aio-mod-v070-%C2%A4-update-1311-1530-%C2%A4-new-topic/" ;<== Our Website Link Or Link Download
+Global $sModDownloadUrl = "https://github.com/RoroTiti/MyBot.Run-DocOc-AIO/releases"
 
-Global $sBotTitle = "My Bot " & $sBotVersion & " - " & $sAIOVersion & " (DocOc " & $sModversion & ") " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
+Global $sBotTitle = "My Bot " & $sBotVersion & " DocOC++ MOD AIO " & $sModversion & " " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
 #include "COCBot\functions\Config\DelayTimes.au3"
 #include "COCBot\MBR Global Variables.au3"
 _GDIPlus_Startup()
@@ -201,8 +201,8 @@ CheckVersion() ; check latest version on mybot.run site
 
 SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
-SetLog("                       Welcome to " & $sAIOVersion & "!", $COLOR_RED) ; Message Log at start
-SetLog("                 Made with love by the DocOc++ Team!", $COLOR_RED) ; Message Log at start
+SetLog("                                 Welcome to " & $sModversion & "!", $COLOR_RED) ; Message Log at start
+SetLog("                 Made with love by the DocOc++ Team AIO!", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
 SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
