@@ -257,7 +257,6 @@ Func chkSimpleQuickTrain()
 
 	Else
 		_GUI_Value_STATE("DISABLE", $chkFillArcher & "#" & $txtFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
-		_GUI_Value_STATE("UNCHECKED", $chkFillArcher & "#" & $chkFillEQ & "#" & $chkTrainDonated)
 
 	EndIf
 EndFunc   ;==>chkSimpleQuickTrain

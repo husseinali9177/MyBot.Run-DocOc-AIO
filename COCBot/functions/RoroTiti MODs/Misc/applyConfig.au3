@@ -309,6 +309,7 @@ If $ichkTrainDonated = 1 Then
 Else
 	GUICtrlSetState($chkTrainDonated, $GUI_UNCHECKED)
 EndIf
+chkSimpleQuickTrain()
 
 ; Check Collectors Outside - Added By NguyenAnhHD
 If $ichkDBMeetCollOutside = 1 Then
