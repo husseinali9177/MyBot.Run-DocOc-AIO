@@ -58,7 +58,7 @@ Global $aTabControlsTHSnipe = [$hGUI_THSNIPE_TAB, $hGUI_THSNIPE_TAB_ITEM1, $hGUI
 Global $aTabControlsAttackOptions = [$hGUI_AttackOption_TAB, $hGUI_AttackOption_TAB_ITEM1, $hGUI_AttackOption_TAB_ITEM2, $hGUI_AttackOption_TAB_ITEM3, $hGUI_AttackOption_TAB_ITEM4, $hGUI_AttackOption_TAB_ITEM5, $hGUI_AttackOption_TAB_ITEM6]
 Global $aTabControlsStrategies = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITEM1, $hGUI_STRATEGIES_TAB_ITEM2]
 
-Global $aTabControlsMod = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4, $hGUI_MOD_TAB_ITEM5]
+Global $aTabControlsMod = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4]
 
 Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5]
 Global $aTabControlsStats = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
@@ -622,7 +622,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 		Case $tabMain
 			; Handle RichText controls
 			tabMain()
-			If GUICtrlRead($tabMain, 1) = $tabMod And GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
+			If GUICtrlRead($tabMain, 1) = $tabMod And GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM4 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -630,7 +630,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM4, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						cmbSwLang() ;Added Multi Switch Language by rulesss and kychera
@@ -653,7 +653,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 		Case $hGUI_BOT_TAB
 			tabBot()
 		Case $hGUI_MOD_TAB
-			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
+			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM4 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -661,7 +661,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM4, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						setForecast()
@@ -671,7 +671,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 
 			tabMain()
 
-			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
+			If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM4 Then
 				Local $tTag = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
 				Local $hFrom = DllStructGetData($tTag, 1)
 				Local $iID = DllStructGetData($tTag, 2)
@@ -679,7 +679,7 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 				Local $iPos = DllStructGetData($tTag, 4)
 
 				If $iCode = -551 Then ;tab selected
-					GUICtrlSetState($hGUI_MOD_TAB_ITEM5, $GUI_SHOW)
+					GUICtrlSetState($hGUI_MOD_TAB_ITEM4, $GUI_SHOW)
 					Sleep(100)
 					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
 						Switch GUICtrlRead($cmbSwLang) ;Added Multi Switch Language by rulesss and Kychera
@@ -1579,7 +1579,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_MOD_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[5] = [$eIcnSettings, $eIcnSwitch, $eIcnProfile2, $eIcnChatBot, $eIcnCloud]
+			Local $aIconIndex[4] = [$eIcnSwitch, $eIcnProfile2, $eIcnChatBot, $eIcnCloud]
 
 		Case $hGUI_STATS_TAB
 			; the icons for stats tab

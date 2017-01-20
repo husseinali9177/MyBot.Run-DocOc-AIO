@@ -1843,7 +1843,7 @@ Global $oldModversmessage = "" ;warning message for old bot
 Global $MinimumPriority, $MaxActionsNumber, $ActionToDo
 Global $SetActionPriority[13] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-Global $FrequenceChain = GetTranslated(42, 100, "Never|Sometimes|Frequently|Often|Very Often")
+Global $FrequenceChain = GetTranslated(670, 100, "Never|Sometimes|Frequently|Often|Very Often")
 Global $ReplayChain = "1|2|4"
 Global $ichkUseBotHumanization, $ichkUseAltRClick, $icmbMaxActionsNumber, $ichkCollectAchievements, $ichkLookAtRedNotifications
 

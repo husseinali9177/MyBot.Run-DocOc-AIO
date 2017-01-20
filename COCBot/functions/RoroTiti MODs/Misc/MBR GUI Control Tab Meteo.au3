@@ -102,7 +102,7 @@ Func _RoundDown($nVar, $iCount)
 EndFunc   ;==>_RoundDown
 
 Func redrawForecast()
-	If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM5 Then
+	If GUICtrlRead($hGUI_MOD_TAB, 1) = $hGUI_MOD_TAB_ITEM4 Then
 		_IENavigate($oIE, "about:blank")
 		_IEBodyWriteHTML($oIE, "<img style='margin: -10px 0px -10px -100px;' src='" & @ScriptDir & "\COCBot\Forecast\forecast.jpg' width='1700'>")
 	EndIf
