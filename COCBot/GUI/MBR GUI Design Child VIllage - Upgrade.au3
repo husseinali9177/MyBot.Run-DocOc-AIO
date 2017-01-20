@@ -329,18 +329,18 @@ Global $lblWallCost, $cmbWalls, $UseGold, $UseElixir, $UseElixirGold, $txtWallMi
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
-$hGUI_UPGRADE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,71, "SmartUpgrade"))
+$hGUI_UPGRADE_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(109,1, "SmartUpgrade"))
 
 Local $x = 25, $y = 45
 
-$SmartUpgrade = GUICtrlCreateGroup(GetTranslated(671,1, "SmartUpgrade"), $x - 20, $y - 20, 430, 335)
+$SmartUpgrade = GUICtrlCreateGroup(GetTranslated(109,1, "SmartUpgrade"), $x - 20, $y - 20, 430, 335)
 
-$chkSmartUpgrade = GUICtrlCreateCheckbox(GetTranslated(671,2, "Enable SmartUpgrade"), $x - 5, $y, -1, -1)
-	$txtTip = GetTranslated(671,3, "Check box to enable automatically starting Upgrades from builders menu")
+$chkSmartUpgrade = GUICtrlCreateCheckbox(GetTranslated(109,2, "Enable SmartUpgrade"), $x - 5, $y, -1, -1)
+	$txtTip = GetTranslated(614,3, "Check box to enable automatically starting Upgrades from builders menu")
 	_GUICtrlSetTip(-1, $txtTip)
 	GUICtrlSetOnEvent(-1, "chkSmartUpgrade")
 
-$IgnoreUpgrades = GUICtrlCreateGroup(GetTranslated(671,4, "Upgrades to ignore"), $x - 15, $y + 30, 420, 155)
+$IgnoreUpgrades = GUICtrlCreateGroup(GetTranslated(109,3, "Upgrades to ignore"), $x - 15, $y + 30, 420, 155)
 
 Local $x = 15, $y = 45
 
@@ -399,14 +399,14 @@ Local $x = 15, $y = 45
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$SmartMinGold = GUICtrlCreateInput("200000", 162, 37, 57, 17, BitOR($GUI_SS_DEFAULT_INPUT,$ES_CENTER,$ES_NUMBER))
-	GUICtrlCreateLabel(GetTranslated(671,5, "Gold to save"), 224, 40, 64, 17)
+	GUICtrlCreateLabel(GetTranslated(109,4, "Gold to save"), 224, 40, 64, 17)
 	$SmartMinElixir = GUICtrlCreateInput("200000", 162, 57, 57, 17, BitOR($GUI_SS_DEFAULT_INPUT,$ES_CENTER,$ES_NUMBER))
-	GUICtrlCreateLabel(GetTranslated(671,6, "Elixir to save"), 224, 60, 63, 17)
+	GUICtrlCreateLabel(GetTranslated(109,5, "Elixir to save"), 224, 60, 63, 17)
 	$SmartMinDark = GUICtrlCreateInput("1500", 290, 37, 65, 17, BitOR($GUI_SS_DEFAULT_INPUT,$ES_CENTER,$ES_NUMBER))
-	GUICtrlCreateLabel(GetTranslated(671,7, "Dark to save"), 360, 40, 65, 17)
-	GUICtrlCreateLabel(GetTranslated(671,8, "... after launching upgrade"), 296, 60, 128, 17)
+	GUICtrlCreateLabel(GetTranslated(109,6, "Dark to save"), 360, 40, 65, 17)
+	GUICtrlCreateLabel(GetTranslated(109,7, "... after launching upgrade"), 296, 60, 128, 17)
 	$SmartUpgradeLog = GUICtrlCreateEdit("", 10, 232, 420, 124, BitOR($GUI_SS_DEFAULT_EDIT,$ES_READONLY))
-	GUICtrlSetData(-1, GetTranslated(671,9, "                                        ----- SMART UPGRADE LOG -----"))
+	GUICtrlSetData(-1, GetTranslated(109,8, "                                        ----- SMART UPGRADE LOG -----"))
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 

@@ -15,8 +15,7 @@
 
 Func SwitchAccount($Init = False)
 
-	If $ichkSwitchAccount = 1 And IsNetFramework452Installed() Then
-
+	If $ichkSwitchAccount = 1 And $g_bSwitchAcctPrereq Then
 		If $Init Then $FirstInit = False
 
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
@@ -62,33 +61,84 @@ Func SwitchAccount($Init = False)
 				SetLog("Trying to Request Troops before switching...", $COLOR_INFO)
 				RequestCC()
 				If _Sleep(500) Then Return
-				Click(820, 590)
-				If _Sleep(1500) Then Return
-				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) Then
-					Click(440, 420)
-					If _Sleep(500) Then Return
+
+				Click(820, 590, 1, 0, "Click Setting")      ;Click setting
+
+				$iCount = 0 ; Sleep(5000) if needed.
+				While Not _ColorCheck(_GetPixelColor(766, 101, True), Hex(0xF88088, 6), 20)
+					If _Sleep(100) Then Return
+					$iCount += 1
+					If $iCount = 50 Then ExitLoop
+				WEnd
+				;If _Sleep(1500) Then Return
+
+				;The Double Click check for either green or red then click twice
+				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) _
+					Or _ColorCheck(_GetPixelColor(408, 408, True), "F07078", 20) Then
+					Click(440, 420, 2, 750, "Click Connect Twice with long pause")
+
 				EndIf
-				Click(440, 420)
-				If _Sleep(2500) Then Return
+
+
+				$iCount = 0 ; Sleep(5000) if needed. Wait for Google Play animation
+				While Not _ColorCheck(_GetPixelColor(550, 450, True), Hex(0x0B8043, 6), 20) ; Green
+					If _Sleep(50) Then Return
+					$iCount += 1
+					If $iCount = 100 Then ExitLoop
+				WEnd
 				ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
-				If _Sleep(2500) Then Return
-				Click(430, $yCoord)
+				If _Sleep(50) Then Return
+
+				$iCount = 0 ; sleep(10000) or until account list appears
+				While Not _ColorCheck(_GetPixelColor(159, 331, True), Hex(0xFFFFFF, 6), 20)
+					If _Sleep(100) Then Return
+					$iCount += 1
+					If $iCount = 100 Then ExitLoop
+				WEnd
+				If _Sleep(50) Then Return
+				Click(430, $yCoord) ; Click Account
+
 				If _Sleep($iDelayRespond) Then Return
+
 
 				WaitForNextStep()
 				If $NextStep = 1 Then
 					Setlog("Load button appeared", $COLOR_SUCCESS)
 					Click(520, 430)
-					If _Sleep(1500) Then Return
+
+					;Fancy delay to wait for Enter Confirm text box
+					$iCount
+					While Not _ColorCheck(_GetPixelColor(587, 16, True), Hex(0xF88088, 6), 20)
+						If _Sleep(100) Then Return
+						$iCount += 1
+						If $iCount = 50 Then ExitLoop
+					WEnd
+					;If _Sleep(1500) Then Return
 					Click(360, 195)
+					If _Sleep(250) Then Return
 					AndroidSendText("CONFIRM")
-					If _Sleep(1500) Then Return
+
+					$iCount = 0 ; Another Fancy Sleep wait for Click Confirm Button
+					While Not _ColorCheck(_GetPixelColor(480, 200, True), "71BB1E", 20)
+						If _Sleep(100) Then Return
+						$iCount += 1
+						If $iCount = 100 Then ExitLoop
+					WEnd
+					;If _Sleep(1500) Then Return
+
 					Click(530, 195)
 				ElseIf $NextStep = 2 Then
 					Setlog("Already on the right account...", $COLOR_SUCCESS)
 					ClickP($aAway, 1, 0, "#0167") ;Click Away
 				ElseIf $NextStep = 0 Then
 					SetLog("Error when trying to go to the next step... skipping...", $COLOR_ERROR)
+					;;;;;;;;;;; Add a Restart Bot func here....
+					; something like
+					;Switch account reset first start condition
+					;$Init = False
+					;$FirstInit = True
+					;WaitnOpenCoC(5000,True)
+					;runBot()
 					Return
 				EndIf
 
@@ -262,17 +312,21 @@ Func TrainDonateOnlyLoop()
 
 		DonateCC()
 		randomSleep(1000)
-		DonateCC()
 
+
+		DonateCC()
 		randomSleep(2000)
+
 		TrainRevamp()
 		randomSleep(10000)
 
 		DonateCC()
 		randomSleep(1000)
-		DonateCC()
 
+
+		DonateCC()
 		randomSleep(2000)
+
 		TrainRevamp()
 		randomSleep(2000)
 
@@ -332,7 +386,7 @@ Func chkSwitchAccount()
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		cmbAccountsQuantity()
-		chkAccountsProperties()
+		;chkAccountsProperties()
 		$ichkSwitchAccount = 1
 	Else
 		For $i = $lblNB To $chkDonateAccount[8]
@@ -388,8 +442,8 @@ Func WaitForNextStep()
 
 	$CheckStep = 0
 
-	While (Not (IsLoadButton() Or AlreadyConnected())) And $CheckStep < 30
-		If _Sleep(1000) Then Return
+	While (Not (IsLoadButton() Or AlreadyConnected())) And $CheckStep < 150
+		If _Sleep(200) Then Return
 		$CheckStep += 1
 	WEnd
 
@@ -432,13 +486,4 @@ Func AppendLineToSSALog($AtkReportLine)
 
 EndFunc   ;==>AppendLineToSSALog
 
-Func IsNetFramework452Installed()
 
-	If Number(RegRead("HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\", "Release")) >= 379893 Then
-		Return True
-	Else
-		SetLog("To use SmartSwitchAccount, you need .NET Framework 4.5.2 or ↑. Exiting...", $COLOR_ERROR)
-		Return False
-	EndIf
-
-EndFunc   ;==>IsNetFramework452Installed

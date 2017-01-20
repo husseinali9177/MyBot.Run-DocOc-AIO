@@ -415,8 +415,8 @@ Func UxSmsService()
 
 	Local $CMD ='net stop UxSms && ' & _
 				'net start UxSms && ' & _
-				'ipconfig /flushdns && ' & _
-				'pause'
+				'ipconfig /flushdns' ;& _
+;				'pause'
 
 	; Use to run the command following && only if the
 	; command preceding the symbol is successful.

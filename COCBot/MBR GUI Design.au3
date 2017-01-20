@@ -97,7 +97,7 @@ SplashStep(GetTranslated(500, 27, "Loading Attack tab..."))
 #include "GUI\MBR GUI Design Child Attack.au3"
 SplashStep(GetTranslated(500, 28, "Loading Bot tab..."))
 #include "GUI\MBR GUI Design Child Bot.au3"
-SplashStep(GetTranslated(500, 40, "Loading Mods tab..."))
+SplashStep(GetTranslated(500, 40, "Loading MOD tab..."))
 #include "GUI\MBR GUI Design Child Mod.au3"
 
 ;GUISetState()

@@ -43,10 +43,10 @@ Func TrainRevamp()
 
 	If $Runstate = False Then Return
 
-	If $ichkSimpleQuickTrain = 1 Then
+	If $ichkSimpleQuickTrain = 1 Then			;	SimpleQuickTrain - Demen
 		If $bDonationEnabled = True And $ichkTrainDonated = 1 Then MakingDonatedTroops()
 		SimpleQuickTrain()
-	Else
+	Else										;	SimpleQuickTrain - Demen
 		If ($IsFullArmywithHeroesAndSpells = True) Or ($CurCamp = 0 And $FirstStart) Then
 
 			If $IsFullArmywithHeroesAndSpells Then Setlog(" - Your Army is Full, let's make troops before Attack!", $COLOR_BLUE)

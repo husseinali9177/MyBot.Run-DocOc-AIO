@@ -499,7 +499,6 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 
 	GUICtrlSetData($txtManAbilities, ($delayActivateKQ / 1000))
 	GUICtrlSetData($txtWardenAbility, ($delayActivateW / 1000))
-	CheckWardenTimer()
 
 	If $TakeLootSnapShot = 1 Then
 		GUICtrlSetState($chkTakeLootSS, $GUI_CHECKED)

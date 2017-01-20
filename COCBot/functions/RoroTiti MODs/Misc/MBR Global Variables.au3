@@ -66,7 +66,9 @@ Global $ichkElixirSwitchMax, $itxtMaxElixirAmount, $icmbElixirMaxProfile, $ichkE
 Global $ichkDESwitchMax, $itxtMaxDEAmount, $icmbDEMaxProfile, $ichkDESwitchMin, $itxtMinDEAmount, $icmbDEMinProfile
 Global $ichkTrophySwitchMax, $itxtMaxTrophyAmount, $icmbTrophyMaxProfile, $ichkTrophySwitchMin, $itxtMinTrophyAmount, $icmbTrophyMinProfile
 
+
 ; SmartSwitchAccount
+Global $g_bSwitchAcctPrereq = False
 Global $chkCanUse[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $chkDonateAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $cmbAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -79,11 +81,10 @@ Global $icmbAccountsQuantity = 0
 
 Global $AllAccountsWaitTimeDiff[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $AllAccountsWaitTime[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-Global $CurrentAccountWaitTime = 0
-
 Global $TimerDiffStart[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 Global $TimerDiffEnd[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Global $CurrentAccountWaitTime = 0
 
 Global $Init = False
 Global $TotalAccountsOnEmu = 0
@@ -95,7 +96,7 @@ Global $MustGoToDonateAccount = 0
 Global $yCoord, $HeroesRemainingWait, $TotalAccountsInUse, $TotalDAccountsInUse, $ichkSwitchAccount, $NextAccount, $NextProfile
 Global $cycleCount = 0
 Global $IsDonateAccount = 0
-Global $IsLoadButton = False, $AlreadyConnected = False, $NextStep = 0
+Global $AlreadyConnected, $IsLoadButton, $NextStep
 
 Global $SSAConfig = $sProfilePath & "\Profile.ini"
 Global $SSAAtkLog = $sProfilePath & "\SmartSwitchAccount_Attack_Report.txt"
