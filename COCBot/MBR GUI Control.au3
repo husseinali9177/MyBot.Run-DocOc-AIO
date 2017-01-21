@@ -60,7 +60,7 @@ Global $aTabControlsStrategies = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITE
 
 Global $aTabControlsMod = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4, $hGUI_MOD_TAB_ITEM5]
 
-Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5]
+Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5, $hGUI_BOT_TAB_ITEM6]
 Global $aTabControlsStats = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
 Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugDeadbaseImage, $chkDebugOcr, $chkDebugImageSave, $chkDebugSmartZap, $chkDebugSX, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestClickDrag, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestimglocTroopBar, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton, $btnTestCleanYard, $lblLightningUsed, $lblSmartZap, $lblEarthQuakeUsed, $btnTestConfigSave, $btnTestConfigRead, $btnTestConfigApply]
@@ -1271,19 +1271,19 @@ Func tabBot()
 		Case $tabidx = 0 ; Options tab
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlShow("", "", $cmbLanguage)
-		Case $tabidx = 1 ; Debug tab
+		Case $tabidx = 1 ; Humanization
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
-		Case $tabidx = 2 ; Profiles tab
+		Case $tabidx = 2 ; Android
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
-		Case $tabidx = 3 ; Android tab
+		Case $tabidx = 3 ; Debug
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
-;~		Case $tabidx = 4 ; Android tab
-;~			GUISetState(@SW_HIDE, $hGUI_STATS)
-;~			ControlHide("", "", $cmbLanguage)
 		Case $tabidx = 4 ; Stats tab
+			GUISetState(@SW_HIDE, $hGUI_STATS)
+			ControlHide("", "", $cmbLanguage)
+		Case $tabidx = 5 ; Multi Stats
 			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
 	EndSelect
@@ -1570,7 +1570,7 @@ Func Bind_ImageList($nCtrl)
 
 		Case $hGUI_BOT_TAB
 			; the icons for Bot tab
-			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain, $eIcnAndroid, $eIcnProfile, $eIcnGold]
+			Local $aIconIndex[6] = [$eIcnOptions, $eIcnBrain, $eIcnAndroid, $eIcnProfile, $eIcnGold, $eIcnGold]
 			; The Android Robot is a Google Trademark and follows Creative Common Attribution 3.0
 
 		Case $hGUI_STRATEGIES_TAB
