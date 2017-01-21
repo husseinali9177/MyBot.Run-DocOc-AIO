@@ -326,3 +326,10 @@ If $ichkClanHop = 1 Then
 Else
 	GUICtrlSetState($chkClanHop, $GUI_UNCHECKED)
 EndIf
+
+;==========Modified Kychera==
+If $NotifyAlertBOTSleep = 1 Then
+	GUICtrlSetState($chkNotifyBOTSleep, $GUI_CHECKED)
+ElseIf $NotifyAlertBOTSleep = 0 Then
+	GUICtrlSetState($chkNotifyBOTSleep, $GUI_UNCHECKED)
+EndIf

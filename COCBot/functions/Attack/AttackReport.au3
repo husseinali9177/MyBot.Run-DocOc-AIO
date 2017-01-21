@@ -217,7 +217,6 @@ Func AttackReport()
 		EndIf
 	EndIf
 
-
 	    CoCStats($starsearned)
 
 	If $FirstAttack = 0 Then $FirstAttack = 1

@@ -27,14 +27,14 @@ Func CheckVersion()
 			_PrintLogVersion($oldModversmessage)
 			CheckModVersion()
 		ElseIf VersionNumFromVersionTXT($sModversion) > VersionNumFromVersionTXT($lastModversion) Then
-			SetLog("YOU ARE USING A FUTURE MOD BY DOC.OC TEAM AIO VERSION CHIEF!", $COLOR_GREEN)
+			SetLog("YOU ARE USING A FUTURE MOD BY DOC.OC++ TEAM VERSION CHIEF!", $COLOR_GREEN)
 			SetLog("YOUR MOD VERSION: " & $sModversion, $COLOR_GREEN)
 			SetLog("OFFICIAL MOD VERSION: " & $lastModversion, $COLOR_GREEN)
 			SetLog(" ")
 		Else
 			SetLog("WELCOME CHIEF, YOU HAVE THE LATEST MOD VERSION", $COLOR_GREEN)
 			SetLog(" ")
-			SetLog("BY DOC.OC TEAM AIO", $COLOR_BLUE)
+			SetLog("BY DOC.OC++ TEAM", $COLOR_BLUE)
 			SetLog("CHEEERS..")
 			SetLog(" ")
 			_PrintLogVersion($lastModmessage)
@@ -183,7 +183,7 @@ Func CheckModVersion()
 			Return False
 		EndIf
 	Else
-		MsgBox($MB_ICONINFORMATION, "Notify", "You Are Using The Latest Version Of Mod By DocOc Team AIO" &  @CRLF & _
+		MsgBox($MB_ICONINFORMATION, "Notify", "You Are Using The Latest Version Of Mod By DocOc++ Team" &  @CRLF & _
 				"Thanks..", 15) ;15s timeout
 	EndIf
 EndFunc   ;==>CheckModVersion

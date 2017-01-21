@@ -603,13 +603,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	Else
 		$NotifyAlertBOTUpdate = 0
 	EndIf
-;================Modified kychera=============
-If GUICtrlRead($chkNotifyBOTSleep) = $GUI_CHECKED Then
-		$NotifyAlertBOTSleep = 1
-	Else
-		$NotifyAlertBOTSleep = 0
-	EndIf
-;=============================================
+
 	If GUICtrlRead($chkNotifyDeleteOldPBPushes) = $GUI_CHECKED Then
 		$NotifyDeletePushesOlderThan = 1
 	Else
@@ -2365,7 +2359,7 @@ If GUICtrlRead($chkNotifyBOTSleep) = $GUI_CHECKED Then
 	IniWriteS($config, "notify", "AlertPBMaintenance", $NotifyAlertMaintenance)
 	IniWriteS($config, "notify", "AlertPBBAN", $NotifyAlertBAN)
 	IniWriteS($config, "notify", "AlertPBUpdate", $NotifyAlertBOTUpdate)
-    IniWriteS($config, "notify", "AlertPBSleep", $NotifyAlertBOTSleep)
+
 	;Schedule
 	If GUICtrlRead($chkNotifyWeekDays) = $GUI_CHECKED Then
 		IniWrite($config, "notify", "NotifyWeekDaysEnable", 1)
@@ -2632,6 +2626,8 @@ If GUICtrlRead($chkNotifyBOTSleep) = $GUI_CHECKED Then
 		IniWriteS($config, "debug", "disablevillagecentering", $debugDisableVillageCentering)
 		IniWriteS($config, "debug", "debugdeadbaseimage", $debugDeadbaseImage)
 		IniWriteS($config, "debug", "debugocr", $debugOcr)
+		IniWriteS($config, "debug", "DebugSmartZap", $DebugSmartZap)
+		IniWriteS($config, "debug", "DebugSX", $DebugSX)
 		IniWriteS($config, "debug", "debugimagesave", $DebugImageSave)
 		IniWriteS($config, "debug", "debugbuildingpos", $debugBuildingPos)
 		IniWriteS($config, "debug", "debugtrain", $debugsetlogTrain)

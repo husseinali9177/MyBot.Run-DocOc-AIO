@@ -403,22 +403,6 @@ setupProfileComboBox()
 $cmbSwLang = GUICtrlCreateCombo("", $x, $y + 50, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 GUICtrlSetData(-1, "EN|RU|FR|DE|ES|IT|PT|IN", "EN")
 GUICtrlSetOnEvent(-1, "cmbSwLang")
-
-;GUI modification by rulesss
-Local $x = 24, $y = 390
-$grpCoCStats = GUICtrlCreateGroup("", $x - 20, $y, 440, 35)
-$y += 10
-$x += -10
-$chkCoCStats = GUICtrlCreateCheckbox(GetTranslated(676, 10, "CoCStats Activate"), $x, $y, -1, -1)
-$txtTip = GetTranslated(676, 11, "Activate sending raid results to CoCStats.com")
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetOnEvent(-1, "chkCoCStats")
-$x += 135
-$lblAPIKey = GUICtrlCreateLabel(GetTranslated(676, 12, "API Key:"), $x - 18, $y + 4, -1, 21, $SS_LEFT)
-$txtAPIKey = GUICtrlCreateInput("", $x + 30, $y, 250, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-$txtTip = GetTranslated(676, 13, "Join in CoCStats.com and input API Key here")
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 GUICtrlCreateTabItem("")

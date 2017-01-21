@@ -235,3 +235,12 @@ If GUICtrlRead($chkClanHop) = $GUI_CHECKED Then
 Else
 	IniWrite($config, "Others", "ClanHop", 0)
 EndIf
+
+;================Modified kychera=============
+If GUICtrlRead($chkNotifyBOTSleep) = $GUI_CHECKED Then
+	$NotifyAlertBOTSleep = 1
+Else
+	$NotifyAlertBOTSleep = 0
+EndIf
+
+IniWriteS($config, "notify", "AlertPBSleep", $NotifyAlertBOTSleep)

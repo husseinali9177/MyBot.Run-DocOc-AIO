@@ -120,3 +120,5 @@ $iDBMinCollOutsidePercent = IniRead($config, "search", "DBMinCollOutsidePercent"
 
 ; Clan Hop Setting - Added By NguyenAnhHD
 $ichkClanHop = IniRead($config, "Others", "ClanHop", "0")
+
+IniReadS($NotifyAlertBOTSleep, $config, "notify", "AlertPBSleep", "0")

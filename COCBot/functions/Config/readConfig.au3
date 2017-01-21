@@ -781,7 +781,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 		IniReadS($NotifyAlertMaintenance, $config, "notify", "AlertPBMaintenance", 0, "int")
 		IniReadS($NotifyAlertBAN, $config, "notify", "AlertPBBAN", 0, "int")
 		IniReadS($NotifyAlertBOTUpdate, $config, "notify", "AlertPBUpdate", 0, "int")
-        IniReadS($NotifyAlertBOTSleep, $config, "notify", "AlertPBSleep", "0")
+
 		;Schedule
 		$NotifyScheduleWeekDaysEnable = Int(IniRead($config, "notify", "NotifyWeekDaysEnable", 0))
 		$NotifyScheduleWeekDays = StringSplit(IniRead($config, "notify", "NotifyWeekDays", "1|1|1|1|1|1|1"), "|", $STR_NOCOUNT)
