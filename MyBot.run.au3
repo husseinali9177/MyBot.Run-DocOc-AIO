@@ -425,6 +425,8 @@ Func Idle() ;Sequence that runs until Full Army
 	Local $TimeIdle = 0 ;In Seconds
 	If $debugsetlog = 1 Then SetLog("Func Idle ", $COLOR_DEBUG)
 
+	RequestCC()
+
 	While $IsFullArmywithHeroesAndSpells = False
 		checkAndroidReboot()
 
@@ -721,8 +723,8 @@ Func _RunFunction($action)
 					$troops_maked_after_fullarmy = False
 				EndIf
 				CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
-				getArmyHeroCount(False, False)
-				getArmySpellCount(False, True) ; use true parameter to close train overview window
+				If ISArmyWindow(False, $ArmyTAB) then CheckExistentArmy("Spells") ; Imgloc Method
+				getArmyHeroCount(False, True)
 			EndIf
 		Case "BoostBarracks"
 			BoostBarracks()
