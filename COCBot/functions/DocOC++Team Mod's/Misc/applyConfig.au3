@@ -203,7 +203,7 @@ Else
 EndIf
 _GUICtrlComboBox_SetCurSel($cmbAccountsQuantity, $icmbAccountsQuantity)
 
-For $i = 1 To 5
+For $i = 1 To 8
 	If $ichkCanUse[$i] = 1 Then
 		GUICtrlSetState($chkCanUse[$i], $GUI_CHECKED)
 	Else
