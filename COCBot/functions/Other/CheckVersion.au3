@@ -34,9 +34,6 @@ Func CheckVersion()
 		Else
 			SetLog("WELCOME CHIEF, YOU HAVE THE LATEST MOD VERSION", $COLOR_GREEN)
 			SetLog(" ")
-			SetLog("BY DOC.OC++ TEAM", $COLOR_BLUE)
-			SetLog("CHEEERS..")
-			SetLog(" ")
 			_PrintLogVersion($lastModmessage)
 		EndIf
 	EndIf
@@ -187,4 +184,3 @@ Func CheckModVersion()
 				"Thanks..", 15) ;15s timeout
 	EndIf
 EndFunc   ;==>CheckModVersion
-
