@@ -79,10 +79,10 @@ Global $icmbAccount[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Global $icmbAccountsQuantity = 0
 
-Global $AllAccountsWaitTimeDiff[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $AllAccountsWaitTime[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $TimerDiffStart[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-Global $TimerDiffEnd[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+Global $AllAccountsWaitTimeDiff[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0] ; stored as Milli sec ;Updated time left to train
+Global $AllAccountsWaitTime[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0]  ; Stored as min time ;reported as time needed to train troops
+Global $TimerDiffStart[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0] ;the start and stop timer counters
+Global $TimerDiffEnd[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0] ;the start and stop timer counters
 
 Global $CurrentAccountWaitTime = 0
 
@@ -95,7 +95,7 @@ Global $FirstInit = True
 Global $MustGoToDonateAccount = 0
 Global $yCoord, $HeroesRemainingWait, $TotalAccountsInUse, $TotalDAccountsInUse, $ichkSwitchAccount, $NextAccount, $NextProfile
 Global $cycleCount = 0
-Global $IsDonateAccount = 0
+;Global $IsDonateAccount = 0
 Global $AlreadyConnected, $IsLoadButton, $NextStep
 
 Global $SSAConfig = $sProfilePath & "\Profile.ini"

@@ -316,7 +316,6 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 				If $Restart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
 			WEnd
-			TrainDonateOnlyLoop()
 			AddIdleTime()
 			If $RunState = False Then Return
 			If $Restart = True Then ContinueLoop
@@ -573,6 +572,7 @@ EndFunc   ;==>Idle
 
 Func AttackMain() ;Main control for attack functions
 	;LoadAmountOfResourcesImages() ; for debug
+
 	If $ichkEnableSuperXP = 1 And $irbSXTraining = 2 Then
 		MainSuperXPHandler()
 		Return

@@ -80,6 +80,11 @@ Func UpdateStats()
 		$iOldTotalBuilderCount = $iTotalBuilderCount
 		$FirstRun = 0
 		GUICtrlSetState($btnResetStats, $GUI_ENABLE)
+
+		If $ichkSwitchAccount = 1 Then
+			UpdateStatsSwitchMode()
+		EndIf
+
 		Return
 	EndIf
 

@@ -60,7 +60,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[1] 		= GUICtrlCreateLabel("", 		$x + 30,  $y + 93, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[1] 	= GUICtrlCreateLabel("", 		$x + 91,  $y + 93, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[1] 		= GUICtrlCreateLabel("Classified",  $x + 146, $y + 93, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[1] 		= GUICtrlCreateLabel("No Data", $x + 146, $y + 93, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[2] 		= GUICtrlCreateGroup("Account 2", $x + 16, $y + 120, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -85,8 +85,8 @@ Local $x = 0, $y = 10
 		$g_icnHourGlassSW[2] 	= GUICtrlCreateIcon($pIconLib, $eIcnHourGlass, 	$x + 204, $y + 192, 18, 18)
 
 		$g_lblGemNowSW[2] 		= GUICtrlCreateLabel("", 		$x + 30,  $y + 195, 39, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[2]	 	= GUICtrlCreateLabel("Classified", 	$x + 146, $y + 195, 58, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[2] 	= GUICtrlCreateLabel("", 		$x + 91,  $y + 195, 32, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[2]	 	= GUICtrlCreateLabel("No Data", $x + 146, $y + 195, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[3] 		= GUICtrlCreateGroup("Account 3", $x + 16, $y + 222, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -112,7 +112,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[3] 		= GUICtrlCreateLabel("", 		$x + 30,  $y + 297, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[3] 	= GUICtrlCreateLabel("", 		$x + 91,  $y + 297, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[3]		= GUICtrlCreateLabel("Classified", 	$x + 146, $y + 297, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[3]		= GUICtrlCreateLabel("No Data", $x + 146, $y + 297, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[4] 		= GUICtrlCreateGroup("Account 4", $x + 16, $y + 324, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -138,7 +138,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[4] 		= GUICtrlCreateLabel("", 		$x + 30,  $y + 399, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[4] 	= GUICtrlCreateLabel("", 		$x + 91,  $y + 399, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[4] 		= GUICtrlCreateLabel("Classified", 	$x + 146, $y + 399, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[4] 		= GUICtrlCreateLabel("No Data", 	$x + 146, $y + 399, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[5] 		= GUICtrlCreateGroup("Account 5", $x + 232, $y + 18, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -164,7 +164,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[5] 		= GUICtrlCreateLabel("", 		$x + 246, $y + 93, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[5] 	= GUICtrlCreateLabel("", 		$x + 307, $y + 93, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[5] 		= GUICtrlCreateLabel("Classified",  $x + 362, $y + 93, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[5] 		= GUICtrlCreateLabel("No Data",  $x + 362, $y + 93, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[6] 		= GUICtrlCreateGroup("Account 6", $x + 232, $y + 120, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -190,7 +190,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[6] 		= GUICtrlCreateLabel("", 		$x + 246, $y + 195, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[6] 	= GUICtrlCreateLabel("", 		$x + 307, $y + 195, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[6] 		= GUICtrlCreateLabel("Classified",  $x + 362, $y + 195, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[6] 		= GUICtrlCreateLabel("No Data",  $x + 362, $y + 195, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[7] 		= GUICtrlCreateGroup("Account 7", $x + 232, $y + 222, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -216,7 +216,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[7] 		= GUICtrlCreateLabel("", 		$x + 246, $y + 297, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[7] 	= GUICtrlCreateLabel("", 		$x + 307, $y + 297, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[7] 		= GUICtrlCreateLabel("Classified",  $x + 362, $y + 297, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[7] 		= GUICtrlCreateLabel("No Data",  $x + 362, $y + 297, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$g_grpVillageSW[8] 		= GUICtrlCreateGroup("Account 8", $x + 232, $y + 324, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
@@ -242,7 +242,7 @@ Local $x = 0, $y = 10
 
 		$g_lblGemNowSW[8] 		= GUICtrlCreateLabel("", 		$x + 246, $y + 399, 39, 17, $SS_RIGHT)
 		$g_lblBuilderNowSW[8] 	= GUICtrlCreateLabel("", 		$x + 307, $y + 399, 32, 17, $SS_RIGHT)
-		$g_lblTimeNowSW[8] 		= GUICtrlCreateLabel("Classified",  $x + 362, $y + 399, 58, 17, $SS_RIGHT)
+		$g_lblTimeNowSW[8] 		= GUICtrlCreateLabel("No Data",  $x + 362, $y + 399, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 ; SET FONT
 For $i = $g_grpVillageSW[1] To $g_lblTimeNowSW[8]

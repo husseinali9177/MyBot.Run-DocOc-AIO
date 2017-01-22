@@ -16,14 +16,16 @@
 Func SwitchAccount($Init = False)
 
 	If $ichkSwitchAccount = 1 And $g_bSwitchAcctPrereq Then
+
+		checkMainScreen()
 		If $Init Then $FirstInit = False
 
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
 
 		MakeSummaryLog()
-		If Not $Init And Not $IsDonateAccount Then GetWaitTime()
+		If Not $Init And $ichkDonateAccount[$CurrentAccount] = 0 Then GetWaitTime()
 
-		If Not $Init And $CurrentAccountWaitTime = 0 And Not $IsDonateAccount Then
+		If Not $Init And $CurrentAccountWaitTime = 0 And $ichkDonateAccount[$CurrentAccount] = 0 Then
 
 			SetLog("Your Army is ready so I stay here, I'm a thug !!! ;P", $COLOR_SUCCESS)
 
@@ -51,6 +53,18 @@ Func SwitchAccount($Init = False)
 				GetYCoordinates($NextAccount)
 			EndIf
 
+			If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
+				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donating" )
+				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
+				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+			Else
+				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Looting" )
+				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
+				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+			EndIf
+
 			If _Sleep($iDelayRespond) Then Return
 
 			If $NextAccount = $CurrentAccount And Not $Init And $FirstLoop >= $TotalAccountsInUse Then
@@ -58,7 +72,7 @@ Func SwitchAccount($Init = False)
 				SetLog("Next Account is already the account we are on, no need to change...", $COLOR_SUCCESS)
 
 			Else
-				If Not $Init Then
+				If Not $Init And $ichkDonateAccount[$CurrentAccount] = 0 Then
 					SetLog("Trying to Request Troops before switching...", $COLOR_INFO)
 					RequestCC()
 					If _Sleep(500) Then Return
@@ -139,7 +153,32 @@ Func SwitchAccount($Init = False)
 					;runBot()
 					Return
 				EndIf
+				; Update Stats Gui Lables.
+				If Not $Init Then
+					If $ichkDonateAccount[$CurrentAccount] = 1  Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
+						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donate" )
+						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
+						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+					Else
+						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], Round($CurrentAccountWaitTime, 2) )
+						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
+						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+					EndIf
 
+					If $ichkDonateAccount[$NextAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
+						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Donating" )
+						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
+						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
+					Else
+						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Looting" )
+						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
+						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
+					EndIf
+				EndIf
 				$CurrentAccount = $NextAccount
 
 				If $Init Then
@@ -151,13 +190,16 @@ Func SwitchAccount($Init = False)
 					_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 					cmbProfile()
 				EndIf
-
 				If _Sleep($iDelayRespond) Then Return
-
 				IdentifyDonateOnly()
-				checkMainScreen()
-				runBot()
 
+				If $ichkDonateAccount[$CurrentAccount] = 1  Then
+					checkMainScreen()
+					TrainDonateOnlyLoop()
+				Else
+					checkMainScreen()
+					runBot()
+				EndIf
 			EndIf
 		EndIf
 	Else
@@ -274,7 +316,7 @@ Func GetNextAccount()
 		If _Sleep($iDelayRespond) Then Return
 
 		$CurrentDAccount = $NextDAccount
-		$CurrentAccount = $NextDAccount
+;		$CurrentAccount = $NextDAccount
 		$NextAccount = $NextDAccount
 		$MustGoToDonateAccount = 0
 
@@ -316,29 +358,43 @@ Func MakeSummaryLog()
 
 EndFunc   ;==>MakeSummaryLog
 
-Func TrainDonateOnlyLoop()
+Func TrainDonateOnlyLoop()  ; not used func
 
-	If $IsDonateAccount Then
+	If $ichkDonateAccount[$CurrentAccount] = 1 Then
 
+		$CommandStop = 3 ; Set the commandStops
+		VillageReport()
+		Collect()
+		randomSleep(2000)
 		DonateCC()
-		randomSleep(1000)
-
+		randomSleep(2000)
 
 		DonateCC()
 		randomSleep(2000)
 
-		TrainRevamp()
-		randomSleep(10000)
-
-		DonateCC()
-		randomSleep(1000)
-
+		CheckArmyCamp(True, True)
+		If _Sleep($iDelayIdle1) Then Return
+		If ($fullArmy = False Or $bFullArmySpells = False) And $bTrainEnabled = True Then
+			SetLog("Army Camp and Barracks are not full, Training Continues...", $COLOR_ACTION)
+			$CommandStop = 0
+			TrainRevamp()
+			randomSleep(10000)
+		EndIf
 
 		DonateCC()
 		randomSleep(2000)
 
-		TrainRevamp()
+		DonateCC()
 		randomSleep(2000)
+
+		CheckArmyCamp(True, True) ; Only Train if Camps not Full
+		If _Sleep($iDelayIdle1) Then Return
+		If ($fullArmy = False Or $bFullArmySpells = False) And $bTrainEnabled = True Then
+			SetLog("Army Camp and Barracks are not full, Training Continues...", $COLOR_ACTION)
+			$CommandStop = 0
+			TrainRevamp()
+			randomSleep(2000)
+		EndIf
 
 		SwitchAccount()
 
@@ -425,6 +481,7 @@ Func chkAccountsProperties()
 		EndIf
 
 		If GUICtrlRead($chkDonateAccount[$h]) = $GUI_CHECKED Then
+
 			$ichkDonateAccount[$h] = 1
 		Else
 			$ichkDonateAccount[$h] = 0
@@ -436,11 +493,9 @@ EndFunc   ;==>chkAccountsProperties
 
 Func IdentifyDonateOnly()
 
-	If $ichkSwitchAccount = 1 And $ichkDonateAccount[$CurrentAccount] = 1 And ($FirstLoop >= $TotalAccountsInUse) Then
-		$IsDonateAccount = True
+	If $ichkDonateAccount[$CurrentAccount] = 1 Then
 		SetLog("Current Account is a Train/Donate Only Account...", $COLOR_DEBUG1)
 	Else
-		$IsDonateAccount = False
 		SetLog("Current Account is not a Train/Donate Only Account...", $COLOR_DEBUG1)
 	EndIf
 
@@ -489,7 +544,9 @@ Func AppendLineToSSALog($AtkReportLine)
 			FileWriteLine($SSAAtkLog, @CRLF)
 			FileWriteLine($SSAAtkLog, _NowDate())
 			FileWriteLine($SSAAtkLog, @CRLF)
-			FileWriteLine($SSAAtkLog, "AC| TIME|TROP.|SEARCH|   GOLD| ELIXIR|DARK EL|TR.|S|  GOLD|ELIXIR|  DE|L.|")
+			FileWriteLine($SSAAtkLog, "                    --------  LOOT --------       ----- BONUS ------")
+			FileWriteLine($SSAAtkLog, @CRLF)
+			FileWriteLine($SSAAtkLog, "Ac| TIME|TROP.| SRC|   GOLD| ELIXIR|DARK EL|TR.|S|  GOLD|ELIXIR|  DE|L.")
 		EndIf
 		If FileWriteLine($SSAAtkLog, $AtkReportLine) = 0 Then Setlog("Error when trying to add Attack Report line to multi account log...", $COLOR_ERROR)
 	EndIf

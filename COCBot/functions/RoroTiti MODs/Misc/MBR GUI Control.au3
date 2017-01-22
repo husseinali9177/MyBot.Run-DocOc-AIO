@@ -190,13 +190,14 @@ Func setupProfileComboBoxswitch()
 	; Set the new data of available profiles
 	GUICtrlSetData($cmbTrophyMinProfile, $profileString, "<No Profiles>")
 
-	For $x = 0 To 5
+	For $x = 1 To 8
 		GUICtrlSetData($cmbAccount[$x], "", "")
 	Next
 
-	For $x = 0 To 5
+	For $x = 1 To 8
 		GUICtrlSetData($cmbAccount[$x], $profileString, "<No Profiles>")
 	Next
+
 EndFunc   ;==>setupProfileComboBoxswitch
 
 ; CoC Stats

@@ -1066,8 +1066,36 @@ Func SetTime($bForceUpdate = False)
 	Local $time = _TicksToTime(Int(TimerDiff($sTimer) + $iTimePassed), $hour, $min, $sec)
 	If GUICtrlRead($hGUI_STATS_TAB, 1) = $hGUI_STATS_TAB_ITEM2 Or $bForceUpdate = True Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
 	If GUICtrlGetState($lblResultGoldNow) <> $GUI_ENABLE + $GUI_SHOW Or $bForceUpdate = True Then GUICtrlSetData($lblResultRuntimeNow, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-	;If $pEnabled = 1 And $pRemote = 1 And StringFormat("%02i", $sec) = "50" Then NotifyRemoteControl()
-	;If $pEnabled = 1 And $ichkDeleteOldPBPushes = 1 And Mod($min + 1, 30) = 0 And $sec = "0" Then _DeleteOldPushes() ; check every 30 min if must to delete old pushbullet messages, increase delay time for anti ban pushbullet
+
+	If GUICtrlRead($hGUI_BOT_TAB, 1) = $hGUI_BOT_TAB_ITEM6 Then
+		If $ichkSwitchAccount = 1 Then
+			For $i = 1 To 8 ; Update time for all Accounts
+				If $ichkCanUse[$i] = 1 And _
+					$ichkDonateAccount[$i] <> 1 And _
+					$i <> $CurrentAccount And _
+					$TimerDiffStart[$i] <> 0 And _
+					(GUICtrlRead($g_lblTimeNowSW[$i]) <> "No Data" Or GUICtrlRead($g_lblTimeNowSW[$i]) <> "Looting") Then ; Only update labels that need a time
+
+
+					$TimerDiffEnd[$i] = TimerDiff($TimerDiffStart[$i])
+					$AllAccountsWaitTimeDiff[$i] = Round($AllAccountsWaitTime[$i] * 60 * 1000 - $TimerDiffEnd[$i], 2)
+					;	 Round($AllAccountsWaitTimeDiff[$x] / 60 / 1000, 2)   Formula for Mins
+					If $AllAccountsWaitTimeDiff[$i] < 0 Then
+						GUICtrlSetData($g_lblTimeNowSW[$i], Round($AllAccountsWaitTimeDiff[$i] / 60 / 1000, 2) )
+						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$i], $COLOR_RED)
+						GUICtrlSetColor($g_lblTimeNowSW[$i], $COLOR_BLACK)
+					Else
+						GUICtrlSetData($g_lblTimeNowSW[$i], Round($AllAccountsWaitTimeDiff[$i] / 60 / 1000, 2) )
+						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
+						GUICtrlSetBkColor($g_lblTimeNowSW[$i], $COLOR_YELLOW)
+						GUICtrlSetColor($g_lblTimeNowSW[$i], $COLOR_BLACK)
+					EndIf
+				EndIf
+			Next
+		EndIf
+	EndIf
+
 EndFunc   ;==>SetTime
 
 Func tabMain()
