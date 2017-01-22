@@ -42,7 +42,7 @@ Global $iBotLaunchTime = 0
 Global $hBotLaunchTime = TimerInit()
 
 Global $sBotVersion = "v6.5.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
-Global $sModversion = "v0.8" ;<== Just Change This to Version Number
+Global $sModversion = "v0.8.2" ;<== Just Change This to Version Number
 Global $sDocOcVersion = "v3.5.5" ;<== Just Change This to Version Number
 Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/28168-dococ-aio-mod-v081-latest-release-2201-1440-based-on-mybot-v653-dococ-v355/" ;<== Our Website Link Or Link Download
 Global $sModDownloadUrl = "https://github.com/RoroTiti/MyBot.Run-DocOc-AIO/releases"
@@ -206,7 +206,7 @@ CheckVersion() ; check latest version on mybot.run site
 
 SetLog("===============================================", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
-SetLog("                                 Welcome to " & $sModversion & "!", $COLOR_RED) ; Message Log at start
+SetLog("                                Welcome to " & $sModversion & "!", $COLOR_RED) ; Message Log at start
 SetLog("                 Made with love by the DocOc++ Team AIO!", $COLOR_RED) ; Message Log at start
 SetLog(" ", $COLOR_RED) ; Message Log at start
 SetLog("===============================================", $COLOR_RED) ; Message Log at start
