@@ -1,3 +1,12 @@
+#RequireAdmin
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=images\MyBot.ico
+#AutoIt3Wrapper_Compression=4
+#AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
+#AutoIt3Wrapper_Run_Tidy=y
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/mo /rsln
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 ;MODded by DocOc++ Team AIO
 
 ; #FUNCTION# ====================================================================================================================
@@ -11,11 +20,6 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-
-#RequireAdmin
-#AutoIt3Wrapper_UseX64=7n
-#AutoIt3Wrapper_Run_Au3Stripper=y
-#Au3Stripper_Parameters=/mo /rsln
 ;#AutoIt3Wrapper_Change2CUI=y
 ;#pragma compile(Console, true)
 #pragma compile(Icon, "Images\MyBot.ico")
@@ -724,7 +728,7 @@ Func _RunFunction($action)
 					$troops_maked_after_fullarmy = False
 				EndIf
 				CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
-				If ISArmyWindow(False, $ArmyTAB) then CheckExistentArmy("Spells") ; Imgloc Method
+				If ISArmyWindow(False, $ArmyTAB) Then CheckExistentArmy("Spells") ; Imgloc Method
 				getArmyHeroCount(False, True)
 			EndIf
 		Case "BoostBarracks"
