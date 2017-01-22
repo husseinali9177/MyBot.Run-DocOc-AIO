@@ -3090,7 +3090,7 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 
 	; ================================================== TREASURY COLLECT END ================================================== ;
 
-	#include "..\..\functions\RoroTiti MODs\Misc\applyConfig.au3"
+	#include "..\..\functions\DocOC++Team Mod's\Misc\applyConfig.au3"
 
 	If $iGUIEnabled = 0 Then
 		lblTotalCount2()

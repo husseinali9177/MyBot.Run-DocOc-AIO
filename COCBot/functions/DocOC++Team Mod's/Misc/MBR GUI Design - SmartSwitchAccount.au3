@@ -1,17 +1,17 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: MBR GUI Design - SmartSwitchAccount
+; Name ..........: MBR GUI Design - SmartSwitchAccount (v1)
 ; Description ...: This is a part of MBR GUI Design Child Attack - Troops
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........: Demen
-; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
-;                  MyBot is distributed under the terms of the GNU GPL
-; Related .......:
-; Link ..........: https://github.com/MyBotRun/MyBot/wiki
-; Example .......: No
-; ===============================================================================================================================
+; Author ........: RoroTiti
+; Modified ......: 01/10/2016
+; Remarks .......: This file is part of MyBotRun. Copyright 2016
+;                  MyBotRun is distributed under the terms of the GNU GPL
+;				   Because this file is a part of an open-sourced project, I allow all MODders and DEVelopers to use these functions.
+; Related .......: ---
+; Link ..........: https://www.mybot.run
+; Example .......:  =====================================================================================================================
 
 Local $x = 10, $z = 189, $w = 357, $y = 85
 

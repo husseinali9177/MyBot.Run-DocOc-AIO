@@ -128,7 +128,7 @@ EndIf
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-#include "..\functions\RoroTiti MODs\Misc\MBR GUI Design - SmartSwitchAccount.au3"
+#include "..\functions\DocOC++Team Mod's\Misc\MBR GUI Design - SmartSwitchAccount.au3"
 GUICtrlCreateTabItem("")
 
 $hGUI_MOD_TAB_ITEM2 = GUICtrlCreateTabItem(GetTranslated(600,74, "Switch Profiles"))

@@ -68,7 +68,7 @@ Local $y = $yStart + 8
 	GUICtrlSetOnEvent(-1, "Removecamp")
 
 ; Adding GUI SimpleQuickTrain - Added by NguyenAnhHD
-#include "..\functions\RoroTiti MODs\Misc\MBR GUI Design - SimpleQuickTrain.au3"
+#include "..\functions\DocOC++Team Mod's\Misc\MBR GUI Design - SimpleQuickTrain.au3"
 
 Local $x = 10
 Local $y = 45

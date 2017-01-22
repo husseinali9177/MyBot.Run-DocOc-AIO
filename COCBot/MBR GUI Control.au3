@@ -160,8 +160,8 @@ AtkLogHead()
 #include "GUI\MBR GUI Control Preset.au3"
 #include "GUI\MBR GUI Control Child Misc.au3"
 #include "GUI\MBR GUI Control Android.au3"
-#include "functions\RoroTiti MODs\Misc\MBR GUI Control.au3"
-#include "functions\RoroTiti MODs\Misc\MBR GUI Control Tab Meteo.au3"
+#include "functions\DocOC++Team Mod's\Misc\MBR GUI Control.au3"
+#include "functions\DocOC++Team Mod's\Misc\MBR GUI Control Tab Meteo.au3"
 
 ; Accelerator Key, more responsive than buttons in run-mode
 Local $aAccelKeys[2][2] = [["{ESC}", $btnStop], ["{PAUSE}", $btnPause]]

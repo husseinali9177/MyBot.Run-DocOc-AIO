@@ -1898,7 +1898,7 @@ Global $fullcastlespells = False
 Global $fullcastletroops = False
 Global $ErrorReadCamp = True
 
-#include "functions\RoroTiti MODs\Misc\MBR Global Variables.au3"
+#include "functions\DocOC++Team Mod's\Misc\MBR Global Variables.au3"
 
 ;=== No variables below ! ================================================
 

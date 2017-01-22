@@ -1279,7 +1279,7 @@ Func readConfig($inputfile = $config, $partial = False) ;Reads config and sets i
 
 		; ================================================== TREASURY COLLECT END ================================================== ;
 
-		#include "..\..\functions\RoroTiti MODs\Misc\readConfig.au3"
+		#include "..\..\functions\DocOC++Team Mod's\Misc\readConfig.au3"
 
 	Else
 		Return False

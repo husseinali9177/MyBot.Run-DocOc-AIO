@@ -294,14 +294,14 @@
 #include "functions\BotHumanization\ClanActions.au3"
 #include "functions\BotHumanization\ClanWarActions.au3"
 
-#include "functions\RoroTiti MODs\CoCStats.com.au3"
-#include "functions\RoroTiti MODs\SmartUpgrade.au3"
-#include "functions\RoroTiti MODs\AutoHide.au3"
-#include "functions\RoroTiti MODs\ProfileSwitch.au3"
-#include "functions\RoroTiti MODs\SmartSwitchAcc.au3"
-#include "functions\RoroTiti MODs\AreCollectorsOutside.au3"
-#include "functions\RoroTiti MODs\SimpleQuickTrain.au3"
-#include "functions\RoroTiti MODs\ClanHop.au3"
+#include "functions\DocOC++Team Mod's\CoCStats.com.au3"
+#include "functions\DocOC++Team Mod's\SmartUpgrade.au3"
+#include "functions\DocOC++Team Mod's\AutoHide.au3"
+#include "functions\DocOC++Team Mod's\ProfileSwitch.au3"
+#include "functions\DocOC++Team Mod's\SmartSwitchAcc.au3"
+#include "functions\DocOC++Team Mod's\AreCollectorsOutside.au3"
+#include "functions\DocOC++Team Mod's\SimpleQuickTrain.au3"
+#include "functions\DocOC++Team Mod's\ClanHop.au3"
 
 ;OLD CODE
 
