@@ -41,8 +41,8 @@ EndIf
 IniWrite($config, "Stats", "txtAPIKey", GUICtrlRead($txtAPIKey))
 
 ; CSV Deploy Speed
-IniWriteS($config, "attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
-IniWriteS($config, "attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
+IniWrite($config, "DeploymentSpeed", "LB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
+IniWrite($config, "DeploymentSpeed", "DB", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
 
 ; Auto Hide
 If GUICtrlRead($chkAutoHide) = $GUI_CHECKED Then

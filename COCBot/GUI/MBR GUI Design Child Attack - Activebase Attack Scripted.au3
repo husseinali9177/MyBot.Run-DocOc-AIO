@@ -39,7 +39,7 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameAB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 140)
+		$lblNotesScriptAB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
 		$cmbScriptRedlineImplAB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline|External Edges"))
 			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$LB])
@@ -69,21 +69,16 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptAB")
 
-		$y += 90
-		$btnAttNowLB = GUICtrlCreateButton(GetTranslated(607, 33, -1), $x + 159, $y, 70, 25)
-				;GUISetState(@SW_SHOW)
-				GUICtrlSetOnEvent(-1, "AttackNowLB")
-		; CSV Deployment Speed Mod
-		;$grpScriptSpeedAB = GUICtrlCreateGroup(GetTranslated(607,30, -1), $x, $y, 230, 50)
-			$lbltxtSelectedSpeedAB = GUICtrlCreateLabel(GetTranslated(607,31, -1), $x + 20, $y + 30, 75, 25)
-				_GUICtrlSetTip(-1, GetTranslated(607,32, -1))
-			$sldSelectedSpeedAB = GUICtrlCreateSlider($x + 100, $y + 28, 125, 25, BitOR($TBS_TOOLTIPS, $TBS_AUTOTICKS))
-				_GUICtrlSetTip(-1, GetTranslated(607,32, -1))
-				_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
-				_GUICtrlSlider_SetTicFreq(-1, 1)
-				GUICtrlSetLimit(-1, 18, 0) ; change max/min value
-				GUICtrlSetData(-1, 5) ; default value
-				GUICtrlSetOnEvent(-1, "sldSelectedSpeedAB")
+		$y += 140
+		$btnAttNowLB = GUICtrlCreateButton(GetTranslated(607, 34, -1), $x + 85, $y - 20, 80, -1)
+			;GUISetState(@SW_SHOW)
+			GUICtrlSetOnEvent(-1, "AttackNowLB")
+
+		Local $x = 50, $y = 275
+
+		GUICtrlCreateLabel("CSV Deployment Speed", $x - 2, $y, -1, -1)
+		$cmbCSVSpeed[$LB] = GUICtrlCreateCombo("", $x + 122, $y - 5, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "0.5x|0.75x|1x|1.25x|1.5x|2x|3x", "1x")
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

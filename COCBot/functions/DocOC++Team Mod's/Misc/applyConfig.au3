@@ -18,10 +18,8 @@ cmbDeployAB()
 cmbDeployDB()
 
 ; CSV Deploy Speed
-GUICtrlSetData($sldSelectedSpeedDB, $isldSelectedCSVSpeed[$DB])
-GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
-sldSelectedSpeedDB()
-sldSelectedSpeedAB()
+_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
+_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
 
 ; Smart Upgarde
 If $ichkSmartUpgrade = 1 Then

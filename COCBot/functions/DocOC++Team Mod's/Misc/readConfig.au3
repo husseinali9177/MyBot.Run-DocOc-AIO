@@ -37,8 +37,8 @@ $ichkCoCStats = IniRead($config, "Stats", "chkCoCStats", "0")
 $MyApiKey = IniRead($config, "Stats", "txtAPIKey", "")
 
 ; CSV Deploy Speed
-IniReadS($isldSelectedCSVSpeed[$DB], $config, "attack", "CSVSpeedDB", 4)
-IniReadS($isldSelectedCSVSpeed[$LB], $config, "attack", "CSVSpeedAB", 4)
+$icmbCSVSpeed[$LB] = IniRead($config, "DeploymentSpeed", "LB", "2")
+$icmbCSVSpeed[$DB] = IniRead($config, "DeploymentSpeed", "DB", "2")
 
 ; Auto Hide
 IniReadS($ichkAutoHide, $config, "general", "AutoHide", "0")
