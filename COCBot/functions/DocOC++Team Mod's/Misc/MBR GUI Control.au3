@@ -35,19 +35,26 @@ Func cmbDeployDB() ; avoid conflict between FourFinger and SmartAttack - DEMEN
 EndFunc   ;==>cmbDeployDB
 
 ; CSV Deploy Speed
-Func sldSelectedSpeedDB()
-	$isldSelectedCSVSpeed[$DB] = GUICtrlRead($sldSelectedSpeedDB)
-	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$DB]] & "x";
-	IF $isldSelectedCSVSpeed[$DB] = 4 Then $speedText = "Normal"
-	GUICtrlSetData($lbltxtSelectedSpeedDB, $speedText & " speed")
-EndFunc   ;==>sldSelectedSpeedDB
+Func cmbCSVSpeed()
 
-Func sldSelectedSpeedAB()
-	$isldSelectedCSVSpeed[$LB] = GUICtrlRead($sldSelectedSpeedAB)
-	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$LB]] & "x";
-	IF $isldSelectedCSVSpeed[$LB] = 4 Then $speedText = "Normal"
-	GUICtrlSetData($lbltxtSelectedSpeedAB, $speedText & " speed")
-EndFunc   ;==>sldSelectedSpeedAB
+	Switch _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$iMatchMode])
+		Case 0
+			$Divider = 0.5
+		Case 1
+			$Divider = 0.75
+		Case 2
+			$Divider = 1
+		Case 3
+			$Divider = 1.25
+		Case 4
+			$Divider = 1.5
+		Case 5
+			$Divider = 2
+		Case 6
+			$Divider = 3
+	EndSwitch
+
+EndFunc   ;==>cmbCSVSpeed
 
 ; Attack Now Button
 Func AttackNowLB()

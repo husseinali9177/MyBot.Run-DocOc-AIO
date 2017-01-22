@@ -13,29 +13,10 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-; CSV Deploy Speed
-Global $isldSelectedCSVSpeed[$iModeCount], $iCSVSpeeds[19]
-$isldSelectedCSVSpeed[$DB] = 4
-$isldSelectedCSVSpeed[$LB] = 4
-$iCSVSpeeds[0] = .1
-$iCSVSpeeds[1] = .25
-$iCSVSpeeds[2] = .5
-$iCSVSpeeds[3] = .75
-$iCSVSpeeds[4] = 1
-$iCSVSpeeds[5] = 1.25
-$iCSVSpeeds[6] = 1.5
-$iCSVSpeeds[7] = 1.75
-$iCSVSpeeds[8] = 2
-$iCSVSpeeds[9] = 2.25
-$iCSVSpeeds[10] = 2.5
-$iCSVSpeeds[11] = 2.75
-$iCSVSpeeds[12] = 3
-$iCSVSpeeds[13] = 5
-$iCSVSpeeds[14] = 8
-$iCSVSpeeds[15] = 10
-$iCSVSpeeds[16] = 20
-$iCSVSpeeds[17] = 50
-$iCSVSpeeds[18] = 99
+; CSV Speed
+Global $cmbCSVSpeed[2] = [$LB, $DB]
+Global $icmbCSVSpeed[2] = [$LB, $DB]
+Global $Divider
 
 ; CoCStats
 Global $ichkCoCStats = 0
