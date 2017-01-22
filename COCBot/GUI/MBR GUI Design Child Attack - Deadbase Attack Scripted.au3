@@ -39,7 +39,7 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, 'UpdateComboScriptNameDB') ; Run this function when the secondary GUI [X] is clicked
 		$y +=25
-		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 180)
+		$lblNotesScriptDB =  GUICtrlCreateLabel("", $x, $y + 5, 200, 140)
 		$cmbScriptRedlineImplDB = GUICtrlCreateCombo("", $x, $y + 195, 230, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslated(607,9, "ImgLoc Raw Redline (default)|ImgLoc Redline Drop Points|Original Redline|External Edges"))
 			_GUICtrlComboBox_SetCurSel(-1, $iRedlineRoutine[$DB])
@@ -69,12 +69,12 @@ Local $x = 25, $y = 20
 			_GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "DuplicateScriptDB")
 
-		$y += 140
-		$btnAttNowDB = GUICtrlCreateButton(GetTranslated(607, 34, "Attack Now !"), $x + 85, $y - 20, 80, -1)
+		$y += 105
+		$btnAttNowDB = GUICtrlCreateButton(GetTranslated(607, 34, "Attack Now !"), $x + 75, $y - 20, 80, -1)
 			;GUISetState(@SW_SHOW)
 			GUICtrlSetOnEvent(-1, "AttackNowDB")
 
-		Local $x = 50, $y = 275
+		Local $x = 55, $y = 230
 
 		GUICtrlCreateLabel("CSV Deployment Speed", $x - 2, $y, -1, -1)
 		$cmbCSVSpeed[$DB] = GUICtrlCreateCombo("", $x + 122, $y - 5, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
