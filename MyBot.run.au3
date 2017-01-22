@@ -44,7 +44,7 @@ Global $hBotLaunchTime = TimerInit()
 Global $sBotVersion = "v6.5.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also use on Checkversion()
 Global $sModversion = "v0.8" ;<== Just Change This to Version Number
 Global $sDocOcVersion = "v3.5.5" ;<== Just Change This to Version Number
-Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/25555-mybotrun-v622-dococ-v33-%C2%A4-official-dococ-aio-mod-v070-%C2%A4-update-1311-1530-%C2%A4-new-topic/" ;<== Our Website Link Or Link Download
+Global $sModSupportUrl = "https://mybot.run/forums/index.php?/topic/28168-dococ-aio-mod-v081-latest-release-2201-1440-based-on-mybot-v653-dococ-v355/" ;<== Our Website Link Or Link Download
 Global $sModDownloadUrl = "https://github.com/RoroTiti/MyBot.Run-DocOc-AIO/releases"
 
 Global $sBotTitle = "My Bot " & $sBotVersion & " - DocOC++ " & $sModversion & " (DocOc " & $sDocOcVersion & ") " ;~ Don't use any non file name supported characters like \ / : * ? " < > |
