@@ -30,6 +30,13 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 	getBuilderCount($bSuppressLog) ; update builder data
 	If _Sleep($iDelayRespond) Then Return
 
+	; Separate Stats per Each Account - SwitchAcc Mode
+	If $ichkSwitchAccount = 1 Then
+		$g_iFreeBuilders[$CurrentAccount]  = $iFreeBuilderCount
+		$g_iTotalBuilders[$CurrentAccount] = $iTotalBuilderCount
+    EndIf
+
+
 	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 	If Not $bSuppressLog Then Setlog(" [T]: " & _NumberFormat($iTrophyCurrent), $COLOR_SUCCESS)
 
@@ -39,11 +46,26 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 		$iDarkCurrent =  getResourcesMainScreen(728, 123)
 		$iGemAmount = getResourcesMainScreen(740, 171)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [D]: " & _NumberFormat($iDarkCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
+
+	; Separate Stats per Each Account - SwitchAcc Mode
+		If $ichkSwitchAccount = 1 Then	; Separate Stats per Each Account - Switch Mode
+			$g_iGoldNowSW[$CurrentAccount]	= $iGoldCurrent
+			$g_iElixirNowSW[$CurrentAccount]= $iElixirCurrent
+			$g_iDarkNowSW[$CurrentAccount]	= $iDarkCurrent
+			$g_iGemNow[$CurrentAccount]		= $iGemAmount
+		EndIf
 	Else
 		$iGoldCurrent = getResourcesMainScreen(701, 23)
 		$iElixirCurrent = getResourcesMainScreen(701, 74)
 		$iGemAmount = getResourcesMainScreen(719, 123)
 		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($iGoldCurrent) & " [E]: " & _NumberFormat($iElixirCurrent) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
+
+	; Separate Stats per Each Account - SwitchAcc Mode
+		If $ichkSwitchAccount = 1 Then	; Separate Stats per Each Account - Switch Mode
+			$g_iGoldNowSW[$CurrentAccount]	= $iGoldCurrent
+			$g_iElixirNowSW[$CurrentAccount]= $iElixirCurrent
+			$g_iGemNow[$CurrentAccount]		= $iGemAmount
+		EndIf
 	EndIf
 	If $bBypass = False Then ; update stats
 		UpdateStats()

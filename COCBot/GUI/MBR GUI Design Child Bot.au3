@@ -40,11 +40,12 @@ $hGUI_BOT_TAB_ITEM3 = GUICtrlCreateTabItem(GetTranslated(600,51,"Debug"))
 #include "MBR GUI Design Child Bot - Debug.au3"
 GUICtrlCreateTabItem("")
 
-$hGUI_BOT_TAB_ITEM6 = GUICtrlCreateTabItem(GetTranslated(600,51,"Multi Stats"))
-#include "MBR GUI Design Multi Stats.au3"
-GUICtrlCreateTabItem("")
-
 $hGUI_BOT_TAB_ITEM4 = GUICtrlCreateTabItem(GetTranslated(600,37, "Stats"))
 GUICtrlCreateTabItem("")
 ; create stats last because of $LastControlToHide
 #include "MBR GUI Design Child Bot - Stats.au3"
+
+GUISwitch($hGUI_BOT)
+$hGUI_BOT_TAB_ITEM6 = GUICtrlCreateTabItem(GetTranslated(600,51,"Multi Stats"))
+#include "MBR GUI Design Multi Stats.au3"
+GUICtrlCreateTabItem("")

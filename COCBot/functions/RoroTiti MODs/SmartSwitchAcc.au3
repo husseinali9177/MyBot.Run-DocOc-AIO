@@ -21,9 +21,9 @@ Func SwitchAccount($Init = False)
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
 
 		MakeSummaryLog()
-		If Not $IsDonateAccount And Not $Init Then GetWaitTime()
+		If Not $Init And Not $IsDonateAccount Then GetWaitTime()
 
-		If $CurrentAccountWaitTime = 0 And Not $Init And Not $IsDonateAccount Then
+		If Not $Init And $CurrentAccountWaitTime = 0 And Not $IsDonateAccount Then
 
 			SetLog("Your Army is ready so I stay here, I'm a thug !!! ;P", $COLOR_SUCCESS)
 
@@ -32,7 +32,8 @@ Func SwitchAccount($Init = False)
 			If $Init Then
 				SetLog("Initialization of SmartSwitchAccount...", $COLOR_INFO)
 				$FirstLoop = 1
-				$NextAccount = 1
+				FindFirstAccount()
+				$NextAccount = $CurrentAccount
 				GetYCoordinates($NextAccount)
 			ElseIf $FirstLoop < $TotalAccountsInUse And Not $Init Then
 				SetLog("Continue initialization of SmartSwitchAccount...", $COLOR_INFO)
@@ -57,10 +58,11 @@ Func SwitchAccount($Init = False)
 				SetLog("Next Account is already the account we are on, no need to change...", $COLOR_SUCCESS)
 
 			Else
-
-				SetLog("Trying to Request Troops before switching...", $COLOR_INFO)
-				RequestCC()
-				If _Sleep(500) Then Return
+				If Not $Init Then
+					SetLog("Trying to Request Troops before switching...", $COLOR_INFO)
+					RequestCC()
+					If _Sleep(500) Then Return
+				EndIf
 
 				Click(820, 590, 1, 0, "Click Setting")      ;Click setting
 
@@ -70,7 +72,6 @@ Func SwitchAccount($Init = False)
 					$iCount += 1
 					If $iCount = 50 Then ExitLoop
 				WEnd
-				;If _Sleep(1500) Then Return
 
 				;The Double Click check for either green or red then click twice
 				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) _
@@ -79,7 +80,6 @@ Func SwitchAccount($Init = False)
 
 				EndIf
 
-
 				$iCount = 0 ; Sleep(5000) if needed. Wait for Google Play animation
 				While Not _ColorCheck(_GetPixelColor(550, 450, True), Hex(0x0B8043, 6), 20) ; Green
 					If _Sleep(50) Then Return
@@ -87,15 +87,15 @@ Func SwitchAccount($Init = False)
 					If $iCount = 100 Then ExitLoop
 				WEnd
 				ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
-				If _Sleep(50) Then Return
 
+				If _Sleep(50) Then Return
 				$iCount = 0 ; sleep(10000) or until account list appears
 				While Not _ColorCheck(_GetPixelColor(159, 331, True), Hex(0xFFFFFF, 6), 20)
 					If _Sleep(100) Then Return
 					$iCount += 1
 					If $iCount = 100 Then ExitLoop
 				WEnd
-				If _Sleep(50) Then Return
+				If _Sleep(100) Then Return
 				Click(430, $yCoord) ; Click Account
 
 				If _Sleep($iDelayRespond) Then Return
@@ -113,7 +113,6 @@ Func SwitchAccount($Init = False)
 						$iCount += 1
 						If $iCount = 50 Then ExitLoop
 					WEnd
-					;If _Sleep(1500) Then Return
 					Click(360, 195)
 					If _Sleep(250) Then Return
 					AndroidSendText("CONFIRM")
@@ -124,9 +123,8 @@ Func SwitchAccount($Init = False)
 						$iCount += 1
 						If $iCount = 100 Then ExitLoop
 					WEnd
-					;If _Sleep(1500) Then Return
-
 					Click(530, 195)
+
 				ElseIf $NextStep = 2 Then
 					Setlog("Already on the right account...", $COLOR_SUCCESS)
 					ClickP($aAway, 1, 0, "#0167") ;Click Away
@@ -145,7 +143,7 @@ Func SwitchAccount($Init = False)
 				$CurrentAccount = $NextAccount
 
 				If $Init Then
-					$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[1])
+					$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$CurrentAccount])
 					_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 					cmbProfile()
 				Else
@@ -169,7 +167,6 @@ Func SwitchAccount($Init = False)
 EndFunc   ;==>SwitchAccount
 
 Func GetYCoordinates($AccountNumber)
-
 	$res = DllCall($LibDir & "\SmartSwitchAcc_Formulas.dll", "int", "SwitchAccY", "int", $TotalAccountsOnEmu, "int", $AccountNumber)
 	$yCoord = $res[0]
 
@@ -244,6 +241,19 @@ Func GetWaitTime()
 	If _Sleep($iDelayRespond) Then Return
 
 EndFunc   ;==>GetWaitTime
+
+
+Func FindFirstAccount()
+
+	For $x = 1 To 8
+		$NextAccount = $x
+		If $ichkCanUse[$x] = 1 Then ExitLoop
+	Next
+	$CurrentAccount = $NextAccount
+	$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$NextAccount])
+	_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
+	cmbProfile()
+EndFunc
 
 Func GetNextAccount()
 

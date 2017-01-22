@@ -176,19 +176,34 @@ Func AttackReport()
 	SetLog("Stars earned: " & $starsearned)
 
 	Local $AtkLogTxt
-	$AtkLogTxt = "#" & $CurrentAccount & "|"
-	$AtkLogTxt &= "" & _NowTime(4) & "|"
-	$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
-	$AtkLogTxt &= StringFormat("%6d", $SearchCount) & "|"
-	$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
-	$AtkLogTxt &= StringFormat("%7d", $iElixirLast) & "|"
-	$AtkLogTxt &= StringFormat("%7d", $iDarkLast) & "|"
-	$AtkLogTxt &= StringFormat("%3d", $iTrophyLast) & "|"
-	$AtkLogTxt &= StringFormat("%1d", $starsearned) & "|"
-	$AtkLogTxt &= StringFormat("%6d", $iGoldLastBonus) & "|"
-	$AtkLogTxt &= StringFormat("%6d", $iElixirLastBonus) & "|"
-	$AtkLogTxt &= StringFormat("%4d", $iDarkLastBonus) & "|"
-	$AtkLogTxt &= $LeagueShort & "|"
+
+	If $ichkSwitchAccount = 1 Then
+		$AtkLogTxt = String($CurrentAccount) & " |" & _NowTime(4) & "|"
+		$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
+		$AtkLogTxt &= StringFormat("%4d", $SearchCount) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iElixirLast) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iDarkLast) & "|"
+		$AtkLogTxt &= StringFormat("%3d", $iTrophyLast) & "|"
+		$AtkLogTxt &= StringFormat("%1d", $starsearned) & "|"
+		$AtkLogTxt &= StringFormat("%6d", $iGoldLastBonus) & "|"
+		$AtkLogTxt &= StringFormat("%6d", $iElixirLastBonus) & "|"
+		$AtkLogTxt &= StringFormat("%4d", $iDarkLastBonus) & "|"
+		$AtkLogTxt &= $LeagueShort & "|"
+	Else
+		$AtkLogTxt = "" & _NowTime(4) & "|"
+		$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
+		$AtkLogTxt &= StringFormat("%6d", $SearchCount) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iElixirLast) & "|"
+		$AtkLogTxt &= StringFormat("%7d", $iDarkLast) & "|"
+		$AtkLogTxt &= StringFormat("%3d", $iTrophyLast) & "|"
+		$AtkLogTxt &= StringFormat("%1d", $starsearned) & "|"
+		$AtkLogTxt &= StringFormat("%6d", $iGoldLastBonus) & "|"
+		$AtkLogTxt &= StringFormat("%6d", $iElixirLastBonus) & "|"
+		$AtkLogTxt &= StringFormat("%4d", $iDarkLastBonus) & "|"
+		$AtkLogTxt &= $LeagueShort & "|"
+	EndIf
 
 	Local $AtkLogTxtExtend
 	$AtkLogTxtExtend = "|"
@@ -221,14 +236,18 @@ Func AttackReport()
 	    CoCStats($starsearned)
 
 	If $FirstAttack = 0 Then $FirstAttack = 1
+
 	$iGoldTotal += $iGoldLast + $iGoldLastBonus
 	$iTotalGoldGain[$iMatchMode] += $iGoldLast + $iGoldLastBonus
+
 	$iElixirTotal += $iElixirLast + $iElixirLastBonus
 	$iTotalElixirGain[$iMatchMode] += $iElixirLast + $iElixirLastBonus
+
 	If $iDarkStart <> "" Then
 		$iDarkTotal += $iDarkLast + $iDarkLastBonus
 		$iTotalDarkGain[$iMatchMode] += $iDarkLast + $iDarkLastBonus
 	EndIf
+
 	$iTrophyTotal += $iTrophyLast
 	$iTotalTrophyGain[$iMatchMode] += $iTrophyLast
 	If $iMatchMode = $TS Then
@@ -239,6 +258,14 @@ Func AttackReport()
 		EndIf
 	EndIf
 	$iAttackedVillageCount[$iMatchMode] += 1
+
+	If $ichkSwitchAccount = 1 Then
+		$g_iAttackedVillageCount[$CurrentAccount] += 1
+		$g_iGoldGainSW[$CurrentAccount] += $iGoldLast + $iGoldLastBonus
+		$g_iElixirGainSW[$CurrentAccount] += $iElixirLast + $iElixirLastBonus
+		$g_iDarkGainSW[$CurrentAccount] += $iDarkLast + $iDarkLastBonus
+	EndIf
+
 	UpdateStats()
 	$troops_maked_after_fullarmy = False ; reset variable due to used troops for attack
 	$actual_train_skip = 0 ;

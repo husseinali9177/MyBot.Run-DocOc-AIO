@@ -377,6 +377,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		If $iTownHallLevel <> "" And $iTownHallLevel > 0 Then
 			$iSearchCost += $aSearchCost[$iTownHallLevel - 1]
 			$iGoldTotal -= $aSearchCost[$iTownHallLevel - 1]
+			If $ichkSwitchAccount = 1 Then
+				$g_iGoldGainSW[$CurrentAccount] -= $aSearchCost[$iTownHallLevel - 1]
+			EndIf
 		EndIf
 		UpdateStats()
 

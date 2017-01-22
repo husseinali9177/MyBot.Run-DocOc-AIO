@@ -60,7 +60,7 @@ Global $aTabControlsStrategies = [$hGUI_STRATEGIES_TAB, $hGUI_STRATEGIES_TAB_ITE
 
 Global $aTabControlsMod = [$hGUI_MOD_TAB, $hGUI_MOD_TAB_ITEM1, $hGUI_MOD_TAB_ITEM2, $hGUI_MOD_TAB_ITEM3, $hGUI_MOD_TAB_ITEM4, $hGUI_MOD_TAB_ITEM5]
 
-Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM5, $hGUI_BOT_TAB_ITEM6]
+Global $aTabControlsBot = [$hGUI_BOT_TAB, $hGUI_BOT_TAB_ITEM1, $hGUI_BOT_TAB_ITEM2, $hGUI_BOT_TAB_ITEM3, $hGUI_BOT_TAB_ITEM4, $hGUI_BOT_TAB_ITEM6, $hGUI_BOT_TAB_ITEM5]
 Global $aTabControlsStats = [$hGUI_STATS_TAB, $hGUI_STATS_TAB_ITEM1, $hGUI_STATS_TAB_ITEM2, $hGUI_STATS_TAB_ITEM3]
 
 Global $aAlwaysEnabledControls = [$chkUpdatingWhenMinimized, $chkHideWhenMinimized, $chkDebugClick, $chkDebugSetlog, $chkDebugDisableZoomout, $chkDebugDisableVillageCentering, $chkDebugDeadbaseImage, $chkDebugOcr, $chkDebugImageSave, $chkDebugSmartZap, $chkDebugSX, $chkdebugBuildingPos, $chkdebugTrain, $chkdebugOCRDonate,$btnTestTrain, $btnTestDonateCC, $btnTestRequestCC, $btnTestClickDrag, $btnTestVillageSize, $btnTestDeadBase, $btnTestDeadBaseFolder, $btnTestTHimgloc, $btnTestimglocTroopBar, $chkdebugAttackCSV, $chkmakeIMGCSV, $btnTestAttackCSV, $btnTestFindButton, $txtTestFindButton, $btnTestCleanYard, $lblLightningUsed, $lblSmartZap, $lblEarthQuakeUsed, $btnTestConfigSave, $btnTestConfigRead, $btnTestConfigApply]
@@ -1096,7 +1096,7 @@ Func tabMain()
 			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_ATTACK)
 			tabAttack()
 
-		Case $tabidx = 3 ; Options
+		Case $tabidx = 3 ; Bot
 			GUISetState(@SW_HIDE, $hGUI_LOG)
 			GUISetState(@SW_HIDE, $hGUI_VILLAGE)
 			GUISetState(@SW_HIDE, $hGUI_ATTACK)
@@ -1269,22 +1269,28 @@ Func tabBot()
 	$tabidx = GUICtrlRead($hGUI_BOT_TAB)
 	Select
 		Case $tabidx = 0 ; Options tab
+			GUISetState(@SW_HIDE, $hGUI_BOT_TAB_ITEM6)
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlShow("", "", $cmbLanguage)
 		Case $tabidx = 1 ; Humanization
+			GUISetState(@SW_HIDE, $hGUI_BOT_TAB_ITEM6)
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
 		Case $tabidx = 2 ; Android
+			GUISetState(@SW_HIDE, $hGUI_BOT_TAB_ITEM6)
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
 		Case $tabidx = 3 ; Debug
+			GUISetState(@SW_HIDE, $hGUI_BOT_TAB_ITEM6)
 			GUISetState(@SW_HIDE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
-		Case $tabidx = 4 ; Stats tab
-			GUISetState(@SW_HIDE, $hGUI_STATS)
+		Case $tabidx = 4 ; Multi Stats tab
+			GUISetState(@SW_HIDE, $hGUI_BOT_TAB_ITEM6)
+			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STATS)
 			ControlHide("", "", $cmbLanguage)
 		Case $tabidx = 5 ; Multi Stats
-			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_STATS)
+			GUISetState(@SW_HIDE, $hGUI_STATS)
+			GUISetState(@SW_SHOWNOACTIVATE, $hGUI_BOT_TAB_ITEM6)
 			ControlHide("", "", $cmbLanguage)
 	EndSelect
 EndFunc   ;==>tabBot

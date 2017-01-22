@@ -84,12 +84,11 @@ Func UpdateStats()
 	EndIf
 
 	If $FirstAttack = 1 Then
-		;GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
 		$FirstAttack = 2
 	EndIf
+
+
+
 
 	If Number($iGoldLast) > Number($topgoldloot) Then
 		$topgoldloot = $iGoldLast
@@ -444,6 +443,11 @@ Func UpdateStats()
 	If $ResetStats = 1 Then
 		$ResetStats = 0
 	EndIf
+
+If $ichkSwitchAccount = 1 Then
+	UpdateStatsSwitchMode()
+EndIf
+
 
 EndFunc   ;==>UpdateStats
 

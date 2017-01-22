@@ -1,11 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: 
+; Name ..........:
 ; Description ...: This function will update the statistics in the GUI.
-; Syntax ........: 
+; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: Boju (11-2016)
-; Modified ......: 
+; Modified ......:
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
@@ -42,7 +42,7 @@ Func EndGainCost($Type)
 			Local $tempGoldCollected = 0
 			Local $tempElixirCollected = 0
 			Local $tempDElixirCollected = 0
-			
+
 			If $TempGainCost[0] <> "" And $iGoldCurrent <> "" And $TempGainCost[0] <> $iGoldCurrent Then
 				$tempGoldCollected = $iGoldCurrent - $TempGainCost[0]
 				$iGoldFromMines += $tempGoldCollected
@@ -60,6 +60,14 @@ Func EndGainCost($Type)
 				$iDElixirFromDrills += $tempDElixirCollected
 				$iDarkTotal += $tempDElixirCollected
 			EndIf
+
+			If $ichkSwitchAccount = 1 Then
+				$g_iGoldGainSW[$CurrentAccount] += $tempGoldCollected
+				$g_iElixirGainSW[$CurrentAccount] += $tempElixirCollected
+				$g_iDarkGainSW[$CurrentAccount] += $tempDElixirCollected
+			EndIf
+
+
 		Case "Train"
 			Local $tempElixirSpent = 0
 			Local $tempDElixirSpent = 0
@@ -74,6 +82,12 @@ Func EndGainCost($Type)
 				$iTrainCostDElixir += $tempDElixirSpent
 				$iDarkTotal -= $tempDElixirSpent
 			EndIf
+
+			If $ichkSwitchAccount = 1 Then
+				$g_iElixirGainSW[$CurrentAccount] -= $tempElixirSpent
+				$g_iDarkGainSW[$CurrentAccount] -= $tempDElixirSpent
+			EndIf
+
 	EndSwitch
 
 	UpdateStats()

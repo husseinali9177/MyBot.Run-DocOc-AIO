@@ -112,6 +112,10 @@ Func BotStart()
 EndFunc   ;==>BotStart
 
 Func BotStop()
+	;Switch account reset first start condition
+	$Init = False
+	$FirstInit = True
+
 	ResumeAndroid()
 
 	$RunState = False

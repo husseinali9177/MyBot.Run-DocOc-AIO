@@ -197,6 +197,7 @@
 #include "functions\Other\TestLanguage.au3"
 #include "functions\Other\DeleteFiles.au3"
 #include "functions\Other\UpdateStats.au3"
+#include "functions\Other\Update Stats SwitchMode.au3"
 #include "functions\Other\CheckVersion.au3"
 #include "functions\Other\CloseRunningBot.au3"
 #include "functions\Other\WindowSystemMenu.au3"
