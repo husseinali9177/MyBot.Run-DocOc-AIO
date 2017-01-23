@@ -2762,6 +2762,9 @@ Func applyConfig($bRedrawAtExit = True) ;Applies the data from config to the con
 	_GUICtrlComboBox_SetCurSel($cmbScriptDroplineDB, $iDroplineEdge[$DB])
 	_GUICtrlComboBox_SetCurSel($cmbScriptDroplineAB, $iDroplineEdge[$LB])
 
+	cmbScriptRedlineImplDB()
+	cmbScriptRedlineImplAB()
+
 	; collectors ---------------------------------------------------------------------------
 	If $chkLvl6Enabled = 1 Then
 		GUICtrlSetState($chkLvl6, $GUI_CHECKED)
