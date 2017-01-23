@@ -33,11 +33,15 @@ Func SwitchAccount($Init = False)
 
 			If $Init Then
 				SetLog("Initialization of SmartSwitchAccount...", $COLOR_INFO)
-				$FirstLoop = 1
+				$CurrentAccount = 1
+				$FirstLoop = 2 ; Don't Ask.. It Just Works...
+
 				FindFirstAccount()
 				$NextAccount = $CurrentAccount
 				GetYCoordinates($NextAccount)
-			ElseIf $FirstLoop < $TotalAccountsInUse And Not $Init Then
+				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
+
+			ElseIf $FirstLoop <= $TotalAccountsInUse And Not $Init Then
 				SetLog("Continue initialization of SmartSwitchAccount...", $COLOR_INFO)
 				$NextAccount = $CurrentAccount
 				Do
@@ -47,8 +51,12 @@ Func SwitchAccount($Init = False)
 				$FirstLoop += 1
 				SetLog("Next Account will be : " & $NextAccount, $COLOR_INFO)
 				GetYCoordinates($NextAccount)
-			ElseIf $FirstLoop >= $TotalAccountsInUse And Not $Init Then
+				$FirstRun = 1 ; To Update Stats as First Run for each Account
+				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
+
+			ElseIf $FirstLoop > $TotalAccountsInUse And Not $Init Then
 				SetLog("Switching to next Account...", $COLOR_INFO)
+				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
 				GetNextAccount()
 				GetYCoordinates($NextAccount)
 			EndIf
@@ -179,6 +187,7 @@ Func SwitchAccount($Init = False)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
 					EndIf
 				EndIf
+
 				$CurrentAccount = $NextAccount
 
 				If $Init Then
@@ -192,12 +201,15 @@ Func SwitchAccount($Init = False)
 				EndIf
 				If _Sleep($iDelayRespond) Then Return
 				IdentifyDonateOnly()
+				waitMainScreen()
+				CheckArmyCamp(True, True) ; Update troops first after switch
+				If _Sleep(500) Then Return
 
 				If $ichkDonateAccount[$CurrentAccount] = 1  Then
-					checkMainScreen()
+
 					TrainDonateOnlyLoop()
 				Else
-					checkMainScreen()
+
 					runBot()
 				EndIf
 			EndIf

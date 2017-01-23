@@ -64,7 +64,7 @@ EndIf
 		EndIf
 
 		If $g_iDarkNowSW[$CurrentAccount] <> $g_iOLDDarkNowSW[$CurrentAccount] Or $g_iDarkNowSW[$CurrentAccount] = "" Then
-			If $iDarkStart <> "" Then
+			If $g_iDarkStart[$CurrentAccount] <> "" Then
 				GUICtrlSetData($g_lblDarkNowSW[$CurrentAccount], _NumberFormat($g_iDarkNowSW[$CurrentAccount]))
 				$g_iOLDDarkNowSW[$CurrentAccount] = $g_iDarkNowSW[$CurrentAccount]
 			EndIf
@@ -85,7 +85,7 @@ EndIf
 	If $FirstAttack = 2 Then  ; ============= Update Gain Stats at Bottom GUI
 		GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($g_iGoldGainSW[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & " K/hr") ;GUI BOTTOM
 		GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($g_iElixirGainSW[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & " K/hr") ;GUI BOTTOM
-		If $iDarkStart <> "" Then
+		If $g_iDarkStart[$CurrentAccount] <> "" Then
 			GUICtrlSetData($lblResultDEHourNow, _NumberFormat(Round($g_iDarkGainSW[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & "  /hr") ;GUI BOTTOM
 		EndIf
 	EndIf		; ============= Update Gain Stats at Bottom GUI

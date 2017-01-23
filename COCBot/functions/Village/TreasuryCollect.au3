@@ -32,21 +32,21 @@ Func CollectTreasury()
 
 					Local $iNeedToCollect = 0
 
-					If $ichkGoldTrCollect = 1 And (GUICtrlRead($txtMinGoldTrCollect) > $iGoldCurrent) Then
+					If $ichkGoldTrCollect = 1 And (GUICtrlRead($txtMinGoldTrCollect) > $g_iGoldCurrent[$CurrentAccount]) Then
 						Setlog("Gold amount is below minimum, need to collect treasury", $COLOR_SUCCESS1)
 						$iNeedToCollect += 1
 					ElseIf $ichkGoldTrCollect = 1 Then
 						Setlog("Gold amount is above minimum...", $COLOR_ORANGE)
 					EndIf
 
-					If $ichkElxTrCollect = 1 And (GUICtrlRead($txtMinElxTrCollect) > $iElixirCurrent) Then
+					If $ichkElxTrCollect = 1 And (GUICtrlRead($txtMinElxTrCollect) > $g_iElixirCurrent[$CurrentAccount]) Then
 						Setlog("Elixir amount is below minimum, need to collect treasury", $COLOR_SUCCESS1)
 						$iNeedToCollect += 1
 					ElseIf $ichkElxTrCollect = 1 Then
 						Setlog("Elixir amount is above minimum...", $COLOR_ORANGE)
 					EndIf
 
-					If $ichkDarkTrCollect = 1 And (GUICtrlRead($txtMinDarkTrCollect) > $iDarkCurrent) Then
+					If $ichkDarkTrCollect = 1 And (GUICtrlRead($txtMinDarkTrCollect) > $g_iDarkCurrent[$CurrentAccount]) Then
 						Setlog("Dark amount is below minimum, need to collect treasury", $COLOR_SUCCESS1)
 						$iNeedToCollect += 1
 					ElseIf $ichkDarkTrCollect = 1 Then

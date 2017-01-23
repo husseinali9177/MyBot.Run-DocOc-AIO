@@ -15,12 +15,12 @@
 
 Func MilkingDetectDarkExtractors()
 
-	If $MilkFarmAttackDarkDrills = 1 and Number($iDarkCurrent) >= number($MilkFarmLimitDark) Then
-		If $debugsetlog=1  and $MilkFarmAttackDarkDrills = 1 Then setlog("skip attack of dark drills, current dark (" & $iDarkCurrent & ") >= limit (" & $MilkFarmLimitDark & ")",$COLOR_DEBUG)
+	If $MilkFarmAttackDarkDrills = 1 and Number($g_iDarkCurrent[$CurrentAccount]) >= number($MilkFarmLimitDark) Then
+		If $debugsetlog=1  and $MilkFarmAttackDarkDrills = 1 Then setlog("skip attack of dark drills, current dark (" & $g_iDarkCurrent[$CurrentAccount] & ") >= limit (" & $MilkFarmLimitDark & ")",$COLOR_DEBUG)
 		If $debugsetlog=1  and $MilkFarmAttackDarkDrills = 0 Then setlog("skip attack of dark drills",$COLOR_DEBUG)
 		return 0
 	Else
-		If $debugsetlog=1 Then setlog("current dark (" & $iDarkCurrent & ") < limit (" & $MilkFarmLimitDark & ")",$COLOR_DEBUG)
+		If $debugsetlog=1 Then setlog("current dark (" & $g_iDarkCurrent[$CurrentAccount] & ") < limit (" & $MilkFarmLimitDark & ")",$COLOR_DEBUG)
 	EndIf
 
 

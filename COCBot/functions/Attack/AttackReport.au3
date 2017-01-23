@@ -125,7 +125,7 @@ Func AttackReport()
 			SetLog("No Bonus")
 
 			$LeagueShort = "--"
-			If $iTrophyCurrent + $iTrophyLast >= 400 And $iTrophyCurrent + $iTrophyLast < 500 Then ; Bronze III has no League bonus
+			If $g_iTrophyCurrent[$CurrentAccount] + $iTrophyLast >= 400 And $g_iTrophyCurrent[$CurrentAccount] + $iTrophyLast < 500 Then ; Bronze III has no League bonus
 				SetLog("Your league level is: " & $League[0][1])
 				$LeagueShort = $League[0][3]
 			EndIf
@@ -179,7 +179,7 @@ Func AttackReport()
 
 	If $ichkSwitchAccount = 1 Then
 		$AtkLogTxt = String($CurrentAccount) & " |" & _NowTime(4) & "|"
-		$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
+		$AtkLogTxt &= StringFormat("%5d", $g_iTrophyCurrent[$CurrentAccount]) & "|"
 		$AtkLogTxt &= StringFormat("%4d", $SearchCount) & "|"
 		$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
 		$AtkLogTxt &= StringFormat("%7d", $iElixirLast) & "|"
@@ -192,7 +192,7 @@ Func AttackReport()
 		$AtkLogTxt &= $LeagueShort & "|"
 	Else
 		$AtkLogTxt = "" & _NowTime(4) & "|"
-		$AtkLogTxt &= StringFormat("%5d", $iTrophyCurrent) & "|"
+		$AtkLogTxt &= StringFormat("%5d", $g_iTrophyCurrent[$CurrentAccount]) & "|"
 		$AtkLogTxt &= StringFormat("%6d", $SearchCount) & "|"
 		$AtkLogTxt &= StringFormat("%7d", $iGoldLast) & "|"
 		$AtkLogTxt &= StringFormat("%7d", $iElixirLast) & "|"
@@ -243,7 +243,7 @@ Func AttackReport()
 	$iElixirTotal += $iElixirLast + $iElixirLastBonus
 	$iTotalElixirGain[$iMatchMode] += $iElixirLast + $iElixirLastBonus
 
-	If $iDarkStart <> "" Then
+	If $g_iDarkStart[$CurrentAccount] <> "" Then
 		$iDarkTotal += $iDarkLast + $iDarkLastBonus
 		$iTotalDarkGain[$iMatchMode] += $iDarkLast + $iDarkLastBonus
 	EndIf

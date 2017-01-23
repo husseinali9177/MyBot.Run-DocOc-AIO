@@ -16,7 +16,7 @@
 
 Func IsSearchModeActive($iMatchMode, $nocheckHeroes = False, $bNoLog = False)
 	Local $currentSearch = $SearchCount + 1
-	Local $currentTropies = $iTrophyCurrent
+	Local $currentTropies = $g_iTrophyCurrent[$CurrentAccount]
 	Local $currentArmyCamps = Int($CurCamp / $TotalCamp * 100)
 
 	Local $bMatchModeEnabled = False

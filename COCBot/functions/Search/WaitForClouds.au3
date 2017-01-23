@@ -25,7 +25,7 @@ Func WaitForClouds()
 	Local $maxSearchCount = 720 ; $maxSearchCount * 250ms ($iDelayGetResources1) = seconds wait time before reset in lower leagues: 720*250ms = 3 minutes
 	Local $maxLongSearchCount = 7 ; $maxLongSearchCount * $maxSearchCount = seconds total wait time in higher leagues: ; 21 minutes, set a value here but is never used unless error
 
-	Switch Int($iTrophyCurrent) ; add randomization to SearchCounters (long cloud keep alive time) for higher leagues
+	Switch Int($g_iTrophyCurrent[$CurrentAccount]) ; add randomization to SearchCounters (long cloud keep alive time) for higher leagues
 		Case 3700 To 4099 ; champion 1 league
 			$maxSearchCount = Random(480, 840, 1) ; random range 2-3.5 minutes
 			$maxLongSearchCount = Random(10, 12, 1) ; random range 20-40 minutes
@@ -118,8 +118,8 @@ Func EnableLongSearch()
 
 	If $debugSetlog = 1 Then Setlog("Begin EnableLongSearch:", $COLOR_DEBUG1)
 
-	If Int($iTrophyCurrent) < 3700 Then ; If not searching Champion 1 or higher, skip long waiting to return and restart due error
-		If $debugSetlog = 1 Then Setlog("Long cloud search not enabled due trophy count: " & $iTrophyCurrent, $COLOR_DEBUG)
+	If Int($g_iTrophyCurrent[$CurrentAccount]) < 3700 Then ; If not searching Champion 1 or higher, skip long waiting to return and restart due error
+		If $debugSetlog = 1 Then Setlog("Long cloud search not enabled due trophy count: " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_DEBUG)
 		Return False
 	EndIf
 

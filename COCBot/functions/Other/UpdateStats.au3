@@ -15,7 +15,6 @@
 
 Global $ResetStats = 0
 Global $iOldFreeBuilderCount, $iOldTotalBuilderCount, $iOldGemAmount ; builder and gem amounts
-Global $iOldGoldCurrent, $iOldElixirCurrent, $iOldDarkCurrent, $iOldTrophyCurrent ; current stats
 Global $iOldGoldTotal, $iOldElixirTotal, $iOldDarkTotal, $iOldTrophyTotal ; total stats
 Global $iOldGoldLast, $iOldElixirLast, $iOldDarkLast, $iOldTrophyLast ; loot and trophy gain from last raid
 Global $iOldGoldLastBonus, $iOldElixirLastBonus, $iOldDarkLastBonus ; bonus loot from last raid
@@ -31,6 +30,9 @@ Global $iOldTotalGoldGain[$iModeCount + 1], $iOldTotalElixirGain[$iModeCount + 1
 Global $iOldNbrOfDetectedMines[$iModeCount + 1], $iOldNbrOfDetectedCollectors[$iModeCount + 1], $iOldNbrOfDetectedDrills[$iModeCount + 1] ; number of mines, collectors, drills detected for DB, LB, TB
 
 Func UpdateStats()
+	Local Static $iOLDGoldCurrentStatic[9] , $iOLDElixirCurrentStatic[9] , $iOLDDarkCurrentStatic[9] , $iOLDTrophyCurrentStatic[9]  ; current stats
+
+
 	If $FirstRun = 1 Then
 		;GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
 		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
@@ -42,7 +44,7 @@ Func UpdateStats()
 		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
 		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
 		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
-		If $iDarkCurrent <> "" Then
+		If $g_iDarkCurrent[$CurrentAccount] <> "" Then
 			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
 			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
 		Else
@@ -55,24 +57,33 @@ Func UpdateStats()
 		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
 		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
 		btnVillageStat("UpdateStats")
-		$iGoldStart = $iGoldCurrent
-		$iElixirStart = $iElixirCurrent
-		$iDarkStart = $iDarkCurrent
-		$iTrophyStart = $iTrophyCurrent
-		GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldCurrent, True))
-		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
-		$iOldGoldCurrent = $iGoldCurrent
-		GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirCurrent, True))
-		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
-		$iOldElixirCurrent = $iElixirCurrent
-		If $iDarkStart <> "" Then
-			GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkCurrent, True))
-			GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
-			$iOldDarkCurrent = $iDarkCurrent
-		EndIf
-		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyCurrent, True))
-		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
-		$iOldTrophyCurrent = $iTrophyCurrent
+
+				$g_iGoldStart[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
+				$g_iElixirStart[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
+				$g_iDarkStart[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
+				$g_iTrophyStart[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
+
+				GUICtrlSetData($lblResultGoldStart, _NumberFormat($g_iGoldStart[$CurrentAccount], True))
+				GUICtrlSetData($lblResultGoldNow, _NumberFormat($g_iGoldCurrent[$CurrentAccount], True))
+				$iOLDGoldCurrentStatic[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
+				GUICtrlSetData($lblResultElixirStart, _NumberFormat($g_iElixirStart[$CurrentAccount], True))
+				GUICtrlSetData($lblResultElixirNow, _NumberFormat($g_iElixirCurrent[$CurrentAccount], True))
+				$iOLDElixirCurrentStatic[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
+
+				If $g_iDarkStart[$CurrentAccount] <> "" Then
+					GUICtrlSetData($lblResultDEStart, _NumberFormat($g_iDarkStart[$CurrentAccount], True))
+					GUICtrlSetData($lblResultDeNow, _NumberFormat($g_iDarkCurrent[$CurrentAccount], True))
+					$iOLDDarkCurrentStatic[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
+				EndIf
+
+				GUICtrlSetData($lblResultTrophyStart, _NumberFormat($g_iTrophyStart[$CurrentAccount], True))
+				GUICtrlSetData($lblResultTrophyNow, _NumberFormat($g_iTrophyCurrent[$CurrentAccount], True))
+				$iOLDTrophyCurrentStatic[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
+
+
+
+
+
 		GUICtrlSetData($lblResultGemNow, _NumberFormat($iGemAmount, True))
 		$iOldGemAmount = $iGemAmount
 		GUICtrlSetData($lblResultBuilderNow, $iFreeBuilderCount & "/" & $iTotalBuilderCount)
@@ -93,7 +104,10 @@ Func UpdateStats()
 	EndIf
 
 
-
+	GUICtrlSetData($lblResultGoldStart, _NumberFormat($g_iGoldStart[$CurrentAccount], True))
+	GUICtrlSetData($lblResultElixirStart, _NumberFormat($g_iElixirStart[$CurrentAccount], True))
+	GUICtrlSetData($lblResultDEStart, _NumberFormat($g_iDarkStart[$CurrentAccount], True))
+	GUICtrlSetData($lblResultTrophyStart, _NumberFormat($g_iTrophyStart[$CurrentAccount], True))
 
 	If Number($iGoldLast) > Number($topgoldloot) Then
 		$topgoldloot = $iGoldLast
@@ -116,12 +130,12 @@ Func UpdateStats()
 	EndIf
 
 	If $ResetStats = 1 Then
-		GUICtrlSetData($lblResultGoldStart, _NumberFormat($iGoldCurrent, True))
-		GUICtrlSetData($lblResultElixirStart, _NumberFormat($iElixirCurrent, True))
-		If $iDarkStart <> "" Then
-			GUICtrlSetData($lblResultDEStart, _NumberFormat($iDarkCurrent, True))
+		GUICtrlSetData($lblResultGoldStart, _NumberFormat($g_iGoldCurrent[$CurrentAccount], True))
+		GUICtrlSetData($lblResultElixirStart, _NumberFormat($g_iElixirCurrent[$CurrentAccount], True))
+		If $g_iDarkStart[$CurrentAccount] <> "" Then
+			GUICtrlSetData($lblResultDEStart, _NumberFormat($g_iDarkCurrent[$CurrentAccount], True))
 		EndIf
-		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($iTrophyCurrent, True))
+		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($g_iTrophyCurrent[$CurrentAccount], True))
 		GUICtrlSetData($lblHourlyStatsGold, "")
 		GUICtrlSetData($lblHourlyStatsElixir, "")
 		GUICtrlSetData($lblHourlyStatsDark, "")
@@ -143,24 +157,24 @@ Func UpdateStats()
 		$iOldGemAmount = $iGemAmount
 	EndIf
 
-	If $iOldGoldCurrent <> $iGoldCurrent Then
-		GUICtrlSetData($lblResultGoldNow, _NumberFormat($iGoldCurrent, True))
-		$iOldGoldCurrent = $iGoldCurrent
+	If $iOLDGoldCurrentStatic[$CurrentAccount] <> $g_iGoldCurrent[$CurrentAccount] Then
+		GUICtrlSetData($lblResultGoldNow, _NumberFormat($g_iGoldCurrent[$CurrentAccount], True))
+		$iOLDGoldCurrentStatic[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
 	EndIf
 
-	If $iOldElixirCurrent <> $iElixirCurrent Then
-		GUICtrlSetData($lblResultElixirNow, _NumberFormat($iElixirCurrent, True))
-		$iOldElixirCurrent = $iElixirCurrent
+	If $iOLDElixirCurrentStatic[$CurrentAccount] <> $g_iElixirCurrent[$CurrentAccount] Then
+		GUICtrlSetData($lblResultElixirNow, _NumberFormat($g_iElixirCurrent[$CurrentAccount], True))
+		$iOLDElixirCurrentStatic[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
 	EndIf
 
-	If $iOldDarkCurrent <> $iDarkCurrent And $iDarkStart <> "" Then
-		GUICtrlSetData($lblResultDeNow, _NumberFormat($iDarkCurrent, True))
-		$iOldDarkCurrent = $iDarkCurrent
+	If $iOLDDarkCurrentStatic[$CurrentAccount] <> $g_iDarkCurrent[$CurrentAccount] And $g_iDarkStart[$CurrentAccount] <> "" Then
+		GUICtrlSetData($lblResultDeNow, _NumberFormat($g_iDarkCurrent[$CurrentAccount], True))
+		$iOLDDarkCurrentStatic[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
 	EndIf
 
-	If $iOldTrophyCurrent <> $iTrophyCurrent Then
-		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($iTrophyCurrent, True))
-		$iOldTrophyCurrent = $iTrophyCurrent
+	If $iOLDTrophyCurrentStatic[$CurrentAccount] <> $g_iTrophyCurrent[$CurrentAccount] Then
+		GUICtrlSetData($lblResultTrophyNow, _NumberFormat($g_iTrophyCurrent[$CurrentAccount], True))
+		$iOLDTrophyCurrentStatic[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
 	EndIf
 
 	If $iOldGoldTotal <> $iGoldTotal And ($FirstAttack = 2 Or $ResetStats = 1) Then
@@ -173,7 +187,7 @@ Func UpdateStats()
 		$iOldElixirTotal = $iElixirTotal
 	EndIf
 
-	If $iOldDarkTotal <> $iDarkTotal And (($FirstAttack = 2 And $iDarkStart <> "") Or $ResetStats = 1) Then
+	If $iOldDarkTotal <> $iDarkTotal And (($FirstAttack = 2 And $g_iDarkStart[$CurrentAccount] <> "") Or $ResetStats = 1) Then
 		GUICtrlSetData($lblDarkLoot, _NumberFormat($iDarkTotal))
 		$iOldDarkTotal = $iDarkTotal
 	EndIf
@@ -412,14 +426,14 @@ Func UpdateStats()
 	If $FirstAttack = 2 Then
 		GUICtrlSetData($lblHourlyStatsGold, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
 		GUICtrlSetData($lblHourlyStatsElixir, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
-		If $iDarkStart <> "" Then
+		If $g_iDarkStart[$CurrentAccount] <> "" Then
 			GUICtrlSetData($lblHourlyStatsDark, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 		EndIf
 		GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 
 		GUICtrlSetData($lblResultGoldHourNow, _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
 		GUICtrlSetData($lblResultElixirHourNow, _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h") ;GUI BOTTOM
-		If $iDarkStart <> "" Then
+		If $g_iDarkStart[$CurrentAccount] <> "" Then
 			GUICtrlSetData($lblResultDEHourNow, _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h") ;GUI BOTTOM
 		EndIf
 
@@ -465,12 +479,11 @@ Func ResetStats()
 	GUICtrlSetData($lblResultRuntimeNow, "00:00:00")
 	;GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
 	;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_SHOW)
-	;GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
 	;GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW)
-	$iGoldStart = $iGoldCurrent
-	$iElixirStart = $iElixirCurrent
-	$iDarkStart = $iDarkCurrent
-	$iTrophyStart = $iTrophyCurrent
+	$g_iGoldStart[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
+	$g_iElixirStart[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
+	$g_iDarkStart[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
+	$g_iTrophyStart[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
 	$iGoldTotal = 0
 	$iElixirTotal = 0
 	$iDarkTotal = 0

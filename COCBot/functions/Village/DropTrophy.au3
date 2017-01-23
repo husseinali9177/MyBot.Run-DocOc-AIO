@@ -24,9 +24,9 @@ Func DropTrophy()
 			setZombie()
 		EndIf
 
-		$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
-		If $DebugSetlog = 1 Then SetLog("Current Trophy Count: " & $iTrophyCurrent, $COLOR_DEBUG)
-		If Number($iTrophyCurrent) <= Number($iTxtMaxTrophy) Then Return ; exit on trophy count to avoid other checks
+		$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
+		If $DebugSetlog = 1 Then SetLog("Current Trophy Count: " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_DEBUG)
+		If Number($g_iTrophyCurrent[$CurrentAccount]) <= Number($iTxtMaxTrophy) Then Return ; exit on trophy count to avoid other checks
 
 		; Check if proper troop types avail during last checkarmycamp(), no need to call separately since droptrophy checked often
 		Local $bHaveTroops = False
@@ -63,10 +63,10 @@ Func DropTrophy()
 		$sWaitToDate = _DateAdd('n', $iWaitTime, _NowCalc()) ; find delay time for checkbasequick
 		If $DebugSetlog = 1 Then SetLog("ChkBaseQuick delay time= " & $sWaitToDate & " Now= " & _NowCalc() & " Diff= " & _DateDiff('s', _NowCalc(), $sWaitToDate), $COLOR_DEBUG)
 
-		While Number($iTrophyCurrent) > Number($iTxtMaxTrophyNeedCheck)
-			$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-			SetLog("Trophy Count : " & $iTrophyCurrent, $COLOR_SUCCESS)
-			If Number($iTrophyCurrent) > Number($iTxtMaxTrophyNeedCheck) Then
+		While Number($g_iTrophyCurrent[$CurrentAccount]) > Number($iTxtMaxTrophyNeedCheck)
+			$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
+			SetLog("Trophy Count : " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_SUCCESS)
+			If Number($g_iTrophyCurrent[$CurrentAccount]) > Number($iTxtMaxTrophyNeedCheck) Then
 				Switch $iChkTrophyAtkDead ; Check for enough troops before starting base search to save search costs
 					Case 1 ; If attack dead bases during trophy drop is enabled then make sure we have enough army troops
 						If ($CurCamp <= ($TotalCamp * $DTArmyPercent)) Then ; check if current troops above setting

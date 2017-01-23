@@ -293,7 +293,7 @@ Func CheckArmySpellCastel()
 	; If Drop Trophy with Heroes is checked and a Hero is Available or under the trophies range, then set $bFullArmyHero to True
 	If IsWaitforHeroesActive() = False And $iChkTrophyHeroes = 0 Then $bFullArmyHero = True
 	If IsWaitforHeroesActive() = False And $iChkTrophyHeroes = 1 And $bFullArmyHero = False Then
-		If $iHeroAvailable > 0 Or Number($iTrophyCurrent) <= Number($iTxtMaxTrophy) Then
+		If $iHeroAvailable > 0 Or Number($g_iTrophyCurrent[$CurrentAccount]) <= Number($iTxtMaxTrophy) Then
 			$bFullArmyHero = True
 		Else
 			Setlog("Waiting for Heroes to drop trophies!", $COLOR_ACTION)
@@ -2408,25 +2408,25 @@ Func CheckValuesCost($txt = "RegularTroops", $Troop = "Arch", $troopQuantity = 1
 	Local $String = ""
 
 	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$ElixirCostCamp: " & $ElixirCostCamp)
-	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$iElixirCurrent: " & $iElixirCurrent)
+	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$iElixirCurrent: " & $g_iElixirCurrent[$CurrentAccount])
 	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$DarkCostCamp: " & $DarkCostCamp)
-	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$iDarkCurrent: " & $iDarkCurrent)
+	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$iDarkCurrent: " & $g_iDarkCurrent[$CurrentAccount])
 	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$DarkCostSpell: " & $DarkCostSpell)
 	If $debugsetlogTrain = 1 Or $DebugLogs Then Setlog("$ElixirCostSpell: " & $ElixirCostSpell)
 
 	If $txt <> "" Then
 		If $txt = "RegularTroops" Then
-			If $ElixirCostCamp <= $iElixirCurrent Then Return True
+			If $ElixirCostCamp <= $g_iElixirCurrent[$CurrentAccount] Then Return True
 		ElseIf $txt = "DarkTroops" Then
-			If $DarkCostCamp <= $iDarkCurrent Then Return True
+			If $DarkCostCamp <= $g_iDarkCurrent[$CurrentAccount] Then Return True
 		ElseIf $txt = "RegularSpells" Then
-			If $ElixirCostSpell <= $iElixirCurrent Then Return True
+			If $ElixirCostSpell <= $g_iElixirCurrent[$CurrentAccount] Then Return True
 		ElseIf $txt = "DarkSpells" Then
-			If $DarkCostSpell <= $iDarkCurrent Then Return True
+			If $DarkCostSpell <= $g_iDarkCurrent[$CurrentAccount] Then Return True
 		ElseIf $txt = "AllRegular" Then
-			If $ElixirCostCamp + $ElixirCostSpell <= $iElixirCurrent Then Return True
+			If $ElixirCostCamp + $ElixirCostSpell <= $g_iElixirCurrent[$CurrentAccount] Then Return True
 		ElseIf $txt = "AllDark" Then
-			If $DarkCostCamp + $DarkCostSpell <= $iDarkCurrent Then Return True
+			If $DarkCostCamp + $DarkCostSpell <= $g_iDarkCurrent[$CurrentAccount] Then Return True
 		EndIf
 
 		Switch $txt
@@ -2451,36 +2451,36 @@ Func CheckValuesCost($txt = "RegularTroops", $Troop = "Arch", $troopQuantity = 1
 		If $DebugLogs Then SetLog("$troopCost " & $Troop & "= " & $troopCost)
 		$troopCost *= $troopQuantity
 		If $DebugLogs Then SetLog("$troopCost2 " & $Troop & "= " & $troopCost)
-		If $DebugLogs Then SetLog("$iElixirCurrent " & $Troop & "= " & $iElixirCurrent)
+		If $DebugLogs Then SetLog("$iElixirCurrent " & $Troop & "= " & $g_iElixirCurrent[$CurrentAccount])
 		If IsDarkTroop($Troop) Then
 			; If is Dark Troop
 			If $DebugLogs Then SetLog("Troop " & $Troop & " Is Dark Troop")
-			If $troopCost <= $iDarkCurrent Then
-				If $decreaseTheCost Then $iDarkCurrent -= $troopCost
+			If $troopCost <= $g_iDarkCurrent[$CurrentAccount] Then
+				If $decreaseTheCost Then $g_iDarkCurrent[$CurrentAccount] -= $troopCost
 				Return True
 			EndIf
 			Return False
 		ElseIf IsElixirSpell($Troop) Then
 			; If is Elixir Spell
 			If $DebugLogs Then SetLog("Troop " & $Troop & " Is Elixir Spell")
-			If $troopCost <= $iElixirCurrent Then
-				If $decreaseTheCost Then $iElixirCurrent -= $troopCost
+			If $troopCost <= $g_iElixirCurrent[$CurrentAccount] Then
+				If $decreaseTheCost Then $g_iElixirCurrent[$CurrentAccount] -= $troopCost
 				Return True
 			EndIf
 			Return False
 		ElseIf IsDarkSpell($Troop) Then
 			; If is Dark Spell
 			If $DebugLogs Then SetLog("Troop " & $Troop & " Is Dark Spell")
-			If $DarkCostSpell <= $iDarkCurrent Then
-				If $decreaseTheCost Then $iDarkCurrent -= $troopCost
+			If $DarkCostSpell <= $g_iDarkCurrent[$CurrentAccount] Then
+				If $decreaseTheCost Then $g_iDarkCurrent[$CurrentAccount] -= $troopCost
 				Return True
 			EndIf
 			Return False
 		Else
 			; If Isn't Dark Troop And Spell, Then is Elixir Troop : )
-			If $troopCost <= $iElixirCurrent Then
+			If $troopCost <= $g_iElixirCurrent[$CurrentAccount] Then
 				If $DebugLogs Then SetLog("Troop " & $Troop & " Is Elixir Troop")
-				If $decreaseTheCost Then $iElixirCurrent -= $troopCost
+				If $decreaseTheCost Then $g_iElixirCurrent[$CurrentAccount] -= $troopCost
 				Return True
 			EndIf
 			Return False

@@ -20,8 +20,8 @@ Func UpgradeWall()
 		If SkipWallUpgrade() Then Return
 		If $iFreeBuilderCount > 0 Then
 			ClickP($aAway, 1, 0, "#0313") ; click away
-			Local $MinWallGold = Number($iGoldCurrent - $WallCost) > Number($itxtWallMinGold) ; Check if enough Gold
-			Local $MinWallElixir = Number($iElixirCurrent - $WallCost) > Number($itxtWallMinElixir) ; Check if enough Elixir
+			Local $MinWallGold = Number($g_iGoldCurrent[$CurrentAccount] - $WallCost) > Number($itxtWallMinGold) ; Check if enough Gold
+			Local $MinWallElixir = Number($g_iElixirCurrent[$CurrentAccount] - $WallCost) > Number($itxtWallMinElixir) ; Check if enough Elixir
 
 			Switch $iUseStorage
 				Case 0
@@ -205,7 +205,7 @@ Func SkipWallUpgrade() ; Dynamic Upgrades
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;##### Verify the Upgrade troop kind in Laboratory , if is elixir Spell/Troop , the Lab have priority #####;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	Local $MinWallElixir = Number($iElixirCurrent - $WallCost) > Number($iLaboratoryElixirCost) ; Check if enough Elixir
+	Local $MinWallElixir = Number($g_iElixirCurrent[$CurrentAccount] - $WallCost) > Number($iLaboratoryElixirCost) ; Check if enough Elixir
 	If $ichkLab = 1 And $icmbLaboratory >= 1 And $icmbLaboratory <= 15 And $MinWallElixir = False Then
 		For $i = 1 To 15
 			If $icmbLaboratory = $i Then

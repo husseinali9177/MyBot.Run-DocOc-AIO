@@ -15,11 +15,11 @@
 
 Func MilkingDetectMineExtractors()
 
-	If $MilkFarmAttackGoldMines = 1 and $iGoldCurrent >= $MilkFarmLimitGold Then
-		If $debugsetlog=1 Then setlog("skip attack of gold mines, current gold (" & $iGoldCurrent & ") >= limit (" & $MilkFarmLimitGold & ")",$COLOR_DEBUG)
+	If $MilkFarmAttackGoldMines = 1 and $g_iGoldCurrent[$CurrentAccount] >= $MilkFarmLimitGold Then
+		If $debugsetlog=1 Then setlog("skip attack of gold mines, current gold (" & $g_iGoldCurrent[$CurrentAccount] & ") >= limit (" & $MilkFarmLimitGold & ")",$COLOR_DEBUG)
 		return 0
 	Else
-		If $debugsetlog=1 Then setlog("current gold (" & $iGoldCurrent & ") < limit (" & $MilkFarmLimitGold & ")",$COLOR_DEBUG)
+		If $debugsetlog=1 Then setlog("current gold (" & $g_iGoldCurrent[$CurrentAccount] & ") < limit (" & $MilkFarmLimitGold & ")",$COLOR_DEBUG)
 	EndIf
 
 

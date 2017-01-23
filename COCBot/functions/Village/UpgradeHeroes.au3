@@ -130,13 +130,13 @@ Func QueenUpgrade()
 
 	;##### Get updated village elixir and dark elixir values
 	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village has a Dark Elixir Storage
-		$iDarkCurrent = Number(getResourcesMainScreen(728, 123))
-		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $iDarkCurrent, $COLOR_DEBUG)
+		$g_iDarkCurrent[$CurrentAccount] = Number(getResourcesMainScreen(728, 123))
+		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $g_iDarkCurrent[$CurrentAccount], $COLOR_DEBUG)
 	Else
 		If $debugSetlog = 1 Then Setlog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 
-	If $iDarkCurrent < ($aQueenUpgCost[$aHeroLevel] * 1000) + $itxtUpgrMinDark Then
+	If $g_iDarkCurrent[$CurrentAccount] < ($aQueenUpgCost[$aHeroLevel] * 1000) + $itxtUpgrMinDark Then
 		SetLog("Insufficient DE for Upg Queen, requires: " & ($aQueenUpgCost[$aHeroLevel] * 1000) & " + " & $itxtUpgrMinDark, $COLOR_INFO)
 		Return
 	EndIf
@@ -233,14 +233,14 @@ Func KingUpgrade()
 
 	;##### Get updated village elixir and dark elixir values
 	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
-		$iDarkCurrent = Number(getResourcesMainScreen(728, 123))
-		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $iDarkCurrent, $COLOR_DEBUG)
+		$g_iDarkCurrent[$CurrentAccount] = Number(getResourcesMainScreen(728, 123))
+		If $debugSetlog = 1 Then SetLog("Updating village values [D]: " & $g_iDarkCurrent[$CurrentAccount], $COLOR_DEBUG)
 	Else
 		If $debugSetlog = 1 Then Setlog("getResourcesMainScreen didn't get the DE value", $COLOR_DEBUG)
 	EndIf
 	If _Sleep(100) Then Return
 
-	If $iDarkCurrent < ($aKingUpgCost[$aHeroLevel] * 1000) + $itxtUpgrMinDark Then
+	If $g_iDarkCurrent[$CurrentAccount] < ($aKingUpgCost[$aHeroLevel] * 1000) + $itxtUpgrMinDark Then
 		SetLog("Insufficient DE for Upg King, requires: " & ($aKingUpgCost[$aHeroLevel] * 1000) & " + " & $itxtUpgrMinDark, $COLOR_INFO)
 		Return
 	EndIf
@@ -343,14 +343,14 @@ Func WardenUpgrade()
 
 	;##### Get updated village elixir values
 	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
-		$iElixirCurrent = getResourcesMainScreen(705, 74)
-		If $debugSetlog = 1 Then SetLog("Updating village values [E]: " & $iElixirCurrent, $COLOR_DEBUG)
+		$g_iElixirCurrent[$CurrentAccount] = getResourcesMainScreen(705, 74)
+		If $debugSetlog = 1 Then SetLog("Updating village values [E]: " & $g_iElixirCurrent[$CurrentAccount], $COLOR_DEBUG)
 	Else
-		$iElixirCurrent = getResourcesMainScreen(710, 74)
+		$g_iElixirCurrent[$CurrentAccount] = getResourcesMainScreen(710, 74)
 	EndIf
 	If _Sleep(100) Then Return
 
-	If $iElixirCurrent < ($aWardenUpgCost[$aHeroLevel] * 1000000) + $itxtUpgrMinElixir Then
+	If $g_iElixirCurrent[$CurrentAccount] < ($aWardenUpgCost[$aHeroLevel] * 1000000) + $itxtUpgrMinElixir Then
 		SetLog("Insufficient Elixir for Warden Upgrade, requires: " & ($aWardenUpgCost[$aHeroLevel] * 1000000) & " + " & $itxtUpgrMinElixir, $COLOR_INFO)
 		Return
 	EndIf

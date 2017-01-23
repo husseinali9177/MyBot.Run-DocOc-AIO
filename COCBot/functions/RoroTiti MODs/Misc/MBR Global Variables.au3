@@ -88,7 +88,7 @@ Global $CurrentAccountWaitTime = 0
 
 Global $Init = False
 Global $TotalAccountsOnEmu = 0
-Global $CurrentAccount = 1
+Global $CurrentAccount = 0
 Global $CurrentDAccount = 1
 Global $FirstLoop = 0
 Global $FirstInit = True

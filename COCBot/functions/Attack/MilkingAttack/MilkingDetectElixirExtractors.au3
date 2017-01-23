@@ -16,11 +16,11 @@
 Func MilkingDetectElixirExtractors()
 	;detect elixir extractors position according to settings: amount of resource and level.
 
-	If $MilkFarmAttackElixirExtractors = 1 and $iElixirCurrent >= $MilkFarmLimitElixir Then
-		If $debugsetlog=1 Then setlog("skip attack of elixir extractors, current elixir (" & $iElixirCurrent & ") >= limit (" & $MilkFarmLimitElixir & ")",$COLOR_DEBUG)
+	If $MilkFarmAttackElixirExtractors = 1 and $g_iElixirCurrent[$CurrentAccount] >= $MilkFarmLimitElixir Then
+		If $debugsetlog=1 Then setlog("skip attack of elixir extractors, current elixir (" & $g_iElixirCurrent[$CurrentAccount] & ") >= limit (" & $MilkFarmLimitElixir & ")",$COLOR_DEBUG)
 		return 0
 	Else
-		If $debugsetlog=1 Then setlog("current elixir (" & $iElixirCurrent & ") < limit (" & $MilkFarmLimitElixir & ")",$COLOR_DEBUG)
+		If $debugsetlog=1 Then setlog("current elixir (" & $g_iElixirCurrent[$CurrentAccount] & ") < limit (" & $MilkFarmLimitElixir & ")",$COLOR_DEBUG)
 	EndIf
 
 	$MilkFarmObjectivesSTR = ""

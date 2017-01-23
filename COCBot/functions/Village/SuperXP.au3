@@ -40,9 +40,9 @@ Func MainSuperXPHandler()
 		Return False
 	EndIf
 
-	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
-	If $DebugSetlog = 1 Then SetLog("Current Trophy Count: " & $iTrophyCurrent, $COLOR_DEBUG) ;Debug
-	If Number($iTrophyCurrent) > Number($iTxtMaxTrophy) Then Return
+	$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; get OCR to read current Village Trophies
+	If $DebugSetlog = 1 Then SetLog("Current Trophy Count: " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_DEBUG) ;Debug
+	If Number($g_iTrophyCurrent[$CurrentAccount]) > Number($iTxtMaxTrophy) Then Return
 
 	Local $heroRes = getArmyHeroCount(True, True)
 	If $heroRes = @error And @error > 0 Then SetLog("Error while getting hero count, #" & @error, $COLOR_DEBUG)

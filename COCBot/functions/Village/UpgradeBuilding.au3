@@ -45,9 +45,9 @@ Func UpgradeBuilding()
 	Setlog("Checking Upgrades", $COLOR_INFO)
 
 	VillageReport(True, True) ; Get current loot available after training troops and update free builder status
-	$iAvailGold = Number($iGoldCurrent)
-	$iAvailElixir = Number($iElixirCurrent)
-	$iAvailDark = Number($iDarkCurrent)
+	$iAvailGold = Number($g_iGoldCurrent[$CurrentAccount])
+	$iAvailElixir = Number($g_iElixirCurrent[$CurrentAccount])
+	$iAvailDark = Number($g_iDarkCurrent[$CurrentAccount])
 
 	If $iSaveWallBldr = 1 Then ; If save wall builder is enable, make sure to reserve builder if enabled
 		$iAvailBldr = $iFreeBuilderCount - $iSaveWallBldr

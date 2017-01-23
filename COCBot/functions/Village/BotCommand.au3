@@ -23,8 +23,8 @@ Func BotCommand()
 
 		If $icmbBotCond = 15 And $icmbHoursStop <> 0 Then $TimeToStop = $icmbHoursStop * 3600000 ; 3600000 = 1 Hours
 
-		Local $iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-		Local $TrophyMax = Number($iTrophyCurrent) > Number($itxtMaxTrophy)
+		$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
+		Local $TrophyMax = Number($g_iTrophyCurrent[$CurrentAccount]) > Number($itxtMaxTrophy)
 		If $TrophyMax Then
 			$Trophy = "Max. Trophy Reached!"
 		Else

@@ -18,7 +18,7 @@ Func CoCStats($starsearned)
 
 	; ==================== Begin CoCStats Mod ====================
 	SetLog("Sending data to CoCStats.com...", $COLOR_BLUE)
-	$sPD = 'apikey=' & $MyApiKey & '&ctrophy=' & $iTrophyCurrent & '&cgold=' & $iGoldCurrent & '&celix=' & $iElixirCurrent & '&cdelix=' & $iDarkCurrent & '&search=' & $SearchCount & '&gold=' & $iGoldLast & '&elix=' & $iElixirLast & '&delix=' & $iDarkLast & '&trophy=' & $iTrophyLast & '&bgold=' & $iGoldLastBonus & '&belix=' & $iElixirLastBonus & '&bdelix=' & $iDarkLastBonus & '&stars=' & $starsearned & '&thlevel=' & $iTownHallLevel & '&log='
+	$sPD = 'apikey=' & $MyApiKey & '&ctrophy=' & $g_iTrophyCurrent[$CurrentAccount] & '&cgold=' & $g_iGoldCurrent[$CurrentAccount] & '&celix=' & $g_iElixirCurrent[$CurrentAccount] & '&cdelix=' & $g_iDarkCurrent[$CurrentAccount] & '&search=' & $SearchCount & '&gold=' & $iGoldLast & '&elix=' & $iElixirLast & '&delix=' & $iDarkLast & '&trophy=' & $iTrophyLast & '&bgold=' & $iGoldLastBonus & '&belix=' & $iElixirLastBonus & '&bdelix=' & $iDarkLastBonus & '&stars=' & $starsearned & '&thlevel=' & $iTownHallLevel & '&log='
 
 	$tempLogText = _GUICtrlRichEdit_GetText($txtLog, True)
 	For $i = 1 To StringLen($tempLogText)

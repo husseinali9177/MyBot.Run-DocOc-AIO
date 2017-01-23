@@ -24,7 +24,7 @@ Func Unbreakable()
 
 	Switch $iUnbreakableMode
 		Case 2
-			If (Number($iGoldCurrent) > Number($iUnBrkMaxGold)) And (Number($iElixirCurrent) > Number($iUnBrkMaxElixir)) And (Number($iDarkCurrent) > Number($iUnBrkMaxDark)) Then
+			If (Number($g_iGoldCurrent[$CurrentAccount]) > Number($iUnBrkMaxGold)) And (Number($g_iElixirCurrent[$CurrentAccount]) > Number($iUnBrkMaxElixir)) And (Number($g_iDarkCurrent[$CurrentAccount]) > Number($iUnBrkMaxDark)) Then
 				SetLog(" ====== Unbreakable Mode restarted! ====== ", $COLOR_SUCCESS)
 				$iUnbreakableMode = 1
 			Else
@@ -53,13 +53,13 @@ Func Unbreakable()
 	EndSelect
 
 	Local $sMissingLoot = ""
-	If ((Number($iGoldCurrent) - Number($iUnBrkMinGold)) < 0) Then
+	If ((Number($g_iGoldCurrent[$CurrentAccount]) - Number($iUnBrkMinGold)) < 0) Then
 		$sMissingLoot &= "Gold, "
 	EndIf
-	If ((Number($iElixirCurrent) - Number($iUnBrkMinElixir)) < 0) Then
+	If ((Number($g_iElixirCurrent[$CurrentAccount]) - Number($iUnBrkMinElixir)) < 0) Then
 		$sMissingLoot &= "Elixir, "
 	EndIf
-	If ((Number($iDarkCurrent) - Number($iUnBrkMinDark)) < 0) Then
+	If ((Number($g_iDarkCurrent[$CurrentAccount]) - Number($iUnBrkMinDark)) < 0) Then
 		$sMissingLoot &= "Dark Elixir"
 	EndIf
 	If $sMissingLoot <> "" Then
@@ -74,16 +74,16 @@ Func Unbreakable()
 	If _Sleep($iDelayUnbreakable1) Then Return True ; wait for home screen
 	If $Restart = True Then Return True ; Check Restart Flag to see if drop trophy used all the troops and need to train more.
 	$iCount = 0
-	Local $iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; Get trophy
-	If $debugSetlog = 1 Then Setlog("Trophy Count Read = " & $iTrophyCurrent, $COLOR_DEBUG)
-	While Number($iTrophyCurrent) > Number($itxtMaxTrophy) ; verify that trophy dropped and didn't fail due misc errors searching
+	$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1]) ; Get trophy
+	If $debugSetlog = 1 Then Setlog("Trophy Count Read = " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_DEBUG)
+	While Number($g_iTrophyCurrent[$CurrentAccount]) > Number($itxtMaxTrophy) ; verify that trophy dropped and didn't fail due misc errors searching
 		If $debugSetlog = 1 Then Setlog("Drop Trophy Loop #" & $iCount + 1, $COLOR_DEBUG)
 		DropTrophy()
 		If _Sleep($iDelayUnbreakable2) Then Return ; wait for home screen
 		ClickP($aAway, 1, 0, "#0395") ;clear screen
 		If _Sleep($iDelayUnbreakable1) Then Return ; wait for home screen
-		$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-		If ($iCount > 2) And (Number($iTrophyCurrent) > Number($itxtMaxTrophy)) Then ; If unable to drop trophy after a couple of tries, restart at main loop.
+		$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
+		If ($iCount > 2) And (Number($g_iTrophyCurrent[$CurrentAccount]) > Number($itxtMaxTrophy)) Then ; If unable to drop trophy after a couple of tries, restart at main loop.
 			Setlog("Unable to drop trophy, trying again", $COLOR_ERROR)
 			If _Sleep(500) Then Return
 			Return True
