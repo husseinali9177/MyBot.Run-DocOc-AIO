@@ -133,7 +133,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
 		; screenshot filename according with new options around filenames
 		If $ScreenshotLootInfo = 1 Then
-			$LootFileName = $Date & "_" & $Time & " G" & $iGoldLast & " E" & $iElixirLast & " DE" & $iDarkLast & " T" & $iTrophyLast & " S" & StringFormat("%3s", $SearchCount) & ".jpg"
+			$LootFileName = $Date & "_" & $Time & " G" & $g_iGoldLast[$CurrentAccount] & " E" & $g_iElixirLast[$CurrentAccount] & " DE" & $g_iDarkLast[$CurrentAccount] & " T" & $g_iTrophyLast[$CurrentAccount] & " S" & StringFormat("%3s", $SearchCount) & ".jpg"
 		Else
 			$LootFileName = $Date & "_" & $Time & ".jpg"
 		EndIf

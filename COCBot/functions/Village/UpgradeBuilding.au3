@@ -50,9 +50,9 @@ Func UpgradeBuilding()
 	$iAvailDark = Number($g_iDarkCurrent[$CurrentAccount])
 
 	If $iSaveWallBldr = 1 Then ; If save wall builder is enable, make sure to reserve builder if enabled
-		$iAvailBldr = $iFreeBuilderCount - $iSaveWallBldr
+		$iAvailBldr = $g_iFreeBuilderCount[$CurrentAccount] - $iSaveWallBldr
 	Else
-		$iAvailBldr = $iFreeBuilderCount
+		$iAvailBldr = $g_iFreeBuilderCount[$CurrentAccount]
 	EndIf
 
 	If $iAvailBldr <= 0 Then
@@ -126,8 +126,8 @@ Func UpgradeBuilding()
 				If UpgradeNormal($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				Setlog("Gold used = " & $aUpgrades[$iz][2], $COLOR_INFO)
-				$iNbrOfBuildingsUppedGold += 1
-				$iCostGoldBuilding += $aUpgrades[$iz][2]
+				$g_iNbrOfBuildingsUppedGold[$CurrentAccount] += 1
+				$g_iCostGoldBuilding[$CurrentAccount] += $aUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailGold -= $aUpgrades[$iz][2]
 				$iAvailBldr -= 1
@@ -139,8 +139,8 @@ Func UpgradeBuilding()
 				If UpgradeNormal($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				Setlog("Elixir used = " & $aUpgrades[$iz][2], $COLOR_INFO)
-				$iNbrOfBuildingsUppedElixir += 1
-				$iCostElixirBuilding += $aUpgrades[$iz][2]
+				$g_iNbrOfBuildingsUppedElixir[$CurrentAccount] += 1
+				$g_iCostElixirBuilding[$CurrentAccount] += $aUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailElixir -= $aUpgrades[$iz][2]
 				$iAvailBldr -= 1
@@ -152,8 +152,8 @@ Func UpgradeBuilding()
 				If UpgradeHero($iz) = False Then ContinueLoop
 				$iUpgradeAction += 2 ^ ($iz + 1)
 				Setlog("Dark Elixir used = " & $aUpgrades[$iz][2], $COLOR_INFO)
-				$iNbrOfHeroesUpped += 1
-				$iCostDElixirHero += $aUpgrades[$iz][2]
+				$g_iNbrOfHeroesUpped[$CurrentAccount] += 1
+				$g_iCostDElixirHero[$CurrentAccount] += $aUpgrades[$iz][2]
 				UpdateStats()
 				$iAvailDark -= $aUpgrades[$iz][2]
 				$iAvailBldr -= 1

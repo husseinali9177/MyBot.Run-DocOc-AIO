@@ -292,7 +292,7 @@ Global Const $iDelayGetTownHallLevel3 = 200 ; click
 
 
 ;Laboratory
-Global Const $iDelayLaboratory1 = 750
+Global Const $iDelayLaboratory1 = 1000
 Global Const $iDelayLaboratory2 = 200
 Global Const $iDelayLaboratory3 = 1000
 Global Const $iDelayLaboratory4 = 200 ; click

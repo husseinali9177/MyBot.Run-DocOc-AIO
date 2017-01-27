@@ -32,39 +32,47 @@ Func VillageReport($bBypass = False, $bSuppressLog = False)
 
 	; Separate Stats per Each Account - SwitchAcc Mode
 	If $ichkSwitchAccount = 1 Then
-		$g_iFreeBuilders[$CurrentAccount]  = $iFreeBuilderCount
-		$g_iTotalBuilders[$CurrentAccount] = $iTotalBuilderCount
+		$g_iFreeBuilders[$CurrentAccount]  = $g_iFreeBuilderCount[$CurrentAccount]
+		$g_iTotalBuilders[$CurrentAccount] = $g_iTotalBuilderCount[$CurrentAccount]
     EndIf
 
 
 	$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 	If Not $bSuppressLog Then Setlog(" [T]: " & _NumberFormat($g_iTrophyCurrent[$CurrentAccount]), $COLOR_SUCCESS)
 
-	If _ColorCheck(_GetPixelColor(837, 134, True), Hex(0x302030, 6), 10) Then ; check if the village have a Dark Elixir Storage
+	If _ColorCheck(_GetPixelColor(830, 150, True), Hex(0x000100, 6), 15) Then ; check if the village have a Dark Elixir Storage
 		$g_iGoldCurrent[$CurrentAccount] = getResourcesMainScreen(696, 23)
 		$g_iElixirCurrent[$CurrentAccount] = getResourcesMainScreen(696, 74)
 		$g_iDarkCurrent[$CurrentAccount] =  getResourcesMainScreen(728, 123)
-		$iGemAmount = getResourcesMainScreen(740, 171)
-		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [D]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
+		$g_iGemAmount[$CurrentAccount] = getResourcesMainScreen(740, 171)
+		
+		;Incase of miss read of color ck or getResourcesMainScreen ocr of darkE on first run
+		If $g_iDarkStart[$CurrentAccount] = 0 Or $g_iDarkStart[$CurrentAccount] = "" Then
+			$g_iDarkStart[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
+		EndIf
+			
+		
+		
+		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [D]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [GEM]: " & _NumberFormat($g_iGemAmount[$CurrentAccount]), $COLOR_SUCCESS)
 
 	; Separate Stats per Each Account - SwitchAcc Mode
 		If $ichkSwitchAccount = 1 Then	; Separate Stats per Each Account - Switch Mode
 			$g_iGoldNowSW[$CurrentAccount]	= $g_iGoldCurrent[$CurrentAccount]
 			$g_iElixirNowSW[$CurrentAccount]= $g_iElixirCurrent[$CurrentAccount]
 			$g_iDarkNowSW[$CurrentAccount]	= $g_iDarkCurrent[$CurrentAccount]
-			$g_iGemNow[$CurrentAccount]		= $iGemAmount
+			$g_iGemNow[$CurrentAccount]		= $g_iGemAmount[$CurrentAccount]
 		EndIf
 	Else
 		$g_iGoldCurrent[$CurrentAccount] = getResourcesMainScreen(701, 23)
 		$g_iElixirCurrent[$CurrentAccount] = getResourcesMainScreen(701, 74)
-		$iGemAmount = getResourcesMainScreen(719, 123)
-		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [GEM]: " & _NumberFormat($iGemAmount), $COLOR_SUCCESS)
+		$g_iGemAmount[$CurrentAccount] = getResourcesMainScreen(719, 123)
+		If Not $bSuppressLog Then SetLog(" [G]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [GEM]: " & _NumberFormat($g_iGemAmount[$CurrentAccount]), $COLOR_SUCCESS)
 
 	; Separate Stats per Each Account - SwitchAcc Mode
 		If $ichkSwitchAccount = 1 Then	; Separate Stats per Each Account - Switch Mode
 			$g_iGoldNowSW[$CurrentAccount]	= $g_iGoldCurrent[$CurrentAccount]
 			$g_iElixirNowSW[$CurrentAccount]= $g_iElixirCurrent[$CurrentAccount]
-			$g_iGemNow[$CurrentAccount]		= $iGemAmount
+			$g_iGemNow[$CurrentAccount]		= $g_iGemAmount[$CurrentAccount]
 		EndIf
 	EndIf
 	If $bBypass = False Then ; update stats

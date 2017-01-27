@@ -369,7 +369,7 @@ Func SmartAttackStrategy($imode)
 				SetLog("[" & UBound($PixelDarkElixir) & "] Dark Elixir Drill/s")
 				$g_iNbrOfDetectedMines[$CurrentAccount][$imode] += UBound($PixelMine)
 				$g_iNbrOfDetectedCollectors[$CurrentAccount][$imode] += UBound($PixelElixir)
-				$g_iNbrOfDetectedDrills[$CurrentAccount][$imode] += UBound($PixelDarkElixir)
+				$g_iNbrOfDetectedDrills[$CurrentAccount, $imode] += UBound($PixelDarkElixir)
 				UpdateStats()
 			EndIf
 

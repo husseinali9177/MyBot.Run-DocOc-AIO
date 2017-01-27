@@ -280,7 +280,7 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($iDelayRunBot3) Then Return
 			VillageReport()
 			ProfileSwitch()
-			If $OutOfGold = 1 And (Number($iGoldCurrent) >= Number($itxtRestartGold)) Then ; check if enough gold to begin searching again
+			If $OutOfGold = 1 And (Number($g_iGoldCurrent[$CurrentAccount]) >= Number($itxtRestartGold)) Then ; check if enough gold to begin searching again
 				$OutOfGold = 0 ; reset out of gold flag
 				Setlog("Switching back to normal after no gold to search ...", $COLOR_SUCCESS)
 				$ichkBotStop = 0 ; reset halt attack variable
@@ -289,7 +289,7 @@ Func runBot() ;Bot that runs everything in order
 				$bDonationEnabled = True
 				ContinueLoop ; Restart bot loop to reset $CommandStop
 			EndIf
-			If $OutOfElixir = 1 And (Number($iElixirCurrent) >= Number($itxtRestartElixir)) And (Number($iDarkCurrent) >= Number($itxtRestartDark)) Then ; check if enough elixir to begin searching again
+			If $OutOfElixir = 1 And (Number($g_iElixirCurrent[$CurrentAccount]) >= Number($itxtRestartElixir)) And (Number($g_iDarkCurrent[$CurrentAccount]) >= Number($itxtRestartDark)) Then ; check if enough elixir to begin searching again
 				$OutOfElixir = 0 ; reset out of gold flag
 				Setlog("Switching back to normal setting after no elixir to train ...", $COLOR_SUCCESS)
 				$ichkBotStop = 0 ; reset halt attack variable
@@ -402,8 +402,8 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 			If _Sleep($iDelayRunBot3) Then Return
 			;  OCR read current Village Trophies when OOS restart maybe due PB or else DropTrophy skips one attack cycle after OOS
-			$iTrophyCurrent = Number(getTrophyMainScreen($aTrophies[0], $aTrophies[1]))
-			If $debugsetlog = 1 Then SetLog("Runbot Trophy Count: " & $iTrophyCurrent, $COLOR_DEBUG)
+			$g_iTrophyCurrent[$CurrentAccount] = Number(getTrophyMainScreen($aTrophies[0], $aTrophies[1]))
+			If $debugsetlog = 1 Then SetLog("Runbot Trophy Count: " & $g_iTrophyCurrent[$CurrentAccount], $COLOR_DEBUG)
 			AttackMain()
 			$SkipFirstZoomout = False
 			If $OutOfGold = 1 Then
@@ -586,7 +586,7 @@ Func AttackMain() ;Main control for attack functions
 				checkMainScreen(False)
 				If $Restart = True Then Return
 			EndIf
-			If $iChkTrophyRange = 1 And Number($iTrophyCurrent) > Number($iTxtMaxTrophy) Then ;If current trophy above max trophy, try drop first
+			If $iChkTrophyRange = 1 And Number($g_iTrophyCurrent[$CurrentAccount]) > Number($iTxtMaxTrophy) Then ;If current trophy above max trophy, try drop first
 				DropTrophy()
 				$Is_ClientSyncError = False ; reset OOS flag to prevent looping.
 				If _Sleep($iDelayAttackMain1) Then Return
@@ -648,8 +648,8 @@ Func QuickAttack()
 		VillageReport()
 	EndIf
 
-	$iTrophyCurrent = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
-	If ($iChkTrophyRange = 1 And Number($iTrophyCurrent) > Number($iTxtMaxTrophy)) Then
+	$g_iTrophyCurrent[$CurrentAccount] = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
+	If ($iChkTrophyRange = 1 And Number($g_iTrophyCurrent[$CurrentAccount]) > Number($iTxtMaxTrophy)) Then
 		If $debugsetlog = 1 Then Setlog("No quickly re-attack, need to drop tropies", $COLOR_DEBUG)
 		Return False ;need to drop tropies
 	EndIf

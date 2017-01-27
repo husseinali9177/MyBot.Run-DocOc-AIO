@@ -101,12 +101,12 @@ Func CleanYard()
 	Local $redLines = $sCocDiamond
 	Local $minLevel = 0
 	Local $maxLevel = 1000
-	Local $maxReturnPoints = 10 ; $iFreeBuilderCount
+	Local $maxReturnPoints = 10 ; $g_iFreeBuilderCount[$CurrentAccount]
 	Local $returnProps = "objectname,objectlevel,objectpoints"
 	Local $bForceCapture = True
-	Local $NoBuilders = $iFreeBuilderCount < 1
+	Local $NoBuilders = $g_iFreeBuilderCount[$CurrentAccount] < 1
 
-	If $iFreeBuilderCount > 0 And $ichkCleanYard = 1 Then
+	If $g_iFreeBuilderCount[$CurrentAccount] > 0 And $ichkCleanYard = 1 Then
 		Local $aResult = findMultiple($directory, $sCocDiamond, $redLines, $minLevel, $maxLevel, $maxReturnPoints, $returnProps, $bForceCapture)
 		If IsArray($aResult) then
 			For $matchedValues In $aResult
@@ -125,7 +125,7 @@ Func CleanYard()
 						If _Sleep($iDelayCheckTombs1) Then Return
 						If getBuilderCount() = False Then Return  ; update builder data, return if problem
 						If _Sleep($iDelayRespond) Then Return
-						If $iFreeBuilderCount = 0 Then
+						If $g_iFreeBuilderCount[$CurrentAccount] = 0 Then
 							Setlog("No More Builders available")
 							If _Sleep(2000) Then Return
 							ExitLoop (2)
@@ -144,7 +144,7 @@ Func CleanYard()
 	Local $GemBoxXY[2] = [0, 0]
 
 	; Perform a parallel search with all images inside the directory
-	If ($iFreeBuilderCount > 0 And $ichkGemsBox = 1) Or TestCapture() Then
+	If ($g_iFreeBuilderCount[$CurrentAccount] > 0 And $ichkGemsBox = 1) Or TestCapture() Then
 		Local $aResult = multiMatches($directoryGemBox, 1, $sCocDiamond, $sCocDiamond)
 		If UBound($aResult) > 1 Then
 			; Now loop through the array to modify values, select the highest entry to return
@@ -179,7 +179,7 @@ Func CleanYard()
 						If _Sleep($iDelayCheckTombs1) Then Return
 						If getBuilderCount() = False Then Return  ; update builder data, return if problem
 						If _Sleep($iDelayRespond) Then Return
-						If $iFreeBuilderCount = 0 Then
+						If $g_iFreeBuilderCount[$CurrentAccount] = 0 Then
 							Setlog("No More Builders available")
 							If _Sleep(2000) Then Return
 							ExitLoop

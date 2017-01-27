@@ -18,7 +18,7 @@ Func UpgradeWall()
 	If $ichkWalls = 1 Then
 		SetLog("Checking Upgrade Walls", $COLOR_INFO)
 		If SkipWallUpgrade() Then Return
-		If $iFreeBuilderCount > 0 Then
+		If $g_iFreeBuilderCount[$CurrentAccount] > 0 Then
 			ClickP($aAway, 1, 0, "#0313") ; click away
 			Local $MinWallGold = Number($g_iGoldCurrent[$CurrentAccount] - $WallCost) > Number($itxtWallMinGold) ; Check if enough Gold
 			Local $MinWallElixir = Number($g_iElixirCurrent[$CurrentAccount] - $WallCost) > Number($itxtWallMinElixir) ; Check if enough Elixir
@@ -93,9 +93,9 @@ Func UpgradeWallGold()
 			If _Sleep($iDelayUpgradeWallGold3) Then Return
 			SetLog("Upgrade complete", $COLOR_SUCCESS)
 			PushMsg("UpgradeWithGold")
-			$iNbrOfWallsUppedGold += 1
+			$g_iNbrOfWallsUppedGold[$CurrentAccount] += 1
 			$iNbrOfWallsUpped += 1
-			$iCostGoldWall += $WallCost
+			$g_iCostGoldWall[$CurrentAccount] += $WallCost
 			UpdateStats()
 			Return True
 		EndIf
@@ -127,9 +127,9 @@ Func UpgradeWallElixir()
 			If _Sleep($iDelayUpgradeWallElixir3) Then Return
 			SetLog("Upgrade complete", $COLOR_SUCCESS)
 			PushMsg("UpgradeWithElixir")
-			$iNbrOfWallsUppedElixir += 1
+			$g_iNbrOfWallsUppedElixir[$CurrentAccount] += 1
 			$iNbrOfWallsUpped += 1
-			$iCostElixirWall += $WallCost
+			$g_iCostElixirWall[$CurrentAccount] += $WallCost
 			UpdateStats()
 			Return True
 		EndIf
@@ -162,7 +162,7 @@ Func SkipWallUpgrade() ; Dynamic Upgrades
 	For $iz = 0 To UBound($aUpgrades, 1) - 1
 		If $ichkbxUpgrade[$iz] = 1 Then $iUpgradeAction += 1
 	Next
-	If $iFreeBuilderCount > $iSaveWallBldr And $iUpgradeAction > 0 Then
+	If $g_iFreeBuilderCount[$CurrentAccount] > $iSaveWallBldr And $iUpgradeAction > 0 Then
 		For $iz = 0 To UBound($aUpgrades, 1) - 1
 			Switch $aUpgrades[$iz][3]
 				Case "Gold"

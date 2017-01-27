@@ -233,7 +233,7 @@ Func Train()
 
 		If $tempDElixir <> "" And $iDarkCurrent <> "" Then
 			$tempDElixirSpent = ($tempDElixir - $iDarkCurrent)
-			$g_iTrainCostDElixir[$CurrentAccount] += $tempDElixirSpent
+			$iTrainCostDElixir += $tempDElixirSpent
 			$g_iDarkTotal[$CurrentAccount] -= $tempDElixirSpent
 		EndIf
 
@@ -1240,7 +1240,7 @@ Func Train()
 
 	If $tempDElixir <> "" And $iDarkCurrent <> "" Then
 		$tempDElixirSpent = ($tempDElixir - $iDarkCurrent)
-		$g_iTrainCostDElixir[$CurrentAccount] += $tempDElixirSpent
+		$iTrainCostDElixir += $tempDElixirSpent
 		$g_iDarkTotal[$CurrentAccount] -= $tempDElixirSpent
 	EndIf
 

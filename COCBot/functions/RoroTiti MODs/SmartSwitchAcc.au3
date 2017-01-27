@@ -17,8 +17,17 @@ Func SwitchAccount($Init = False)
 
 	If $ichkSwitchAccount = 1 And $g_bSwitchAcctPrereq Then
 
-		checkMainScreen()
 		If $Init Then $FirstInit = False
+
+		If $CurrentAccount >= 1 Or $CurrentAccount <= 8 Then
+			If Labstatus() Then
+				GUICtrlSetBkColor($g_lblLabStatus[$CurrentAccount], $COLOR_GREEN)
+			Else
+				GUICtrlSetBkColor($g_lblLabStatus[$CurrentAccount], $COLOR_RED)
+			EndIf
+		EndIf
+
+		checkMainScreen()
 
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
 
@@ -35,11 +44,11 @@ Func SwitchAccount($Init = False)
 				SetLog("Initialization of SmartSwitchAccount...", $COLOR_INFO)
 				$CurrentAccount = 1
 				$FirstLoop = 2 ; Don't Ask.. It Just Works...
-
 				FindFirstAccount()
 				$NextAccount = $CurrentAccount
 				GetYCoordinates($NextAccount)
 				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
+				$FirstRun = 1
 
 			ElseIf $FirstLoop <= $TotalAccountsInUse And Not $Init Then
 				SetLog("Continue initialization of SmartSwitchAccount...", $COLOR_INFO)
@@ -202,7 +211,11 @@ Func SwitchAccount($Init = False)
 				If _Sleep($iDelayRespond) Then Return
 				IdentifyDonateOnly()
 				waitMainScreen()
+				VillageReport()
+				UpdateStats()
+
 				CheckArmyCamp(True, True) ; Update troops first after switch
+
 				If _Sleep(500) Then Return
 
 				If $ichkDonateAccount[$CurrentAccount] = 1  Then
@@ -490,6 +503,18 @@ Func chkAccountsProperties()
 				GUICtrlSetState($i, $GUI_UNCHECKED)
 			Next
 			$ichkCanUse[$h] = 0
+			GUICtrlSetState($g_icnGoldSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_icnElixirSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_icnDarkSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_icnGemSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_icnBuliderSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_icnHourGlassSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_lblLabStatus[$h], $GUI_HIDE)
+			GUICtrlSetState($g_lblUnitMeasureSW1[$h], $GUI_HIDE)
+			GUICtrlSetState($g_lblUnitMeasureSW2[$h], $GUI_HIDE)
+			GUICtrlSetState($g_lblUnitMeasureSW3[$h], $GUI_HIDE)
+			GUICtrlSetState($g_lblTimeNowSW[$h], $GUI_HIDE)
+
 		EndIf
 
 		If GUICtrlRead($chkDonateAccount[$h]) = $GUI_CHECKED Then
@@ -565,4 +590,99 @@ Func AppendLineToSSALog($AtkReportLine)
 
 EndFunc   ;==>AppendLineToSSALog
 
+Func LabStatus()
+	Local Static $sLabUpgradeTimeStatic[9]
+	Local $TimeDiff, $aArray, $Result
+
+	If $aLabPos[0] <= 0 Or $aLabPos[1] <= 0 Then
+		SetLog("Laboratory Location not found!", $COLOR_ERROR)
+		LocateLab() ; Lab location unknown, so find it.
+		If $aLabPos[0] = 0 Or $aLabPos[1] = 0 Then
+			SetLog("Problem locating Laboratory, train laboratory position before proceeding", $COLOR_ERROR)
+			Return False
+		EndIf
+	EndIf
+
+	If $sLabUpgradeTimeStatic[$CurrentAccount] <> ""  Then $TimeDiff = _DateDiff("n", _NowCalc(), $sLabUpgradeTimeStatic[$CurrentAccount]) ; what is difference between end time and now in minutes?
+		If @error Then _logErrorDateDiff(@error)
+		If $debugSetlog = 1 Then SetLog(" Lab end time: " & $sLabUpgradeTimeStatic[$CurrentAccount] & ", DIFF= " & $TimeDiff, $COLOR_DEBUG)
+		If $RunState = False Then Return
+
+	If $TimeDiff <= 0 Then
+		SetLog("Checking Troop Upgrade in Laboratory ...", $COLOR_INFO)
+	Else
+		SetLog("Laboratory Upgrade in progress, waiting for completion", $COLOR_INFO)
+		Return True
+	EndIf
+
+	BuildingClickP($aLabPos, "#0197") ;Click Laboratory
+	If _Sleep($iDelayLaboratory1) Then Return ; Wait for window to open
+
+	; Find Research Button
+	Local $offColors[4][3] = [[0x708CB0, 37, 34], [0x603818, 50, 43], [0xD5FC58, 61, 8], [0x000000, 82, 0]] ; 2nd pixel Blue blade, 3rd pixel brown handle, 4th pixel Green cross, 5th black button edge
+	Global $ButtonPixel = _MultiPixelSearch(433, 565 + $bottomOffsetY, 562, 619 + $bottomOffsetY, 1, 1, Hex(0x000000, 6), $offColors, 30) ; Black pixel of button edge
+	If IsArray($ButtonPixel) Then
+		If $debugSetlog = 1 Then
+			Setlog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
+			Setlog("#1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 37, $ButtonPixel[1] + 34, True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 50, $ButtonPixel[1] + 43, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 61, $ButtonPixel[1] + 8, True), $COLOR_DEBUG)
+		EndIf
+		If $debugImageSave = 1 Then DebugImageSave("LabUpgrade_") ; Debug Only
+		Click($ButtonPixel[0] + 40, $ButtonPixel[1] + 25, 1, 0, "#0198") ; Click Research Button
+		If _Sleep($iDelayLaboratory1) Then Return ; Wait for window to open
+	Else
+		Setlog("Trouble finding research button, try again...", $COLOR_WARNING)
+		ClickP($aAway, 2, $iDelayLaboratory4, "#0199")
+		Return False
+	EndIf
+
+	; check for upgrade in process - look for green in finish upgrade with gems button
+		If _ColorCheck(_GetPixelColor(625, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Or _ColorCheck(_GetPixelColor(660, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Then
+			SetLog("Upgrade in progress, waiting for completion of other troops", $COLOR_INFO)
+			If _Sleep($iDelayLaboratory2) Then Return
+		; upgrade in process and time not recorded?  Then update completion time!
+			If $sLabUpgradeTimeStatic[$CurrentAccount] = ""  Or $TimeDiff <= 0 Then
+				$Result = getRemainTLaboratory(336, 260)      ; Try to read white text showing actual time left for upgrade
+				If $debugSetlog = 1 Then Setlog($aLabTroops[$icmbLaboratory][3] & " OCR Remaining Lab Time = " & $Result, $COLOR_DEBUG)
+				$aArray = StringSplit($Result, ' ', BitOR($STR_CHRSPLIT, $STR_NOCOUNT))  ;separate days, hours, minutes, seconds
+				If IsArray($aArray) Then
+					$iRemainingTimeMin = 0
+					For $i = 0 To UBound($aArray) - 1  ; step through array and compute minutes remaining
+						$sTime = ""
+						Select
+							Case StringInStr($aArray[$i], "d", $STR_NOCASESENSEBASIC) > 0
+								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "d"
+								$iRemainingTimeMin += (Int($sTime) * 24 * 60) ; change days to minutes and add
+							Case StringInStr($aArray[$i], "h", $STR_NOCASESENSEBASIC) > 0
+								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "h"
+								$iRemainingTimeMin += (Int($sTime) * 60) ; change hours to minutes and add
+							Case StringInStr($aArray[$i], "m", $STR_NOCASESENSEBASIC) > 0
+								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "m"
+								$iRemainingTimeMin += Int($sTime) ; add minutes
+							Case StringInStr($aArray[$i], "s", $STR_NOCASESENSEBASIC) > 0
+								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "s"
+								$iRemainingTimeMin += Int($sTime) / 60  ; Add seconds
+							Case Else
+								Setlog("Remaining lab time OCR invalid:" & $aArray[$i], $COLOR_WARNING)
+								ClickP($aAway, 2, $iDelayLaboratory4, "#0328")
+								Return False
+						EndSelect
+
+						If $debugSetlog = 1 Then Setlog("Remain Lab Time: " & $aArray[$i] & ", Minutes= " & $iRemainingTimeMin, $COLOR_DEBUG)
+					Next
+
+					$sLabUpgradeTimeStatic[$CurrentAccount] = _DateAdd('n', Ceiling($iRemainingTimeMin), _NowCalc()) ; add the time required to NOW to finish the upgrade
+					If @error Then _logErrorDateAdd(@error)
+					SetLog($aLabTroops[$icmbLaboratory][3] & "Updated Lab finishing time: " & $sLabUpgradeTimeStatic[$CurrentAccount], $COLOR_SUCCESS)
+				Else
+					If $debugSetlog = 1 Then Setlog("Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
+				EndIf
+			EndIf
+			ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
+			Return True
+		Else
+			SetLog("Laboratory has Stopped", $COLOR_INFO)
+			ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
+			Return False
+		EndIf
+EndFunc
 

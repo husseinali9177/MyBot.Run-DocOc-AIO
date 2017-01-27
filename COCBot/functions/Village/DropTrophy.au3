@@ -308,6 +308,6 @@ Func SetTrophyLoss()
 		$sTrophyLoss = getTrophyLossAttackScreen(48, 184)
 	EndIf
 	Setlog(" Trophy loss = " & $sTrophyLoss, $COLOR_DEBUG) ; record trophy loss
-	$iDroppedTrophyCount -= Number($sTrophyLoss)
+	$g_iDroppedTrophyCount[$CurrentAccount] -= Number($sTrophyLoss)
 	UpdateStats()
 EndFunc   ;==>SetTrophyLoss

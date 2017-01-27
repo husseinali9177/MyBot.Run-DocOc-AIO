@@ -661,36 +661,35 @@ Global $BSpos[2] ; Inside Android window positions relative to the screen, [x,y]
 Global $BSrpos[2] ; Inside Android window positions relative to the window, [x,y]
 ;---------------------------------------------------------------------------------------------------
 ;Stats
-Global $iFreeBuilderCount, $iTotalBuilderCount, $iGemAmount ; builder and gem amounts
-Global $iTestFreeBuilderCount = -1 ; used for test cases, -1 = disabled
-Global $g_iGoldStart[9], $g_iElixirStart[9], $g_iDarkStart[9], $g_iTrophyStart[9] ; New added space for switch
-
-
-
-Global $g_iGoldCurrent[9], $g_iElixirCurrent[9], $g_iDarkCurrent[9], $g_iTrophyCurrent[9] ; current stats
-
-
-Global $iGoldTotal, $iElixirTotal, $iDarkTotal, $iTrophyTotal ; total stats
-Global $iGoldLast, $iElixirLast, $iDarkLast, $iTrophyLast ; loot and trophy gain from last raid
-Global $iGoldLastBonus, $iElixirLastBonus, $iDarkLastBonus ; bonus loot from last raid
-Global $iBonusLast = 0 ; last attack Bonus percentage
 Global $iskipped
-Global $iSkippedVillageCount, $iDroppedTrophyCount ; skipped village and dropped trophy counts
-Global $iCostGoldWall, $iCostElixirWall, $iCostGoldBuilding, $iCostElixirBuilding, $iCostDElixirHero ; wall, building and hero upgrade costs
-Global $iNbrOfWallsUppedGold, $iNbrOfWallsUppedElixir, $iNbrOfBuildingsUppedGold, $iNbrOfBuildingsUppedElixir, $iNbrOfHeroesUpped ; number of wall, building, hero upgrades with gold, elixir, delixir
-Global $iSearchCost, $iTrainCostElixir, $iTrainCostDElixir ; search and train troops cost
-Global $iNbrOfOoS ; number of Out of Sync occurred
-Global $iNbrOfTHSnipeFails, $iNbrOfTHSnipeSuccess ; number of fails and success while TH Sniping
-Global $iGoldFromMines, $iElixirFromCollectors, $iDElixirFromDrills ; number of resources gain by collecting mines, collectors, drills
-Global $iAttackedVillageCount[$iModeCount + 3] ; number of attack villages for DB, LB, TB, TS
-Global $iTotalGoldGain[$iModeCount + 3], $iTotalElixirGain[$iModeCount + 3], $iTotalDarkGain[$iModeCount + 3], $iTotalTrophyGain[$iModeCount + 3] ; total resource gains for DB, LB, TB, TS
-Global $iNbrOfDetectedMines[$iModeCount + 3], $iNbrOfDetectedCollectors[$iModeCount + 3], $iNbrOfDetectedDrills[$iModeCount + 3] ; number of mines, collectors, drills detected for DB, LB, TB
-Global $lblAttacked[$iModeCount + 3], $lblTotalGoldGain[$iModeCount + 3], $lblTotalElixirGain[$iModeCount + 3], $lblTotalDElixirGain[$iModeCount + 3], $lblTotalTrophyGain[$iModeCount + 3]
+Global $iTestFreeBuilderCount = -1 ; used for test cases, -1 = disabled
+Global $iNbrOfOoS ; number of Out of Sync occurred Leave a total value, not by each account
+Global $ArmyCapacity = 0 ; Array not needed for Switch Multi Account Stats
+Global $iLaboratoryElixirCost ; Array not needed for Switch Multi Account Stats
+
+Global $lblAttacked[$iModeCount + 3], $lblTotalGoldGain[$iModeCount + 3], $lblTotalElixirGain[$iModeCount + 3]
+Global $lblTotalDElixirGain[$iModeCount + 3], $lblTotalTrophyGain[$iModeCount + 3] ; GUi Labels Do Not Need to be Arrayed for Swtich Account
 Global $lblNbrOfDetectedMines[$iModeCount + 3], $lblNbrOfDetectedCollectors[$iModeCount + 3], $lblNbrOfDetectedDrills[$iModeCount + 3]
-Global $ArmyCapacity = 0
-Global $iLaboratoryElixirCost
-Global $iAttackedCount = 0 ; convert to global from UpdateStats to enable daily attack limits
-;Global $costspell
+
+Global $g_iFreeBuilderCount[9], $g_iTotalBuilderCount[9], $g_iGemAmount[9] ; builder and gem amounts
+Global $g_iGoldStart[9], $g_iElixirStart[9], $g_iDarkStart[9], $g_iTrophyStart[9] ; New added space for switch
+Global $g_iGoldCurrent[9], $g_iElixirCurrent[9], $g_iDarkCurrent[9], $g_iTrophyCurrent[9] ; current stats
+Global $g_iGoldTotal[9], $g_iElixirTotal[9], $g_iDarkTotal[9], $g_iTrophyTotal[9] ; total stats
+Global $g_iGoldLast[9], $g_iElixirLast[9], $g_iDarkLast[9], $g_iTrophyLast[9] ; loot and trophy gain from last raid
+Global $g_iGoldLastBonus[9], $g_iElixirLastBonus[9], $g_iDarkLastBonus[9] ; bonus loot from last raid
+Global $g_iSkippedVillageCount[9], $g_iDroppedTrophyCount[9] ; skipped village and dropped trophy counts
+Global $g_iCostGoldWall[9], $g_iCostElixirWall[9], $g_iCostGoldBuilding[9], $g_iCostElixirBuilding[9], $g_iCostDElixirHero[9] ; wall, building and hero upgrade costs
+Global $g_iNbrOfWallsUppedGold[9], $g_iNbrOfWallsUppedElixir[9], $g_iNbrOfBuildingsUppedGold[9], $g_iNbrOfBuildingsUppedElixir[9], $g_iNbrOfHeroesUpped[9] ; number of wall, building, hero upgrades with gold, elixir, delixir
+Global $g_iSearchCost[9], $g_iTrainCostElixir[9], $g_iTrainCostDElixir[9] ; search and train troops cost
+Global $g_iNbrOfTHSnipeFails[9], $g_iNbrOfTHSnipeSuccess[9] ; number of fails and success while TH Sniping
+Global $g_iGoldFromMines[9], $g_iElixirFromCollectors[9], $g_iDElixirFromDrills[9] ; number of resources gain by collecting mines, collectors, drills
+
+Global $g_iAttackedVillageCount[9][$iModeCount + 3] ; number of attack villages for DB, LB, TB, TS
+Global $g_iTotalGoldGain[9][$iModeCount + 3], $g_iTotalElixirGain[9][$iModeCount + 3], $g_iTotalDarkGain[9][$iModeCount + 3], $g_iTotalTrophyGain[9][$iModeCount + 3] ; total resource gains for DB, LB, TB, TS
+Global $g_iNbrOfDetectedMines[9][$iModeCount + 3], $g_iNbrOfDetectedCollectors[9][$iModeCount + 3], $g_iNbrOfDetectedDrills[9][$iModeCount + 3] ; number of mines, collectors, drills detected for DB, LB, TB
+
+Global $g_iAttackedCount[9] ; convert to global from UpdateStats to enable daily attack limits
+
 
 ;Search Settings
 Global $bSearchMode = False

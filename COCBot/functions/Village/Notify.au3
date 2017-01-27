@@ -26,10 +26,10 @@ EndFunc   ;==>NotifyRemoteControl
 
 Func NotifyReport()
 	If $NotifyAlertVillageReport = 1 Then
-		NotifylPushBulletMessage($NotifyOrigin & ":" & "\n" & " [" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & "  [" & GetTranslated(620,112, "T") & "]: " & _NumberFormat($g_iTrophyCurrent[$CurrentAccount]) & " [" & GetTranslated(620,105, "No. of Free Builders") & "]: " & _NumberFormat($iFreeBuilderCount))
+		NotifylPushBulletMessage($NotifyOrigin & ":" & "\n" & " [" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & "  [" & GetTranslated(620,112, "T") & "]: " & _NumberFormat($g_iTrophyCurrent[$CurrentAccount]) & " [" & GetTranslated(620,105, "No. of Free Builders") & "]: " & _NumberFormat($g_iFreeBuilderCount[$CurrentAccount]))
 	EndIf
 	If $NotifyAlertLastAttack = 1 Then
-		If Not ($iGoldLast = "" And $iElixirLast = "") Then NotifylPushBulletMessage($NotifyOrigin & " | Last Gain :" & "\n" & " [" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($iDarkLast) & "  [" & GetTranslated(620,112, "T") & "]: " & _NumberFormat($iTrophyLast))
+		If Not ($g_iGoldLast[$CurrentAccount] = "" And $g_iElixirLast[$CurrentAccount] = "") Then NotifylPushBulletMessage($NotifyOrigin & " | Last Gain :" & "\n" & " [" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & "  [" & GetTranslated(620,112, "T") & "]: " & _NumberFormat($g_iTrophyLast[$CurrentAccount]))
 	EndIf
 	If _Sleep($iDelayReportPushBullet1) Then Return
 	checkMainScreen(False)
@@ -549,7 +549,7 @@ Func NotifyRemoteControlProc($OnlyPB)
 							NotifyDeleteMessageFromPushBullet($iden[$x])
 						Case GetTranslated(620,1, -1) & " " & StringUpper($NotifyOrigin) & " " & GetTranslated(620,17,"STATS")
 							SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,710,"Your request has been received. Statistics sent"), $COLOR_GREEN)
-							NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,108, "Stats Village Report") & "\n" & GetTranslated(620,148, "At Start") & "\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldStart[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirStart[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkStart[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyStart[$CurrentAccount] & "\n\n" & GetTranslated(620,114, "Now (Current Resources)") &"\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyCurrent[$CurrentAccount] & " [" & GetTranslated(620,121, "GEM") & "]: " & $iGemAmount & "\n \n [" & GetTranslated(620,105, "No. of Free Builders") & "]: " & $iFreeBuilderCount & "\n [" & GetTranslated(620,117, "No. of Wall Up") & "]: " & GetTranslated(620,109, "G") & ": " & $iNbrOfWallsUppedGold & "/ " & GetTranslated(620,110, "E") & ": " & $iNbrOfWallsUppedElixir & "\n\n" & GetTranslated(620,116, "Attacked") & ": " & $iAttackedCount & "\n" & GetTranslated(620,115, "Skipped") & ": " & $iSkippedVillageCount)
+							NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,108, "Stats Village Report") & "\n" & GetTranslated(620,148, "At Start") & "\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldStart[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirStart[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkStart[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyStart[$CurrentAccount] & "\n\n" & GetTranslated(620,114, "Now (Current Resources)") &"\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyCurrent[$CurrentAccount] & " [" & GetTranslated(620,121, "GEM") & "]: " & $g_iGemAmount[$CurrentAccount] & "\n \n [" & GetTranslated(620,105, "No. of Free Builders") & "]: " & $g_iFreeBuilderCount[$CurrentAccount] & "\n [" & GetTranslated(620,117, "No. of Wall Up") & "]: " & GetTranslated(620,109, "G") & ": " & $g_iNbrOfWallsUppedGold[$CurrentAccount] & "/ " & GetTranslated(620,110, "E") & ": " & $g_iNbrOfWallsUppedElixir[$CurrentAccount] & "\n\n" & GetTranslated(620,116, "Attacked") & ": " & $g_iAttackedCount[$CurrentAccount] & "\n" & GetTranslated(620,115, "Skipped") & ": " & $g_iSkippedVillageCount[$CurrentAccount])
 							NotifyDeleteMessageFromPushBullet($iden[$x])
 						Case GetTranslated(620,1, -1) & " " & StringUpper($NotifyOrigin) & " " & GetTranslated(620,19,"LOG")
 							SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,711,"Your request has been received from ") & $NotifyOrigin & ". " & GetTranslated(620,712,"Log is now sent"), $COLOR_GREEN)
@@ -563,12 +563,12 @@ Func NotifyRemoteControlProc($OnlyPB)
 								NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,131, "There is no last raid screenshot") & ".")
 								SetLog(GetTranslated(620,141,"There is no last raid screenshot."))
 								SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,714,"Your request has been received. Last Raid txt sent"), $COLOR_GREEN)
-								NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($iDarkLast) & " [" & GetTranslated(620,112, "T") & "]: " & $iTrophyLast)
+								NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyLast[$CurrentAccount])
 							EndIf
 							NotifyDeleteMessageFromPushBullet($iden[$x])
 						Case GetTranslated(620,1, -1) & " " & StringUpper($NotifyOrigin) & " " & GetTranslated(620,23,"LASTRAIDTXT")
 							SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,714,"Your request has been received. Last Raid txt sent"), $COLOR_GREEN)
-							NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($iDarkLast) & " [" & GetTranslated(620,112, "T") & "]: " & $iTrophyLast)
+							NotifyPushToPushBullet($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyLast[$CurrentAccount])
 							NotifyDeleteMessageFromPushBullet($iden[$x])
 						Case GetTranslated(620,1, -1) & " " & StringUpper($NotifyOrigin) & " " & GetTranslated(620,25,"SCREENSHOT")
 							SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,715,"ScreenShot request received"), $COLOR_GREEN)
@@ -780,22 +780,22 @@ Func NotifyRemoteControlProc($OnlyPB)
 						Local $DarkGainPerHour = "0 / h"
 						Local $TrophyGainPerHour = "0 / h"
 						If $FirstAttack = 2 Then
-							$GoldGainPerHour = _NumberFormat(Round($iGoldTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h"
-							$ElixirGainPerHour = _NumberFormat(Round($iElixirTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h"
+							$GoldGainPerHour = _NumberFormat(Round($g_iGoldTotal[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h"
+							$ElixirGainPerHour = _NumberFormat(Round($g_iElixirTotal[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h"
 						EndIf
 						If $g_iDarkStart[$CurrentAccount] <> "" Then
-							$DarkGainPerHour = _NumberFormat(Round($iDarkTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h"
+							$DarkGainPerHour = _NumberFormat(Round($g_iDarkTotal[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h"
 						EndIf
-						$TrophyGainPerHour = _NumberFormat(Round($iTrophyTotal / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h"
+						$TrophyGainPerHour = _NumberFormat(Round($g_iTrophyTotal[$CurrentAccount] / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h"
 						Local $txtStats = " | " & GetTranslated(620,108,"Stats Village Report") & "\n" & GetTranslated(620,148,"At Start") & "\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldStart[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: "
 							  $txtStats &= _NumberFormat($g_iElixirStart[$CurrentAccount]) & " [D]: " & _NumberFormat($g_iDarkStart[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyStart[$CurrentAccount]
 							  $txtStats &= "\n\n" & GetTranslated(620,114,"Now (Current Resources)") & "\n[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldCurrent[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirCurrent[$CurrentAccount])
-							  $txtStats &= " [D]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyCurrent[$CurrentAccount] & " [GEM]: " & $iGemAmount
+							  $txtStats &= " [D]: " & _NumberFormat($g_iDarkCurrent[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyCurrent[$CurrentAccount] & " [GEM]: " & $g_iGemAmount[$CurrentAccount]
 							  $txtStats &= "\n\n" & GetTranslated(620,140,"Gain per Hour") & ":\n[" & GetTranslated(620,109, "G") & "]: " & $GoldGainPerHour & " [" & GetTranslated(620,110, "E") & "]: " & $ElixirGainPerHour
 							  $txtStats &= "\n[D]: " & $DarkGainPerHour & " [" & GetTranslated(620,112, "T") & "]: " & $TrophyGainPerHour
-							  $txtStats &= "\n\n" & GetTranslated(620,105,"No. of Free Builders") & ": " & $iFreeBuilderCount & "\n[" & GetTranslated(620,117,"No. of Wall Up") & "]: [" & GetTranslated(620,109, "G") & "]: "
-							  $txtStats &= $iNbrOfWallsUppedGold & "/ [" & GetTranslated(620,110, "E") & "]: " & $iNbrOfWallsUppedElixir & "\n\n" & GetTranslated(620,116,"Attacked") & ": "
-							  $txtStats &= $iAttackedCount & "\n" & GetTranslated(620,115,"Skipped") & ": " & $iSkippedVillageCount
+							  $txtStats &= "\n\n" & GetTranslated(620,105,"No. of Free Builders") & ": " & $g_iFreeBuilderCount[$CurrentAccount] & "\n[" & GetTranslated(620,117,"No. of Wall Up") & "]: [" & GetTranslated(620,109, "G") & "]: "
+							  $txtStats &= $g_iNbrOfWallsUppedGold[$CurrentAccount] & "/ [" & GetTranslated(620,110, "E") & "]: " & $g_iNbrOfWallsUppedElixir[$CurrentAccount] & "\n\n" & GetTranslated(620,116,"Attacked") & ": "
+							  $txtStats &= $g_iAttackedCount[$CurrentAccount] & "\n" & GetTranslated(620,115,"Skipped") & ": " & $g_iSkippedVillageCount[$CurrentAccount]
 						NotifyPushToTelegram($NotifyOrigin & $txtStats)
 					Case GetTranslated(620,19,"LOG"), '\UD83D\UDCCB ' & GetTranslated(620,19,"LOG")
 						SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,711,"Your request has been received from ") & $NotifyOrigin & ". " & GetTranslated(620,712,"Log is now sent"), $COLOR_GREEN)
@@ -808,11 +808,11 @@ Func NotifyRemoteControlProc($OnlyPB)
 							NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,141,"There is no last raid screenshot."))
 							SetLog(GetTranslated(620,141,"There is no last raid screenshot."))
 							SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,714,"Your request has been received. Last Raid txt sent"), $COLOR_GREEN)
-							NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,142,"Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [D]: " & _NumberFormat($iDarkLast) & " [" & GetTranslated(620,112, "T") & "]: " & $iTrophyLast)
+							NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,142,"Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [D]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyLast[$CurrentAccount])
 						EndIf
 					Case GetTranslated(620,23,"LASTRAIDTXT"), '\UD83D\UDCC4 ' & GetTranslated(620,23,"LASTRAIDTXT")
 						SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,714,"Your request has been received. Last Raid txt sent"), $COLOR_GREEN)
-						NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,142,"Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [D]: " & _NumberFormat($iDarkLast) & " [" & GetTranslated(620,112, "T") & "]: " & $iTrophyLast)
+						NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,142,"Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [D]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyLast[$CurrentAccount])
 					Case GetTranslated(620,25,"SCREENSHOT")
 						SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,715,"ScreenShot request received"), $COLOR_GREEN)
 						NotifyPushToTelegram($NotifyOrigin & " | " & GetTranslated(620,147,"Chief, your request for Screenshot will be processed ASAP"))
@@ -984,7 +984,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1)  And $NotifyAlertOutOfSync = 1 Then NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,172, "Restarted after Out of Sync Error") & "\n" & GetTranslated(620,149, "Attacking now") & "...")
 		Case "LastRaid"
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1)  And $NotifyAlerLastRaidTXT = 1 Then
-				NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($iGoldLast) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($iElixirLast) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($iDarkLast) & " [" & GetTranslated(620,112, "T") & "]: " & $iTrophyLast)
+				NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,119, "Last Raid txt") & "\n" & "[" & GetTranslated(620,109, "G") & "]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [" & GetTranslated(620,110, "E") & "]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [" & GetTranslated(620,111, "DE") & "]: " & _NumberFormat($g_iDarkLast[$CurrentAccount]) & " [" & GetTranslated(620,112, "T") & "]: " & $g_iTrophyLast[$CurrentAccount])
 				If _Sleep($iDelayPushMsg1) Then Return
 				If $NotifyPBEnabled = 1 Then SetLog(GetTranslated(620,700,"Notify PushBullet") & ": " & GetTranslated(620,727,"Last Raid Text has been sent!"), $COLOR_GREEN)
 				If $NotifyTGEnabled = 1 Then SetLog(GetTranslated(620,701,"Notify Telegram") & ": " & GetTranslated(620,727,"Last Raid Text has been sent!"), $COLOR_GREEN)
@@ -1031,7 +1031,7 @@ Func NotifyPushMessageToBoth($Message, $Source = "")
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertBOTUpdate = 1 Then NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,129, "Chief, there is a new version of the bot available"))
 		Case "BuilderIdle"
 			If ($NotifyPBEnabled = 1 Or $NotifyTGEnabled = 1) And $NotifyAlertBulderIdle = 1 Then
-				Local $iAvailBldr = $iFreeBuilderCount - $iSaveWallBldr
+				Local $iAvailBldr = $g_iFreeBuilderCount[$CurrentAccount] - $iSaveWallBldr
 				if $iAvailBldr > 0 Then
 					if $iReportIdleBuilder <> $iAvailBldr Then
 						NotifyPushToBoth($NotifyOrigin & " | " & GetTranslated(620,122,"You have") & " " & $iAvailBldr & " " & GetTranslated(620,123,"builder(s) idle."))

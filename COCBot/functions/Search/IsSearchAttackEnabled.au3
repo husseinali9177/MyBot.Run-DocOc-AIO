@@ -225,16 +225,16 @@ EndFunc   ;==>IsPlannedTimeNow
 
 Func _OverAttackLimit()
 	Local Static $iAttackCountToday = 0 ; Store daily count locally
-	Local Static $iTotalAttackCount = $iAttackedCount ; Store previous total count locally
+	Local Static $iTotalAttackCount = $g_iAttackedCount[$CurrentAccount] ; Store previous total count locally
 	Local Static $iNowDay = @YDAY ; record numeric value for today
 	If $iNowDay <> @YDAY Then ; if 1 day or more has passed since last time, update daily attack limit
 		$iAttackCountToday = 0 ; reset daily count
 		$iNowDay = @YDAY ; set new year day value
-		$iTotalAttackCount = $iAttackedCount ; total count updated to Stats updated count since bot start
+		$iTotalAttackCount = $g_iAttackedCount[$CurrentAccount] ; total count updated to Stats updated count since bot start
 	Else
-		$iAttackCountToday = $iAttackedCount - $iTotalAttackCount ; subtract old total attack count from current attack count to update Today count
+		$iAttackCountToday = $g_iAttackedCount[$CurrentAccount] - $iTotalAttackCount ; subtract old total attack count from current attack count to update Today count
 	EndIf
-	If $debugsetlog = 1 Then Setlog("AttackCountToday: " & $iAttackCountToday & ", AttackedCount: " & $iAttackedCount & "TotalAttackCount: " & $iTotalAttackCount, $COLOR_DEBUG)
+	If $debugsetlog = 1 Then Setlog("AttackCountToday: " & $iAttackCountToday & ", AttackedCount: " & $g_iAttackedCount[$CurrentAccount] & "TotalAttackCount: " & $iTotalAttackCount, $COLOR_DEBUG)
 	; Need to get attack limits from GUI variables and use randomization
 	Local $iRandomAttackCountToday = Ceiling(Int($icmbAttackPlannerDayMin) + (_getDailyRandom() * (Int($icmbAttackPlannerDayMax) - Int($icmbAttackPlannerDayMin))))
 	If $iRandomAttackCountToday > Int($icmbAttackPlannerDayMax) Then $iRandomAttackCountToday = Int($icmbAttackPlannerDayMax)

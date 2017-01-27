@@ -67,11 +67,11 @@ Func AttackReport()
 		$g_iDarkLast[$CurrentAccount] = ""
 		SetLog("Loot: [G]: " & _NumberFormat($g_iGoldLast[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirLast[$CurrentAccount]) & " [T]: " & $g_iTrophyLast[$CurrentAccount], $COLOR_SUCCESS)
 	EndIf
-	Local $iBonusLast = 0
+
 	If $g_iTrophyLast[$CurrentAccount] >= 0 Then
-		$iBonusLast = Number(getResourcesBonusPerc(570, 309 + $midOffsetY))
-		If $iBonusLast > 0 Then
-			SetLog("Bonus Percentage: " & $iBonusLast & "%")
+		$g_iBonusLast[$CurrentAccount] = Number(getResourcesBonusPerc(570, 309 + $midOffsetY))
+		If $g_iBonusLast[$CurrentAccount] > 0 Then
+			SetLog("Bonus Percentage: " & $g_iBonusLast[$CurrentAccount] & "%")
 			Local $iCalcMaxBonus = 0, $iCalcMaxBonusDark = 0
 
 			If _ColorCheck(_GetPixelColor($aAtkRprtDECheck2[0], $aAtkRprtDECheck2[1], True), Hex($aAtkRprtDECheck2[2], 6), $aAtkRprtDECheck2[3]) Then
@@ -85,12 +85,12 @@ Func AttackReport()
 				$g_iDarkLastBonus[$CurrentAccount] = getResourcesBonus(621, 402 + $midOffsetY)
 				$g_iDarkLastBonus[$CurrentAccount] = StringReplace($g_iDarkLastBonus[$CurrentAccount], "+", "")
 
-				If $iBonusLast = 100 Then
+				If $g_iBonusLast[$CurrentAccount] = 100 Then
 					$iCalcMaxBonus = $g_iGoldLastBonus[$CurrentAccount]
 					SetLog("Bonus [G]: " & _NumberFormat($g_iGoldLastBonus[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirLastBonus[$CurrentAccount]) & " [DE]: " & _NumberFormat($g_iDarkLastBonus[$CurrentAccount]), $COLOR_SUCCESS)
 				Else
-					$iCalcMaxBonus = Number($g_iGoldLastBonus[$CurrentAccount] / ($iBonusLast / 100))
-					$iCalcMaxBonusDark = Number($g_iDarkLastBonus[$CurrentAccount] / ($iBonusLast / 100))
+					$iCalcMaxBonus = Number($g_iGoldLastBonus[$CurrentAccount] / ($g_iBonusLast[$CurrentAccount] / 100))
+					$iCalcMaxBonusDark = Number($g_iDarkLastBonus[$CurrentAccount] / ($g_iBonusLast[$CurrentAccount] / 100))
 
 					SetLog("Bonus [G]: " & _NumberFormat($g_iGoldLastBonus[$CurrentAccount]) & " out of " & _NumberFormat($iCalcMaxBonus) & " [E]: " & _NumberFormat($g_iElixirLastBonus[$CurrentAccount]) & " out of " & _NumberFormat($iCalcMaxBonus) & " [DE]: " & _NumberFormat($g_iDarkLastBonus[$CurrentAccount]) & " out of " & _NumberFormat($iCalcMaxBonusDark), $COLOR_SUCCESS)
 				EndIf
@@ -103,11 +103,11 @@ Func AttackReport()
 				$g_iElixirLastBonus[$CurrentAccount] = StringReplace($g_iElixirLastBonus[$CurrentAccount], "+", "")
 				$g_iDarkLastBonus[$CurrentAccount] = 0
 
-				If $iBonusLast = 100 Then
+				If $g_iBonusLast[$CurrentAccount] = 100 Then
 					$iCalcMaxBonus = $g_iGoldLastBonus[$CurrentAccount]
 					SetLog("Bonus [G]: " & _NumberFormat($g_iGoldLastBonus[$CurrentAccount]) & " [E]: " & _NumberFormat($g_iElixirLastBonus[$CurrentAccount]), $COLOR_SUCCESS)
 				Else
-					$iCalcMaxBonus = Number($g_iGoldLastBonus[$CurrentAccount] / ($iBonusLast / 100))
+					$iCalcMaxBonus = Number($g_iGoldLastBonus[$CurrentAccount] / ($g_iBonusLast[$CurrentAccount] / 100))
 					SetLog("Bonus [G]: " & _NumberFormat($g_iGoldLastBonus[$CurrentAccount]) & " out of " & _NumberFormat($iCalcMaxBonus) & " [E]: " & _NumberFormat($g_iElixirLastBonus[$CurrentAccount]) & " out of " & _NumberFormat($iCalcMaxBonus), $COLOR_SUCCESS)
 				EndIf
 			EndIf
@@ -249,7 +249,7 @@ Func AttackReport()
 	EndIf
 
 	$g_iTrophyTotal[$CurrentAccount] += $g_iTrophyLast[$CurrentAccount]
-	$g_iTotalTrophyGain[$CurrentAccount][$iMatchMode] += $g_iTrophyLast[$CurrentAccount]
+	$g_iTotalTrophyGain[$CurrentAccount, $iMatchMode] += $g_iTrophyLast[$CurrentAccount]
 	If $iMatchMode = $TS Then
 		If $starsearned > 0 Then
 			$g_iNbrOfTHSnipeSuccess[$CurrentAccount] += 1
@@ -260,6 +260,7 @@ Func AttackReport()
 	$g_iAttackedVillageCount[$CurrentAccount][$iMatchMode] += 1
 
 	If $ichkSwitchAccount = 1 Then
+		$g_iAttackedVillageCount[$CurrentAccount] += 1
 		$g_iGoldGainSW[$CurrentAccount] += $g_iGoldLast[$CurrentAccount] + $g_iGoldLastBonus[$CurrentAccount]
 		$g_iElixirGainSW[$CurrentAccount] += $g_iElixirLast[$CurrentAccount] + $g_iElixirLastBonus[$CurrentAccount]
 		$g_iDarkGainSW[$CurrentAccount] += $g_iDarkLast[$CurrentAccount] + $g_iDarkLastBonus[$CurrentAccount]

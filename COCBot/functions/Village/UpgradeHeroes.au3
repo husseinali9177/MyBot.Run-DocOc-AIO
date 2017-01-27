@@ -50,7 +50,7 @@ Func UpgradeHeroes()
 	;##### Verify Builders available #####;
 	If getBuilderCount() = False Then Return  ; update builder data, return if problem
 	If _Sleep($iDelayRespond) Then Return
-	If $iFreeBuilderCount < 1 + $iSaveWallBldr Then
+	If $g_iFreeBuilderCount[$CurrentAccount] < 1 + $iSaveWallBldr Then
 		SetLog("Not Enough Builders for Queen", $COLOR_ERROR)
 		Return
 	EndIf
@@ -61,7 +61,7 @@ Func UpgradeHeroes()
 	;##### Verify Builders available #####;
 	If getBuilderCount() = False Then Return  ; update builder data, return if problem
 	If _Sleep($iDelayRespond) Then Return
-	If $iFreeBuilderCount < 1 + $iSaveWallBldr Then
+	If $g_iFreeBuilderCount[$CurrentAccount] < 1 + $iSaveWallBldr Then
 		SetLog("Not Enough Builders for King", $COLOR_ERROR)
 		Return
 	EndIf
@@ -72,7 +72,7 @@ Func UpgradeHeroes()
 	;##### Verify Builders available
 	If getBuilderCount() = False Then Return  ; update builder data, return if problem
 	If _Sleep($iDelayRespond) Then Return
-	If $iFreeBuilderCount < 1 + $iSaveWallBldr Then
+	If $g_iFreeBuilderCount[$CurrentAccount] < 1 + $iSaveWallBldr Then
 		SetLog("Not Enough Builder for Warden", $COLOR_ERROR)
 		Return
 	EndIf
@@ -171,8 +171,8 @@ Func QueenUpgrade()
 				EndIf
 				SetLog("Queen Upgrade complete", $COLOR_SUCCESS)
 				If _Sleep($iDelayUpgradeHero2) Then Return ; Wait for window to close
-				$iNbrOfHeroesUpped += 1
-				$iCostDElixirHero += $aQueenUpgCost[$aHeroLevel - 1] * 1000
+				$g_iNbrOfHeroesUpped[$CurrentAccount] += 1
+				$g_iCostDElixirHero[$CurrentAccount] += $aQueenUpgCost[$aHeroLevel - 1] * 1000
 				UpdateStats()
 			EndIf
 		Else
@@ -275,8 +275,8 @@ Func KingUpgrade()
 				EndIf
 				SetLog("King Upgrade complete", $COLOR_SUCCESS)
 				If _Sleep($iDelayUpgradeHero2) Then Return ; Wait for window to close
-				$iNbrOfHeroesUpped += 1
-				$iCostDElixirHero += $aKingUpgCost[$aHeroLevel - 1] * 1000
+				$g_iNbrOfHeroesUpped[$CurrentAccount] += 1
+				$g_iCostDElixirHero[$CurrentAccount] += $aKingUpgCost[$aHeroLevel - 1] * 1000
 				UpdateStats()
 			EndIf
 		Else
@@ -385,8 +385,8 @@ Func WardenUpgrade()
 				EndIf
 				SetLog("Warden Upgrade Started", $COLOR_SUCCESS)
 				If _Sleep($iDelayUpgradeHero2) Then Return ; Wait for window to close
-				$iNbrOfHeroesUpped += 1
-				$iCostElixirBuilding += $aWardenUpgCost[$aHeroLevel - 1] * 1000
+				$g_iNbrOfHeroesUpped[$CurrentAccount] += 1
+				$g_iCostElixirBuilding[$CurrentAccount] += $aWardenUpgCost[$aHeroLevel - 1] * 1000
 				UpdateStats()
 			EndIf
 		Else

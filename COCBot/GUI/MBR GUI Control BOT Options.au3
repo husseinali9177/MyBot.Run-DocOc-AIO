@@ -674,7 +674,7 @@ EndFunc
 
 Func btnTestCleanYard()
 	Local $currentRunState = $RunState
-	Local $iCurrFreeBuilderCount = $iFreeBuilderCount
+	Local $iCurrFreeBuilderCount = $g_iFreeBuilderCount[$CurrentAccount]
 	$iTestFreeBuilderCount = 5
 	$RunState = True
 	BeginImageTest()
@@ -694,7 +694,7 @@ Func btnTestCleanYard()
 	EndImageTest()
 	; restore original state
 	$iTestFreeBuilderCount = -1
-	$iFreeBuilderCount = $iCurrFreeBuilderCount
+	$g_iFreeBuilderCount[$CurrentAccount] = $iCurrFreeBuilderCount
 	$RunState = $currentRunState
 EndFunc
 

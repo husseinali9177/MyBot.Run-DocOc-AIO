@@ -468,38 +468,7 @@ Func chkTroopOrder($bNoiseMode = True)
 		EndIf
 	EndIf
 EndFunc   ;==>chkTroopOrder
-#CS
-Func chkDarkTroopOrder2()
-	;GUI OnEvent functions cannot have parameters, so below call is used for the default parameter
-	chkDarkTroopOrder()
-EndFunc   ;==>chkDarkTroopOrder2
 
-Func chkDarkTroopOrder($bNoiseMode = True)
-	If GUICtrlRead($chkDarkTroopOrder) = $GUI_CHECKED Then
-		$ichkDarkTroopOrder = 1
-		GUICtrlSetState($btnDarkTroopOrderSet, $GUI_ENABLE)
-		For $i = 0 To UBound($aDarkTroopOrderList) - 2
-			GUICtrlSetState($cmbDarkTroopOrder[$i], $GUI_ENABLE)
-		Next
-		If IsUseCustomDarkTroopOrder() = True Then GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnRedLight)
-	Else
-		$ichkDarkTroopOrder = 0
-		GUICtrlSetState($btnDarkTroopOrderSet, $GUI_DISABLE) ; disable button
-		For $i = 0 To UBound($aDarkTroopOrderList) - 2
-			GUICtrlSetState($cmbDarkTroopOrder[$i], $GUI_DISABLE) ; disable combo boxes
-		Next
-		SetDefaultTroopGroupDark($bNoiseMode) ; Reset troopgroup values to default
-		If $bNoiseMode Or $debugsetlogTrain = 1 Then
-			Local $sNewTrainList = ""
-			For $i = 0 To UBound($DefaultTroopGroupDark) - 1
-				$sNewTrainList &= $TroopDarkName[$i] & ", "
-			Next
-			$sNewTrainList = StringLeft($sNewTrainList, StringLen($sNewTrainList) - 2)
-			Setlog("Current train order= " & $sNewTrainList, $COLOR_BLUE)
-		EndIf
-	EndIf
-EndFunc   ;==>chkDarkTroopOrder
- #CE
 Func GUITrainOrder()
 	Local $bDuplicate = False
 	Local $iGUI_CtrlId = @GUI_CtrlId
@@ -525,33 +494,7 @@ Func GUITrainOrder()
 		GUICtrlSetImage($ImgTroopOrderSet, $pIconLib, $eIcnRedLight) ; set status indicator to show need to apply new order
 	EndIf
 EndFunc   ;==>GUITrainOrder
-#CS
-Func GUITrainDarkOrder()
-	Local $bDuplicate = False
-	Local $iGUI_CtrlId = @GUI_CtrlId
-	Local $iCtrlIdImage = $iGUI_CtrlId + 1 ; record control ID for $ImgTroopOrder[$z] based on control of combobox that called this function
-	Local $iTroopIndex = _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) + 1 ; find zero based index number of troop selected in combo box, add one for enum of proper icon
 
-	GUICtrlSetImage($iCtrlIdImage, $pIconLib, $aDarkTroopOrderIcon[$iTroopIndex]) ; set proper troop icon
-
-	For $i = 0 To UBound($aDarkTroopOrderList) - 2 ; check for duplicate combobox index and flag problem
-		If $iGUI_CtrlId = $cmbDarkTroopOrder[$i] Then ContinueLoop
-		If _GUICtrlComboBox_GetCurSel($iGUI_CtrlId) = _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$i]) Then
-			GUICtrlSetImage($ImgDarkTroopOrder[$i], $pIconLib, $eIcnOptions)
-			_GUICtrlComboBox_SetCurSel($cmbDarkTroopOrder[$i], -1)
-			GUISetState()
-			$bDuplicate = True
-		EndIf
-	Next
-	If $bDuplicate = True Then
-		GUICtrlSetState($BtnDarkTroopOrderSet, $GUI_DISABLE) ; enable button to apply new order
-		Return
-	Else
-		GUICtrlSetState($BtnDarkTroopOrderSet, $GUI_ENABLE) ; enable button to apply new order
-		GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnRedLight) ; set status indicator to show need to apply new order
-	EndIf
-EndFunc   ;==>GUITrainDarkOrder
- #CE
 Func BtnTroopOrderSet()
 	SetRedrawBotWindow(False)
 	Local $bReady = True ; Initialize ready to record troop order flag
@@ -599,53 +542,7 @@ Func BtnTroopOrderSet()
 	GUICtrlSetState(BtnTroopOrderSet, $GUI_DISABLE)
 	SetRedrawBotWindow(True)
 EndFunc   ;==>BtnTroopOrderSet
-#CS
-Func BtnDarkTroopOrderSet()
-	Local $bReady = True ; Initialize ready to record troop order flag
-	Local $sNewTrainList = ""
 
-	; check for duplicate combobox index and flag with read color
-	For $i = 0 To UBound($aDarkTroopOrderList) - 2
-		For $j = 0 To UBound($aDarkTroopOrderList) - 2
-			If $i = $j Then ContinueLoop ; skip if index are same
-			If _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$i]) = _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$j]) Then
-				_GUICtrlComboBox_SetCurSel($cmbDarkTroopOrder[$j], -1)
-				GUICtrlSetImage($ImgDarkTroopOrder[$j], $pIconLib, $eIcnOptions)
-				$bReady = False
-			Else
-				GUICtrlSetColor($cmbDarkTroopOrder[$j], $COLOR_BLACK)
-			EndIf
-			$icmbDarkTroopOrder[$i] = _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$i]) ; update combo array variable with new value
-		Next
-	Next
-	If $bReady Then
-		ChangeDarkTroopTrainOrder() ; code function to record new training order
-		If @error Then
-			Switch @error
-				Case 1
-					Setlog("Code problem, can not continue till fixed!", $COLOR_RED)
-				Case 2
-					Setlog("Bad Combobox selections, please fix!", $COLOR_RED)
-				Case 3
-					Setlog("Unable to Change Dark Troop Train Order due bad change count!", $COLOR_RED)
-				Case Else
-					Setlog("Monkey ate bad banana, something wrong with ChangeDarkTroopTrainOrder() code!", $COLOR_RED)
-			EndSwitch
-			GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnRedLight)
-		Else
-			Setlog("Troop training order changed successfully!", $COLOR_GREEN)
-			For $i = 0 To UBound($DefaultTroopGroupDark) - 1
-				$sNewTrainList &= $TroopDarkName[$i] & ", "
-			Next
-			Setlog("Troop train order= " & $sNewTrainList, $COLOR_BLUE)
-		EndIf
-	Else
-		Setlog("Must use all dark troops and No duplicate troop names!", $COLOR_RED)
-		GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnRedLight)
-	EndIf
-	GUICtrlSetState($BtnDarkTroopOrderSet, $GUI_DISABLE)
-EndFunc   ;==>BtnDarkTroopOrderSet
- #CE
 Func ChangeTroopTrainOrder()
 
 	If $debugsetlog = 1 Or $debugsetlogTrain = 1 Then Setlog("Begin Func ChangeTroopTrainOrder()", $COLOR_DEBUG) ;Debug
@@ -708,65 +605,7 @@ Func ChangeTroopTrainOrder()
 	Return True
 
 EndFunc   ;==>ChangeTroopTrainOrder
-#CS
-Func ChangeDarkTroopTrainOrder()
 
-	If $debugsetlog = 1 Or $debugsetlogTrain = 1 Then Setlog("Begin Func ChangeDarkTroopTrainOrder()", $COLOR_DEBUG) ;Debug
-
-	Local $sComboText = ""
-	Local $NewTroopGroup[7][3]
-	Local $iUpdateCount = 0
-
-	If UBound($aDarkTroopOrderList) - 1 <> UBound($TroopGroupDark) Then ; safety check in case troops are added
-		If $debugsetlogTrain = 1 Then Setlog("UBound($aDarkTroopOrderList) - 1: " & UBound($aDarkTroopOrderList) - 1 & " = " & UBound($TroopGroupDark) & "UBound($TroopGroupDark)", $COLOR_DEBUG) ;Debug
-		Setlog("Monkey ate bad banana, fix $aDarkTroopOrderList & $TroopGroupDark arrays!", $COLOR_RED)
-		SetError(1, 0, False)
-		Return
-	EndIf
-
-	If IsUseCustomDarkTroopOrder() = False Then ; check if no custom troop values saved yet.
-		SetError(2, 0, False)
-		Return
-	EndIf
-
-	For $i = 0 To UBound($aDarkTroopOrderList) - 2 ; Look for match of combobox text to troopgroup and create new train order
-		$sComboText = StringLeft(StringStripWS(GUICtrlRead($cmbDarkTroopOrder[$i]), $STR_STRIPALL), 5)
-		For $j = 0 To UBound($DefaultTroopGroupDark) - 1
-			;Setlog("$i=" & $i & ", ComboSel=" & _GUICtrlComboBox_GetCurSel($cmbDarkTroopOrder[$i]) & ", $DefaultTroopGroupDark[" & $j & "][0]: " & StringLeft($DefaultTroopGroupDark[$j][0], 3) & " = " & $sComboText& " :$sComboText" , $COLOR_DEBUG) ;Debug
-			If StringInStr($sComboText, StringLeft($DefaultTroopGroupDark[$j][0], 3), $STR_NOCASESENSEBASIC) = 0 Then ContinueLoop
-			$iUpdateCount += 1 ; keep count of troops updated to ensure success
-			;Setlog("$iUpdateCount: " & $iUpdateCount , $COLOR_DEBUG) ;Debug  ; debug
-			For $k = 0 To UBound($DefaultTroopGroupDark, 2) - 1 ; if true then assign next $i array element(s) in list to match in troopgroup
-				$NewTroopGroup[$i][$k] = $DefaultTroopGroupDark[$j][$k]
-			Next ; ; $NewTroopGroupDark[$i][$k] loop
-			ExitLoop
-		Next ; $DefaultTroopGroupDark[$j][x] loop
-	Next ; $cmbDarkTroopOrder[$i] loop
-
-	If $iUpdateCount = UBound($DefaultTroopGroupDark, 1) Then ; safety check that all troops properly assigned to new array.
-		For $j = 0 To UBound($DefaultTroopGroupDark) - 1
-			For $k = 0 To UBound($DefaultTroopGroupDark, 2) - 1
-				$TroopGroupDark[$j][$k] = $NewTroopGroup[$j][$k]
-			Next
-			If $debugsetlogTrain = 1 Then Setlog("$TroopGroupDark[" & $j & "]= " & $TroopGroupDark[$j][0] & ":" & $TroopGroupDark[$j][1] & ":" & $TroopGroupDark[$j][2], $COLOR_ORANGE)
-		Next
-		For $i = 0 To UBound($TroopGroupDark, 1) - 1
-			$TroopDarkName[$i] = $TroopGroupDark[$i][0]
-			$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
-			$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
-			$TroopDarkTimes[$i] = $TroopGroupDark[$i][3]
-		Next
-		GUICtrlSetImage($ImgDarkTroopOrderSet, $pIconLib, $eIcnGreenLight)
-	Else
-		Setlog("Error - Bad troop assignment in ChangeDarkTroopTrainOrder()", $COLOR_RED)
-		SetError(3, 0, False)
-		Return
-	EndIf
-
-	Return True
-
-EndFunc   ;==>ChangeDarkTroopTrainOrder
- #CE
 Func SetDefaultTroopGroup($bNoiseMode = True)
 	;
 	; $TroopGroup[10][3] = [["Arch", 1, 1], ["Giant", 2, 5], ["Wall", 4, 2], ["Barb", 0, 1], ["Gobl", 3, 1], ["Heal", 7, 14], ["Pekk", 9, 25], ["Ball", 5, 5], ["Wiza", 6, 4], ["Drag", 8, 20]]
@@ -785,35 +624,10 @@ Func SetDefaultTroopGroup($bNoiseMode = True)
 		$TroopDons[$i] = $TroopGroup[$i][4]
 		$TroopType[$i] = $TroopGroup[$i][5]
 	Next
-#CS
-	For $i = 0 To UBound($DefaultTroopGroupElixir, 1) - 1
-		$TroopElixirName[$i] = $DefaultTroopGroupElixir[$i][0]
-		$TroopElixirNamePosition[$i] = $DefaultTroopGroupElixir[$i][1]
-		$TroopElixirHeight[$i] = $DefaultTroopGroupElixir[$i][2]
-		$TroopElixirTimes[$i] = $DefaultTroopGroupElixir[$i][3]
-	Next
- #CE
+
 	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default troop training order set", $COLOR_GREEN)
 EndFunc   ;==>SetDefaultTroopGroup
-#CS
-Func SetDefaultTroopGroupDark($bNoiseMode = True)
-	;
-	; $DefaultTroopGroupDark[7][3] = [["Mini", 0, 2], ["Hogs", 1, 5], ["Valk", 2, 8], ["Gole", 3, 30], ["Witc", 4, 12], ["Lava", 5, 30], ["Bowl", 6, 6]]
-	;
-	For $i = 0 To UBound($DefaultTroopGroupDark, 1) - 1
-		For $j = 0 To UBound($DefaultTroopGroupDark, 2) - 1
-			$TroopGroupDark[$i][$j] = $DefaultTroopGroupDark[$i][$j]
-		Next
-	Next
-	For $i = 0 To UBound($DefaultTroopGroupDark, 1) - 1
-		$TroopDarkName[$i] = $TroopGroupDark[$i][0]
-		$TroopDarkNamePosition[$i] = $TroopGroupDark[$i][1]
-		$TroopDarkHeight[$i] = $TroopGroupDark[$i][2]
-		$TroopDarkTimes[$i] = $TroopGroupDark[$i][3]
-	Next
-	If $bNoiseMode Or $debugsetlogTrain = 1 Then Setlog("Default dark troop training order set", $COLOR_GREEN)
-EndFunc   ;==>SetDefaultTroopGroupDark
- #CE
+
 Func IsUseCustomTroopOrder()
 	For $i = 0 To UBound($aTroopOrderList) - 2 ; Check if custom train order has been used to select log message
 		If $icmbTroopOrder[$i] = -1 Then
@@ -824,18 +638,7 @@ Func IsUseCustomTroopOrder()
 	If $debugsetlogTrain = 1 Then Setlog("Custom train order used...", $COLOR_DEBUG) ;Debug
 	Return True
 EndFunc   ;==>IsUseCustomTroopOrder
-#CS
-Func IsUseCustomDarkTroopOrder()
-	For $i = 0 To UBound($aDarkTroopOrderList) - 2 ; Check if custom train order has been used to select log message
-		If $icmbDarkTroopOrder[$i] = -1 Then
-			If $debugsetlogTrain = 1 Then Setlog("Custom dark train order not used...", $COLOR_DEBUG) ;Debug
-			Return False
-		EndIf
-	Next
-	If $debugsetlogTrain = 1 Then Setlog("Custom dark train order used...", $COLOR_DEBUG) ;Debug
-	Return True
-EndFunc   ;==>IsUseCustomDarkTroopOrder
- #CE
+
 
 ; ============================================================================
 ; ================================= SmartZap =================================

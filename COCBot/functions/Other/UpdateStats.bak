@@ -30,11 +30,10 @@ Global $iOldTotalGoldGain[$iModeCount + 1], $iOldTotalElixirGain[$iModeCount + 1
 Global $iOldNbrOfDetectedMines[$iModeCount + 1], $iOldNbrOfDetectedCollectors[$iModeCount + 1], $iOldNbrOfDetectedDrills[$iModeCount + 1] ; number of mines, collectors, drills detected for DB, LB, TB
 
 Func UpdateStats()
-	Local Static $iAttackedCountStatic = 0
 	Local Static $iOLDGoldCurrentStatic[9] , $iOLDElixirCurrentStatic[9] , $iOLDDarkCurrentStatic[9] , $iOLDTrophyCurrentStatic[9]  ; current stats
 
 
-	If $FirstRun = 1  Then
+	If $FirstRun = 1 Then
 		;GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
 		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
 		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
@@ -365,7 +364,7 @@ Func UpdateStats()
 	; ================================= SmartZap =================================
 	; ============================================================================
 
-	$iAttackedCountStatic = 0
+	$g_iAttackedCount[$CurrentAccount] = 0
 
 	For $i = 0 To $iModeCount
 
@@ -373,7 +372,7 @@ Func UpdateStats()
 			GUICtrlSetData($lblAttacked[$i], _NumberFormat($g_iAttackedVillageCount[$CurrentAccount][$i], True))
 			$iOldAttackedVillageCount[$i] = $g_iAttackedVillageCount[$CurrentAccount][$i]
 		EndIf
-		$iAttackedCountStatic += $g_iAttackedVillageCount[$CurrentAccount][$i]
+		$g_iAttackedCount[$CurrentAccount] += $g_iAttackedVillageCount[$CurrentAccount][$i]
 
 		If $iOldTotalGoldGain[$i] <> $g_iTotalGoldGain[$CurrentAccount][$i] Then
 			GUICtrlSetData($lblTotalGoldGain[$i], _NumberFormat($g_iTotalGoldGain[$CurrentAccount][$i], True))
@@ -397,10 +396,10 @@ Func UpdateStats()
 
 	Next
 
-	If $iOldAttackedCount <> $iAttackedCountStatic Then
-		GUICtrlSetData($lblresultvillagesattacked, _NumberFormat($iAttackedCountStatic, True))
-		GUICtrlSetData($lblResultAttackedHourNow, _NumberFormat($iAttackedCountStatic, True))
-		$iOldAttackedCount = $iAttackedCountStatic
+	If $iOldAttackedCount <> $g_iAttackedCount[$CurrentAccount] Then
+		GUICtrlSetData($lblresultvillagesattacked, _NumberFormat($g_iAttackedCount[$CurrentAccount], True))
+		GUICtrlSetData($lblResultAttackedHourNow, _NumberFormat($g_iAttackedCount[$CurrentAccount], True))
+		$iOldAttackedCount = $g_iAttackedCount[$CurrentAccount]
 	EndIf
 
 	For $i = 0 To $iModeCount
@@ -417,9 +416,9 @@ Func UpdateStats()
 			$iOldNbrOfDetectedCollectors[$i] = $g_iNbrOfDetectedCollectors[$CurrentAccount][$i]
 		EndIf
 
-		If $iOldNbrOfDetectedDrills[$i] <> $g_iNbrOfDetectedDrills[$CurrentAccount][$i] Then
-			GUICtrlSetData($lblNbrOfDetectedDrills[$i], $g_iNbrOfDetectedDrills[$CurrentAccount][$i])
-			$iOldNbrOfDetectedDrills[$i] = $g_iNbrOfDetectedDrills[$CurrentAccount][$i]
+		If $iOldNbrOfDetectedDrills[$i] <> $g_iNbrOfDetectedDrills[$CurrentAccount, $i] Then
+			GUICtrlSetData($lblNbrOfDetectedDrills[$i], $g_iNbrOfDetectedDrills[$CurrentAccount, $i])
+			$iOldNbrOfDetectedDrills[$i] = $g_iNbrOfDetectedDrills[$CurrentAccount, $i]
 		EndIf
 
 	Next
@@ -481,68 +480,56 @@ Func ResetStats()
 	;GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
 	;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_SHOW)
 	;GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW)
-	If $ichkSwitchAccount = 1 Then
-		$g_iGoldStart[9] = $g_iGoldCurrent[$CurrentAccount]
-		$g_iElixirStart[9] = $g_iElixirCurrent[$CurrentAccount]
-		$g_iDarkStart[9] = $g_iDarkCurrent[$CurrentAccount]
-		$g_iTrophyStart[9] = $g_iTrophyCurrent[$CurrentAccount]
-		;reset first run conditions SW
-		$Init = False
-		$FirstInit = True
-		
-	Else
-		$g_iGoldStart[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
-		$g_iElixirStart[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
-		$g_iDarkStart[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
-		$g_iTrophyStart[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
-	EndIf
-	
-	$g_iGoldTotal[9] = 0
-	$g_iElixirTotal[9] = 0
-	$g_iDarkTotal[9] = 0
-	$g_iTrophyTotal[9] = 0
-	$g_iGoldLast[9] = 0
-	$g_iElixirLast[9] = 0
-	$g_iDarkLast[9] = 0
-	$g_iTrophyLast[9] = 0
-	$g_iGoldLastBonus[9] = 0
-	$g_iElixirLastBonus[9] = 0
-	$g_iDarkLastBonus[9] = 0
-	$g_iSkippedVillageCount[9] = 0
-	$g_iDroppedTrophyCount[9] = 0
-	$g_iCostGoldWall[9] = 0
-	$g_iCostElixirWall[9] = 0
-	$g_iCostGoldBuilding[9] = 0
-	$g_iCostElixirBuilding[9] = 0
-	$g_iCostDElixirHero[9] = 0
-	$g_iNbrOfWallsUppedGold[9] = 0
-	$g_iNbrOfWallsUppedElixir[9] = 0
-	$g_iNbrOfBuildingsUppedGold[9] = 0
-	$g_iNbrOfBuildingsUppedElixir[9] = 0
-	$g_iNbrOfHeroesUpped[9] = 0
-	$g_iSearchCost[9] = 0
-	$g_iTrainCostElixir[9] = 0
-	$g_iTrainCostDElixir[9] = 0
+	$g_iGoldStart[$CurrentAccount] = $g_iGoldCurrent[$CurrentAccount]
+	$g_iElixirStart[$CurrentAccount] = $g_iElixirCurrent[$CurrentAccount]
+	$g_iDarkStart[$CurrentAccount] = $g_iDarkCurrent[$CurrentAccount]
+	$g_iTrophyStart[$CurrentAccount] = $g_iTrophyCurrent[$CurrentAccount]
+	$g_iGoldTotal[$CurrentAccount] = 0
+	$g_iElixirTotal[$CurrentAccount] = 0
+	$g_iDarkTotal[$CurrentAccount] = 0
+	$g_iTrophyTotal[$CurrentAccount] = 0
+	$g_iGoldLast[$CurrentAccount] = 0
+	$g_iElixirLast[$CurrentAccount] = 0
+	$g_iDarkLast[$CurrentAccount] = 0
+	$g_iTrophyLast[$CurrentAccount] = 0
+	$g_iGoldLastBonus[$CurrentAccount] = 0
+	$g_iElixirLastBonus[$CurrentAccount] = 0
+	$g_iDarkLastBonus[$CurrentAccount] = 0
+	$g_iSkippedVillageCount[$CurrentAccount] = 0
+	$g_iDroppedTrophyCount[$CurrentAccount] = 0
+	$g_iCostGoldWall[$CurrentAccount] = 0
+	$g_iCostElixirWall[$CurrentAccount] = 0
+	$g_iCostGoldBuilding[$CurrentAccount] = 0
+	$g_iCostElixirBuilding[$CurrentAccount] = 0
+	$g_iCostDElixirHero[$CurrentAccount] = 0
+	$g_iNbrOfWallsUppedGold[$CurrentAccount] = 0
+	$g_iNbrOfWallsUppedElixir[$CurrentAccount] = 0
+	$g_iNbrOfBuildingsUppedGold[$CurrentAccount] = 0
+	$g_iNbrOfBuildingsUppedElixir[$CurrentAccount] = 0
+	$g_iNbrOfHeroesUpped[$CurrentAccount] = 0
+	$g_iSearchCost[$CurrentAccount] = 0
+	$g_iTrainCostElixir[$CurrentAccount] = 0
+	$g_iTrainCostDElixir[$CurrentAccount] = 0
 	$iNbrOfOoS = 0
-	$g_iNbrOfTHSnipeFails[9] = 0
-	$g_iNbrOfTHSnipeSuccess[9] = 0
-	$g_iGoldFromMines[9] = 0
-	$g_iElixirFromCollectors[9] = 0
-	$g_iDElixirFromDrills[9] = 0
+	$g_iNbrOfTHSnipeFails[$CurrentAccount] = 0
+	$g_iNbrOfTHSnipeSuccess[$CurrentAccount] = 0
+	$g_iGoldFromMines[$CurrentAccount] = 0
+	$g_iElixirFromCollectors[$CurrentAccount] = 0
+	$g_iDElixirFromDrills[$CurrentAccount] = 0
 	; ======================= SmartZap =======================
 	$iSmartZapGain = 0
 	$iNumLSpellsUsed = 0
 	$iNumEQSpellsUsed = 0
 	; ======================= SmartZap =======================
 	For $i = 0 To $iModeCount
-		$g_iAttackedVillageCount[9][$i] = 0
-		$g_iTotalGoldGain[9][$i] = 0
-		$g_iTotalElixirGain[9][$i] = 0
-		$g_iTotalDarkGain[9][$i] = 0
-		$g_iTotalTrophyGain[9][$i] = 0
-		$g_iNbrOfDetectedMines[9][$i] = 0
-		$g_iNbrOfDetectedCollectors[9][$i] = 0
-		$g_iNbrOfDetectedDrills[9][$i] = 0
+		$g_iAttackedVillageCount[$CurrentAccount][$i] = 0
+		$g_iTotalGoldGain[$CurrentAccount][$i] = 0
+		$g_iTotalElixirGain[$CurrentAccount][$i] = 0
+		$g_iTotalDarkGain[$CurrentAccount][$i] = 0
+		$g_iTotalTrophyGain[$CurrentAccount][$i] = 0
+		$g_iNbrOfDetectedMines[$CurrentAccount][$i] = 0
+		$g_iNbrOfDetectedCollectors[$CurrentAccount][$i] = 0
+		$g_iNbrOfDetectedDrills[$CurrentAccount, $i] = 0
 	Next
 
 	For $i = 0 To 28

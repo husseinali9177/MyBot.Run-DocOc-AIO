@@ -17,8 +17,8 @@ Func SmartUpgrade()
 
 	If $ichkSmartUpgrade = 1 Then ; check if SmartUpgrade is enabled
 		getBuilderCount()
-		If $iFreeBuilderCount <> 0 Then ; check free builders
-			If ($iSaveWallBldr = 1 And $iFreeBuilderCount > 1) Or $iSaveWallBldr = 0 Then ; check if Save builder for walls is active
+		If $g_iFreeBuilderCount[$CurrentAccount] <> 0 Then ; check free builders
+			If ($iSaveWallBldr = 1 And $g_iFreeBuilderCount[$CurrentAccount] > 1) Or $iSaveWallBldr = 0 Then ; check if Save builder for walls is active
 				SetLog("Starting SmartUpgrade...", $COLOR_BLUE)
 				SetLog("Cleaning Yard before...", $COLOR_BLUE)
 				CleanYard()
@@ -45,10 +45,10 @@ Func clickUpgrade()
 
 	While $canContinueLoop
 
-		If $iTotalBuilderCount >= 1 Then
+		If $g_iTotalBuilderCount[$CurrentAccount] >= 1 Then
 			getBuilderCount()
-			If $iFreeBuilderCount <> 0 Then ; check free builders
-				If ($iSaveWallBldr = 1 And $iFreeBuilderCount > 1) Or $iSaveWallBldr = 0 Then
+			If $g_iFreeBuilderCount[$CurrentAccount] <> 0 Then ; check free builders
+				If ($iSaveWallBldr = 1 And $g_iFreeBuilderCount[$CurrentAccount] > 1) Or $iSaveWallBldr = 0 Then
 					If openUpgradeTab() Then
 						randomSleep(1500)
 						If searchZeros() Then

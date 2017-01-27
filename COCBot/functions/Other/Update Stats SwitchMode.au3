@@ -20,8 +20,7 @@ If $g_sProfileName[$CurrentAccount] <> $sCurrProfile Then
 	GUICtrlSetData($g_grpVillageSW[$CurrentAccount], GetTranslated(603, 32, "Village") & ": " & $g_sProfileName[$CurrentAccount])
 EndIf
 
-	GUICtrlSetData($lblResultSkippedHourNow, $g_iSkippedVillageCountSW[$CurrentAccount])		;	Counting skipped village at Bottom GUI
-	GUICtrlSetData($lblResultAttackedHourNow, $g_iAttackedVillageCount[$CurrentAccount])			;	Counting attacked village at Bottom GUI
+
 
     For $i = 1 To 8 ; Update time for all Accounts
 #cs
@@ -71,7 +70,7 @@ EndIf
 		EndIf
 
 		If $g_iGemNow[$CurrentAccount] <> $g_iOLDGemNow[$CurrentAccount] Or $g_iGemNow[$CurrentAccount] = "" Then
-			GUICtrlSetData($g_lblGemNowSW[$CurrentAccount], _NumberFormat($g_iGemNow[$CurrentAccount], True))
+			GUICtrlSetData($g_lblGemNowSW[$CurrentAccount], $g_iGemNow[$CurrentAccount] )
 			$g_iOLDGemNow[$CurrentAccount] = $g_iGemNow[$CurrentAccount]
 		EndIf
 
@@ -103,7 +102,7 @@ Func ResetStatsSwitchMode()
 	   $g_iElixirGainSW[$i] = 0
 	   $g_iDarkGainSW[$i] = 0
 
-	   $g_iAttackedVillageCount[$i] = 0
+;	   $g_iAttackedVillageCount[$i] = 0
 	   $g_iSkippedVillageCountSW[$i] = 0
 
 	Next
