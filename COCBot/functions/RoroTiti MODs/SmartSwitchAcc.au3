@@ -1,11 +1,11 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: SmartSwitchAccount (v1)
+; Name ..........: SmartSwitchAccount (v2)
 ; Description ...: This file contains all functions of SmartSwitchAccount feature
 ; Syntax ........: ---
 ; Parameters ....: ---
 ; Return values .: ---
-; Author ........: RoroTiti
-; Modified ......: 01/10/2016
+; Author ........: RoroTiti & Ezeck0001
+; Modified ......: 28/01/2017
 ; Remarks .......: This file is part of MyBotRun. Copyright 2016
 ;                  MyBotRun is distributed under the terms of the GNU GPL
 ;				   Because this file is a part of an open-sourced project, I allow all MODders and DEVelopers to use these functions.
@@ -20,7 +20,7 @@ Func SwitchAccount($Init = False)
 		If $Init Then $FirstInit = False
 
 		If $CurrentAccount >= 1 Or $CurrentAccount <= 8 Then
-			If Labstatus() Then
+			If LabStatus() Then
 				GUICtrlSetBkColor($g_lblLabStatus[$CurrentAccount], $COLOR_GREEN)
 			Else
 				GUICtrlSetBkColor($g_lblLabStatus[$CurrentAccount], $COLOR_RED)
@@ -71,12 +71,12 @@ Func SwitchAccount($Init = False)
 			EndIf
 
 			If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
-				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donating" )
+				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donating")
 				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 			Else
-				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Looting" )
+				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Looting")
 				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
@@ -95,7 +95,7 @@ Func SwitchAccount($Init = False)
 					If _Sleep(500) Then Return
 				EndIf
 
-				Click(820, 590, 1, 0, "Click Setting")      ;Click setting
+				Click(820, 590, 1, 0, "Click Setting") ;Click setting
 
 				$iCount = 0 ; Sleep(5000) if needed.
 				While Not _ColorCheck(_GetPixelColor(766, 101, True), Hex(0xF88088, 6), 20)
@@ -106,7 +106,7 @@ Func SwitchAccount($Init = False)
 
 				;The Double Click check for either green or red then click twice
 				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) _
-					Or _ColorCheck(_GetPixelColor(408, 408, True), "F07078", 20) Then
+						Or _ColorCheck(_GetPixelColor(408, 408, True), "F07078", 20) Then
 					Click(440, 420, 2, 750, "Click Connect Twice with long pause")
 
 				EndIf
@@ -172,25 +172,25 @@ Func SwitchAccount($Init = False)
 				EndIf
 				; Update Stats Gui Lables.
 				If Not $Init Then
-					If $ichkDonateAccount[$CurrentAccount] = 1  Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
-						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donate" )
+					If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
+						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donate")
 						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 					Else
-						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], Round($CurrentAccountWaitTime, 2) )
+						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], Round($CurrentAccountWaitTime, 2))
 						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 					EndIf
 
 					If $ichkDonateAccount[$NextAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
-						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Donating" )
+						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Donating")
 						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
 					Else
-						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Looting" )
+						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Looting")
 						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
@@ -218,11 +218,9 @@ Func SwitchAccount($Init = False)
 
 				If _Sleep(500) Then Return
 
-				If $ichkDonateAccount[$CurrentAccount] = 1  Then
-
+				If $ichkDonateAccount[$CurrentAccount] = 1 Then
 					TrainDonateOnlyLoop()
 				Else
-
 					runBot()
 				EndIf
 			EndIf
@@ -320,7 +318,7 @@ Func FindFirstAccount()
 	$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$NextAccount])
 	_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 	cmbProfile()
-EndFunc
+EndFunc   ;==>FindFirstAccount
 
 Func GetNextAccount()
 
@@ -341,7 +339,7 @@ Func GetNextAccount()
 		If _Sleep($iDelayRespond) Then Return
 
 		$CurrentDAccount = $NextDAccount
-;		$CurrentAccount = $NextDAccount
+		;		$CurrentAccount = $NextDAccount
 		$NextAccount = $NextDAccount
 		$MustGoToDonateAccount = 0
 
@@ -383,7 +381,7 @@ Func MakeSummaryLog()
 
 EndFunc   ;==>MakeSummaryLog
 
-Func TrainDonateOnlyLoop()  ; not used func
+Func TrainDonateOnlyLoop() ; not used func
 
 	If $ichkDonateAccount[$CurrentAccount] = 1 Then
 
@@ -493,11 +491,25 @@ Func chkAccountsProperties()
 	For $h = 1 To 8
 
 		If GUICtrlRead($chkCanUse[$h]) = $GUI_CHECKED Then
+
 			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
 			$ichkCanUse[$h] = 1
+			GUICtrlSetState($g_icnGoldSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_icnElixirSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_icnDarkSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_icnGemSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_icnBuliderSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_icnHourGlassSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_lblLabStatus[$h], $GUI_SHOW)
+			GUICtrlSetState($g_lblUnitMeasureSW1[$h], $GUI_SHOW)
+			GUICtrlSetState($g_lblUnitMeasureSW2[$h], $GUI_SHOW)
+			GUICtrlSetState($g_lblUnitMeasureSW3[$h], $GUI_SHOW)
+			GUICtrlSetState($g_lblTimeNowSW[$h], $GUI_SHOW)
+			GUICtrlSetState($g_grpVillageSW[$h], $GUI_SHOW)
 		Else
+
 			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
 				GUICtrlSetState($i, $GUI_DISABLE)
 				GUICtrlSetState($i, $GUI_UNCHECKED)
@@ -514,6 +526,7 @@ Func chkAccountsProperties()
 			GUICtrlSetState($g_lblUnitMeasureSW2[$h], $GUI_HIDE)
 			GUICtrlSetState($g_lblUnitMeasureSW3[$h], $GUI_HIDE)
 			GUICtrlSetState($g_lblTimeNowSW[$h], $GUI_HIDE)
+			GUICtrlSetState($g_grpVillageSW[$h], $GUI_HIDE)
 
 		EndIf
 
@@ -603,10 +616,10 @@ Func LabStatus()
 		EndIf
 	EndIf
 
-	If $sLabUpgradeTimeStatic[$CurrentAccount] <> ""  Then $TimeDiff = _DateDiff("n", _NowCalc(), $sLabUpgradeTimeStatic[$CurrentAccount]) ; what is difference between end time and now in minutes?
-		If @error Then _logErrorDateDiff(@error)
-		If $debugSetlog = 1 Then SetLog(" Lab end time: " & $sLabUpgradeTimeStatic[$CurrentAccount] & ", DIFF= " & $TimeDiff, $COLOR_DEBUG)
-		If $RunState = False Then Return
+	If $sLabUpgradeTimeStatic[$CurrentAccount] <> "" Then $TimeDiff = _DateDiff("n", _NowCalc(), $sLabUpgradeTimeStatic[$CurrentAccount]) ; what is difference between end time and now in minutes?
+	If @error Then _logErrorDateDiff(@error)
+	If $debugSetlog = 1 Then SetLog(" Lab end time: " & $sLabUpgradeTimeStatic[$CurrentAccount] & ", DIFF= " & $TimeDiff, $COLOR_DEBUG)
+	If $RunState = False Then Return
 
 	If $TimeDiff <= 0 Then
 		SetLog("Checking Troop Upgrade in Laboratory ...", $COLOR_INFO)
@@ -636,53 +649,53 @@ Func LabStatus()
 	EndIf
 
 	; check for upgrade in process - look for green in finish upgrade with gems button
-		If _ColorCheck(_GetPixelColor(625, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Or _ColorCheck(_GetPixelColor(660, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Then
-			SetLog("Upgrade in progress, waiting for completion of other troops", $COLOR_INFO)
-			If _Sleep($iDelayLaboratory2) Then Return
+	If _ColorCheck(_GetPixelColor(625, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Or _ColorCheck(_GetPixelColor(660, 250 + $midOffsetY, True), Hex(0x60AC10, 6), 20) Then
+		SetLog("Upgrade in progress, waiting for completion of other troops", $COLOR_INFO)
+		If _Sleep($iDelayLaboratory2) Then Return
 		; upgrade in process and time not recorded?  Then update completion time!
-			If $sLabUpgradeTimeStatic[$CurrentAccount] = ""  Or $TimeDiff <= 0 Then
-				$Result = getRemainTLaboratory(336, 260)      ; Try to read white text showing actual time left for upgrade
-				If $debugSetlog = 1 Then Setlog($aLabTroops[$icmbLaboratory][3] & " OCR Remaining Lab Time = " & $Result, $COLOR_DEBUG)
-				$aArray = StringSplit($Result, ' ', BitOR($STR_CHRSPLIT, $STR_NOCOUNT))  ;separate days, hours, minutes, seconds
-				If IsArray($aArray) Then
-					$iRemainingTimeMin = 0
-					For $i = 0 To UBound($aArray) - 1  ; step through array and compute minutes remaining
-						$sTime = ""
-						Select
-							Case StringInStr($aArray[$i], "d", $STR_NOCASESENSEBASIC) > 0
-								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "d"
-								$iRemainingTimeMin += (Int($sTime) * 24 * 60) ; change days to minutes and add
-							Case StringInStr($aArray[$i], "h", $STR_NOCASESENSEBASIC) > 0
-								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "h"
-								$iRemainingTimeMin += (Int($sTime) * 60) ; change hours to minutes and add
-							Case StringInStr($aArray[$i], "m", $STR_NOCASESENSEBASIC) > 0
-								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "m"
-								$iRemainingTimeMin += Int($sTime) ; add minutes
-							Case StringInStr($aArray[$i], "s", $STR_NOCASESENSEBASIC) > 0
-								$sTime = StringTrimRight($aArray[$i], 1) ; removing the "s"
-								$iRemainingTimeMin += Int($sTime) / 60  ; Add seconds
-							Case Else
-								Setlog("Remaining lab time OCR invalid:" & $aArray[$i], $COLOR_WARNING)
-								ClickP($aAway, 2, $iDelayLaboratory4, "#0328")
-								Return False
-						EndSelect
+		If $sLabUpgradeTimeStatic[$CurrentAccount] = "" Or $TimeDiff <= 0 Then
+			$Result = getRemainTLaboratory(336, 260) ; Try to read white text showing actual time left for upgrade
+			If $debugSetlog = 1 Then Setlog($aLabTroops[$icmbLaboratory][3] & " OCR Remaining Lab Time = " & $Result, $COLOR_DEBUG)
+			$aArray = StringSplit($Result, ' ', BitOR($STR_CHRSPLIT, $STR_NOCOUNT)) ;separate days, hours, minutes, seconds
+			If IsArray($aArray) Then
+				$iRemainingTimeMin = 0
+				For $i = 0 To UBound($aArray) - 1 ; step through array and compute minutes remaining
+					$sTime = ""
+					Select
+						Case StringInStr($aArray[$i], "d", $STR_NOCASESENSEBASIC) > 0
+							$sTime = StringTrimRight($aArray[$i], 1) ; removing the "d"
+							$iRemainingTimeMin += (Int($sTime) * 24 * 60) ; change days to minutes and add
+						Case StringInStr($aArray[$i], "h", $STR_NOCASESENSEBASIC) > 0
+							$sTime = StringTrimRight($aArray[$i], 1) ; removing the "h"
+							$iRemainingTimeMin += (Int($sTime) * 60) ; change hours to minutes and add
+						Case StringInStr($aArray[$i], "m", $STR_NOCASESENSEBASIC) > 0
+							$sTime = StringTrimRight($aArray[$i], 1) ; removing the "m"
+							$iRemainingTimeMin += Int($sTime) ; add minutes
+						Case StringInStr($aArray[$i], "s", $STR_NOCASESENSEBASIC) > 0
+							$sTime = StringTrimRight($aArray[$i], 1) ; removing the "s"
+							$iRemainingTimeMin += Int($sTime) / 60 ; Add seconds
+						Case Else
+							Setlog("Remaining lab time OCR invalid:" & $aArray[$i], $COLOR_WARNING)
+							ClickP($aAway, 2, $iDelayLaboratory4, "#0328")
+							Return False
+					EndSelect
 
-						If $debugSetlog = 1 Then Setlog("Remain Lab Time: " & $aArray[$i] & ", Minutes= " & $iRemainingTimeMin, $COLOR_DEBUG)
-					Next
+					If $debugSetlog = 1 Then Setlog("Remain Lab Time: " & $aArray[$i] & ", Minutes= " & $iRemainingTimeMin, $COLOR_DEBUG)
+				Next
 
-					$sLabUpgradeTimeStatic[$CurrentAccount] = _DateAdd('n', Ceiling($iRemainingTimeMin), _NowCalc()) ; add the time required to NOW to finish the upgrade
-					If @error Then _logErrorDateAdd(@error)
-					SetLog($aLabTroops[$icmbLaboratory][3] & "Updated Lab finishing time: " & $sLabUpgradeTimeStatic[$CurrentAccount], $COLOR_SUCCESS)
-				Else
-					If $debugSetlog = 1 Then Setlog("Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
-				EndIf
+				$sLabUpgradeTimeStatic[$CurrentAccount] = _DateAdd('n', Ceiling($iRemainingTimeMin), _NowCalc()) ; add the time required to NOW to finish the upgrade
+				If @error Then _logErrorDateAdd(@error)
+				SetLog($aLabTroops[$icmbLaboratory][3] & "Updated Lab finishing time: " & $sLabUpgradeTimeStatic[$CurrentAccount], $COLOR_SUCCESS)
+			Else
+				If $debugSetlog = 1 Then Setlog("Invalid getRemainTLaboratory OCR", $COLOR_DEBUG)
 			EndIf
-			ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
-			Return True
-		Else
-			SetLog("Laboratory has Stopped", $COLOR_INFO)
-			ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
-			Return False
 		EndIf
-EndFunc
+		ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
+		Return True
+	Else
+		SetLog("Laboratory has Stopped", $COLOR_INFO)
+		ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
+		Return False
+	EndIf
+EndFunc   ;==>LabStatus
 

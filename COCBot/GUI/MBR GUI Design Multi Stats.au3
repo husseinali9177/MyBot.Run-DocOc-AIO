@@ -35,7 +35,7 @@ Global $g_iSkippedVillageCountSW[9], $g_sProfileName[9]
 
 
 
-Local $x = 0, $y = 10
+Local $x = -5, $y = 7
 	;   $x +    $y +   $pIconLib  $eIcnGold	 $eIcnElixir	$eIcnDark	$eIcnHourGlass	$eIcnBuilder	$eIcnGem
 	$g_grpVillageSW[1] = GUICtrlCreateGroup("Account 1", $x + 16, $y + 18, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
 		$g_lblGoldNowSW[1] 		= GUICtrlCreateLabel("", $x + 40, $y + 36, 68, 17, $SS_RIGHT)
@@ -144,6 +144,8 @@ Local $x = 0, $y = 10
 		$g_lblBuilderNowSW[4] 	= GUICtrlCreateLabel("", 		$x + 93,  $y + 399, 32, 17, $SS_RIGHT)
 		$g_lblTimeNowSW[4] 		= GUICtrlCreateLabel("No Data", $x + 146, $y + 399, 58, 17, $SS_CENTER)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+Local $x = -4
 
 	$g_grpVillageSW[5] 		= GUICtrlCreateGroup("Account 5", $x + 232, $y + 18, 209, 97, BitOR($GUI_SS_DEFAULT_GROUP,$BS_FLAT))
 		$g_lblGoldNowSW[5] 		= GUICtrlCreateLabel("", $x + 256, $y + 36, 68, 17, $SS_RIGHT)
@@ -254,7 +256,7 @@ Local $x = 0, $y = 10
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 ; SET FONT
 For $i = $g_grpVillageSW[1] To $g_lblTimeNowSW[8]
-	GUICtrlSetFont($i, 8, 800, 0, "MS Sans Serif")
+	GUICtrlSetFont($i, 9, 800, 0, "Arial", $CLEARTYPE_QUALITY)
 Next
 
 
