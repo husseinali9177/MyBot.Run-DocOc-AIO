@@ -47,7 +47,6 @@ Func SwitchAccount($Init = False)
 				FindFirstAccount()
 				$NextAccount = $CurrentAccount
 				GetYCoordinates($NextAccount)
-				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
 				$FirstRun = 1
 
 			ElseIf $FirstLoop <= $TotalAccountsInUse And Not $Init Then
@@ -61,11 +60,9 @@ Func SwitchAccount($Init = False)
 				SetLog("Next Account will be : " & $NextAccount, $COLOR_INFO)
 				GetYCoordinates($NextAccount)
 				$FirstRun = 1 ; To Update Stats as First Run for each Account
-				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
 
 			ElseIf $FirstLoop > $TotalAccountsInUse And Not $Init Then
 				SetLog("Switching to next Account...", $COLOR_INFO)
-				;SetLog("Loop Count : " & $FirstLoop & "  Account in Use Count : " & $TotalAccountsInUse, $COLOR_INFO)
 				GetNextAccount()
 				GetYCoordinates($NextAccount)
 			EndIf
@@ -97,62 +94,53 @@ Func SwitchAccount($Init = False)
 
 				Click(820, 590, 1, 0, "Click Setting") ;Click setting
 
-				$iCount = 0 ; Sleep(5000) if needed.
-				While Not _ColorCheck(_GetPixelColor(766, 101, True), Hex(0xF88088, 6), 20)
-					If _Sleep(100) Then Return
-					$iCount += 1
-					If $iCount = 50 Then ExitLoop
-				WEnd
+				If _Sleep(1500) Then Return
 
-				;The Double Click check for either green or red then click twice
-				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) _
-						Or _ColorCheck(_GetPixelColor(408, 408, True), "F07078", 20) Then
-					Click(440, 420, 2, 750, "Click Connect Twice with long pause")
-
+				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) Then ; if green button, click to disconnect
+					Click(440, 420)
+					If _Sleep(500) Then Return
 				EndIf
+				Click(440, 420) ; click connect
 
 				$iCount = 0 ; Sleep(5000) if needed. Wait for Google Play animation
-				While Not _ColorCheck(_GetPixelColor(550, 450, True), Hex(0x0B8043, 6), 20) ; Green
+				While (Not _ColorCheck(_GetPixelColor(300, 440, True), "0B8043", 20)) And $iCount <= 100 ; Green
 					If _Sleep(50) Then Return
 					$iCount += 1
-					If $iCount = 100 Then ExitLoop
 				WEnd
+
 				ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
 
-				If _Sleep(50) Then Return
+				_Sleep(500)
+
 				$iCount = 0 ; sleep(10000) or until account list appears
-				While Not _ColorCheck(_GetPixelColor(159, 331, True), Hex(0xFFFFFF, 6), 20)
+				While (Not _ColorCheck(_GetPixelColor(170, 410, True), "FFFFFF", 20)) And $iCount <= 50
 					If _Sleep(100) Then Return
 					$iCount += 1
-					If $iCount = 100 Then ExitLoop
 				WEnd
-				If _Sleep(100) Then Return
+
 				Click(430, $yCoord) ; Click Account
+
+				WaitForNextStep()
 
 				If _Sleep($iDelayRespond) Then Return
 
-
-				WaitForNextStep()
 				If $NextStep = 1 Then
 					Setlog("Load button appeared", $COLOR_SUCCESS)
 					Click(520, 430)
 
-					;Fancy delay to wait for Enter Confirm text box
-					$iCount
-					While Not _ColorCheck(_GetPixelColor(587, 16, True), Hex(0xF88088, 6), 20)
+					$iCount = 0 ; Fancy delay to wait for Enter Confirm text box
+					While (Not _ColorCheck(_GetPixelColor(587, 16, True), "F88088", 20)) And $iCount <= 50
 						If _Sleep(100) Then Return
 						$iCount += 1
-						If $iCount = 50 Then ExitLoop
 					WEnd
 					Click(360, 195)
 					If _Sleep(250) Then Return
 					AndroidSendText("CONFIRM")
 
 					$iCount = 0 ; Another Fancy Sleep wait for Click Confirm Button
-					While Not _ColorCheck(_GetPixelColor(480, 200, True), "71BB1E", 20)
+					While (Not _ColorCheck(_GetPixelColor(480, 200, True), "71BB1E", 20)) And $iCount <= 100
 						If _Sleep(100) Then Return
 						$iCount += 1
-						If $iCount = 100 Then ExitLoop
 					WEnd
 					Click(530, 195)
 
@@ -161,37 +149,26 @@ Func SwitchAccount($Init = False)
 					ClickP($aAway, 1, 0, "#0167") ;Click Away
 				ElseIf $NextStep = 0 Then
 					SetLog("Error when trying to go to the next step... skipping...", $COLOR_ERROR)
-					;;;;;;;;;;; Add a Restart Bot func here....
-					; something like
-					;Switch account reset first start condition
-					;$Init = False
-					;$FirstInit = True
-					;WaitnOpenCoC(5000,True)
-					;runBot()
 					Return
 				EndIf
 				; Update Stats Gui Lables.
 				If Not $Init Then
 					If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
 						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donate")
-						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 					Else
 						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], Round($CurrentAccountWaitTime, 2))
-						GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 					EndIf
 
 					If $ichkDonateAccount[$NextAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
 						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Donating")
-						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
 					Else
 						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Looting")
-						GUICtrlSetFont($g_lblTimeNowSW[$NextAccount], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
 					EndIf
@@ -232,6 +209,7 @@ Func SwitchAccount($Init = False)
 EndFunc   ;==>SwitchAccount
 
 Func GetYCoordinates($AccountNumber)
+
 	$res = DllCall($LibDir & "\SmartSwitchAcc_Formulas.dll", "int", "SwitchAccY", "int", $TotalAccountsOnEmu, "int", $AccountNumber)
 	$yCoord = $res[0]
 
@@ -318,6 +296,7 @@ Func FindFirstAccount()
 	$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$NextAccount])
 	_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 	cmbProfile()
+
 EndFunc   ;==>FindFirstAccount
 
 Func GetNextAccount()
@@ -339,7 +318,6 @@ Func GetNextAccount()
 		If _Sleep($iDelayRespond) Then Return
 
 		$CurrentDAccount = $NextDAccount
-		;		$CurrentAccount = $NextDAccount
 		$NextAccount = $NextDAccount
 		$MustGoToDonateAccount = 0
 
@@ -697,5 +675,6 @@ Func LabStatus()
 		ClickP($aAway, 2, $iDelayLaboratory4, "#0359")
 		Return False
 	EndIf
+	If _Sleep(1500) Then Return
 EndFunc   ;==>LabStatus
 
