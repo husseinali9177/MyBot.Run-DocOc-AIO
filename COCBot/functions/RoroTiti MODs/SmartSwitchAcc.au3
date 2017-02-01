@@ -14,11 +14,8 @@
 ; Example .......:  =====================================================================================================================
 
 Func SwitchAccount($Init = False)
-
 	If $ichkSwitchAccount = 1 And $g_bSwitchAcctPrereq Then
-
 		If $Init Then $FirstInit = False
-
 		If $CurrentAccount >= 1 Or $CurrentAccount <= 8 Then
 			If LabStatus() Then
 				GUICtrlSetBkColor($g_lblLabStatus[$CurrentAccount], $COLOR_GREEN)
@@ -28,16 +25,12 @@ Func SwitchAccount($Init = False)
 		EndIf
 
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
-
 		MakeSummaryLog()
 		If Not $Init And $ichkDonateAccount[$CurrentAccount] = 0 Then GetWaitTime()
 
 		If Not $Init And $CurrentAccountWaitTime = 0 And $ichkDonateAccount[$CurrentAccount] = 0 Then
-
 			SetLog("Your Army is ready so I stay here, I'm a thug !!! ;P", $COLOR_SUCCESS)
-
 		Else
-
 			If $Init Then
 				SetLog("Initialization of SmartSwitchAccount...", $COLOR_INFO)
 				$CurrentAccount = 1
@@ -64,23 +57,17 @@ Func SwitchAccount($Init = False)
 				GetNextAccount()
 				GetYCoordinates($NextAccount)
 			EndIf
-
 			If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
 				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donating")
-;				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+
 			Else
 				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Looting")
-;				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 			EndIf
-
-			If _Sleep($iDelayRespond) Then Return
-
 			If $NextAccount = $CurrentAccount And Not $Init And $FirstLoop >= $TotalAccountsInUse Then
-
 				SetLog("Next Account is already the account we are on, no need to change...", $COLOR_SUCCESS)
 
 			Else
@@ -89,23 +76,18 @@ Func SwitchAccount($Init = False)
 					RequestCC()
 					If _Sleep(500) Then Return
 				EndIf
-
 				Click(820, 590, 1, 0, "Click Setting") ;Click setting
-
 				If _Sleep(1500) Then Return
-
 				If _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20) Then ; if green button, click to disconnect
 					Click(440, 420)
 					If _Sleep(500) Then Return
 				EndIf
 				Click(440, 420) ; click connect
-
 				$iCount = 0 ; Sleep(5000) if needed. Wait for Google Play animation
 				While (Not _ColorCheck(_GetPixelColor(300, 440, True), "0B8043", 20)) And $iCount <= 100 ; Green
 					If _Sleep(50) Then Return
 					$iCount += 1
 				WEnd
-
 				$iCount = 0 ; sleep(10000) or until account list appears
 				While (Not _ColorCheck(_GetPixelColor(170, 410, True), "FFFFFF", 20)) And $iCount <= 50
 					If _Sleep(100) Then Return
@@ -113,16 +95,10 @@ Func SwitchAccount($Init = False)
 				WEnd
 				If _Sleep(500) Then Return
 				Click(430, $yCoord) ; Click Account
-
 				WaitForNextStep()
-
-				If _Sleep($iDelayRespond) Then Return
-
 				If $NextStep = 1 Then
 					Setlog("Load button appeared", $COLOR_SUCCESS)
-					If _Sleep($iDelayRespond) Then Return
 					Click(520, 430)
-
 					$iCount = 0 ; Fancy delay to wait for Enter Confirm text box
 					While (Not _ColorCheck(_GetPixelColor(587, 16, True), "F88088", 20)) And $iCount <= 50
 						If _Sleep(100) Then Return
@@ -131,7 +107,6 @@ Func SwitchAccount($Init = False)
 					Click(360, 195)
 					If _Sleep(250) Then Return
 					AndroidSendText("CONFIRM")
-
 					$iCount = 0 ; Another Fancy Sleep wait for Click Confirm Button
 					While (Not _ColorCheck(_GetPixelColor(480, 200, True), "71BB1E", 20)) And $iCount <= 100
 						If _Sleep(100) Then Return
@@ -141,20 +116,19 @@ Func SwitchAccount($Init = False)
 
 				ElseIf $NextStep = 2 Then
 					Setlog("Already on the right account...", $COLOR_SUCCESS)
-					If _Sleep($iDelayRespond) Then Return
 					ClickP($aAway, 1, 0, "#0167") ;Click Away
+
 				ElseIf $NextStep = 0 Then
 					SetLog("Error when trying to go to the next step... skipping...", $COLOR_ERROR)
-					If _Sleep($iDelayRespond) Then Return
 					Return
 				EndIf
-
 				; Update Stats Gui Lables.
 				If Not $Init Then
 					If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
 						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donate")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
+
 					Else
 						GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], Round($CurrentAccountWaitTime, 2))
 						GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_YELLOW)
@@ -165,34 +139,30 @@ Func SwitchAccount($Init = False)
 						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Donating")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
+
 					Else
 						GUICtrlSetData($g_lblTimeNowSW[$NextAccount], "Looting")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$NextAccount], $COLOR_GREEN)
 						GUICtrlSetColor($g_lblTimeNowSW[$NextAccount], $COLOR_BLACK)
 					EndIf
 				EndIf
-
 				$CurrentAccount = $NextAccount
-				If _Sleep($iDelayRespond) Then Return
 				If $Init Then
 					$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$CurrentAccount])
 					_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 					cmbProfile()
+
 				Else
 					$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$NextAccount])
 					_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 					cmbProfile()
 				EndIf
-				If _Sleep($iDelayRespond) Then Return
 				IdentifyDonateOnly()
 				waitMainScreen()
 				VillageReport()
 				UpdateStats()
-
 				CheckArmyCamp(True, True) ; Update troops first after switch
-
 				If _Sleep(500) Then Return
-
 				If $ichkDonateAccount[$CurrentAccount] = 1 Then
 					TrainDonateOnlyLoop()
 				Else
@@ -203,29 +173,22 @@ Func SwitchAccount($Init = False)
 	Else
 		$FirstInit = False
 	EndIf
-
 EndFunc   ;==>SwitchAccount
 
 Func GetYCoordinates($AccountNumber)
-
 	$res = DllCall($LibDir & "\SmartSwitchAcc_Formulas.dll", "int", "SwitchAccY", "int", $TotalAccountsOnEmu, "int", $AccountNumber)
 	$yCoord = $res[0]
-
 EndFunc   ;==>GetYCoordinates
 
 Func GetWaitTime()
-
 	$aTimeTrain[0] = 0
 	$aTimeTrain[1] = 0
 	Local $HeroesRemainingWait[3] = [0, 0, 0]
-
 	openArmyOverview()
 	Sleep(1500)
 	getArmyTroopTime()
 	If IsWaitforSpellsActive() Then getArmySpellTime()
 	If IsWaitforHeroesActive() Then
-		If _Sleep($iDelayRespond) Then Return
-
 		If GUICtrlRead($chkABActivateSearches) = $GUI_CHECKED Then
 			If GUICtrlRead($chkABKingWait) = $GUI_CHECKED Then
 				$HeroesRemainingWait[0] = getArmyHeroTime($eKing)
@@ -259,17 +222,11 @@ Func GetWaitTime()
 				$HeroesRemainingWait[2] = getArmyHeroTime($eWarden)
 			EndIf
 		EndIf
-
 		If $HeroesRemainingWait[0] > 0 Then SetLog("King time: " & $HeroesRemainingWait[0] & ".00 min", $COLOR_INFO)
 		If $HeroesRemainingWait[1] > 0 Then SetLog("Queen time: " & $HeroesRemainingWait[0] & ".00 min", $COLOR_INFO)
 		If $HeroesRemainingWait[2] > 0 Then SetLog("Warden time: " & $HeroesRemainingWait[0] & ".00 min", $COLOR_INFO)
-
-		If _Sleep($iDelayRespond) Then Return
-
 	EndIf
-
 	ClickP($aAway, 1, 0, "#0167") ;Click Away
-
 	Local $MaxTime[3] = [$aTimeTrain[0], $aTimeTrain[1], _ArrayMax($HeroesRemainingWait)]
 	$CurrentAccountWaitTime = _ArrayMax($MaxTime)
 	$AllAccountsWaitTime[$CurrentAccount] = $CurrentAccountWaitTime
@@ -279,13 +236,10 @@ Func GetWaitTime()
 	Else
 		SetLog("Wait time for current Account : " & Round($CurrentAccountWaitTime, 2) & " minutes", $COLOR_SUCCESS)
 	EndIf
-	If _Sleep($iDelayRespond) Then Return
-
 EndFunc   ;==>GetWaitTime
 
 
 Func FindFirstAccount()
-
 	For $x = 1 To 8
 		$NextAccount = $x
 		If $ichkCanUse[$x] = 1 Then ExitLoop
@@ -294,33 +248,22 @@ Func FindFirstAccount()
 	$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$NextAccount])
 	_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
 	cmbProfile()
-
 EndFunc   ;==>FindFirstAccount
 
 Func GetNextAccount()
-
 	If $MustGoToDonateAccount = 1 And $TotalDAccountsInUse <> 0 Then
-
 		SetLog("Time to go to Donate Account...", $COLOR_SUCCESS)
-
 		$NextDAccount = $CurrentDAccount
 		Do
 			$NextDAccount += 1
 			If $NextDAccount > $TotalAccountsOnEmu Then $NextDAccount = 1
 		Until $ichkCanUse[$NextDAccount] = 1 And $ichkDonateAccount[$NextDAccount] = 1
-
-		If _Sleep($iDelayRespond) Then Return
-
 		SetLog("So, next Account will be : " & $NextDAccount, $COLOR_SUCCESS)
-
-		If _Sleep($iDelayRespond) Then Return
-
 		$CurrentDAccount = $NextDAccount
 		$NextAccount = $NextDAccount
 		$MustGoToDonateAccount = 0
 
 	Else
-
 		For $x = 1 To 8
 			If $ichkCanUse[$x] = 1 And $ichkDonateAccount[$x] = 0 Then
 				$TimerDiffEnd[$x] = TimerDiff($TimerDiffStart[$x])
@@ -333,44 +276,30 @@ Func GetNextAccount()
 				EndIf
 			EndIf
 		Next
-
-		If _Sleep($iDelayRespond) Then Return
-
 		$NextAccount = _ArrayMinIndex($AllAccountsWaitTimeDiff, 1, 1, 5)
 		SetLog("So, next Account will be : " & $NextAccount, $COLOR_SUCCESS)
-
-		If _Sleep($iDelayRespond) Then Return
-
 		$MustGoToDonateAccount = 1
 
 	EndIf
-
 EndFunc   ;==>GetNextAccount
 
 Func MakeSummaryLog()
-
 	cmbAccountsQuantity()
 	CheckAccountsInUse()
 	CheckDAccountsInUse()
-
 	SetLog("SmartSwitchAccount Summary : " & $TotalAccountsOnEmu & " Accounts - " & $TotalAccountsInUse & " in use - " & $TotalDAccountsInUse & " Donate Accounts", $COLOR_ORANGE)
-
 EndFunc   ;==>MakeSummaryLog
 
 Func TrainDonateOnlyLoop() ; not used func
-
 	If $ichkDonateAccount[$CurrentAccount] = 1 Then
-
 		$CommandStop = 3 ; Set the commandStops
 		VillageReport()
 		Collect()
 		randomSleep(2000)
 		DonateCC()
 		randomSleep(2000)
-
 		DonateCC()
 		randomSleep(2000)
-
 		CheckArmyCamp(True, True)
 		If _Sleep($iDelayIdle1) Then Return
 		If ($fullArmy = False Or $bFullArmySpells = False) And $bTrainEnabled = True Then
@@ -379,13 +308,10 @@ Func TrainDonateOnlyLoop() ; not used func
 			TrainRevamp()
 			randomSleep(10000)
 		EndIf
-
 		DonateCC()
 		randomSleep(2000)
-
 		DonateCC()
 		randomSleep(2000)
-
 		CheckArmyCamp(True, True) ; Only Train if Camps not Full
 		If _Sleep($iDelayIdle1) Then Return
 		If ($fullArmy = False Or $bFullArmySpells = False) And $bTrainEnabled = True Then
@@ -394,15 +320,11 @@ Func TrainDonateOnlyLoop() ; not used func
 			TrainRevamp()
 			randomSleep(2000)
 		EndIf
-
 		SwitchAccount()
-
 	EndIf
-
 EndFunc   ;==>TrainDonateOnlyLoop
 
 Func CheckAccountsInUse()
-
 	$TotalAccountsInUse = 8
 	For $x = 1 To 8
 		If $ichkCanUse[$x] = 0 Then
@@ -410,11 +332,9 @@ Func CheckAccountsInUse()
 			$TotalAccountsInUse -= 1
 		EndIf
 	Next
-
 EndFunc   ;==>CheckAccountsInUse
 
 Func CheckDAccountsInUse()
-
 	$TotalDAccountsInUse = 0
 	For $x = 1 To 8
 		If $ichkDonateAccount[$x] = 1 Then
@@ -422,36 +342,28 @@ Func CheckDAccountsInUse()
 			$TotalDAccountsInUse += 1
 		EndIf
 	Next
-
 EndFunc   ;==>CheckDAccountsInUse
 
 Func cmbAccountsQuantity()
-
 	$TotalAccountsOnEmu = _GUICtrlComboBox_GetCurSel($cmbAccountsQuantity) + 2
-
 	For $i = $chkCanUse[1] To $chkDonateAccount[8]
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
-
 	If $TotalAccountsOnEmu >= 1 And $TotalAccountsOnEmu < 8 Then
 		For $i = $chkCanUse[$TotalAccountsOnEmu + 1] To $chkDonateAccount[8]
 			GUICtrlSetState($i, $GUI_HIDE)
 			GUICtrlSetState($i, $GUI_UNCHECKED)
 		Next
 	EndIf
-
 	chkAccountsProperties()
-
 EndFunc   ;==>cmbAccountsQuantity
 
 Func chkSwitchAccount()
-
 	If GUICtrlRead($chkEnableSwitchAccount) = $GUI_CHECKED Then
 		For $i = $lblNB To $chkDonateAccount[8]
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 		cmbAccountsQuantity()
-		;chkAccountsProperties()
 		$ichkSwitchAccount = 1
 	Else
 		For $i = $lblNB To $chkDonateAccount[8]
@@ -459,15 +371,11 @@ Func chkSwitchAccount()
 		Next
 		$ichkSwitchAccount = 0
 	EndIf
-
 EndFunc   ;==>chkSwitchAccount
 
 Func chkAccountsProperties()
-
 	For $h = 1 To 8
-
 		If GUICtrlRead($chkCanUse[$h]) = $GUI_CHECKED Then
-
 			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
 				GUICtrlSetState($i, $GUI_ENABLE)
 			Next
@@ -484,8 +392,8 @@ Func chkAccountsProperties()
 			GUICtrlSetState($g_lblUnitMeasureSW3[$h], $GUI_SHOW)
 			GUICtrlSetState($g_lblTimeNowSW[$h], $GUI_SHOW)
 			GUICtrlSetState($g_grpVillageSW[$h], $GUI_SHOW)
-		Else
 
+		Else
 			For $i = $cmbAccount[$h] To $chkDonateAccount[$h]
 				GUICtrlSetState($i, $GUI_DISABLE)
 				GUICtrlSetState($i, $GUI_UNCHECKED)
@@ -505,38 +413,29 @@ Func chkAccountsProperties()
 			GUICtrlSetState($g_grpVillageSW[$h], $GUI_HIDE)
 
 		EndIf
-
 		If GUICtrlRead($chkDonateAccount[$h]) = $GUI_CHECKED Then
-
 			$ichkDonateAccount[$h] = 1
 		Else
 			$ichkDonateAccount[$h] = 0
 		EndIf
-
 	Next
-
 EndFunc   ;==>chkAccountsProperties
 
 Func IdentifyDonateOnly()
-
 	If $ichkDonateAccount[$CurrentAccount] = 1 Then
 		SetLog("Current Account is a Train/Donate Only Account...", $COLOR_DEBUG1)
 	Else
 		SetLog("Current Account is not a Train/Donate Only Account...", $COLOR_DEBUG1)
 	EndIf
-
 EndFunc   ;==>IdentifyDonateOnly
 
 Func WaitForNextStep()
-
 	SetLog("Waiting for Load button or Already Connected...", $COLOR_INFO)
-
 	$CheckStep = 0
 	While (Not (IsLoadButton() Or AlreadyConnected())) And $CheckStep < 150
 		If _Sleep(200) Then Return
 		$CheckStep += 1
 	WEnd
-
 	If $IsLoadButton Then
 		$NextStep = 1
 	ElseIf $AlreadyConnected Then
@@ -544,25 +443,19 @@ Func WaitForNextStep()
 	Else
 		$NextStep = 0
 	EndIf
-
 EndFunc   ;==>WaitForNextStep
 
 Func IsLoadButton()
-
 	$IsLoadButton = _ColorCheck(_GetPixelColor(480, 441, True), "60B010", 20)
 	Return $IsLoadButton
-
 EndFunc   ;==>IsLoadButton
 
 Func AlreadyConnected()
-
 	$AlreadyConnected = _ColorCheck(_GetPixelColor(408, 408, True), "D0E878", 20)
 	Return $AlreadyConnected
-
 EndFunc   ;==>AlreadyConnected
 
 Func AppendLineToSSALog($AtkReportLine)
-
 	If $ichkSwitchAccount = 1 Then
 		If $LastDate <> _NowDate() Then
 			$LastDate = _NowDate()
@@ -575,7 +468,6 @@ Func AppendLineToSSALog($AtkReportLine)
 		EndIf
 		If FileWriteLine($SSAAtkLog, $AtkReportLine) = 0 Then Setlog("Error when trying to add Attack Report line to multi account log...", $COLOR_ERROR)
 	EndIf
-
 EndFunc   ;==>AppendLineToSSALog
 
 Func LabStatus()
