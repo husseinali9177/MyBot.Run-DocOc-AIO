@@ -27,8 +27,6 @@ Func SwitchAccount($Init = False)
 			EndIf
 		EndIf
 
-		checkMainScreen()
-
 		Setlog("Starting SmartSwitchAccount...", $COLOR_SUCCESS)
 
 		MakeSummaryLog()
@@ -107,10 +105,6 @@ Func SwitchAccount($Init = False)
 					If _Sleep(50) Then Return
 					$iCount += 1
 				WEnd
-
-				ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
-
-				_Sleep(500)
 
 				$iCount = 0 ; sleep(10000) or until account list appears
 				While (Not _ColorCheck(_GetPixelColor(170, 410, True), "FFFFFF", 20)) And $iCount <= 50
@@ -677,4 +671,3 @@ Func LabStatus()
 	EndIf
 	If _Sleep(1500) Then Return
 EndFunc   ;==>LabStatus
-
