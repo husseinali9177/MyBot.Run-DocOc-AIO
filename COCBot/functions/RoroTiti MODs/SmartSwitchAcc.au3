@@ -67,12 +67,12 @@ Func SwitchAccount($Init = False)
 
 			If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
 				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Donating")
-				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+;				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 			Else
 				GUICtrlSetData($g_lblTimeNowSW[$CurrentAccount], "Looting")
-				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
+;				GUICtrlSetFont($g_lblTimeNowSW[$CurrentAccount], 8, 800, 0, "MS Sans Serif")
 				GUICtrlSetBkColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_GREEN)
 				GUICtrlSetColor($g_lblTimeNowSW[$CurrentAccount], $COLOR_BLACK)
 			EndIf

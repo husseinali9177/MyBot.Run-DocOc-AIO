@@ -1082,12 +1082,12 @@ Func SetTime($bForceUpdate = False)
 					;	 Round($AllAccountsWaitTimeDiff[$x] / 60 / 1000, 2)   Formula for Mins
 					If $AllAccountsWaitTimeDiff[$i] < 0 Then
 						GUICtrlSetData($g_lblTimeNowSW[$i], Round($AllAccountsWaitTimeDiff[$i] / 60 / 1000, 2) )
-						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
+;						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$i], $COLOR_RED)
 						GUICtrlSetColor($g_lblTimeNowSW[$i], $COLOR_BLACK)
 					Else
 						GUICtrlSetData($g_lblTimeNowSW[$i], Round($AllAccountsWaitTimeDiff[$i] / 60 / 1000, 2) )
-						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
+;						GUICtrlSetFont($g_lblTimeNowSW[$i], 8, 800, 0, "MS Sans Serif")
 						GUICtrlSetBkColor($g_lblTimeNowSW[$i], $COLOR_YELLOW)
 						GUICtrlSetColor($g_lblTimeNowSW[$i], $COLOR_BLACK)
 					EndIf
