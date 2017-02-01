@@ -111,7 +111,7 @@ Func SwitchAccount($Init = False)
 					If _Sleep(100) Then Return
 					$iCount += 1
 				WEnd
-
+				If _Sleep(500) Then Return
 				Click(430, $yCoord) ; Click Account
 
 				WaitForNextStep()
@@ -120,6 +120,7 @@ Func SwitchAccount($Init = False)
 
 				If $NextStep = 1 Then
 					Setlog("Load button appeared", $COLOR_SUCCESS)
+					If _Sleep($iDelayRespond) Then Return
 					Click(520, 430)
 
 					$iCount = 0 ; Fancy delay to wait for Enter Confirm text box
@@ -140,11 +141,14 @@ Func SwitchAccount($Init = False)
 
 				ElseIf $NextStep = 2 Then
 					Setlog("Already on the right account...", $COLOR_SUCCESS)
+					If _Sleep($iDelayRespond) Then Return
 					ClickP($aAway, 1, 0, "#0167") ;Click Away
 				ElseIf $NextStep = 0 Then
 					SetLog("Error when trying to go to the next step... skipping...", $COLOR_ERROR)
+					If _Sleep($iDelayRespond) Then Return
 					Return
 				EndIf
+
 				; Update Stats Gui Lables.
 				If Not $Init Then
 					If $ichkDonateAccount[$CurrentAccount] = 1 Then ; Set Gui Label for Donate or Looting CurrentAccount BackGround Color Green
@@ -169,7 +173,7 @@ Func SwitchAccount($Init = False)
 				EndIf
 
 				$CurrentAccount = $NextAccount
-
+				If _Sleep($iDelayRespond) Then Return
 				If $Init Then
 					$NextProfile = _GUICtrlComboBox_GetCurSel($cmbAccount[$CurrentAccount])
 					_GUICtrlComboBox_SetCurSel($cmbProfile, $NextProfile)
@@ -528,7 +532,6 @@ Func WaitForNextStep()
 	SetLog("Waiting for Load button or Already Connected...", $COLOR_INFO)
 
 	$CheckStep = 0
-
 	While (Not (IsLoadButton() Or AlreadyConnected())) And $CheckStep < 150
 		If _Sleep(200) Then Return
 		$CheckStep += 1

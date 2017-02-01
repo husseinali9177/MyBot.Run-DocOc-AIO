@@ -178,7 +178,7 @@ Func AttackReport()
 	Local $AtkLogTxt
 
 	If $ichkSwitchAccount = 1 Then
-		$AtkLogTxt = String($CurrentAccount) & " |" & _NowTime(4) & "|"
+		$AtkLogTxt = "#" & String($CurrentAccount) & "|" & _NowTime(4) & "|"
 		$AtkLogTxt &= StringFormat("%5d", $g_iTrophyCurrent[$CurrentAccount]) & "|"
 		$AtkLogTxt &= StringFormat("%4d", $SearchCount) & "|"
 		$AtkLogTxt &= StringFormat("%7d", $g_iGoldLast[$CurrentAccount]) & "|"
