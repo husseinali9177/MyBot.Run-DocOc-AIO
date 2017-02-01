@@ -108,10 +108,9 @@ Func SwitchAccount($Init = False)
 					$iCount += 1
 				WEnd
 
-				;ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
-                If _ColorCheck(_GetPixelColor(300, 440, True), "0B8043", 20) then clickp($aAway, 1, 0, "#0167")
+				ClickP($aAway, 1, 0, "#0167") ;Click Away - disable Google Play animation
 
-				_Sleep(1000)
+				_Sleep(500)
 
 				$iCount = 0 ; sleep(10000) or until account list appears
 				While (Not _ColorCheck(_GetPixelColor(170, 410, True), "FFFFFF", 20)) And $iCount <= 50
